@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyranometer – Animated Solar Irradiance Measurement</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --panel-bg: #ffffff;
+            --accent-color: #ff9800;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .container {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* SVG Container */
+        .svg-wrapper {
+            width: 100%;
+            position: relative;
+            margin-bottom: 20px;
+            overflow: visible; /* Allow tooltips to float freely if needed */
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            display: block;
+            margin: 0 auto;
+            /* Prevent selection of text inside SVG */
+            user-select: none; 
+        }
+
+        /* Interactive Elements Styling */
+        .interactive-part {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .interactive-part:hover {
+            opacity: 0.8; 
+            filter: brightness(1.1);
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 250px;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        #tooltip strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--accent-color);
+        }
+
+        /* Controls Section */
+        .controls {
+            background: #eef2f5;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .slider-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #d3d3d3;
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.2s;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .value-display {
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Description Text */
+        .description {
+            line-height: 1.6;
+            color: #555;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .description h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        /* Animation Styles within SVG context */
+        @keyframes rayFlow {
+            0% { stroke-dashoffset: 20; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes electronFlow {
+            0% { stroke-dashoffset: 10; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .ray-line {
+            animation: rayFlow 1s linear infinite;
+        }
+        
+        .electron-dot {
+            animation: electronFlow 0.5s linear infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .slider-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pyranometer – Solar Irradiance Measurement</h1>
+
+    <div class="container">
+        <!-- Tooltip Element -->
+        <div id="tooltip"></div>
+
+        <div class="svg-wrapper" id="svgContainer">
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Metal Gradient -->
+                    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#bdc3c7;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#f5f6fa;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#95a5a6;stop-opacity:1" />
+                    </linearGradient>
+
+                    <!-- Glass Gradient -->
+                    <radialGradient id="glassGrad" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+                        <stop offset="100%" style="stop-color:#a2d9ff;stop-opacity:0.1" />
+                    </radialGradient>
+                    
+                    <!-- Glass Shine -->
+                    <filter id="glassGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+                    </filter>
+
+                    <!-- Heat Glow Gradient -->
+                    <radialGradient id="heatGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:#ff4d4d;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ff0000;stop-opacity:0" />
+                    </radialGradient>
+
+                    <!-- Arrow Marker -->
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                    refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#ff9800" />
+                    </marker>
+                    
+                    <!-- Shadow Filter -->
+                    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> 
+                        <feOffset dx="2" dy="2" result="offsetblur"/>
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.3"/>
+                        </feComponentTransfer>
+                        <feMerge> 
+                            <feMergeNode/>
+                            <feMergeNode in="SourceGraphic"/> 
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Sky Hemisphere Representation (Background) -->
+                <path d="M 100 400 A 300 300 0 0 1 700 400" fill="none" stroke="#e0f7fa" stroke-width="2" stroke-dasharray="5,5" />
+                <text x="710" y="390" font-size="12" fill="#7f8c8d">Horizon</text>
+
+                <!-- --- Main Instrument Housing --- -->
+                <g class="interactive-part" data-name="Instrument Housing" data-desc="The massive metal body acts as a heat sink, keeping the 'cold junctions' of the thermopile at ambient temperature.">
+                    <!-- Base Stand -->
+                    <rect x="200" y="420" width="400" height="30" fill="#7f8c8d" rx="5" />
+                    <!-- Main Body -->
+                    <path d="M 250 420 L 250 350 A 5 5 0 0 1 255 345 L 545 345 A 5 5 0 0 1 550 350 L 550 420 Z" fill="url(#metalGrad)" filter="url(#dropShadow)" />
+                    <!-- Connector Socket -->
+                    <rect x="550" y="380" width="30" height="20" fill="#95a5a6" />
+                </g>
+
+                <!-- --- Thermopile (Sensor Internals) --- -->
+                <g id="thermopileGroup" class="interactive-part" data-name="Thermopile" data-desc="A series of thermocouples connected in series. It measures the temperature difference between the hot black surface and the cold housing to generate a voltage.">
+                    <!-- Cold Junction Block (Thermal Link to Housing) -->
+                    <rect x="350" y="345" width="100" height="20" fill="#bdc3c7" stroke="#7f8c8d" />
+                    
+                    <!-- Thermocouple ZigZag Pattern -->
+                    <g transform="translate(350, 325)">
+                        <!-- Alternating metals visualization -->
+                        <path d="M 0 20 L 10 0 L 20 20 L 30 0 L 40 20 L 50 0 L 60 20 L 70 0 L 80 20 L 90 0 L 100 20" 
+                              fill="none" stroke="#555" stroke-width="2" />
+                        <!-- Hot junctions (top) -->
+                        <circle cx="10" cy="0" r="2" fill="#e74c3c" />
+                        <circle cx="30" cy="0" r="2" fill="#e74c3c" />
+                        <circle cx="50" cy="0" r="2" fill="#e74c3c" />
+                        <circle cx="70" cy="0" r="2" fill="#e74c3c" />
+                        <circle cx="90" cy="0" r="2" fill="#e74c3c" />
+                        <!-- Cold junctions (bottom) -->
+                        <circle cx="0" cy="20" r="2" fill="#3498db" />
+                        <circle cx="20" cy="20" r="2" fill="#3498db" />
+                        <circle cx="40" cy="20" r="2" fill="#3498db" />
+                        <circle cx="60" cy="20" r="2" fill="#3498db" />
+                        <circle cx="80" cy="20" r="2" fill="#3498db" />
+                        <circle cx="100" cy="20" r="2" fill="#3498db" />
+                    </g>
+                </g>
+
+                <!-- --- Black Absorbing Surface --- -->
+                <g class="interactive-part" data-name="Black Absorber" data-desc="A high-quality carbon black coating absorbs all solar radiation (direct and diffuse) and converts it into heat.">
+                    <!-- Heat Glow Effect (Animated opacity) -->
+                    <circle id="heatGlow" cx="400" cy="325" r="45" fill="url(#heatGrad)" opacity="0" pointer-events="none" />
+                    
+                    <!-- The Absorber Disc -->
+                    <ellipse cx="400" cy="325" rx="55" ry="10" fill="#111" stroke="#333" />
+                </g>
+
+                <!-- --- Glass Domes --- -->
+                <g class="interactive-part" data-name="Glass Domes" data-desc="Precision optical glass domes protect the sensor from wind and rain while allowing solar radiation (300nm–2800nm) to pass through.">
+                    <!-- Inner Dome -->
+                    <path d="M 330 345 A 70 70 0 0 1 470 345" fill="url(#glassGrad)" stroke="#a2d9ff" stroke-width="2" opacity="0.8" />
+                    <!-- Outer Dome -->
+                    <path d="M 300 345 A 100 100 0 0 1 500 345" fill="url(#glassGrad)" stroke="#a2d9ff" stroke-width="2" opacity="0.6" />
+                    <!-- Specular Highlights -->
+                    <path d="M 320 280 Q 340 260 360 270" fill="none" stroke="white" stroke-width="3" opacity="0.5" />
+                    <path d="M 350 300 Q 360 290 370 295" fill="none" stroke="white" stroke-width="2" opacity="0.4" />
+                </g>
+
+                <!-- --- Solar Radiation (Dynamic) --- -->
+                <g id="solarRays">
+                    <!-- Direct Beams -->
+                    <g id="directRays" stroke="#ff9800" stroke-width="3" marker-end="url(#arrowhead)">
+                        <!-- Paths defined in JS or static here and manipulated -->
+                        <line x1="250" y1="50" x2="380" y2="310" class="ray-line" stroke-dasharray="10, 5" />
+                        <line x1="280" y1="40" x2="410" y2="300" class="ray-line" stroke-dasharray="10, 5" />
+                        <line x1="220" y1="60" x2="350" y2="320" class="ray-line" stroke-dasharray="10, 5" />
+                    </g>
+                    <!-- Diffuse Beams -->
+                    <g id="diffuseRays" stroke="#ffcc80" stroke-width="2" marker-end="url(#arrowhead)" opacity="0.7">
+                        <line x1="500" y1="100" x2="420" y2="310" class="ray-line" stroke-dasharray="8, 4" />
+                        <line x1="400" y1="50" x2="400" y2="310" class="ray-line" stroke-dasharray="8, 4" />
+                        <line x1="550" y1="180" x2="440" y2="315" class="ray-line" stroke-dasharray="8, 4" />
+                    </g>
+                </g>
+
+                <!-- --- Output System --- -->
+                <g transform="translate(600, 350)">
+                    <!-- Wire -->
+                    <path d="M -20 40 C 0 40, 20 40, 50 40" fill="none" stroke="#333" stroke-width="4" />
+                    
+                    <!-- Meter Box -->
+                    <rect x="50" y="0" width="100" height="80" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" rx="4" filter="url(#dropShadow)" />
+                    <text x="100" y="20" text-anchor="middle" font-size="10" fill="#7f8c8d">VOLTAGE (mV)</text>
+                    
+                    <!-- Meter Scale -->
+                    <path d="M 60 60 A 40 40 0 0 1 140 60" fill="none" stroke="#95a5a6" stroke-width="2" />
+                    <line x1="60" y1="60" x2="65" y2="60" stroke="#333" stroke-width="1" />
+                    <line x1="100" y1="20" x2="100" y2="25" stroke="#333" stroke-width="1" />
+                    <line x1="140" y1="60" x2="135" y2="60" stroke="#333" stroke-width="1" />
+                    
+                    <!-- Needle -->
+                    <line id="meterNeedle" x1="100" y1="60" x2="60" y2="60" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="100" cy="60" r="3" fill="#333" />
+                    
+                    <!-- Digital Value Placeholder -->
+                    <text id="voltageText" x="100" y="75" text-anchor="middle" font-family="monospace" font-weight="bold" font-size="12" fill="#2c3e50">0.00 mV</text>
+                </g>
+
+                <!-- --- Labels with Leader Lines --- -->
+                <g stroke="#333" stroke-width="1" fill="none">
+                    <!-- Glass Domes Label -->
+                    <line x1="310" y1="290" x2="250" y2="250" />
+                    <line x1="250" y1="250" x2="200" y2="250" />
+                    <text x="195" y="255" text-anchor="end" fill="#333" font-size="14" font-weight="500">Glass Domes</text>
+
+                    <!-- Absorber Label -->
+                    <line x1="430" y1="325" x2="500" y2="280" />
+                    <line x1="500" y1="280" x2="550" y2="280" />
+                    <text x="555" y="285" text-anchor="start" fill="#333" font-size="14" font-weight="500">Black Absorber</text>
+
+                    <!-- Thermopile Label -->
+                    <line x1="355" y1="335" x2="250" y2="335" />
+                    <text x="245" y="340" text-anchor="end" fill="#333" font-size="14" font-weight="500">Thermopile Junctions</text>
+
+                    <!-- Housing Label -->
+                    <line x1="450" y1="410" x2="450" y2="460" />
+                    <text x="450" y="475" text-anchor="middle" fill="#333" font-size="14" font-weight="500">Housing (Heat Sink)</text>
+                </g>
+
+            </svg>
+        </div>
+
+        <div class="controls">
+            <div class="slider-container">
+                <label for="irradianceSlider">Solar Irradiance:</label>
+                <input type="range" id="irradianceSlider" min="0" max="1200" value="0" step="10">
+                <div class="value-display" id="irradianceValue">0 W/m²</div>
+            </div>
+        </div>
+
+        <div class="description">
+            <h3>How it Works</h3>
+            <p>
+                A <strong>pyranometer</strong> measures global solar irradiance (both direct sunlight and diffuse light from clouds). The core component is a <strong>thermopile</strong>, which consists of multiple thermocouples connected in series.
+            </p>
+            <p>
+                1. <strong>Absorption:</strong> The black surface absorbs incoming solar radiation and converts it into heat.<br>
+                2. <strong>Heat Flow:</strong> This heat flows from the center (hot junction) through the thermopile sensor to the massive metal housing (cold junction).<br>
+                3. <strong>Voltage Generation:</strong> The temperature difference generates a small voltage (Seebeck effect), which is directly proportional to the amount of solar energy absorbed.
+            </p>
+            <p style="font-size: 0.9em; color: #777; margin-top: 15px;">
+                <em>Interact with the diagram: Hover over components for details and drag the slider to simulate sunlight intensity.</em>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const slider = document.getElementById('irradianceSlider');
+        const displayValue = document.getElementById('irradianceValue');
+        const meterNeedle = document.getElementById('meterNeedle');
+        const voltageText = document.getElementById('voltageText');
+        const heatGlow = document.getElementById('heatGlow');
+        const directRays = document.getElementById('directRays');
+        const diffuseRays = document.getElementById('diffuseRays');
+        const svgContainer = document.getElementById('svgContainer');
+        const tooltip = document.getElementById('tooltip');
+
+        // Constants
+        const MAX_IRRADIANCE = 1200; // W/m^2
+        const SENSITIVITY = 0.015; // mV per W/m^2 (Typical roughly 10-20 microvolts per W/m2, scaled for demo)
+
+        // State
+        let currentIrradiance = 0;
+
+        // Tooltip Logic
+        const interactiveParts = document.querySelectorAll('.interactive-part');
+
+        interactiveParts.forEach(part => {
+            part.addEventListener('mousemove', (e) => {
+                const name = part.getAttribute('data-name');
+                const desc = part.getAttribute('data-desc');
+                
+                tooltip.innerHTML = `<strong>${name}</strong>${desc}`;
+                tooltip.style.opacity = '1';
+                
+                // Position tooltip near mouse but within container bounds
+                const containerRect = svgContainer.getBoundingClientRect();
+                let left = e.clientX - containerRect.left + 15;
+                let top = e.clientY - containerRect.top + 15;
+
+                // Simple boundary check (right edge)
+                if (left + 250 > containerRect.width) {
+                    left -= 265;
+                }
+
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+            });
+
+            part.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+        });
+
+        // Animation Loop / Update Function
+        function updateSimulation() {
+            const irradiance = parseInt(slider.value);
+            currentIrradiance = irradiance;
+
+            // 1. Update Text Display
+            displayValue.textContent = `${irradiance} W/m²`;
+
+            // 2. Calculate Sensor Response (Voltage)
+            // Typical pyranometer sensitivity is ~10-20 µV/W/m². 
+            // 1000 W/m² => ~15mV.
+            const voltage = (irradiance * SENSITIVITY).toFixed(2);
+            voltageText.textContent = `${voltage} mV`;
+
+            // 3. Animate Meter Needle
+            // Map 0-MAX_IRRADIANCE to 0-180 degrees
+            const angle = (irradiance / MAX_IRRADIANCE) * 180;
+            // The needle starts at x1=100, y1=60 going to x2=60, y2=60 (which is 180 degrees left)
+            // Let's use transform rotate around (100, 60)
+            // Initial position is pointing Left (180 deg in standard SVG coord system relative to center?)
+            // Let's just rotate based on a transformation anchor.
+            // Start angle: -180 (pointing left). End angle: 0 (pointing right).
+            // Actually, visually: start is left, end is right.
+            const rotation = angle; 
+            meterNeedle.setAttribute('transform', `rotate(${rotation}, 100, 60)`);
+
+            // 4. Update Heat Glow
+            // Max opacity 0.8 at max irradiance
+            const glowOpacity = (irradiance / MAX_IRRADIANCE) * 0.9;
+            heatGlow.setAttribute('opacity', glowOpacity);
+
+            // 5. Update Rays (Color/Opacity/DashSpeed)
+            // Opacity
+            const rayOpacity = Math.max(0.1, (irradiance / MAX_IRRADIANCE));
+            directRays.setAttribute('opacity', rayOpacity);
+            diffuseRays.setAttribute('opacity', rayOpacity * 0.7); // Diffuse always slightly less
+
+            // Animation Speed (Visual trick: change dasharray or CSS animation duration via JS style)
+            // Simpler approach: Just change opacity. Speed change requires resetting animations which can be jerky.
+        }
+
+        // Initialize
+        slider.addEventListener('input', updateSimulation);
+        
+        // Initial call to set state
+        updateSimulation();
+
+        // Add visual entry animation
+        setTimeout(() => {
+            slider.value = 800;
+            updateSimulation();
+            // Optional: slight bounce back
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    if(slider.value > 500) {
+                        slider.value -= 5;
+                        updateSimulation();
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 10);
+            }, 800);
+        }, 500);
+
+    </script>
+</body>
+</html>

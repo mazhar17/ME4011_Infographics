@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cup Anemometer - Animated Infographic</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --panel-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            margin: 20px auto;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* SVG Styling */
+        #visualization-stage {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, #eef2f3, #ffffff);
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair; /* Suggests interactivity */
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        text {
+            font-family: 'Segoe UI', sans-serif;
+            user-select: none;
+        }
+
+        .label-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: var(--primary-color);
+            transition: fill 0.2s;
+        }
+
+        .label-line {
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+        }
+
+        .component-group:hover .label-text {
+            fill: var(--accent-color);
+            font-size: 15px;
+        }
+
+        .component-group:hover .component-shape {
+            filter: brightness(1.1);
+        }
+
+        /* Controls Section */
+        .controls {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f3f5;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 80%;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            background: #cbd5e0;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #2980b9;
+        }
+
+        .data-display {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        /* Explanation Section */
+        .explanation {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            padding: 0 10px;
+            line-height: 1.6;
+            color: #555;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .explanation h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: absolute;
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+            max-width: 200px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cup Anemometer Principles</h1>
+    </header>
+
+    <div class="container">
+        
+        <div id="visualization-stage">
+            <div id="tooltip"></div>
+            <svg id="main-svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <!-- Metallic Gradient for Mast/Hub -->
+                    <linearGradient id="metal-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#95a5a6;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#dfe6e9;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#7f8c8d;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#bdc3c7;stop-opacity:1" />
+                    </linearGradient>
+
+                    <!-- Cup Convex (Outer/Back) -->
+                    <radialGradient id="cup-grad-convex" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#bdc3c7;stop-opacity:1" />
+                    </radialGradient>
+
+                    <!-- Cup Concave (Inside) -->
+                    <radialGradient id="cup-grad-concave" cx="50%" cy="50%" r="60%">
+                        <stop offset="60%" style="stop-color:#555555;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#7f8c8d;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <!-- Arrow Marker -->
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+                    </marker>
+                </defs>
+
+                <!-- Layer: Background Wind -->
+                <g id="wind-layer"></g>
+
+                <!-- Layer: Static Components (Mast) -->
+                <g class="component-group" id="group-mast" data-info="The vertical support column that holds the instrument at the required height (standard is 10m).">
+                    <rect x="390" y="250" width="20" height="200" fill="url(#metal-grad)" />
+                    <rect x="380" y="440" width="40" height="10" fill="#7f8c8d" /> <!-- Base -->
+                    
+                    <!-- Label -->
+                    <line x1="410" y1="350" x2="480" y2="350" class="label-line" />
+                    <text x="490" y="355" class="label-text">Mounting Mast</text>
+                </g>
+
+                <g class="component-group" id="group-housing" data-info="Contains the shaft bearings and the signal generator (e.g., reed switch or optical encoder) that converts rotation to electrical pulses.">
+                    <rect x="385" y="190" width="30" height="60" rx="2" fill="url(#metal-grad)" stroke="#7f8c8d" stroke-width="1"/>
+                    
+                    <!-- Label -->
+                    <line x1="415" y1="220" x2="480" y2="220" class="label-line" />
+                    <text x="490" y="225" class="label-text">Sensor Housing</text>
+                </g>
+
+                <!-- Layer: Dynamic Rotor (Cups & Arms) -->
+                <!-- We will render these via JS to handle Z-sorting -->
+                <g id="rotor-layer"></g>
+
+                <!-- Wind Direction Arrow (Static for this demo, usually separate vane) -->
+                <g transform="translate(100, 80)">
+                    <text x="0" y="-10" font-size="12" fill="#3498db" font-weight="bold">WIND DIRECTION</text>
+                    <line x1="0" y1="10" x2="60" y2="10" stroke="#3498db" stroke-width="3" marker-end="url(#arrowhead)" />
+                </g>
+
+            </svg>
+        </div>
+
+        <div class="controls">
+            <div class="slider-container">
+                <span style="font-weight: bold; color: #7f8c8d;">Wind Speed</span>
+                <input type="range" id="speed-slider" min="0" max="15" value="5" step="0.5">
+                <div class="data-display" id="speed-display">5.0 m/s</div>
+            </div>
+            <div style="font-size: 0.9em; color: #666;">
+                Drag the slider to simulate changing wind conditions.
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>How it Works</h3>
+            <p>
+                The <strong>cup anemometer</strong> is the industry standard for wind resource assessment. It works on the principle of drag asymmetry:
+            </p>
+            <ul>
+                <li>The <strong>concave</strong> (open) side of the cup has a higher drag coefficient (~1.42) than the <strong>convex</strong> (rounded) side (~0.38).</li>
+                <li>When wind flows, the force on the open cup is greater than the force on the rounded cup, generating a net torque that rotates the shaft.</li>
+                <li>The rotational speed is linearly proportional to the wind speed over the operating range.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            centerX: 400,
+            centerY: 180,
+            armLength: 100,
+            cupRadius: 22,
+            tilt: 0.25, // Aspect ratio to simulate 3D perspective
+            baseRotationSpeed: 0.05, 
+            numWindParticles: 20
+        };
+
+        // State
+        let state = {
+            windSpeed: 5.0,
+            rotationAngle: 0,
+            windParticles: []
+        };
+
+        // DOM Elements
+        const svg = document.getElementById('main-svg');
+        const rotorLayer = document.getElementById('rotor-layer');
+        const windLayer = document.getElementById('wind-layer');
+        const slider = document.getElementById('speed-slider');
+        const display = document.getElementById('speed-display');
+        const tooltip = document.getElementById('tooltip');
+        const stage = document.getElementById('visualization-stage');
+
+        // Initialization
+        function init() {
+            // Initialize wind particles
+            for(let i=0; i<CONFIG.numWindParticles; i++) {
+                state.windParticles.push(createWindParticle());
+            }
+
+            // Event Listeners
+            slider.addEventListener('input', (e) => {
+                state.windSpeed = parseFloat(e.target.value);
+                display.textContent = state.windSpeed.toFixed(1) + " m/s";
+            });
+
+            // Tooltip logic for static groups
+            document.querySelectorAll('.component-group').forEach(group => {
+                group.addEventListener('mouseenter', (e) => showTooltip(e, group.dataset.info));
+                group.addEventListener('mousemove', (e) => moveTooltip(e));
+                group.addEventListener('mouseleave', () => hideTooltip());
+            });
+
+            // Animation Loop
+            requestAnimationFrame(animate);
+        }
+
+        function createWindParticle() {
+            return {
+                x: Math.random() * 800,
+                y: Math.random() * 400,
+                speed: Math.random() * 2 + 1,
+                length: Math.random() * 40 + 20,
+                width: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.3 + 0.1
+            };
+        }
+
+        function showTooltip(e, text) {
+            tooltip.textContent = text;
+            tooltip.style.opacity = 1;
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            const rect = stage.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            tooltip.style.left = (x + 15) + 'px';
+            tooltip.style.top = (y + 15) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = 0;
+        }
+
+        // --- Drawing Logic ---
+
+        function drawRotor() {
+            rotorLayer.innerHTML = ''; 
+
+            let elements = [];
+
+            // 1. Shaft Tip (Static Z-index anchor)
+            const shaftTip = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            shaftTip.setAttribute("x", CONFIG.centerX - 5);
+            shaftTip.setAttribute("y", CONFIG.centerY);
+            shaftTip.setAttribute("width", 10);
+            shaftTip.setAttribute("height", 20);
+            shaftTip.setAttribute("fill", "#7f8c8d");
+            rotorLayer.appendChild(shaftTip);
+
+            // 2. The 3 Cups and Arms
+            const angles = [0, 120, 240];
+            
+            angles.forEach((offset, index) => {
+                const thetaDeg = (state.rotationAngle + offset) % 360;
+                const thetaRad = thetaDeg * Math.PI / 180;
+                
+                // 3D Projection
+                // Z axis is depth (towards viewer is positive Z in our rendering logic for scaling)
+                // X axis is horizontal
+                
+                const rawX = Math.cos(thetaRad) * CONFIG.armLength;
+                const rawZ = Math.sin(thetaRad) * CONFIG.armLength; 
+                
+                const screenX = CONFIG.centerX + rawX;
+                const screenY = CONFIG.centerY + (rawZ * CONFIG.tilt);
+                
+                // Scale based on depth (Perspective)
+                const scale = 1 + (rawZ / CONFIG.armLength) * 0.15; 
+
+                elements.push({
+                    type: 'arm',
+                    z: rawZ,
+                    screenX: screenX,
+                    screenY: screenY,
+                    angleRad: thetaRad
+                });
+
+                elements.push({
+                    type: 'cup',
+                    z: rawZ, 
+                    screenX: screenX,
+                    screenY: screenY,
+                    scale: scale,
+                    thetaRad: thetaRad,
+                    id: index
+                });
+            });
+
+            // 3. Central Hub Cap
+            elements.push({
+                type: 'hub',
+                z: 0.1, 
+                screenX: CONFIG.centerX,
+                screenY: CONFIG.centerY
+            });
+
+            // SORT by Z (Painter's Algorithm)
+            elements.sort((a, b) => a.z - b.z);
+
+            // Render
+            elements.forEach(el => {
+                if(el.type === 'arm') {
+                    const arm = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    arm.setAttribute("x1", CONFIG.centerX);
+                    arm.setAttribute("y1", CONFIG.centerY);
+                    arm.setAttribute("x2", el.screenX);
+                    arm.setAttribute("y2", el.screenY);
+                    arm.setAttribute("stroke", "#34495e");
+                    arm.setAttribute("stroke-width", 4);
+                    rotorLayer.appendChild(arm);
+                } 
+                else if (el.type === 'hub') {
+                    const hub = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    hub.setAttribute("cx", CONFIG.centerX);
+                    hub.setAttribute("cy", CONFIG.centerY);
+                    hub.setAttribute("r", 12);
+                    hub.setAttribute("fill", "url(#metal-grad)");
+                    hub.setAttribute("stroke", "#7f8c8d");
+                    rotorLayer.appendChild(hub);
+                }
+                else if (el.type === 'cup') {
+                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    group.setAttribute("transform", `translate(${el.screenX}, ${el.screenY}) scale(${el.scale})`);
+                    
+                    group.setAttribute("class", "component-group");
+                    group.setAttribute("data-info", "The concave shape catches the wind.");
+                    
+                    // --- 3D Cup Morphing Logic ---
+                    // The cup opening faces tangential to the rotation.
+                    // Rotation is CCW.
+                    // At Right (0 rad), Tangent points Back (Z+ in code/visuals? Let's calibrate).
+                    // If Z is "down" on screen in simple iso, then Z+ is Front.
+                    // Angle 0: Right. Moving Front (Down). Tangent Z+. 
+                    // Cup Points Front. Viewer sees INSIDE.
+                    
+                    // Let's use cosine of angle to determine orientation.
+                    // At 0 (Right side), we see INSIDE. (Concave)
+                    // At 180 (Left side), we see BACK. (Convex)
+                    
+                    const cosT = Math.cos(el.thetaRad); 
+                    // If cosT > 0 (Right side), we see Inside.
+                    // If cosT < 0 (Left side), we see Back.
+                    
+                    const R = CONFIG.cupRadius;
+                    const rimWidth = R * Math.abs(cosT);
+                    const isInsideView = cosT > 0;
+                    
+                    if (isInsideView) {
+                        // DRAW INSIDE (Concave)
+                        // 1. Outer Shell (Circle)
+                        const shell = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        shell.setAttribute("r", R);
+                        shell.setAttribute("fill", "url(#cup-grad-convex)");
+                        shell.setAttribute("stroke", "#95a5a6");
+                        
+                        // 2. Inner Opening (Ellipse)
+                        // This represents the hole.
+                        const hole = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+                        hole.setAttribute("rx", rimWidth);
+                        hole.setAttribute("ry", R);
+                        hole.setAttribute("fill", "url(#cup-grad-concave)");
+                        hole.setAttribute("stroke", "#555");
+                        hole.setAttribute("stroke-width", 1);
+                        
+                        group.appendChild(shell);
+                        group.appendChild(hole);
+                    } else {
+                        // DRAW BACK (Convex)
+                        // We see a dome shape.
+                        // At 90 (Front) or 270 (Back), we see a D-shape.
+                        // At 180 (Left), we see a Circle.
+                        // Morphing:
+                        // Draw a path that connects the rim ellipse to the back of the sphere.
+                        
+                        // Direction of dome:
+                        // At 90 (Bottom/Front), Tangent is Left. Cup Points Left. Dome points Right.
+                        // At 270 (Top/Back), Tangent is Right. Cup Points Right. Dome points Left.
+                        
+                        const sinT = Math.sin(el.thetaRad);
+                        const pointRight = sinT > 0; 
+                        
+                        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        // Construct a D-shape path
+                        // Arc for the dome + Elliptical Arc for the rim
+                        
+                        // Sweep flag for dome depends on direction
+                        const sweep = pointRight ? 1 : 0;
+                        const xSign = pointRight ? 1 : -1;
+                        
+                        // Complex path:
+                        // Move to Top of ellipse (0, -R)
+                        // Arc to Bottom of ellipse (0, R) via Dome (radius R)
+                        // Elliptical Arc back to Top (radius rimWidth, R)
+                        
+                        const d = `
+                            M 0 ${-R}
+                            A ${R} ${R} 0 0 ${sweep} 0 ${R}
+                            A ${rimWidth} ${R} 0 0 ${sweep} 0 ${-R}
+                        `;
+                        
+                        path.setAttribute("d", d);
+                        path.setAttribute("fill", "url(#cup-grad-convex)");
+                        path.setAttribute("stroke", "#95a5a6");
+                        path.setAttribute("stroke-width", 1);
+                        
+                        group.appendChild(path);
+                    }
+
+                    group.addEventListener('mouseenter', (e) => showTooltip(e, group.getAttribute('data-info')));
+                    group.addEventListener('mousemove', (e) => moveTooltip(e));
+                    group.addEventListener('mouseleave', () => hideTooltip());
+
+                    rotorLayer.appendChild(group);
+                }
+            });
+        }
+
+        function drawWind() {
+            windLayer.innerHTML = '';
+            
+            if(state.windSpeed > 0.1) {
+                state.windParticles.forEach(p => {
+                    p.x += p.speed * (state.windSpeed * 0.5); 
+                    if(p.x > 800) {
+                        p.x = -100;
+                        p.y = Math.random() * 400;
+                    }
+                    
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", p.x);
+                    line.setAttribute("y1", p.y);
+                    line.setAttribute("x2", p.x - p.length); 
+                    line.setAttribute("y2", p.y);
+                    line.setAttribute("stroke", "#3498db");
+                    line.setAttribute("stroke-width", p.width);
+                    line.setAttribute("stroke-opacity", p.opacity);
+                    line.setAttribute("stroke-linecap", "round");
+                    windLayer.appendChild(line);
+                });
+            }
+        }
+
+        function animate() {
+            const rotationStep = state.windSpeed * CONFIG.baseRotationSpeed * 15; 
+            state.rotationAngle = (state.rotationAngle + rotationStep) % 360;
+
+            drawWind();
+            drawRotor();
+            requestAnimationFrame(animate);
+        }
+
+        function addStaticLabels() {
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", CONFIG.centerX);
+            line.setAttribute("y1", CONFIG.centerY);
+            line.setAttribute("x2", CONFIG.centerX + 60);
+            line.setAttribute("y2", CONFIG.centerY - 50);
+            line.setAttribute("class", "label-line");
+            svg.appendChild(line);
+
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", CONFIG.centerX + 65);
+            text.setAttribute("y", CONFIG.centerY - 50);
+            text.setAttribute("class", "label-text");
+            text.textContent = "Rotor Hub";
+            svg.appendChild(text);
+        }
+
+        init();
+        setTimeout(addStaticLabels, 100); 
+
+    </script>
+</body>
+</html>
