@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Vane - Animated Infographic</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c; /* Red for the vane pointer */
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --panel-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%;
+            margin: 20px auto;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* SVG Styling */
+        #visualization-stage {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, #eef2f3, #ffffff);
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        text {
+            font-family: 'Segoe UI', sans-serif;
+            user-select: none;
+        }
+
+        .label-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: var(--primary-color);
+            transition: fill 0.2s;
+        }
+
+        .label-line {
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+        }
+
+        .component-group:hover .label-text {
+            fill: var(--accent-color);
+            font-size: 15px;
+        }
+
+        .component-group:hover .component-shape {
+            filter: brightness(1.1);
+        }
+
+        /* Controls Section */
+        .controls {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f3f5;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 90%;
+            margin: 5px 0;
+        }
+
+        .slider-label {
+            font-weight: bold;
+            color: #7f8c8d;
+            width: 120px;
+            text-align: right;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            background: #cbd5e0;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #c0392b;
+        }
+
+        .data-display {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 100px;
+            text-align: left;
+        }
+
+        /* Explanation Section */
+        .explanation {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            padding: 0 10px;
+            line-height: 1.6;
+            color: #555;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .explanation h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Tooltip */
+        #tooltip {
+            position: absolute;
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+            max-width: 200px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Wind Vane Mechanics</h1>
+    </header>
+
+    <div class="container">
+        
+        <div id="visualization-stage">
+            <div id="tooltip"></div>
+            <svg id="main-svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <!-- Metallic Gradient -->
+                    <linearGradient id="metal-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#95a5a6;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#dfe6e9;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#7f8c8d;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#bdc3c7;stop-opacity:1" />
+                    </linearGradient>
+
+                    <!-- Vane Body Gradient (Red/Accent) -->
+                    <linearGradient id="vane-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#c0392b;stop-opacity:1" />
+                    </linearGradient>
+
+                    <!-- Shadow Filter -->
+                    <filter id="dropshadow" height="130%">
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="2"/> 
+                        <feOffset dx="1" dy="1" result="offsetblur"/>
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.3"/> 
+                        </feComponentTransfer>
+                        <feMerge> 
+                            <feMergeNode/>
+                            <feMergeNode in="SourceGraphic"/> 
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Layer: Background Wind -->
+                <g id="wind-layer"></g>
+
+                <!-- Layer: Compass Rose (Floor) -->
+                <g id="compass-layer" transform="translate(400, 350) scale(1, 0.4)">
+                    <circle r="140" fill="none" stroke="#ddd" stroke-width="2" />
+                    <circle r="130" fill="none" stroke="#eee" stroke-width="1" stroke-dasharray="5,5" />
+                    
+                    <!-- N/S/E/W Lines -->
+                    <line x1="0" y1="-140" x2="0" y2="140" stroke="#ccc" stroke-width="2" />
+                    <line x1="-140" y1="0" x2="140" y2="0" stroke="#ccc" stroke-width="2" />
+                    
+                    <!-- Labels (Inverse transform needed for text to not look squashed? Handled in JS or simple offset) -->
+                </g>
+                <!-- Compass Labels (Drawn flat on top of scaled layer logic) -->
+                <g id="compass-labels" font-weight="bold" fill="#7f8c8d" font-size="16" text-anchor="middle">
+                    <text x="400" y="300">N</text> <!-- Top -->
+                    <text x="400" y="420">S</text> <!-- Bottom -->
+                    <text x="550" y="360">E</text> <!-- Right -->
+                    <text x="250" y="360">W</text> <!-- Left -->
+                </g>
+
+                <!-- Layer: Static Mast -->
+                <g class="component-group" data-info="The fixed mast supports the rotating assembly.">
+                    <rect x="392" y="240" width="16" height="110" fill="url(#metal-grad)" />
+                    <!-- Base -->
+                    <ellipse cx="400" cy="350" rx="15" ry="5" fill="#7f8c8d" />
+                </g>
+
+                <!-- Layer: Dynamic Vane (Tail, Shaft, Nose) -->
+                <g id="vane-layer"></g>
+
+            </svg>
+        </div>
+
+        <div class="controls">
+            <div class="slider-row">
+                <span class="slider-label">Wind Direction</span>
+                <input type="range" id="dir-slider" min="0" max="360" value="90" step="1">
+                <div class="data-display" id="dir-display">East (90°)</div>
+            </div>
+            <div class="slider-row">
+                <span class="slider-label">Wind Speed</span>
+                <input type="range" id="speed-slider" min="0" max="20" value="8" step="1">
+                <div class="data-display" id="speed-display">8 m/s</div>
+            </div>
+            <div style="font-size: 0.9em; color: #666; margin-top:5px;">
+                Adjust direction to see the vane align with the flow.
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>How it Works</h3>
+            <p>
+                A <strong>Wind Vane</strong> (or weather vane) determines the direction <em>from which</em> the wind is blowing.
+            </p>
+            <ul>
+                <li>The <strong>Tail Fin</strong> has a much larger surface area than the nose.</li>
+                <li>When the wind blows, it exerts more aerodynamic drag force on the tail than on the nose.</li>
+                <li>This imbalance creates a torque that rotates the vane until the tail aligns with the wind (downwind) and the nose points into the wind (upwind).</li>
+                <li>The example above shows an <strong>East Wind</strong> (blowing from East to West), so the vane points East.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            centerX: 400,
+            centerY: 240, // Pivot point top of mast
+            vaneLengthFront: 50,
+            vaneLengthBack: 90,
+            tailHeight: 50,
+            tailWidth: 60,
+            perspective: 0.3, // Y-squash factor for 3D effect
+            numWindParticles: 30
+        };
+
+        // State
+        let state = {
+            windDir: 90, // Degrees (0=N, 90=E, 180=S, 270=W) - Standard Met Logic
+            windSpeed: 8,
+            particles: []
+        };
+
+        // DOM Elements
+        const svg = document.getElementById('main-svg');
+        const vaneLayer = document.getElementById('vane-layer');
+        const windLayer = document.getElementById('wind-layer');
+        const dirSlider = document.getElementById('dir-slider');
+        const speedSlider = document.getElementById('speed-slider');
+        const dirDisplay = document.getElementById('dir-display');
+        const speedDisplay = document.getElementById('speed-display');
+        const tooltip = document.getElementById('tooltip');
+        const stage = document.getElementById('visualization-stage');
+
+        function init() {
+            // Init particles
+            for(let i=0; i<CONFIG.numWindParticles; i++) {
+                state.particles.push(createParticle());
+            }
+
+            // Listeners
+            dirSlider.addEventListener('input', (e) => {
+                state.windDir = parseInt(e.target.value);
+                updateDisplays();
+            });
+
+            speedSlider.addEventListener('input', (e) => {
+                state.windSpeed = parseInt(e.target.value);
+                updateDisplays();
+            });
+
+            // Tooltips
+            document.querySelectorAll('.component-group').forEach(group => {
+                group.addEventListener('mouseenter', (e) => showTooltip(e, group.dataset.info));
+                group.addEventListener('mousemove', (e) => moveTooltip(e));
+                group.addEventListener('mouseleave', () => hideTooltip());
+            });
+
+            updateDisplays();
+            requestAnimationFrame(animate);
+        }
+
+        function getCardinalLabel(deg) {
+            const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+            const index = Math.round(deg / 45);
+            return dirs[index];
+        }
+
+        function updateDisplays() {
+            dirDisplay.textContent = `${getCardinalLabel(state.windDir)} (${state.windDir}°)`;
+            speedDisplay.textContent = `${state.windSpeed} m/s`;
+        }
+
+        function createParticle() {
+            return {
+                x: Math.random() * 800,
+                y: Math.random() * 400,
+                offset: Math.random() * 100, // Phase offset
+                speedVar: Math.random() * 0.5 + 0.8
+            };
+        }
+
+        function showTooltip(e, text) {
+            tooltip.textContent = text;
+            tooltip.style.opacity = 1;
+            moveTooltip(e);
+        }
+
+        function moveTooltip(e) {
+            const rect = stage.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            tooltip.style.left = (x + 15) + 'px';
+            tooltip.style.top = (y + 15) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = 0;
+        }
+
+        // --- Drawing Logic ---
+
+        function drawVane() {
+            vaneLayer.innerHTML = '';
+
+            // Angle Conversions
+            // Met convention: 0=North (Top), 90=East (Right)
+            // Screen coords: Top is Y=0.
+            // Math trig usually 0=Right (East). 
+            // Let's map Met Degrees to Radians where 0 rad = East (Right, +X)
+            // 0 deg (N) -> -90 deg math (Up)
+            // 90 deg (E) -> 0 deg math
+            // 180 deg (S) -> 90 deg math
+            // 270 deg (W) -> 180 deg math
+            
+            // Formula: mathAngle = (windDir - 90) * (PI/180)
+            const rad = (state.windDir - 90) * (Math.PI / 180);
+
+            // Calculate 3D positions
+            // Pivot is (0,0,0) relative to center
+            
+            // Nose Position (Pointing INTO wind)
+            // Distance `vaneLengthFront` away from center at angle `rad`
+            const noseX = Math.cos(rad) * CONFIG.vaneLengthFront;
+            const noseZ = Math.sin(rad) * CONFIG.vaneLengthFront; // Z is "down" on screen in perspective
+            const noseScreenX = CONFIG.centerX + noseX;
+            const noseScreenY = CONFIG.centerY + (noseZ * CONFIG.perspective);
+
+            // Tail Position (Opposite direction)
+            const tailX = Math.cos(rad + Math.PI) * CONFIG.vaneLengthBack;
+            const tailZ = Math.sin(rad + Math.PI) * CONFIG.vaneLengthBack;
+            const tailScreenX = CONFIG.centerX + tailX;
+            const tailScreenY = CONFIG.centerY + (tailZ * CONFIG.perspective);
+
+            // Create Components
+            const elements = [];
+
+            // 1. Pivot Cap (Center)
+            elements.push({
+                type: 'cap',
+                z: 0, // Center
+                draw: () => {
+                    const cap = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    cap.setAttribute("cx", CONFIG.centerX);
+                    cap.setAttribute("cy", CONFIG.centerY);
+                    cap.setAttribute("r", 8);
+                    cap.setAttribute("fill", "#7f8c8d");
+                    cap.setAttribute("stroke", "#555");
+                    return cap;
+                }
+            });
+
+            // 2. Nose (Pointer)
+            elements.push({
+                type: 'nose',
+                z: noseZ,
+                draw: () => {
+                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    // Draw Rod
+                    const rod = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    rod.setAttribute("x1", CONFIG.centerX);
+                    rod.setAttribute("y1", CONFIG.centerY);
+                    rod.setAttribute("x2", noseScreenX);
+                    rod.setAttribute("y2", noseScreenY);
+                    rod.setAttribute("stroke", "#333");
+                    rod.setAttribute("stroke-width", 4);
+                    group.appendChild(rod);
+
+                    // Draw Arrowhead/Cone
+                    // We render a triangle (polygon) rotated to face direction
+                    // Direction vector: (noseScreenX - CX, noseScreenY - CY)
+                    // Perpendicular vector for width
+                    
+                    const headSize = 15;
+                    // Simply place a circle for counterweight nose or arrow? 
+                    // Let's do an arrow tip.
+                    const tip = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    // Triangle tip pointing away from center
+                    // Points: Tip (Extended), BaseL, BaseR
+                    const tipExtX = CONFIG.centerX + (Math.cos(rad) * (CONFIG.vaneLengthFront + 15));
+                    const tipExtY = CONFIG.centerY + (Math.sin(rad) * (CONFIG.vaneLengthFront + 15) * CONFIG.perspective);
+                    
+                    // Base is at noseScreenX/Y. We need perpendicular offset.
+                    // Perp Angle = rad + 90deg
+                    const perpX = Math.cos(rad + Math.PI/2) * 8;
+                    const perpY = Math.sin(rad + Math.PI/2) * 8 * CONFIG.perspective;
+                    
+                    const p1x = noseScreenX + perpX; 
+                    const p1y = noseScreenY + perpY;
+                    const p2x = noseScreenX - perpX;
+                    const p2y = noseScreenY - perpY;
+                    
+                    tip.setAttribute("d", `M ${tipExtX} ${tipExtY} L ${p1x} ${p1y} L ${p2x} ${p2y} Z`);
+                    tip.setAttribute("fill", "url(#vane-grad)");
+                    tip.setAttribute("stroke", "#c0392b");
+                    
+                    // Tooltip
+                    tip.setAttribute("class", "component-group");
+                    tip.setAttribute("data-info", "Nose/Counterweight: Usually smaller and heavier to balance the vane.");
+                    tip.addEventListener('mouseenter', (e) => showTooltip(e, tip.getAttribute('data-info')));
+                    tip.addEventListener('mouseleave', () => hideTooltip());
+                    tip.addEventListener('mousemove', (e) => moveTooltip(e));
+
+                    group.appendChild(tip);
+                    return group;
+                }
+            });
+
+            // 3. Tail Fin
+            elements.push({
+                type: 'tail',
+                z: tailZ,
+                draw: () => {
+                    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    // Rod
+                    const rod = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    rod.setAttribute("x1", CONFIG.centerX);
+                    rod.setAttribute("y1", CONFIG.centerY);
+                    rod.setAttribute("x2", tailScreenX);
+                    rod.setAttribute("y2", tailScreenY);
+                    rod.setAttribute("stroke", "#333");
+                    rod.setAttribute("stroke-width", 4);
+                    group.appendChild(rod);
+
+                    // Fin (Vertical Plate)
+                    // It sits at tailScreenX/Y.
+                    // It has height (Y axis pure) and length (along the rod direction).
+                    // Or it's a flat plate perpendicular to the wind? No, parallel to wind flow.
+                    // A weather vane tail is a flat plate aligned with the rod.
+                    // So visually, we see its side profile.
+                    
+                    // Perspective calculation for the plate width
+                    // If viewing from side (perpendicular to wind), we see full width.
+                    // If viewing from front/back (parallel to wind), we see thin line.
+                    
+                    // Angle relative to viewer:
+                    // Viewer looks from "South" (let's say).
+                    // This is complex. Let's cheat: 
+                    // Render the tail as a polygon that stands vertically at the end of the rod.
+                    
+                    const h = CONFIG.tailHeight;
+                    const w = CONFIG.tailWidth;
+                    
+                    // The fin extends BACK from the end of the rod, or centered on end? 
+                    // Usually attached to the rod. Let's draw it going from `tailScreenX` inwards.
+                    
+                    // Start point (End of rod)
+                    const endX = tailScreenX;
+                    const endY = tailScreenY;
+                    
+                    // Inner point (Along rod closer to center)
+                    const innerX = CONFIG.centerX + (Math.cos(rad + Math.PI) * (CONFIG.vaneLengthBack - w));
+                    const innerY = CONFIG.centerY + (Math.sin(rad + Math.PI) * (CONFIG.vaneLengthBack - w) * CONFIG.perspective);
+
+                    // Verticals are not affected by perspective tilt in Y, only position
+                    const path = `
+                        M ${endX} ${endY - h/2}
+                        L ${endX} ${endY + h/2}
+                        L ${innerX} ${innerY + h/2}
+                        L ${innerX} ${innerY - h/2}
+                        Z
+                    `;
+                    
+                    const fin = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    fin.setAttribute("d", path);
+                    fin.setAttribute("fill", "url(#vane-grad)");
+                    fin.setAttribute("stroke", "#c0392b");
+                    fin.setAttribute("filter", "url(#dropshadow)");
+                    
+                    fin.setAttribute("class", "component-group");
+                    fin.setAttribute("data-info", "Tail Fin: Large surface area creates drag to align the vane with the wind.");
+                    fin.addEventListener('mouseenter', (e) => showTooltip(e, fin.getAttribute('data-info')));
+                    fin.addEventListener('mouseleave', () => hideTooltip());
+                    fin.addEventListener('mousemove', (e) => moveTooltip(e));
+
+                    group.appendChild(fin);
+                    return group;
+                }
+            });
+
+            // Sort logic: Painter's Algorithm
+            // In typical SVG coords (Y down), higher Y is "lower" on screen / closer.
+            // Z coordinate calculated above: +Z is Down/Close, -Z is Up/Far.
+            // So sort by Z ascending.
+            
+            elements.sort((a, b) => a.z - b.z);
+
+            elements.forEach(el => {
+                vaneLayer.appendChild(el.draw());
+            });
+        }
+
+        function drawWind() {
+            windLayer.innerHTML = '';
+            
+            // Wind flows FROM the direction.
+            // If Dir=90 (East), Wind is East->West.
+            // Vector: Math angle is 0 (Right).
+            // Flow vector should be: -cos(rad), -sin(rad).
+            // (Opposite to the pointer vector)
+            
+            const rad = (state.windDir - 90) * (Math.PI / 180);
+            const flowDirX = -Math.cos(rad);
+            const flowDirY = -Math.sin(rad) * CONFIG.perspective; // Tilt flow
+
+            state.particles.forEach(p => {
+                // Update
+                const speed = state.windSpeed * p.speedVar;
+                p.x += flowDirX * speed;
+                p.y += flowDirY * speed;
+
+                // Boundary Wrapping (Tricky with rotating direction)
+                // Easiest: Just wrap simply around box 0-800, 0-450
+                if(p.x < -50) p.x = 850;
+                if(p.x > 850) p.x = -50;
+                if(p.y < -50) p.y = 500;
+                if(p.y > 500) p.y = -50;
+
+                // Draw
+                // Line segment oriented with flow
+                const len = 30 + speed * 2;
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", p.x);
+                line.setAttribute("y1", p.y);
+                line.setAttribute("x2", p.x - flowDirX * len); // Trail behind
+                line.setAttribute("y2", p.y - flowDirY * len);
+                line.setAttribute("stroke", "#3498db");
+                line.setAttribute("stroke-width", 2);
+                line.setAttribute("opacity", 0.4);
+                
+                windLayer.appendChild(line);
+            });
+        }
+
+        function animate() {
+            drawWind();
+            drawVane(); // Re-drawing every frame is okay for this complexity, ensures z-sort is smooth
+            requestAnimationFrame(animate);
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>
