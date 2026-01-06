@@ -354,24 +354,28 @@
                     <circle id="statusLed" cx="110" cy="10" r="4" fill="#555" />
                 </g>
 
-                <!-- --- Labels with Leader Lines (Drawn outside rotated group for clarity) --- -->
+                <!-- --- Labels with Leader Lines (Recalculated for -30deg rotation) --- -->
                 <g stroke="#333" stroke-width="1" fill="none">
                     
                     <!-- Tube Label -->
-                    <path d="M 330 180 L 250 180" />
-                    <text x="245" y="185" text-anchor="end" fill="#333" font-size="14" font-weight="500">Collimation Tube</text>
+                    <!-- Pointing to the side of the rotated tube approx (270, 244) -->
+                    <path d="M 270 244 L 180 244" />
+                    <text x="175" y="249" text-anchor="end" fill="#333" font-size="14" font-weight="500">Collimation Tube</text>
 
                     <!-- Aperture Label -->
-                    <path d="M 340 100 L 280 80" />
-                    <text x="275" y="80" text-anchor="end" fill="#333" font-size="14" font-weight="500">Quartz Window (Aperture)</text>
+                    <!-- Pointing to the tip of the rotated window approx (250, 140) -->
+                    <path d="M 250 140 L 180 100" />
+                    <text x="175" y="105" text-anchor="end" fill="#333" font-size="14" font-weight="500">Quartz Window (Aperture)</text>
 
                     <!-- Sensor Label -->
-                    <path d="M 460 380 L 520 380" />
-                    <text x="525" y="385" text-anchor="start" fill="#333" font-size="14" font-weight="500">Thermopile Sensor</text>
+                    <!-- Pointing to the sensor location inside the body approx (360, 340) - moved right and up slightly -->
+                    <path d="M 360 340 L 580 340" />
+                    <text x="585" y="345" text-anchor="start" fill="#333" font-size="14" font-weight="500">Thermopile Sensor</text>
 
                     <!-- Tracker Axis Label (Conceptual) -->
-                    <path d="M 400 480 L 400 500" stroke-dasharray="2,2" />
-                    <text x="400" y="495" text-anchor="middle" fill="#7f8c8d" font-size="10">Tracking Axis</text>
+                    <!-- Pointing to the pivot point (400, 400) -->
+                    <path d="M 400 420 L 400 470" stroke-dasharray="2,2" />
+                    <text x="400" y="485" text-anchor="middle" fill="#7f8c8d" font-size="14">Tracking Axis</text>
                 </g>
 
             </svg>
