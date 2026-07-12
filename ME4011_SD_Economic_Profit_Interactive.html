@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ME4011 Renewable Energy | Sustainable Development: 3 Pillars — Economic (Profit/Prosperity)</title>
+<!--
+  ============================================================================
+  ME4011 Renewable Energy — Interactive Companion
+  Sustainable Development: 3 Pillars — Economic (Profit/Prosperity)
+  Based on the lecture notes of Professor Dr. Mazharul Islam, P.Eng. (Alberta, Canada)
+  Department of Mechanical and Production Engineering
+  Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh
+  Single-file, offline, vanilla HTML/CSS/JS. No external assets.
+  ============================================================================
+-->
+<style>
+/* ============ Design tokens (Profit theme: deep navy + gold) ============ */
+:root{
+  --navy:#1a2440; --navy2:#243356; --teal:#b07d10; --teal2:#8a6008;
+  --amber:#f2b632; --amber2:#c98f08; --gold:#f2b632;
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1c2333; --ink2:#4d576e;
+  --line:#dfe3ec; --ok:#1e8e3e; --warn:#e8a10c; --bad:#c5221f;
+  --radius:14px; --shadow:0 2px 10px rgba(26,36,64,.08);
+  --shadow2:0 10px 28px rgba(26,36,64,.16);
+  --focus:3px solid #f2b632;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:var(--focus);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:var(--navy);
+  padding:8px 14px;z-index:200;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+header.site{background:linear-gradient(135deg,#131b31 0%,var(--navy) 50%,#3a2f10 100%);
+  color:#fff;padding:26px 20px 20px;position:relative;overflow:hidden}
+header.site .coin-bg{position:absolute;right:-30px;top:-40px;opacity:.10;pointer-events:none}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:3px 12px;border-radius:99px;font-size:.78rem;font-weight:600;letter-spacing:.4px}
+.badge.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+header.site h1{font-size:clamp(1.25rem,3.2vw,1.9rem);font-weight:800;line-height:1.25}
+header.site h1 .accent{color:var(--gold)}
+header.site .sub{margin-top:6px;font-size:.92rem;color:#ccd6ea}
+.progress-wrap{margin-top:14px;max-width:520px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:#ccd6ea;margin-bottom:4px}
+.pbar{height:9px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.pbar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ffd97a);
+  border-radius:99px;transition:width .6s ease}
+nav.tabs{position:sticky;top:0;z-index:100;background:var(--card);box-shadow:var(--shadow);
+  display:flex;overflow-x:auto;scrollbar-width:thin;padding:0 8px}
+nav.tabs button{flex:0 0 auto;border:0;background:none;padding:14px 12px 11px;font-size:.85rem;font-weight:600;
+  color:var(--ink2);border-bottom:3px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:7px;transition:color .2s,border-color .2s}
+nav.tabs button:hover{color:var(--teal2)}
+nav.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--gold)}
+nav.tabs button .done-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:none}
+nav.tabs button.visited .done-dot{display:inline-block}
+main{max-width:1100px;margin:0 auto;padding:26px 18px 80px}
+section.tabpanel{display:none;animation:fadeUp .45s ease}
+section.tabpanel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h2.sec{font-size:1.45rem;color:var(--navy);margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+h3.subsec{font-size:1.12rem;color:var(--teal2);margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+p.lede{color:var(--ink2);margin:6px 0 20px;max-width:72ch}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:#fff;
+  border:none;border-radius:6px;padding:3px 8px;margin:2px;letter-spacing:.2px;
+  transition:transform .15s,filter .15s;cursor:pointer}
+.chip:hover,.chip:focus-visible{filter:brightness(1.12);transform:translateY(-1px)}
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.card h4{color:var(--navy);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.card p{font-size:.9rem;color:var(--ink2)}
+.icon-circle{width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;flex:0 0 auto;background:#f6efdc;color:var(--teal2)}
+.expander{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
+.expander>button.exp-head{width:100%;text-align:left;background:none;border:0;padding:16px 18px;
+  display:flex;gap:12px;align-items:center;font-weight:600;color:var(--navy);font-size:.97rem}
+.expander>button.exp-head:hover{background:#f8f6f0}
+.expander .chev{margin-left:auto;transition:transform .3s;flex:0 0 auto;color:var(--teal2)}
+.expander.open .chev{transform:rotate(180deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.expander.open .exp-body{max-height:2000px}
+.exp-inner{padding:0 18px 18px;font-size:.9rem;color:var(--ink2)}
+.exp-inner h5{color:var(--teal2);font-size:.82rem;text-transform:uppercase;letter-spacing:.6px;margin:12px 0 4px}
+.exp-inner ul{margin:4px 0 4px 20px}
+.exp-inner li{margin:3px 0}
+.callout{border-radius:var(--radius);padding:18px 20px;margin:24px 0;border-left:6px solid var(--gold);
+  background:linear-gradient(135deg,#fdf7e8,#fff);box-shadow:var(--shadow)}
+.callout.navy{border-left-color:var(--navy);background:linear-gradient(135deg,#eef1f8,#fff)}
+.callout h4{color:var(--navy);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.callout p{font-size:.95rem}
+.keytake{background:linear-gradient(135deg,var(--navy),#4a3a10);color:#fff;text-align:center;
+  border-radius:var(--radius);padding:28px 22px;margin:26px 0;box-shadow:var(--shadow2)}
+.keytake h4{color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-size:.85rem;margin-bottom:8px}
+.keytake p{font-size:1.1rem;font-weight:600;max-width:64ch;margin:0 auto;line-height:1.5}
+/* formulas */
+.formula{background:#f4f6fb;border:1.5px solid var(--line);border-radius:10px;padding:14px 18px;
+  font-family:Cambria,Georgia,"Times New Roman",serif;font-size:1.12rem;color:var(--navy);
+  text-align:center;margin:12px 0;overflow-x:auto}
+.formula .frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 4px}
+.formula .frac span{display:block;padding:1px 8px}
+.formula .frac span:first-child{border-bottom:1.6px solid var(--navy)}
+.formula sub,.formula sup{font-size:.72em}
+/* calculators */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.calc h4{color:var(--navy);display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.crow{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.crow label{font-size:.85rem;font-weight:600;color:var(--navy);min-width:190px}
+.crow input[type=range]{flex:1;min-width:150px;accent-color:var(--teal2)}
+.crow input[type=number]{width:120px;padding:8px 10px;border:2px solid var(--line);border-radius:9px;font:inherit}
+.crow .cval{font-weight:800;color:var(--teal2);min-width:110px;font-variant-numeric:tabular-nums}
+.result-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.res{flex:1 1 130px;background:#f7f8fb;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;text-align:center}
+.res .rv{font-size:1.25rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.res .rl{font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2)}
+.res.good{border-color:var(--ok);background:#e9f7ee}
+.res.bad{border-color:var(--bad);background:#fdeeee}
+.res.warn{border-color:var(--warn);background:#fff7e2}
+.verdict{border-radius:10px;padding:12px 16px;margin-top:12px;font-weight:700;text-align:center;font-size:1rem}
+.verdict.accept{background:#e9f7ee;color:#155724;border:1.5px solid var(--ok)}
+.verdict.reject{background:#fdeeee;color:#8c1a17;border:1.5px solid var(--bad)}
+.verdict.marginal{background:#fff7e2;color:#7a5b00;border:1.5px solid var(--warn)}
+/* bar canvas rows */
+.bar-row{margin:10px 0}
+.bar-row .bl{display:flex;justify-content:space-between;font-size:.84rem;font-weight:600;color:var(--navy);margin-bottom:4px}
+.bar-track{height:15px;background:#eef1f6;border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;width:0;transition:width .7s ease}
+/* cashflow chart */
+.cf-chart{width:100%;height:190px;margin-top:8px}
+/* tables */
+table.simple{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0}
+table.simple th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:.8rem}
+table.simple td{border:1px solid var(--line);padding:9px 12px;background:#fff;vertical-align:top;font-variant-numeric:tabular-nums}
+table.simple tr.hl td{background:#fdf7e8;font-weight:700}
+/* flow */
+.flow{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+.flow-stage{width:100%;max-width:660px;background:var(--card);border:2px solid var(--line);
+  border-radius:12px;padding:13px 18px;display:flex;gap:14px;align-items:center;cursor:pointer;
+  transition:border-color .25s,box-shadow .2s;opacity:0;transform:translateY(16px)}
+.flow-stage.reveal{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease,border-color .25s,box-shadow .2s}
+.flow-stage:hover{border-color:var(--teal2);box-shadow:var(--shadow2)}
+.flow-num{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;
+  display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:0 0 auto}
+.flow-stage h4{color:var(--navy);font-size:1rem}
+.flow-stage p{font-size:.84rem;color:var(--ink2)}
+.flow-arrow{height:30px;display:flex;align-items:center;opacity:0}
+.flow-arrow.reveal{opacity:1;transition:opacity .5s .15s}
+/* steps / picks / feedback */
+.sim-steps{display:flex;gap:6px;margin:14px 0 20px;flex-wrap:wrap}
+.sim-steps button{flex:1 1 100px;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:9px 5px;font-size:.74rem;font-weight:700;color:var(--ink2);position:relative}
+.sim-steps button[aria-selected="true"]{border-color:var(--gold);background:#fdf7e8;color:var(--navy)}
+.sim-steps button.done{border-color:var(--ok);color:var(--ok)}
+.sim-steps button.done::after{content:"✓";position:absolute;top:-8px;right:-4px;background:var(--ok);
+  color:#fff;width:19px;height:19px;border-radius:50%;font-size:.68rem;display:flex;align-items:center;justify-content:center}
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  margin-bottom:11px;box-shadow:var(--shadow)}
+.qrow .qtext{font-weight:600;color:var(--navy);font-size:.95rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-weight:700;
+  font-size:.92rem;box-shadow:var(--shadow);transition:background .2s,transform .15s}
+.btn:hover{background:var(--navy2);transform:translateY(-2px)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.gold:hover{background:var(--amber2);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.ghost:hover{background:#eef1f8}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.pick{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:11px 14px;margin:7px 0;font-size:.88rem;color:var(--ink);transition:all .15s}
+.pick:hover{border-color:var(--teal2)}
+.pick.on{border-color:var(--teal2);background:#f8f4ea;font-weight:600}
+.pick.right{border-color:var(--ok);background:#e9f7ee}
+.pick.wrong{border-color:var(--bad);background:#fdeeee}
+.fb{border-radius:10px;padding:13px 16px;margin-top:12px;font-size:.9rem;display:none}
+.fb.show{display:block;animation:fadeUp .3s ease}
+.fb.good{background:#e9f7ee;border:1px solid #b5dfc2;color:#155724}
+.fb.mid{background:#fff7e2;border:1px solid #f0dc9d;color:#7a5b00}
+.fb.poor{background:#fdeeee;border:1px solid #f0bdbd;color:#8c1a17}
+select.match{width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:8px;font:inherit;
+  font-size:.86rem;background:#fff;color:var(--ink);margin-top:6px}
+select.match.right{border-color:var(--ok);background:#e9f7ee}
+select.match.wrong{border-color:var(--bad);background:#fdeeee}
+/* knowledge wall */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
+.wall-card{position:relative;border:0;border-radius:12px;min-height:120px;cursor:pointer;perspective:800px;background:none;text-align:left}
+.wall-inner{position:relative;width:100%;height:100%;min-height:120px;transition:transform .5s;transform-style:preserve-3d}
+.wall-card.flip .wall-inner{transform:rotateY(180deg)}
+.wall-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:14px;
+  display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow)}
+.wall-front{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;font-weight:700;font-size:.92rem}
+.wall-front small{color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.wall-back{background:#fff;border:1.5px solid var(--gold);transform:rotateY(180deg);font-size:.8rem;color:var(--ink2)}
+/* modal */
+.modal-veil{position:fixed;inset:0;background:rgba(20,27,49,.55);display:none;z-index:300;
+  align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
+.modal-veil.show{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:580px;width:100%;max-height:86vh;
+  overflow:auto;box-shadow:var(--shadow2);animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.modal-head{padding:20px 22px;color:#fff;display:flex;align-items:center;gap:14px;border-radius:16px 16px 0 0}
+.modal-head .mnum{font-size:2rem;font-weight:800}
+.modal-head h4{font-size:1.15rem;line-height:1.3}
+.modal-body{padding:20px 22px}
+.modal-body h5{color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.7px;margin:14px 0 4px}
+.modal-body h5:first-child{margin-top:0}
+.modal-body p{font-size:.92rem;color:var(--ink2)}
+.modal-body ul{margin:4px 0 4px 20px;font-size:.9rem;color:var(--ink2)}
+.modal-close{margin-left:auto;background:rgba(255,255,255,.2);border:0;color:#fff;width:34px;height:34px;
+  border-radius:50%;font-size:1.05rem;font-weight:700;flex:0 0 auto}
+.modal-close:hover{background:rgba(255,255,255,.35)}
+/* quiz */
+.quiz-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-top .qcount{font-weight:700;color:var(--navy)}
+.quiz-top .qscore{margin-left:auto;font-weight:700;color:var(--teal2)}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow)}
+.qtype-tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+  background:var(--navy);color:#fff;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.quiz-card h3{color:var(--navy);font-size:1.08rem;margin-bottom:14px;line-height:1.45}
+.quiz-opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;
+  border-radius:10px;padding:12px 15px;margin:8px 0;font-size:.93rem;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--teal2);background:#faf7f0}
+.quiz-opt.right{border-color:var(--ok);background:#e9f7ee;font-weight:600}
+.quiz-opt.wrong{border-color:var(--bad);background:#fdeeee}
+.quiz-opt:disabled{cursor:default}
+.fib-input{width:100%;max-width:360px;padding:11px 14px;border:2px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.95rem}
+.fib-input:focus{border-color:var(--teal2);outline:none}
+.explain{border-radius:10px;padding:14px 16px;margin-top:14px;font-size:.9rem;display:none}
+.explain.show{display:block;animation:fadeUp .3s ease}
+.explain.good{background:#e9f7ee;border:1px solid #b5dfc2}
+.explain.poor{background:#fdeeee;border:1px solid #f0bdbd}
+.explain b{display:block;margin-bottom:4px}
+.quiz-result{text-align:center;padding:34px 20px}
+.grade-ring{width:150px;height:150px;margin:0 auto 14px}
+.quiz-result h3{font-size:1.5rem;color:var(--navy)}
+/* dashboard */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);text-align:center}
+.stat .val{font-size:2rem;font-weight:800;color:var(--teal2)}
+.stat .lbl{font-size:.8rem;color:var(--ink2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.topic-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:11px 15px;margin:7px 0;font-size:.9rem}
+.topic-row .tick{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;flex:0 0 auto;background:#eef1f6;color:var(--ink2)}
+.topic-row.done .tick{background:var(--ok);color:#fff}
+.reflect-box{width:100%;min-height:110px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;
+  font:inherit;font-size:.92rem;resize:vertical;background:#fff}
+.reflect-box:focus{border-color:var(--teal2);outline:none}
+.small-note{font-size:.78rem;color:var(--ink2);margin-top:8px}
+footer{background:var(--navy);color:#c2cbdd;text-align:center;padding:22px 16px;font-size:.8rem;line-height:1.7}
+footer b{color:#fff}
+/* spin animation for turbine */
+@keyframes spin{to{transform:rotate(360deg)}}
+.rotor{transform-origin:0 0;animation:spin var(--spin,3s) linear infinite}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site">
+  <svg class="coin-bg" width="260" height="260" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="6"/>
+    <text x="50" y="66" text-anchor="middle" font-size="46" font-weight="800" fill="#fff" font-family="Georgia,serif">৳</text>
+  </svg>
+  <div class="badge-row">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge">AUST · Dept. of Mechanical and Production Engineering</span>
+    <span class="badge">Interactive Companion</span>
+  </div>
+  <h1>Sustainable Development: 3 Pillars — <span class="accent">Economic (Profit/Prosperity)</span></h1>
+  <p class="sub">Based on the lecture notes of Professor Dr. Mazharul Islam, P.Eng. (Alberta, Canada) · Ahsanullah University of Science and Technology, Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Course module progress</span><span id="hdrPct">0%</span></div>
+    <div class="pbar"><span id="hdrBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Module sections" id="tabbar"></nav>
+
+<main id="main">
+  <section class="tabpanel" id="panel-outcomes" role="tabpanel" aria-labelledby="tab-outcomes"></section>
+  <section class="tabpanel" id="panel-brain" role="tabpanel" aria-labelledby="tab-brain"></section>
+  <section class="tabpanel" id="panel-pillar" role="tabpanel" aria-labelledby="tab-pillar"></section>
+  <section class="tabpanel" id="panel-econ" role="tabpanel" aria-labelledby="tab-econ"></section>
+  <section class="tabpanel" id="panel-aep" role="tabpanel" aria-labelledby="tab-aep"></section>
+  <section class="tabpanel" id="panel-ea" role="tabpanel" aria-labelledby="tab-ea"></section>
+  <section class="tabpanel" id="panel-case" role="tabpanel" aria-labelledby="tab-case"></section>
+  <section class="tabpanel" id="panel-reflect" role="tabpanel" aria-labelledby="tab-reflect"></section>
+  <section class="tabpanel" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary"></section>
+  <section class="tabpanel" id="panel-toolbox" role="tabpanel" aria-labelledby="tab-toolbox"></section>
+  <section class="tabpanel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></section>
+  <section class="tabpanel" id="panel-dash" role="tabpanel" aria-labelledby="tab-dash"></section>
+</main>
+
+<div class="modal-veil" id="modalVeil" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head" id="modalHead">
+      <span class="mnum" id="modalNum"></span>
+      <h4 id="modalTitle"></h4>
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <b>ME4011 Renewable Energy</b> — Interactive companion to the lecture
+  “Sustainable Development: 3 Pillars — Economic (Profit/Prosperity)” by <b>Professor Dr. Mazharul Islam, P.Eng.</b><br>
+  Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh<br>
+  Lecture notes licensed under the Creative Commons Attribution-ShareAlike 4.0 International License
+</footer>
+
+<script>
+"use strict";
+/* ==========================================================================
+   1. DATA — exact lecture terminology, equations, examples
+   ========================================================================== */
+const SDGS={
+ 7:{name:"Affordable and clean energy",color:"#FCC30B",
+   eng:"Techno-economic design decides whether clean energy is actually affordable — LCOE is the engineering yardstick.",
+   econ:"Lower LCOE than diesel makes renewables the economically rational choice, not just the clean one.",
+   re:"The wind project at Saint Martin's Island replaces costly diesel generation with wind at a competitive LCOE."},
+ 8:{name:"Decent work and economic growth",color:"#A21942",
+   eng:"Projects create construction and O&M jobs; engineers design for local employment and skills.",
+   econ:"Local employment opportunities are part of the case study's sustainability evaluation.",
+   re:"Wind and solar O&M sustain long-term skilled jobs on remote islands."},
+ 9:{name:"Industry, innovation and infrastructure",color:"#FD6925",
+   eng:"Resilient, bankable energy infrastructure is a core mechanical engineering deliverable.",
+   econ:"Sound economic indicators (NPV, IRR, BCR) make infrastructure financeable.",
+   re:"The 5 MW off-grid wind system with battery storage is innovation applied to island infrastructure."},
+ 11:{name:"Sustainable cities and communities",color:"#FD9D24",
+   eng:"Energy security and affordable tariffs underpin sustainable communities.",
+   econ:"Improved energy security and reduced fuel supply uncertainty de-risk community development.",
+   re:"Replacing diesel improves both cost and reliability of the island's electricity supply."},
+ 12:{name:"Responsible consumption and production",color:"#BF8B2E",
+   eng:"Circular economy — reuse, recycle, remanufacture — is an engineering design principle.",
+   econ:"Life-cycle costing (including battery replacement and decommissioning) prices responsibility into the project.",
+   re:"The case study's cost identification includes decommissioning — end-of-life is part of the economics."},
+ 13:{name:"Climate action",color:"#3F7E44",
+   eng:"Every displaced litre of diesel is quantifiable emission reduction.",
+   econ:"Carbon Credits (15 Million BDT/year in the case study) turn climate benefit into revenue.",
+   re:"Lower greenhouse gas emissions strengthen the wind project's sustainability evaluation."}
+};
+
+/* Learning Outcomes (exact) */
+const OUTCOMES=[
+ {text:"Assess the economic feasibility of renewable energy systems based on resource availability, efficiency, and cost metrics.",
+  eng:"Feasibility assessment is the gate every project passes before detailed design — you will use SPP, NPV, IRR, BCR, and LCOE to make the call.",
+  re:"Resource availability (wind speed, solar irradiation) drives Capacity Factor, which drives AEP — the start of the whole economic chain.",
+  econ:"Economic evaluation determines whether an energy project is financially attractive and economically sustainable.",
+  ind:"Feasibility studies, bankability reports, and IPP tender evaluations all rest on these indicators.",
+  sdgs:[7,9]},
+ {text:"Explain how variable load demand affects the design, performance, and economics of renewable power systems.",
+  eng:"Off-grid systems (like the island wind project) must match variable generation to variable demand — sizing storage and capacity accordingly.",
+  re:"Battery storage (120 Million BDT in the case study cost table) exists precisely because load and wind do not coincide.",
+  econ:"Oversizing raises CAPEX; undersizing loses revenue — load matching is an economic optimization.",
+  ind:"Microgrid design, storage sizing studies, and utility demand forecasting.",
+  sdgs:[7,11]},
+ {text:"Calculate and interpret the capacity factor for different renewable technologies using real-world data.",
+  eng:"CF = AEP / (Pr × 8760) — the single number linking the machine you build to the money it earns.",
+  re:"Typical CFs differ by technology: the case study wind project achieves 32%; solar in Bangladesh is lower; hydro can be higher.",
+  econ:"Higher Capacity Factor generally results in greater annual revenue.",
+  ind:"Performance guarantees, acceptance tests, and asset-management KPIs are all CF-based.",
+  sdgs:[7,9]},
+ {text:"Identify key factors that influence capacity factor and suggest strategies to improve system utilization.",
+  eng:"Resource quality, equipment efficiency, system losses, availability, downtime, grid outages, curtailment, environmental conditions — every one is an engineering lever.",
+  re:"Wake effects, dust, shading, and temperature derating are the renewable-specific loss mechanisms in the lecture.",
+  econ:"Each percentage point of CF is revenue — mitigation strategies pay for themselves.",
+  ind:"O&M optimization contracts, condition monitoring, and re-powering decisions.",
+  sdgs:[8,9,12]}
+];
+
+/* Brain Storming knowledge wall — previous class sessions of ME4011 */
+const WALL=[
+ ["Previous concept","SD: 3 Pillars","Sustainable development stands on People (Social), Planet (Environment), and Profit/Prosperity (Economic) — this class completes the trilogy with the Economic pillar."],
+ ["Previous concept","Social (People) Pillar","People-centered engineering, Social Impact Assessment (SIA), and the Saint Martins Island solar case study — social acceptability is one of the four tests of a sustainable project."],
+ ["Previous concept","Environment (Planet) Pillar","Environmental concerns, GHG emissions and GWP, Bangladesh's regulatory framework, and the seven-stage EIA applied to Saint Martins Island."],
+ ["Prerequisite","The 17 SDGs","The Sustainable Development Goals and Bangladesh's 39+1 Indicators — SDGs 7, 8, 9, 11, 12 align with this lecture."],
+ ["Prerequisite","Engineering Perspective","A renewable energy project is sustainable only when it is technically feasible, economically viable, environmentally responsible, and socially acceptable — today is 'economically viable'."],
+ ["Economic thinking","Money has time value","1 BDT today is worth more than 1 BDT next year — the discount rate i converts future cash flows to present value, the foundation of NPV, IRR, BCR, and LCOE."],
+ ["Economic thinking","Energy is the product","Electricity is sold in units of energy (kWh or MWh) — so Annual Energy Production is the primary source of project revenue."],
+ ["Economic thinking","Costs have a lifetime","Capital, O&M, fuel, externalities, and decommissioning — economic evaluation compares costs and benefits over the whole project lifetime."]
+];
+
+/* Economic Sustainability (exact) */
+const ECON_SUS=[
+ ["Long-term value creation","Prioritize long-term value through efficient, durable, scalable designs.","gear",
+  "A turbine designed for a 20-year life with low O&M beats a cheap machine that fails in year 8 — durability is an economic parameter."],
+ ["Efficient engineering design","Efficient, durable, scalable designs are the engineering root of economic sustainability.","chart",
+  "Every point of efficiency raises AEP without raising CAPEX — efficiency converts directly into NPV."],
+ ["Sustainable entrepreneurship","Foster sustainable entrepreneurship and innovation.","bulb",
+  "Solar home system companies and mini-grid developers in Bangladesh built businesses on exactly the indicators of this lecture."],
+ ["Circular economy","Promote circular economy: reuse, recycle, remanufacture.","route",
+  "Blade recycling, battery second-life, and remanufactured gearboxes reduce lifecycle cost and waste together."],
+ ["Financial feasibility","Ensure financial feasibility without compromising ethics or the environment.","coin",
+  "A project must pass NPV > 0 and BCR > 1 — but never by hiding environmental or social costs."],
+ ["Ethical engineering","Financial feasibility must never compromise ethics or the environment.","shield",
+  "Honest resource assessments and transparent cost reporting protect investors, communities, and the profession."]
+];
+
+/* Economic Parameters (exact definitions, formulas, examples) */
+const PARAMS_TABLE=[
+ ["Simple Payback Period","Time to recover investment"],
+ ["Net Present Value","Measures overall profitability"],
+ ["Internal Rate of Return","Measures investment return"],
+ ["Benefit–Cost Ratio","Compares discounted benefits and costs"],
+ ["Levelized Cost of Energy","Cost of electricity generation"]];
+const CRITERIA=["Lower SPP","Higher NPV","Higher IRR","BCR > 1","Lower LCOE"];
+
+/* Factors Affecting AEP and Capacity Factor (lecture wording, split per request) */
+const FACTORS=[
+ ["Resource quality","Quality of renewable resource (solar irradiation or wind speed).",
+  "Wind power scales with the cube of wind speed; solar output scales with irradiation — resource quality is the largest single determinant of CF.",
+  "A 10% drop in wind speed cuts Capacity Factor, AEP, and revenue disproportionately (the case study's first risk scenario).",
+  "Measure before you build: met masts, LiDAR, satellite irradiation data, and micro-siting."],
+ ["Equipment efficiency","Equipment efficiency converts the available resource into electricity.",
+  "Turbine power curves, PV module efficiency, and inverter efficiency set how much of the resource becomes energy.",
+  "Higher efficiency raises AEP at the same CAPEX — directly improving LCOE.",
+  "Select proven equipment, verify power curves, and maintain peak efficiency through O&M."],
+ ["System losses","Losses between generation and the meter reduce sellable energy.",
+  "Cable losses, transformer losses, soiling, and conversion losses can consume several percent of gross AEP.",
+  "Every percent of loss is a percent of revenue — losses compound over 20 years.",
+  "Optimize electrical design, cable sizing, and cleaning schedules."],
+ ["Maintenance downtime","Plant availability and maintenance downtime limit operating hours.",
+  "A turbine that is down during high-wind weeks loses the year's best revenue hours.",
+  "Availability below ~95% visibly damages CF, SPP, and IRR.",
+  "Preventive maintenance scheduled in low-resource seasons; condition monitoring; spare-parts strategy for island logistics."],
+ ["Grid outages","Grid outages stop energy delivery even when the plant can generate.",
+  "For grid-tied plants, the grid is part of the machine — its reliability caps yours.",
+  "Outages reduce electricity sales and AEP without reducing any cost.",
+  "Grid-connection studies, storage buffering, and (as in the case study) off-grid hybrid design."],
+ ["Curtailment","Curtailment: the operator orders output reduction below available resource.",
+  "When the grid cannot absorb generation, energy is spilled — common at high renewable penetration.",
+  "Curtailed energy is revenue produced and thrown away — a pure economic loss.",
+  "Storage, flexible demand, better forecasting, and curtailment-compensation clauses in contracts."],
+ ["Environmental conditions","Environmental conditions (temperature, dust, shading, wake effects).",
+  "High temperature derates PV; dust and soiling block irradiation; shading kills strings; wake effects rob downstream turbines.",
+  "These quiet losses erode CF year after year if not designed against.",
+  "Array spacing and turbine layout optimization, ventilation/cooling, cleaning regimes, vegetation management."]
+];
+
+/* EA Flowchart — Economic Analysis Flowchart (exact 6 stages) */
+const EA_STAGES=[
+ {t:"Cost Identification",d:"Captures capital, O&M, fuel, externalities, and decommissioning costs.",
+  x:"Step 1 of the case study does exactly this: wind turbines 650, tower & foundation 140, transportation 70, installation 60, electrical system 80, battery storage 120, engineering & contingency 80 — Total Capital Cost 1200 Million BDT, plus O&M 33 Million BDT/year and decommissioning 20 Million BDT."},
+ {t:"Revenue Estimation",d:"Projects income from energy sales, incentives, carbon credits, etc.",
+  x:"Revenue = AEP × Electricity Tariff, plus additional revenue: in the case study, electricity revenue 168.2 Million BDT/year plus Carbon Credits 15 Million BDT/year."},
+ {t:"Calculation of Economic/Financial Parameters",d:"Computes different parameters for cash flow comparison.",
+  x:"SPP, NPV, IRR, BCR, and LCOE are computed from the project cash flows — the five indicators of the Economic Parameters section."},
+ {t:"Risk & Sensitivity Analysis",d:"Analyzes uncertainties in input data and scenario impacts.",
+  x:"Step 4 of the case study: wind speed −10%, capital cost +15%, tariff decrease, grid curtailment, battery replacement after Year 10 — evaluate effects on Payback Period, NPV, IRR."},
+ {t:"Sustainability Evaluation",d:"Assesses economic, social (People), and ecological (Planet) returns.",
+  x:"Step 5: positive economic return, reduced diesel consumption, lower greenhouse gas emissions, improved energy security, local employment opportunities, higher Capacity Factor utilization, support for Bangladesh's renewable energy targets."},
+ {t:"Decision-Making",d:"Recommends action based on financial viability and sustainability.",
+  x:"Step 6: recommend the project only if it produces sufficient AEP, achieves an acceptable Capacity Factor, generates positive economic returns, and provides long-term environmental and social benefits."}
+];
+
+/* Technology comparison (illustrative teaching values for the radar tool) */
+const TECHS={
+ "Solar PV":{color:"#FCC30B",cf:18,capexMW:110,om:2.0,lcoe:8.5,life:25},
+ "Wind":{color:"#0a97d9",cf:32,capexMW:240,om:6.6,lcoe:9.4,life:20},
+ "Hydro":{color:"#26BDE2",cf:45,capexMW:300,om:5.0,lcoe:6.0,life:40},
+ "Biomass":{color:"#56C02B",cf:60,capexMW:200,om:14.0,lcoe:10.5,life:20},
+ "Diesel Generator":{color:"#8d6e63",cf:70,capexMW:60,om:60.0,lcoe:25.0,life:15},
+ "Natural Gas":{color:"#FD6925",cf:55,capexMW:90,om:28.0,lcoe:13.0,life:25}
+};
+
+/* Case study data (exact) */
+const CASE_SPECS=[
+ ["Location","Saint Martin's Island"],["Installed Capacity","5 MW"],["Wind Turbines","5 × 1 MW"],
+ ["Project Lifetime","20 years"],["Capacity Factor","32%"],["Discount Rate","10%"],
+ ["Electricity Selling Price","12 BDT/kWh"],["Operation","Off-grid Island System"],
+ ["Annual Energy Production","To be estimated"]];
+const CASE_COSTS=[
+ ["Wind Turbines",650],["Tower & Foundation",140],["Transportation",70],["Installation",60],
+ ["Electrical System",80],["Battery Storage",120],["Engineering & Contingency",80]];
+const CASE_RESULTS=[["Payback Period","8.0 years"],["NPV","+96 Million BDT"],["IRR","11.8%"],
+ ["BCR","1.19"],["LCOE","9.4 BDT/kWh"]];
+const CASE_RISKS=[
+ ["Wind speed decreases by 10%","Lower Capacity Factor → Lower AEP → Lower Revenue"],
+ ["Capital cost increases by 15%","Higher initial investment"],
+ ["Electricity tariff decreases","Reduced annual revenue"],
+ ["Grid curtailment","Reduced electricity sales and AEP"],
+ ["Battery replacement after Year 10","Higher lifecycle cost"]];
+const CASE_SUS=["Positive economic return","Reduced diesel consumption","Lower greenhouse gas emissions",
+ "Improved energy security","Local employment opportunities",
+ "Higher Capacity Factor improves utilization of renewable resources",
+ "Supports Bangladesh's renewable energy targets"];
+const CASE_DECIDE=["Technical feasibility","Adequate Annual Energy Production (AEP)","Acceptable Capacity Factor",
+ "Financial viability","Environmental sustainability","Social benefits","Overall project risk"];
+
+/* Reflections */
+const REFLECT=[
+ ["What economic indicators are most influential when selecting a renewable energy project?",
+  "Consider: NPV measures overall profitability; IRR is what investors compare against their required rate of return; LCOE compares technologies; SPP answers 'how fast is my money back?'; BCR summarizes value for money. The General Decision Criteria: lower SPP, higher NPV, higher IRR, BCR > 1, lower LCOE."],
+ ["Why is Capacity Factor critical for investors?",
+  "Consider: CF = AEP/(Pr × 8760) links the installed machine to sellable energy. Higher Capacity Factor ⇒ higher AEP ⇒ greater revenue — it drives SPP, NPV, IRR and BCR simultaneously, and investors use it to assess financial viability before anything else."],
+ ["Can a project have a positive NPV but a long Payback Period?",
+  "Consider: yes — a project with modest early cash flows but a long, profitable lifetime (like hydro, or the 20-year wind project with SPP of 8.0 years) recovers slowly but accumulates large discounted value. SPP ignores everything after payback; NPV counts the whole lifetime."],
+ ["How do economic decisions interact with environmental and social sustainability?",
+  "Consider: the EA Flowchart's Sustainability Evaluation assesses economic, social (People), and ecological (Planet) returns together. The case study counts carbon credits as revenue, diesel displacement as environmental benefit, and local employment as social benefit — a project is recommended only if all three pillars stand."]
+];
+
+/* Summary cards (lecture wording) */
+const SUMMARY=[
+ ["Economic Sustainability","Prioritize long-term value through efficient, durable, scalable designs; foster sustainable entrepreneurship and innovation; promote circular economy (reuse, recycle, remanufacture); ensure financial feasibility without compromising ethics or the environment. Aligned SDGs: 7, 8, 9, 11, 12."],
+ ["Economic Indicators","Simple Payback Period — time to recover investment; Net Present Value — measures overall profitability; Internal Rate of Return — measures investment return; Benefit–Cost Ratio — compares discounted benefits and costs; Levelized Cost of Energy — cost of electricity generation."],
+ ["General Decision Criteria","Lower SPP · Higher NPV · Higher IRR · BCR > 1 · Lower LCOE."],
+ ["Annual Energy Production (AEP)","AEP is the total electrical energy generated by a power plant in one year — the primary source of project revenue, because electricity is sold in units of energy (kWh or MWh). Revenue = AEP × Electricity Tariff."],
+ ["Capacity Factor","CF = AEP / (Pr × 8760). Capacity Factor measures how effectively the installed capacity is utilized. Higher Capacity Factor generally results in greater annual revenue."],
+ ["Critical Relationship","Resource → AEP → Revenue → Economic Feasibility. AEP determines how much electricity is sold; higher AEP generally leads to higher revenue and improved project economics."],
+ ["EA Flowchart","Cost Identification → Revenue Estimation → Calculation of Economic/Financial Parameters → Risk & Sensitivity Analysis → Sustainability Evaluation → Decision-Making."],
+ ["Case Study Lessons","The 5 MW wind project at Saint Martin's Island: AEP = 5 × 8760 × 0.32 = 14.02 GWh/year; revenue 168.2 + 15 (carbon credits) = 183.2 Million BDT/year; net cash flow 150.2; Payback 8.0 years, NPV +96 Million BDT, IRR 11.8%, BCR 1.19, LCOE 9.4 BDT/kWh — recommend only with sufficient AEP, acceptable Capacity Factor, positive returns, and long-term environmental and social benefits."]
+];
+
+/* ==========================================================================
+   2. QUIZ POOL — mc | tf | num (numerical/calculation) | match | scen (scenario)
+   ========================================================================== */
+const QUIZ_POOL=[
+ {type:"mc",topic:"pillar",q:"According to the lecture, economic sustainability means ensuring financial feasibility:",
+  opts:["Without compromising ethics or the environment","At any environmental cost","Only for government projects","Only when subsidies are available"],a:0,
+  ex:"Economic Sustainability: ensure financial feasibility without compromising ethics or the environment — alongside long-term value, sustainable entrepreneurship, and circular economy."},
+ {type:"mc",topic:"pillar",q:"Which SDGs does the lecture align with the Economic (Profit/Prosperity) pillar?",
+  opts:["SDGs 7, 8, 9, 11, 12","SDGs 1, 2, 3, 4, 5","SDGs 13, 14, 15, 16, 17","SDGs 3, 4, 5, 10, 16"],a:0,
+  ex:"Aligned SDGs: 7, 8, 9, 11, 12 — stated on the Economic Sustainability slide."},
+ {type:"mc",topic:"econ",q:"The Simple Payback Period (SPP) is defined as:",
+  opts:["Time required to recover the initial investment from annual net savings",
+        "The discount rate that makes NPV zero",
+        "The present value of benefits divided by costs",
+        "The average cost of one unit of electricity"],a:0,
+  ex:"SPP = Initial Investment / Annual Net Cash Flow — the time required to recover the initial investment from annual net savings."},
+ {type:"mc",topic:"econ",q:"IRR is the discount rate at which:",
+  opts:["The project's NPV equals zero","The BCR equals zero","LCOE equals the tariff","SPP equals the project lifetime"],a:0,
+  ex:"IRR is the discount rate that makes the project's NPV equal to zero: 0 = Σ CFt/(1+IRR)^t − I₀."},
+ {type:"mc",topic:"econ",q:"The lecture's General Decision Criteria favour:",
+  opts:["Lower SPP, higher NPV, higher IRR, BCR > 1, lower LCOE",
+        "Higher SPP, lower NPV, lower IRR, BCR < 1, higher LCOE",
+        "Only the shortest payback, ignoring all other indicators",
+        "Only the largest installed capacity"],a:0,
+  ex:"General Decision Criteria: Lower SPP · Higher NPV · Higher IRR · BCR > 1 · Lower LCOE."},
+ {type:"mc",topic:"econ",q:"A lower LCOE indicates:",
+  opts:["A more cost-effective power generation technology","A less reliable power plant","Higher electricity tariffs for consumers","A shorter project lifetime"],a:0,
+  ex:"Interpretation from the lecture: lower LCOE indicates a more cost-effective power generation technology."},
+ {type:"mc",topic:"aep",q:"Why is AEP the primary source of project revenue?",
+  opts:["Because electricity is sold in units of energy (kWh or MWh)",
+        "Because investors prefer big machines",
+        "Because capacity is what customers pay for",
+        "Because AEP includes government grants"],a:0,
+  ex:"AEP is the primary source of project revenue because electricity is sold in units of energy (kWh or MWh); Revenue = AEP × Electricity Tariff."},
+ {type:"mc",topic:"aep",q:"In CF = AEP / (Pr × 8760), the number 8760 represents:",
+  opts:["Hours in one year","Days in 24 years","The rated capacity in kW","Maximum wind speed in m/s"],a:0,
+  ex:"8760 = hours in one year; Pr = Rated (Installed) Capacity (MW); AEP in MWh/year."},
+ {type:"mc",topic:"aep",q:"Which of these is listed in the lecture as a factor affecting AEP and Capacity Factor?",
+  opts:["Environmental conditions (temperature, dust, shading, wake effects)",
+        "The colour of the turbine blades","The nationality of the investors","The number of pages in the EIA report"],a:0,
+  ex:"Factors: quality of renewable resource; equipment efficiency and system losses; plant availability and maintenance downtime; grid outages and curtailment; environmental conditions (temperature, dust, shading, wake effects)."},
+ {type:"mc",topic:"ea",q:"What is the correct order of the Economic Analysis Flowchart?",
+  opts:["Cost Identification → Revenue Estimation → Calculation of Economic/Financial Parameters → Risk & Sensitivity Analysis → Sustainability Evaluation → Decision-Making",
+        "Revenue Estimation → Cost Identification → Decision-Making → Risk & Sensitivity Analysis → Sustainability Evaluation → Calculation of Parameters",
+        "Decision-Making → Sustainability Evaluation → Risk Analysis → Revenue Estimation → Cost Identification → Calculation of Parameters",
+        "Cost Identification → Decision-Making → Revenue Estimation → Sustainability Evaluation → Risk Analysis → Calculation of Parameters"],a:0,
+  ex:"The EA Flowchart: Cost Identification, Revenue Estimation, Calculation of Economic/Financial Parameters, Risk & Sensitivity Analysis, Sustainability Evaluation, Decision-Making."},
+ {type:"mc",topic:"ea",q:"In the EA Flowchart, Sustainability Evaluation assesses:",
+  opts:["Economic, social (People), and ecological (Planet) returns","Only the financial rate of return","Only compliance paperwork","The turbine manufacturer's reputation"],a:0,
+  ex:"Sustainability Evaluation: assesses economic, social (People), and ecological (Planet) returns — the three pillars together."},
+ {type:"mc",topic:"case",q:"Why is a wind power project proposed for Saint Martin's Island?",
+  opts:["To improve energy security and reduce diesel consumption",
+        "To power the national grid from the island",
+        "To replace the island's solar PV entirely",
+        "Because wind turbines attract tourists"],a:0,
+  ex:"Project Background: diesel generation causes high fuel transportation cost, high generation cost, GHG emissions, and fuel supply uncertainty — the wind project improves energy security and reduces diesel consumption."},
+ {type:"mc",topic:"case",q:"The case study's Final Decision recommends the project only if it:",
+  opts:["Produces sufficient AEP, achieves an acceptable Capacity Factor, generates positive economic returns, and provides long-term environmental and social benefits",
+        "Has the largest possible turbines",
+        "Is cheaper than every other project in the world",
+        "Can be built in under one year"],a:0,
+  ex:"Step 6 (Decision Making): recommend only with sufficient AEP, acceptable Capacity Factor, positive economic returns, and long-term environmental and social benefits."},
+ {type:"tf",topic:"econ",q:"True or False: If IRR is greater than the required rate of return, the project should be accepted.",a:true,
+  ex:"True — Decision Rule: IRR > Required Rate of Return ⇒ Accept; IRR < Required Rate of Return ⇒ Reject. In the lecture example, 15% > 10%, so the project is financially attractive."},
+ {type:"tf",topic:"econ",q:"True or False: A BCR of 0.85 means the project is economically feasible.",a:false,
+  ex:"False — BCR > 1 means the project is economically feasible; at 0.85 the present value of costs exceeds the present value of benefits."},
+ {type:"tf",topic:"aep",q:"True or False: Higher Capacity Factor generally results in greater annual revenue.",a:true,
+  ex:"True — stated directly in the lecture: higher CF ⇒ higher AEP ⇒ greater revenue."},
+ {type:"tf",topic:"case",q:"True or False: The Saint Martin's Island wind project is designed as a grid-connected system.",a:false,
+  ex:"False — the Project Specifications list Operation: Off-grid Island System; the island is isolated from the national electricity grid."},
+ {type:"tf",topic:"ea",q:"True or False: Cost Identification captures capital, O&M, fuel, externalities, and decommissioning costs.",a:true,
+  ex:"True — that is the exact description of the first EA Flowchart stage."},
+ {type:"num",topic:"econ",q:"Calculation — SPP: Initial investment = 600 Million BDT, annual net cash flow = 150 Million BDT. SPP = ? (years)",a:4,tol:0.01,unit:"years",
+  ex:"SPP = Initial Investment / Annual Net Cash Flow = 600 / 150 = 4 years — the lecture's own example."},
+ {type:"num",topic:"econ",q:"Calculation — NPV: Present value of future cash flows = 820 Million BDT; initial investment = 600 Million BDT. NPV = ? (Million BDT)",a:220,tol:0.5,unit:"Million BDT",
+  ex:"NPV = 820 − 600 = +220 Million BDT. Positive NPV ⇒ the project adds value."},
+ {type:"num",topic:"econ",q:"Calculation — BCR: Benefits = 900 Million BDT, Costs = 600 Million BDT. BCR = ?",a:1.5,tol:0.01,unit:"",
+  ex:"BCR = 900 / 600 = 1.50; BCR > 1 ⇒ project is economically feasible."},
+ {type:"num",topic:"econ",q:"Calculation — LCOE: Present value of costs = 950 Million BDT; present value of energy = 120 GWh. LCOE = ? (BDT/kWh)",a:7.92,tol:0.05,unit:"BDT/kWh",
+  ex:"LCOE = 950 / 120 = 7.92 BDT/kWh (Million BDT per GWh equals BDT per kWh)."},
+ {type:"num",topic:"aep",q:"Calculation — AEP: Rated capacity = 2 MW, Capacity Factor = 20%. AEP = ? (MWh/year)",a:3504,tol:5,unit:"MWh/year",
+  ex:"AEP = 2 × 8760 × 0.20 = 3504 MWh/year — the lecture's Example: Estimating Annual Revenue."},
+ {type:"num",topic:"aep",q:"Calculation — Revenue: AEP = 3504 MWh/year, tariff = 10 BDT/kWh. Annual revenue = ? (Million BDT/year)",a:35.04,tol:0.2,unit:"Million BDT/year",
+  ex:"Revenue = 3504 × 1000 × 10 = 35.04 Million BDT/year."},
+ {type:"num",topic:"case",q:"Calculation — Case study AEP: Pr = 5 MW, CF = 32%. AEP = ? (GWh/year)",a:14.02,tol:0.1,unit:"GWh/year",
+  ex:"AEP = 5 × 8760 × 0.32 = 14,016 MWh/year ≈ 14.02 GWh/year — Step 2(a) of the case study."},
+ {type:"num",topic:"case",q:"Calculation — Case study net cash flow: total revenue = 183.2 Million BDT/year, O&M = 33 Million BDT/year. Annual net cash flow = ? (Million BDT/year)",a:150.2,tol:0.5,unit:"Million BDT/year",
+  ex:"183.2 − 33 = 150.2 Million BDT/year — Step 3 of the case study."},
+ {type:"match",topic:"econ",q:"Match each economic parameter to its primary purpose (from the lecture's summary table).",
+  pairs:[["Simple Payback Period","Time to recover investment"],
+         ["Net Present Value","Measures overall profitability"],
+         ["Internal Rate of Return","Measures investment return"],
+         ["Benefit–Cost Ratio","Compares discounted benefits and costs"],
+         ["Levelized Cost of Energy","Cost of electricity generation"]],
+  ex:"This is the lecture's Summary of Economic Parameters table."},
+ {type:"match",topic:"ea",q:"Match each EA Flowchart stage to its description.",
+  pairs:[["Cost Identification","Captures capital, O&M, fuel, externalities, and decommissioning costs"],
+         ["Revenue Estimation","Projects income from energy sales, incentives, carbon credits, etc."],
+         ["Risk & Sensitivity Analysis","Analyzes uncertainties in input data and scenario impacts"],
+         ["Decision-Making","Recommends action based on financial viability and sustainability"]],
+  ex:"Exact stage descriptions from the Economic Analysis Flowchart slide."},
+ {type:"scen",topic:"case",q:"Scenario: Your wind project shows IRR = 11.8% against a required return of 10%, NPV = +96 Million BDT, BCR = 1.19, SPP = 8.0 years over a 20-year lifetime. What is the correct investment decision?",
+  opts:["Accept — IRR exceeds the required return, NPV is positive, and BCR > 1",
+        "Reject — the payback period is longer than 5 years",
+        "Reject — the IRR is below 15%",
+        "Accept only if the payback period drops below 2 years"],a:0,
+  ex:"All decision rules pass: IRR 11.8% > 10% required, NPV > 0, BCR 1.19 > 1. SPP of 8.0 years is acceptable within a 20-year lifetime — these are the case study's own Example Results."},
+ {type:"scen",topic:"aep",q:"Scenario: Grid curtailment forces your plant to spill 8% of its generation. Which chain of effects follows (per the lecture)?",
+  opts:["Reduced electricity sales and AEP → lower revenue → weaker SPP, NPV, IRR and BCR",
+        "Higher Capacity Factor → higher revenue",
+        "Lower CAPEX → better LCOE",
+        "No economic effect, because the energy was still generated"],a:0,
+  ex:"Grid curtailment reduces electricity sales and AEP (Step 4 risk table); AEP and CF affect Simple Payback Period, NPV, IRR and BCR."},
+ {type:"scen",topic:"econ",q:"Scenario: Two technologies serve the same load. A: LCOE 8.5 BDT/kWh. B: LCOE 13.0 BDT/kWh. All else equal, which is more cost-effective?",
+  opts:["A — lower LCOE indicates a more cost-effective power generation technology",
+        "B — higher LCOE means higher quality",
+        "Both equal, LCOE does not compare technologies",
+        "Neither, LCOE only applies to diesel"],a:0,
+  ex:"Lower LCOE indicates a more cost-effective power generation technology — the lecture's interpretation."}
+];
+
+/* ==========================================================================
+   3. CORE FRAMEWORK
+   ========================================================================== */
+const IC={
+ gear:'<path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1l1.7 1.3-1.7 3-2-.7a7 7 0 0 1-1.6 1l-.3 2.1h-3.4l-.3-2.1a7 7 0 0 1-1.6-1l-2 .7-1.7-3 1.7-1.3a7 7 0 0 1 0-1.9L6.5 10l1.7-3 2 .7a7 7 0 0 1 1.6-1l.3-2.1h3.4l.3 2.1a7 7 0 0 1 1.6 1l2-.7 1.7 3-1.7 1.3a7 7 0 0 1 0 1.9z"/>',
+ coin:'<circle cx="12" cy="12" r="9"/><path d="M12 6.5v11M14.8 8.6c-.6-.9-1.6-1.4-2.8-1.4-1.7 0-3 1-3 2.4 0 3 5.9 1.7 5.9 4.7 0 1.4-1.3 2.4-3 2.4-1.3 0-2.4-.6-2.9-1.6"/>',
+ chart:'<path d="M4 20V4m0 16h16"/><path d="M7 16l4-5 3 3 5-7"/>',
+ bulb:'<path d="M9 18h6m-5 3h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.4-1 2.5h-6c0-1.1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M19 19H6a2 2 0 0 0-2 2"/>',
+ check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ clip:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0M8.5 11l2.3 2.3L15.5 9M8.5 16.5h7"/>',
+ grad:'<path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/>',
+ users:'<circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.2 5 2 5 4.8"/>',
+ scale:'<path d="M12 4v16m-7 0h14M12 4l-6 3 6-1 6 1-6-3zM6 7l-2.6 6a3 3 0 0 0 5.2 0L6 7zm12 0l-2.6 6a3 3 0 0 0 5.2 0L18 7z"/>',
+ shield:'<path d="M12 3l8 3v6c0 4.5-3.4 7.7-8 9-4.6-1.3-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+ route:'<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M19.1 4.9l-2.1 2.1m-10 10l-2.1 2.1"/>',
+ wind:'<path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3M3 16h6a2.5 2.5 0 1 1-2.5 2.5"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 19h.01M12 19h.01M15.5 19h.01"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18-3-3.5-3-14.5 0-18z"/>',
+ leaf:'<path d="M20 4C10 5 4.5 11 4 20c9-.5 15-6 16-16z"/><path d="M6.5 17.5C9.5 13 13 9.5 17.5 6.5"/>',
+ dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="15" cy="9" r="1.3"/><circle cx="9" cy="15" r="1.3"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',
+ gauge:'<path d="M4 15a8 8 0 1 1 16 0"/><path d="M12 15l4.5-5.5"/><circle cx="12" cy="15" r="1.6"/>'
+};
+function svg(n,s=20){return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||IC.gear}</svg>`;}
+const fmt=(x,d=2)=>Number.isFinite(x)?x.toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:0}):"—";
+
+let STATE={visited:{},reflect:{},caseDone:{},quiz:{best:null,last:null,wrongTopics:{}}};
+try{const s=localStorage.getItem("me4011_sd_profit");if(s)STATE=Object.assign(STATE,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem("me4011_sd_profit",JSON.stringify(STATE));}catch(e){}updateProgress();}
+
+const TABS=[
+ {id:"outcomes",label:"Learning Outcomes",icon:"grad"},
+ {id:"brain",label:"Brain Storming",icon:"bulb"},
+ {id:"pillar",label:"SD: Economic (Profit/Prosperity) Pillar",icon:"coin"},
+ {id:"econ",label:"Economic Parameters",icon:"chart"},
+ {id:"aep",label:"AEP & Capacity Factor",icon:"gauge"},
+ {id:"ea",label:"EA Flowchart",icon:"route"},
+ {id:"case",label:"Case Study: Wind Power Project",icon:"wind"},
+ {id:"reflect",label:"Reflections",icon:"bulb"},
+ {id:"summary",label:"Summary",icon:"book"},
+ {id:"toolbox",label:"Calculator Toolbox",icon:"calc"},
+ {id:"quiz",label:"Quiz",icon:"check"},
+ {id:"dash",label:"Dashboard",icon:"clip"}
+];
+const tabbar=document.getElementById("tabbar");
+TABS.forEach((t,i)=>{
+  const b=document.createElement("button");
+  b.id="tab-"+t.id;b.setAttribute("role","tab");b.setAttribute("aria-controls","panel-"+t.id);
+  b.setAttribute("aria-selected",i===0?"true":"false");b.tabIndex=i===0?0:-1;
+  b.innerHTML=svg(t.icon,16)+`<span>${t.label}</span><span class="done-dot" aria-hidden="true"></span>`;
+  b.addEventListener("click",()=>selectTab(t.id));
+  tabbar.appendChild(b);
+});
+tabbar.addEventListener("keydown",e=>{
+  const btns=[...tabbar.querySelectorAll("button")],i=btns.indexOf(document.activeElement);
+  if(i<0)return;let j=null;
+  if(e.key==="ArrowRight")j=(i+1)%btns.length;else if(e.key==="ArrowLeft")j=(i-1+btns.length)%btns.length;
+  else if(e.key==="Home")j=0;else if(e.key==="End")j=btns.length-1;
+  if(j!==null){e.preventDefault();btns[j].focus();btns[j].click();}
+});
+function selectTab(id){
+  TABS.forEach(t=>{
+    const b=document.getElementById("tab-"+t.id),p=document.getElementById("panel-"+t.id);
+    const on=t.id===id;
+    b.setAttribute("aria-selected",on?"true":"false");b.tabIndex=on?0:-1;
+    p.classList.toggle("active",on);
+  });
+  if(!STATE.visited[id]){STATE.visited[id]=true;save();}
+  document.getElementById("tab-"+id).classList.add("visited");
+  if(id==="dash")renderDash();
+  if(id==="ea")animateFlow();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+const TRACKED=["outcomes","brain","pillar","econ","aep","ea","case","reflect","summary","toolbox","quiz"];
+function updateProgress(){
+  let done=TRACKED.filter(t=>STATE.visited[t]).length,extra=0;
+  if(Object.keys(STATE.caseDone).length>=6)extra++;
+  if(STATE.quiz.best!==null)extra++;
+  const pct=Math.round(100*(done+extra)/(TRACKED.length+2));
+  document.getElementById("hdrPct").textContent=pct+"%";
+  document.getElementById("hdrBar").style.width=pct+"%";
+  TABS.forEach(t=>{if(STATE.visited[t.id])document.getElementById("tab-"+t.id).classList.add("visited");});
+  return pct;
+}
+function chips(list){
+  return (list||[]).map(n=>`<button class="chip" style="background:${SDGS[n].color}" data-sdg="${n}"
+   aria-label="Open SDG ${n}: ${SDGS[n].name}">SDG ${n}</button>`).join("");
+}
+const veil=document.getElementById("modalVeil");let lastFocus=null;
+function openSDG(n){
+  const s=SDGS[n];lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=s.color;
+  document.getElementById("modalNum").textContent=n;
+  document.getElementById("modalTitle").textContent=s.name;
+  document.getElementById("modalBody").innerHTML=
+   `<h5>Engineering interpretation</h5><p>${s.eng}</p>
+    <h5>Economic relevance</h5><p>${s.econ}</p>
+    <h5>Renewable energy contribution</h5><p>${s.re}</p>`;
+  veil.classList.add("show");document.getElementById("modalClose").focus();
+}
+function openInfo(title,bodyHTML,color){
+  lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=color||"var(--navy)";
+  document.getElementById("modalNum").textContent="";
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=bodyHTML;
+  veil.classList.add("show");document.getElementById("modalClose").focus();
+}
+function closeModal(){veil.classList.remove("show");if(lastFocus)lastFocus.focus();}
+document.getElementById("modalClose").addEventListener("click",closeModal);
+veil.addEventListener("click",e=>{if(e.target===veil)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&veil.classList.contains("show"))closeModal();});
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip[data-sdg]");if(c)openSDG(+c.dataset.sdg);
+});
+function expander(head,bodyHTML){
+  return `<div class="expander">
+    <button class="exp-head" aria-expanded="false">${head}
+      <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </button>
+    <div class="exp-body"><div class="exp-inner">${bodyHTML}</div></div>
+  </div>`;
+}
+document.addEventListener("click",e=>{
+  const h=e.target.closest(".exp-head");if(!h)return;
+  const ex=h.parentElement,open=ex.classList.toggle("open");
+  h.setAttribute("aria-expanded",open?"true":"false");
+});
+
+/* ===== Financial math helpers (uniform annual cash flows) ===== */
+function annuity(i,n){ if(i<=0) return n; return (1-Math.pow(1+i,-n))/i; }
+function npvCalc(I0,CF,i,n){ return CF*annuity(i,n)-I0; }
+function irrCalc(I0,CF,n){ /* bisection */
+  if(CF<=0)return NaN;
+  let lo=-0.99,hi=5,f=r=>npvCalc(I0,CF,r,n);
+  if(f(hi)>0)return hi;
+  if(f(lo)<0)return NaN;
+  for(let k=0;k<120;k++){const m=(lo+hi)/2;(f(m)>0?lo=m:hi=m);}
+  return (lo+hi)/2;
+}
+function lcoeCalc(I0,om,aepGWh,i,n){ /* Σcosts/(1+i)^t over Σenergy/(1+i)^t ; I0 at t=0 */
+  const a=annuity(i,n);
+  return (I0+om*a)/(aepGWh*a); /* Million BDT per GWh = BDT/kWh */
+}
+
+/* ==========================================================================
+   4. TAB — LEARNING OUTCOMES
+   ========================================================================== */
+document.getElementById("panel-outcomes").innerHTML=`
+ <h2 class="sec">${svg("grad",24)} Learning Outcomes for the Class Session</h2>
+ <p class="lede">After the completion of this class, the students will be expected to —
+ <em>click each outcome for its engineering significance, renewable energy relevance, economic importance,
+ related SDGs, and practical industrial applications.</em></p>
+ ${OUTCOMES.map((o,i)=>expander(
+  `<span class="icon-circle">${svg(["chart","gauge","calc","gear"][i],20)}</span><span><b>Outcome ${i+1}.</b> ${o.text}</span>`,
+  `<h5>Engineering significance</h5><p>${o.eng}</p>
+   <h5>Renewable energy relevance</h5><p>${o.re}</p>
+   <h5>Economic importance</h5><p>${o.econ}</p>
+   <h5>Practical industrial applications</h5><p>${o.ind}</p>
+   <h5>Related SDGs</h5><p>${chips(o.sdgs)}</p>`)).join("")}`;
+
+/* ==========================================================================
+   5. TAB — BRAIN STORMING SESSION (BOPPPS: Pre-Assessment — checking the learner)
+   ========================================================================== */
+document.getElementById("panel-brain").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Brain Storming Session</h2>
+ <div class="keytake" style="margin-top:16px"><h4>Think first</h4>
+  <p>What Have You Learned from the Last Class Session?</p></div>
+ <div class="callout navy"><h4>${svg("check",18)} BOPPPS — Pre-Assessment</h4>
+  <p>In the BOPPPS lesson model (Bridge-in · Objectives · <b>Pre-assessment</b> · Participatory learning ·
+  Post-assessment · Summary), this stage <b>checks what you, the learner, already know</b> before the
+  lesson begins. The diagnostic below probes the previous class sessions — the SD pillars, the People
+  (SIA) and Planet (EIA) lectures — plus the economic thinking you will need today. Answer each question;
+  the app then measures your readiness and pinpoints exactly what to revisit.</p></div>
+ <h3 class="subsec">${svg("check",20)} Pre-Assessment — prior-knowledge check</h3>
+ <div class="quiz-card" id="preBox"></div>`;
+const PREQ=[
+ {type:"mc",q:"Sustainable development stands on three pillars. They are:",
+  opts:["People (Social), Planet (Environment), and Profit/Prosperity (Economic)",
+        "Power, Policy, and Price","Product, Process, and People","Solar, Wind, and Hydro"],a:0,
+  topic:"SD: 3 Pillars",fix:"Revisit the previous lectures' framing — this session completes the trilogy with the Economic (Profit/Prosperity) pillar; see the SD: Economic (Profit/Prosperity) Pillar tab."},
+ {type:"mc",q:"The Engineering Perspective from the earlier pillar lectures: a renewable energy project is sustainable only when it is…",
+  opts:["Technically feasible, economically viable, environmentally responsible, and socially acceptable",
+        "Cheap, fast, large, and profitable","Subsidized, patented, exported, and automated","New, popular, digital, and scalable"],a:0,
+  topic:"Engineering Perspective",fix:"The four tests from the People/Planet lectures — today's lecture supplies the 'economically viable' test."},
+ {type:"mc",q:"From the Social (People) lecture: SIA is a framework used to…",
+  opts:["Identify and manage the social effects of new projects",
+        "Calculate the payback period","Measure wind speeds","Certify electrical equipment"],a:0,
+  topic:"Social (People) pillar",fix:"Replay the SIA lecture app — Screening → Scoping → Impact Assessment → Mitigation Measures → Monitoring & Review."},
+ {type:"mc",q:"From the Environment (Planet) lecture: the FIRST stage of the EIA framework is…",
+  opts:["Screening — decides if EIA is needed based on project type and risk",
+        "Monitoring & Audit","Impact Prediction","Decision-Making"],a:0,
+  topic:"Environment (Planet) pillar",fix:"Replay the EIA lecture app — seven stages beginning with Screening."},
+ {type:"mc",q:"SDG 7 — central to this course — is:",
+  opts:["Affordable and clean energy","Zero hunger","Life below water","Quality education"],a:0,
+  topic:"The SDGs",fix:"Review the 17 SDGs and Bangladesh's 39+1 Indicators from the earlier Brain Storming sessions; today's Aligned SDGs are 7, 8, 9, 11, 12."},
+ {type:"tf",q:"True or False: 1 BDT received today is worth more than 1 BDT received next year.",a:true,
+  topic:"Time value of money",fix:"The discount rate i converts future cash flows to present value — the foundation of NPV, IRR, BCR, and LCOE in this lecture's Economic Parameters tab."},
+ {type:"mc",q:"Electricity is bought and sold in units of…",
+  opts:["Energy — kWh or MWh","Power only — MW","Voltage — kV","Current — A"],a:0,
+  topic:"Energy vs power",fix:"Annual Energy Production (AEP) is the primary source of project revenue because electricity is sold in units of energy — see the AEP & Capacity Factor tab."},
+ {type:"mc",q:"Economic evaluation compares project costs and benefits over the project lifetime. Which cost belongs in that lifetime view?",
+  opts:["All of these: capital cost, O&M, fuel, and decommissioning",
+        "Only the initial capital cost","Only the fuel cost","Only marketing costs"],a:0,
+  topic:"Life-cycle costing",fix:"Cost Identification captures capital, O&M, fuel, externalities, and decommissioning costs — the first stage of this lecture's EA Flowchart."}
+];
+let preI=0,preScore=0,preGaps=[];
+function drawPre(){
+  const box=document.getElementById("preBox");
+  if(preI>=PREQ.length){
+    const pct=Math.round(100*preScore/PREQ.length);
+    const level=preScore>=7?["READY — proceed to the Economic (Profit/Prosperity) Pillar","good","Your prior knowledge is solid. Move straight into the lesson."]:
+      preScore>=5?["MOSTLY READY — patch the gaps first","mid","Close the flagged gaps below, then proceed to the pillar tab."]:
+      ["REVIEW NEEDED — revisit the previous sessions first","poor","Work through the remediation pointers below — this lecture builds directly on the People and Planet pillars and on basic economic thinking."];
+    STATE.preScore=pct;save();
+    box.innerHTML=`
+     <span class="qtype-tag">Pre-Assessment result</span>
+     <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:6px">
+      <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Readiness ${pct} percent">
+       <circle cx="55" cy="55" r="46" fill="none" stroke="#e8ebf1" stroke-width="11"/>
+       <circle cx="55" cy="55" r="46" fill="none" stroke="${preScore>=7?"var(--ok)":preScore>=5?"var(--warn)":"var(--bad)"}"
+        stroke-width="11" stroke-linecap="round" stroke-dasharray="${2*Math.PI*46}"
+        stroke-dashoffset="${2*Math.PI*46*(1-pct/100)}" transform="rotate(-90 55 55)"/>
+       <text x="55" y="62" text-anchor="middle" font-size="22" font-weight="800" fill="var(--navy)">${preScore}/${PREQ.length}</text>
+      </svg>
+      <div style="flex:1;min-width:220px">
+       <div class="fb ${level[1]} show" style="margin-top:0;font-weight:800">${level[0]}</div>
+       <p style="font-size:.9rem;color:var(--ink2);margin-top:8px">${level[2]}</p>
+      </div>
+     </div>
+     ${preGaps.length?`<h5 style="color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.6px;margin:16px 0 6px">Your knowledge gaps — targeted remediation</h5>
+      ${preGaps.map(g=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+       <span><b>${g.topic}:</b> ${g.fix}</span></div>`).join("")}
+      <p class="small-note">Revisit the pointed lectures and tabs, then retake the pre-assessment.</p>`:
+      `<p class="small-note" style="margin-top:12px">No gaps detected — every prerequisite from the previous sessions checked out.</p>`}
+     <div style="margin-top:14px"><button class="btn gold" id="preRestart">↻ Retake Pre-Assessment</button></div>`;
+    box.querySelector("#preRestart").addEventListener("click",()=>{preI=0;preScore=0;preGaps=[];drawPre();});
+    return;
+  }
+  const q=PREQ[preI];
+  let inner="";
+  if(q.type==="mc")inner=q.opts.map((o,i)=>`<button class="quiz-opt" data-oi="${i}">${o}</button>`).join("");
+  else inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  box.innerHTML=`
+   <span class="qtype-tag">Pre-Assessment · ${preI+1} / ${PREQ.length} · ${q.topic}</span>
+   <div class="pbar" style="background:#e8ebf1;margin:8px 0 12px"><span style="width:${preI/PREQ.length*100}%"></span></div>
+   <h3 style="font-size:1.02rem">${q.q}</h3>${inner}
+   <div class="fb" id="preFb"></div>`;
+  const settle=right=>{
+    if(right)preScore++;else preGaps.push(q);
+    box.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const fb=document.getElementById("preFb");
+    fb.className="fb show "+(right?"good":"poor");
+    fb.innerHTML=(right?"✔ Correct — prior knowledge in place.":"✖ Gap detected. <b>Remediation:</b> "+q.fix)+
+     `<div style="margin-top:10px"><button class="btn gold" id="preNext">${preI===PREQ.length-1?"See readiness report →":"Next →"}</button></div>`;
+    fb.querySelector("#preNext").addEventListener("click",()=>{preI++;drawPre();});
+    fb.querySelector("#preNext").focus();
+  };
+  box.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(q.type==="tf"){const right=(b.dataset.tf==="true")===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+    else{const right=+b.dataset.oi===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+  }));
+}
+drawPre();
+
+/* ==========================================================================
+   6. TAB — SD: ECONOMIC (PROFIT/PROSPERITY) PILLAR
+   ========================================================================== */
+document.getElementById("panel-pillar").innerHTML=`
+ <h2 class="sec">${svg("coin",24)} SD: Economic (Profit/Prosperity) Pillar</h2>
+ <h3 class="subsec">${svg("globe",20)} Interactive Triple Bottom Line (TBL) Explorer</h3>
+ <p class="lede">Sustainable development stands on People, Planet, and Profit. Click any circle of the
+ Venn diagram to see its engineering decisions, financial implications, environmental interactions, and
+ social impacts — this lecture completes the trilogy with <b>Profit/Prosperity</b>.</p>
+ <div class="card">${tblSVG()}</div>
+
+ <h3 class="subsec">${svg("coin",20)} Economic Sustainability</h3>
+ <p class="lede">The lecture's four principles, expanded into six interactive engineering cards.</p>
+ <div class="grid c3">${ECON_SUS.map(c=>expander(
+   `<span class="icon-circle">${svg(c[2],20)}</span><span>${c[0]}</span>`,
+   `<p><b>${c[1]}</b></p><h5>Engineering view</h5><p>${c[3]}</p>`)).join("")}</div>
+
+ <div class="callout">
+  <h4>${svg("sun",18)} Renewable Energy Relevance</h4>
+  <p>Students are required to evaluate life-cycle costs, assess investment returns, and align
+  techno-economic business models with sustainability principles.</p>
+  <p style="margin-top:8px"><b>Aligned SDGs: 7, 8, 9, 11, 12</b> &nbsp; ${chips([7,8,9,11,12])}</p>
+ </div>`;
+
+function tblSVG(){return `
+<svg viewBox="0 0 760 330" role="img" aria-label="Triple Bottom Line Venn diagram: People, Planet, Profit — sustainability at the centre"
+ style="width:100%;max-width:720px;display:block;margin:auto">
+ <g id="tblPlanet" style="cursor:pointer" tabindex="0" role="button" aria-label="Planet — Environmental pillar">
+   <circle cx="380" cy="115" r="95" fill="#2e7d32" opacity=".82">
+     <animate attributeName="r" values="95;98;95" dur="4s" repeatCount="indefinite"/></circle>
+   <text x="380" y="88" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="17" font-weight="800" fill="#fff">Planet</text>
+   <text x="380" y="108" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#e0f0e1">Environmental</text>
+ </g>
+ <g id="tblPeople" style="cursor:pointer" tabindex="0" role="button" aria-label="People — Social pillar">
+   <circle cx="295" cy="205" r="95" fill="#0a5a8a" opacity=".82">
+     <animate attributeName="r" values="95;98;95" dur="4s" begin="1.3s" repeatCount="indefinite"/></circle>
+   <text x="252" y="235" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="17" font-weight="800" fill="#fff">People</text>
+   <text x="252" y="255" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#d5e8f2">Social</text>
+ </g>
+ <g id="tblProfit" style="cursor:pointer" tabindex="0" role="button" aria-label="Profit — Economic pillar, the focus of this lecture">
+   <circle cx="465" cy="205" r="95" fill="#b07d10" opacity=".88" stroke="#f2b632" stroke-width="3">
+     <animate attributeName="r" values="95;99;95" dur="4s" begin="2.6s" repeatCount="indefinite"/></circle>
+   <text x="508" y="235" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="17" font-weight="800" fill="#fff">Profit</text>
+   <text x="508" y="255" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#fbeccb">Economic · this lecture</text>
+ </g>
+ <text x="380" y="185" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sustainable</text>
+ <text x="380" y="200" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5" font-weight="800" fill="#fff">Development</text>
+ <text x="380" y="318" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#4d576e">Click a pillar — a project is recommended only when all three overlap.</text>
+</svg>`;}
+const TBL_INFO={
+ tblPlanet:{t:"Planet — Environmental pillar",c:"#2e7d32",
+  eng:"EIA stages, land-use optimization, erosion control, benchmark compliance (from the Environment lecture).",
+  fin:"Environmental compliance is a cost line (mitigation, monitoring) and a revenue line (carbon credits — 15 Million BDT/year in this lecture's case study).",
+  env:"Reduced diesel consumption and lower greenhouse gas emissions are counted in the wind project's Sustainability Evaluation.",
+  soc:"A healthy environment protects the fishing and tourism livelihoods that island society depends on."},
+ tblPeople:{t:"People — Social pillar",c:"#0a5a8a",
+  eng:"Stakeholder participation, SIA, safety and equitable access (from the Social lecture).",
+  fin:"Local employment opportunities appear in the case study's Sustainability Evaluation; social acceptance de-risks the investment.",
+  env:"Communities protect the ecosystems they benefit from — social and environmental outcomes reinforce each other.",
+  soc:"Energy security and affordable electricity directly raise well-being on the island."},
+ tblProfit:{t:"Profit — Economic pillar (this lecture)",c:"#b07d10",
+  eng:"Cost identification, AEP and Capacity Factor engineering, and the EA Flowchart drive design decisions.",
+  fin:"SPP, NPV, IRR, BCR, and LCOE decide bankability — General Decision Criteria: lower SPP, higher NPV, higher IRR, BCR > 1, lower LCOE.",
+  env:"Financial feasibility must be ensured without compromising ethics or the environment.",
+  soc:"Positive economic returns fund the social benefits — no prosperity, no project, no benefits."}};
+["tblPlanet","tblPeople","tblProfit"].forEach(id=>{
+  const open=()=>{const d=TBL_INFO[id];openInfo(d.t,
+   `<h5>Engineering decisions</h5><p>${d.eng}</p><h5>Financial implications</h5><p>${d.fin}</p>
+    <h5>Environmental interactions</h5><p>${d.env}</p><h5>Social impacts</h5><p>${d.soc}</p>`,d.c);};
+  document.addEventListener("click",e=>{if(e.target.closest("#"+id))open();});
+});
+
+/* ==========================================================================
+   7. TAB — ECONOMIC PARAMETERS (interactive dashboard)
+   ========================================================================== */
+function sliderRow(id,label,min,max,step,val,unit){
+ return `<div class="crow"><label for="${id}">${label}</label>
+  <input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}">
+  <span class="cval"><span id="${id}V">${val}</span> ${unit}</span></div>`;
+}
+document.getElementById("panel-econ").innerHTML=`
+ <h2 class="sec">${svg("chart",24)} Economic Parameters</h2>
+ <p class="lede"><b>Economic Parameters for Project Evaluation.</b> Economic evaluation determines whether
+ an energy project is financially attractive and economically sustainable. The most commonly used economic
+ indicators are: Simple Payback Period (SPP), Net Present Value (NPV), Internal Rate of Return (IRR),
+ Benefit–Cost Ratio (BCR), and Levelized Cost of Energy (LCOE).</p>
+ <div class="callout navy"><h4>${svg("bulb",18)} Purpose</h4>
+  <p>These indicators compare project costs and benefits over the project lifetime and support investment
+  decision making.</p></div>
+
+ <!-- ============ SPP ============ -->
+ <div class="calc"><h4>${svg("calc",20)} Simple Payback Period (SPP) — interactive calculator</h4>
+  <p style="font-size:.9rem;color:var(--ink2)"><b>Definition:</b> time required to recover the initial
+  investment from annual net savings.</p>
+  <div class="formula">SPP = <span class="frac"><span>Initial Investment</span><span>Annual Net Cash Flow</span></span></div>
+  ${sliderRow("sppI","Initial Investment",100,2000,10,600,"Million BDT")}
+  ${sliderRow("sppCF","Annual Net Cash Flow",10,400,5,150,"Million BDT/yr")}
+  <div class="result-strip">
+   <div class="res" id="sppRes"><div class="rv" id="sppV">4.0</div><div class="rl">SPP (years)</div></div>
+  </div>
+  <svg class="cf-chart" id="sppChart" viewBox="0 0 720 190" preserveAspectRatio="none" role="img" aria-label="Animated cash-flow payback timeline"></svg>
+  <p class="small-note"><b>Decision interpretation:</b> lower SPP is preferred (General Decision Criteria).
+  Lecture example: 600 / 150 = 4 years. <b>Engineering application:</b> quick screening of retrofit and
+  energy-efficiency measures where simplicity beats rigor — SPP ignores the time value of money and
+  everything after payback.</p>
+ </div>
+
+ <!-- ============ NPV ============ -->
+ <div class="calc"><h4>${svg("chart",20)} Net Present Value (NPV) — discounted cash-flow calculator</h4>
+  <p style="font-size:.9rem;color:var(--ink2)"><b>Definition:</b> NPV represents the present value of all
+  future cash flows after accounting for the initial investment.</p>
+  <div class="formula">NPV = <span style="font-size:1.5em;vertical-align:-4px">Σ</span><sup>n</sup><sub>t=1</sub>
+   <span class="frac"><span>CF<sub>t</sub></span><span>(1 + i)<sup>t</sup></span></span> − I<sub>0</sub></div>
+  <p class="small-note">where CF<sub>t</sub> = cash flow in year t; i = discount rate; I<sub>0</sub> = initial investment.</p>
+  ${sliderRow("npvI","Initial Investment I₀",100,2000,10,600,"Million BDT")}
+  ${sliderRow("npvCF","Annual Cash Flow CFₜ",10,400,5,150,"Million BDT/yr")}
+  ${sliderRow("npvR","Discount Rate i",0,25,0.5,10,"%")}
+  ${sliderRow("npvN","Project Lifetime n",5,40,1,20,"years")}
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="npvPV">—</div><div class="rl">PV of cash flows</div></div>
+   <div class="res" id="npvRes"><div class="rv" id="npvV">—</div><div class="rl">NPV (Million BDT)</div></div>
+  </div>
+  <svg class="cf-chart" id="npvChart" viewBox="0 0 720 190" preserveAspectRatio="none" role="img" aria-label="Discounted cash-flow bars with cumulative NPV line"></svg>
+  <div class="verdict" id="npvVerdict"></div>
+  <p class="small-note">Lecture example: PV of future cash flows = 820, I₀ = 600 ⇒ NPV = +220 Million BDT.
+  Positive NPV ⇒ profitable; NPV = 0 is break-even; negative NPV destroys value.</p>
+ </div>
+
+ <!-- ============ IRR ============ -->
+ <div class="calc"><h4>${svg("gauge",20)} Internal Rate of Return (IRR) — NPV → 0 visualization</h4>
+  <p style="font-size:.9rem;color:var(--ink2)"><b>Definition:</b> IRR is the discount rate that makes the
+  project's NPV equal to zero.</p>
+  <div class="formula">0 = <span style="font-size:1.5em;vertical-align:-4px">Σ</span><sup>n</sup><sub>t=1</sub>
+   <span class="frac"><span>CF<sub>t</sub></span><span>(1 + IRR)<sup>t</sup></span></span> − I<sub>0</sub></div>
+  ${sliderRow("irrI","Initial Investment I₀",100,2000,10,600,"Million BDT")}
+  ${sliderRow("irrCF","Annual Cash Flow CFₜ",10,400,5,150,"Million BDT/yr")}
+  ${sliderRow("irrN","Project Lifetime n",5,40,1,20,"years")}
+  ${sliderRow("irrReq","Required Rate of Return",1,30,0.5,10,"%")}
+  <div class="result-strip">
+   <div class="res" id="irrRes"><div class="rv" id="irrV">—</div><div class="rl">IRR</div></div>
+  </div>
+  <svg class="cf-chart" id="irrChart" viewBox="0 0 720 190" preserveAspectRatio="none" role="img" aria-label="NPV versus discount rate curve; IRR is where the curve crosses zero"></svg>
+  <div class="verdict" id="irrVerdict"></div>
+  <p class="small-note"><b>Decision Rule:</b> IRR &gt; Required Rate of Return ⇒ Accept; IRR &lt; Required
+  Rate of Return ⇒ Reject. Lecture example: required return 10%, calculated IRR 15% ⇒ 15% &gt; 10% — the
+  project is financially attractive.</p>
+ </div>
+
+ <!-- ============ BCR ============ -->
+ <div class="calc"><h4>${svg("scale",20)} Benefit–Cost Ratio (BCR) — comparison bars</h4>
+  <p style="font-size:.9rem;color:var(--ink2)"><b>Definition:</b> compares the present value of project
+  benefits with the present value of project costs.</p>
+  <div class="formula">BCR = <span class="frac"><span>Present Value of Benefits</span><span>Present Value of Costs</span></span></div>
+  ${sliderRow("bcrB","Present Value of Benefits",100,2000,10,900,"Million BDT")}
+  ${sliderRow("bcrC","Present Value of Costs",100,2000,10,600,"Million BDT")}
+  <div class="bar-row"><div class="bl"><span>Benefits</span><span id="bcrBLbl">900</span></div>
+   <div class="bar-track"><div class="bar-fill" id="bcrBBar" style="background:var(--ok)"></div></div></div>
+  <div class="bar-row"><div class="bl"><span>Costs</span><span id="bcrCLbl">600</span></div>
+   <div class="bar-track"><div class="bar-fill" id="bcrCBar" style="background:var(--bad)"></div></div></div>
+  <div class="result-strip"><div class="res" id="bcrRes"><div class="rv" id="bcrV">1.50</div><div class="rl">BCR</div></div></div>
+  <div class="verdict" id="bcrVerdict"></div>
+  <p class="small-note"><b>Decision Rule:</b> BCR &gt; 1 ⇒ project is economically feasible.
+  Lecture example: 900 / 600 = 1.50.</p>
+ </div>
+
+ <!-- ============ LCOE ============ -->
+ <div class="calc"><h4>${svg("coin",20)} Levelized Cost of Energy (LCOE) — premium calculator</h4>
+  <p style="font-size:.9rem;color:var(--ink2)"><b>Definition:</b> average cost of generating one unit of
+  electricity over the entire project lifetime.</p>
+  <div class="formula">LCOE = <span class="frac">
+    <span>Σ<sup>n</sup><sub>t=0</sub> C<sub>t</sub> / (1 + i)<sup>t</sup></span>
+    <span>Σ<sup>n</sup><sub>t=1</sub> E<sub>t</sub> / (1 + i)<sup>t</sup></span></span></div>
+  <p class="small-note">where C<sub>t</sub> = annual project cost; E<sub>t</sub> = annual electricity generation; i = discount rate.</p>
+  ${sliderRow("lcCap","CAPEX (C₀)",100,3000,10,1200,"Million BDT")}
+  ${sliderRow("lcOm","Annual O&M cost",0,120,1,33,"Million BDT/yr")}
+  ${sliderRow("lcR","Discount rate i",0,25,0.5,10,"%")}
+  ${sliderRow("lcN","Project lifetime n",5,40,1,20,"years")}
+  ${sliderRow("lcAep","Annual Energy Production (AEP)",1,60,0.5,14,"GWh/yr")}
+  <div class="result-strip">
+   <div class="res" id="lcRes"><div class="rv" id="lcV">—</div><div class="rl">LCOE (BDT/kWh)</div></div>
+  </div>
+  <div class="bar-row"><div class="bl"><span>LCOE vs typical diesel (~25 BDT/kWh)</span><span id="lcCmp"></span></div>
+   <div class="bar-track"><div class="bar-fill" id="lcBar" style="background:linear-gradient(90deg,var(--ok),var(--warn),var(--bad))"></div></div></div>
+  <p class="small-note"><b>Engineering interpretation:</b> lower LCOE indicates a more cost-effective
+  power generation technology. Lecture example: 950 / 120 = 7.92 BDT/kWh.</p>
+ </div>
+
+ <h3 class="subsec">${svg("book",20)} Summary of Economic Parameters</h3>
+ <table class="simple"><tr><th>Parameter</th><th>Primary Purpose</th></tr>
+  ${PARAMS_TABLE.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
+ <div class="callout"><h4>${svg("check",18)} General Decision Criteria</h4>
+  <p>${CRITERIA.join(" · ")}</p></div>
+
+ <h3 class="subsec">${svg("chart",20)} Interactive Economic Comparison — animated radar</h3>
+ <p class="lede">Compare technologies on all five indicators at once, for a standard 5 MW project
+ (tariff 12 BDT/kWh, discount rate 10%). Values are illustrative teaching figures computed with the
+ lecture's formulas — toggle technologies to overlay them.</p>
+ <div class="card">
+  <div class="crow" id="radarToggles" style="gap:8px"></div>
+  <svg id="radarSVG" viewBox="0 0 560 420" style="width:100%;max-width:640px;display:block;margin:auto"
+   role="img" aria-label="Radar chart comparing technologies on SPP, NPV, IRR, BCR, LCOE"></svg>
+  <p class="small-note">Axes are normalized so that farther from the centre is always better
+  (SPP and LCOE are inverted). Diesel's high fuel cost dominates its O&M figure.</p>
+ </div>
+
+ <h3 class="subsec">${svg("check",20)} Decision Dashboard</h3>
+ <p class="lede">Select a technology — the dashboard applies the General Decision Criteria and grades the
+ investment automatically.</p>
+ <div class="card">
+  <div class="crow"><label for="ddTech">Technology:</label>
+   <select id="ddTech" class="match" style="max-width:240px;margin:0">
+    ${Object.keys(TECHS).map(t=>`<option>${t}</option>`).join("")}</select></div>
+  <div class="result-strip" id="ddStrip"></div>
+  <div class="verdict" id="ddVerdict"></div>
+  <p class="small-note" id="ddWhy"></p>
+ </div>`;
+
+/* ---- calculator wiring ---- */
+function wireSliders(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);
+  el.addEventListener("input",()=>{document.getElementById(id+"V").textContent=el.value;fn();});});fn();}
+const V=id=>+document.getElementById(id).value;
+
+/* SPP */
+function drawSPP(){
+  const I=V("sppI"),CF=V("sppCF"),spp=I/CF;
+  document.getElementById("sppV").textContent=fmt(spp,1);
+  document.getElementById("sppRes").className="res "+(spp<=5?"good":spp<=10?"warn":"bad");
+  /* timeline: cumulative cash vs years */
+  const yrs=Math.min(25,Math.ceil(spp)+5),w=720,h=190,pad=34;
+  let bars="";
+  for(let t=1;t<=yrs;t++){
+    const x=pad+(t-1)*( (w-pad-10)/yrs ),bw=(w-pad-10)/yrs*0.62;
+    const cum=Math.min(1.6,CF*t/I);
+    const bh=cum*(h-46)/1.6;
+    bars+=`<rect x="${x}" y="${h-26-bh}" width="${bw}" height="${bh}" rx="2"
+      fill="${CF*t>=I?"var(--ok)":"#b8c4d8"}"><animate attributeName="height" from="0" to="${bh}" dur="0.5s" fill="freeze"/></rect>`;
+  }
+  const py=h-26-(1*(h-46)/1.6);
+  const px=pad+spp*((w-pad-10)/yrs)-((w-pad-10)/yrs)*0.19;
+  document.getElementById("sppChart").innerHTML=bars+
+   `<line x1="${pad}" y1="${py}" x2="${w-8}" y2="${py}" stroke="var(--bad)" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <text x="${pad+2}" y="${py-5}" font-size="11" fill="var(--bad)" font-weight="700">Initial investment recovered</text>
+    ${spp<=yrs?`<line x1="${px}" y1="18" x2="${px}" y2="${h-24}" stroke="var(--teal2)" stroke-width="2"/>
+    <text x="${Math.min(px+4,w-120)}" y="16" font-size="11.5" fill="var(--teal2)" font-weight="800">SPP ≈ ${fmt(spp,1)} yr</text>`:""}
+    <line x1="${pad}" y1="${h-26}" x2="${w-8}" y2="${h-26}" stroke="#9aa7bd"/>
+    <text x="${w-60}" y="${h-8}" font-size="11" fill="#4d576e">years →</text>`;
+}
+wireSliders(["sppI","sppCF"],drawSPP);
+
+/* NPV */
+function drawNPV(){
+  const I=V("npvI"),CF=V("npvCF"),r=V("npvR")/100,n=V("npvN");
+  const pv=CF*annuity(r,n),npv=pv-I;
+  document.getElementById("npvPV").textContent=fmt(pv,0);
+  document.getElementById("npvV").textContent=(npv>=0?"+":"")+fmt(npv,0);
+  document.getElementById("npvRes").className="res "+(npv>2?"good":npv<-2?"bad":"warn");
+  const vd=document.getElementById("npvVerdict");
+  if(npv>2){vd.className="verdict accept";vd.textContent="NPV > 0 — the project adds value (measures overall profitability)";}
+  else if(npv<-2){vd.className="verdict reject";vd.textContent="NPV < 0 — the project destroys value";}
+  else{vd.className="verdict marginal";vd.textContent="NPV ≈ 0 — break-even: this discount rate is the IRR";}
+  /* bars: discounted CF per year + cumulative line */
+  const w=720,h=190,pad=34,maxBar=CF;
+  let els="",cum=-I;const pts=[];
+  for(let t=1;t<=n;t++){
+    const dcf=CF/Math.pow(1+r,t);cum+=dcf;
+    const x=pad+(t-1)*((w-pad-10)/n),bw=(w-pad-10)/n*0.6;
+    const bh=(dcf/maxBar)*(h-70);
+    els+=`<rect x="${x}" y="${h-30-bh}" width="${Math.max(1.5,bw)}" height="${bh}" fill="var(--gold)" rx="2" opacity=".85"/>`;
+    pts.push([x+bw/2,cum]);
+  }
+  const cmin=Math.min(-I,0),cmax=Math.max(cum,10);
+  const cy=v=>18+(1-(v-cmin)/(cmax-cmin))*(h-58);
+  const line=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+cy(p[1]).toFixed(1)).join(" ");
+  els+=`<line x1="${pad}" y1="${cy(0)}" x2="${w-8}" y2="${cy(0)}" stroke="#9aa7bd" stroke-dasharray="4 4"/>
+   <text x="${pad+2}" y="${cy(0)-4}" font-size="10.5" fill="#4d576e">cumulative = 0</text>
+   <path d="${line}" fill="none" stroke="var(--navy)" stroke-width="2.4"/>
+   <line x1="${pad}" y1="${h-30}" x2="${w-8}" y2="${h-30}" stroke="#9aa7bd"/>
+   <text x="${w-140}" y="${h-8}" font-size="11" fill="#4d576e">gold bars: CFₜ/(1+i)ᵗ</text>`;
+  document.getElementById("npvChart").innerHTML=els;
+}
+wireSliders(["npvI","npvCF","npvR","npvN"],drawNPV);
+
+/* IRR */
+function drawIRR(){
+  const I=V("irrI"),CF=V("irrCF"),n=V("irrN"),req=V("irrReq")/100;
+  const irr=irrCalc(I,CF,n);
+  document.getElementById("irrV").textContent=Number.isFinite(irr)?fmt(irr*100,1)+"%":"n/a";
+  document.getElementById("irrRes").className="res "+(irr>req?"good":"bad");
+  const vd=document.getElementById("irrVerdict");
+  if(!Number.isFinite(irr)){vd.className="verdict reject";vd.textContent="Cash flows never recover the investment — Reject";}
+  else if(irr>req){vd.className="verdict accept";vd.textContent=`ACCEPT — IRR ${fmt(irr*100,1)}% > Required Rate of Return ${fmt(req*100,1)}%`;}
+  else{vd.className="verdict reject";vd.textContent=`REJECT — IRR ${fmt(irr*100,1)}% < Required Rate of Return ${fmt(req*100,1)}%`;}
+  /* NPV vs discount-rate curve */
+  const w=720,h=190,pad=40,rMax=0.32;
+  const npv0=npvCalc(I,CF,0.0001,n);
+  const yMax=Math.max(npv0,10),yMin=Math.min(npvCalc(I,CF,rMax,n),-10);
+  const X=r=>pad+(r/rMax)*(w-pad-14),Y=v=>16+(1-(v-yMin)/(yMax-yMin))*(h-52);
+  let d="";
+  for(let k=0;k<=64;k++){const r=k/64*rMax,v=npvCalc(I,CF,Math.max(r,1e-4),n);d+=(k?"L":"M")+X(r).toFixed(1)+" "+Y(v).toFixed(1);}
+  let extra="";
+  if(Number.isFinite(irr)&&irr<=rMax)extra=
+   `<circle cx="${X(irr)}" cy="${Y(0)}" r="6" fill="var(--gold)" stroke="var(--navy)" stroke-width="2">
+      <animate attributeName="r" values="6;9;6" dur="1.6s" repeatCount="indefinite"/></circle>
+    <text x="${Math.min(X(irr)+8,w-110)}" y="${Y(0)-10}" font-size="12" font-weight="800" fill="var(--navy)">IRR = ${fmt(irr*100,1)}%</text>`;
+  document.getElementById("irrChart").innerHTML=
+   `<line x1="${pad}" y1="${Y(0)}" x2="${w-10}" y2="${Y(0)}" stroke="#9aa7bd"/>
+    <text x="${pad+2}" y="${Y(0)+14}" font-size="10.5" fill="#4d576e">NPV = 0</text>
+    <line x1="${X(req)}" y1="14" x2="${X(req)}" y2="${h-30}" stroke="var(--bad)" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <text x="${Math.min(X(req)+4,w-160)}" y="26" font-size="11" fill="var(--bad)" font-weight="700">required ${fmt(req*100,1)}%</text>
+    <path d="${d}" fill="none" stroke="var(--navy)" stroke-width="2.4"/>${extra}
+    <text x="${w-130}" y="${h-6}" font-size="11" fill="#4d576e">discount rate →</text>`;
+}
+wireSliders(["irrI","irrCF","irrN","irrReq"],drawIRR);
+
+/* BCR */
+function drawBCR(){
+  const B=V("bcrB"),C=V("bcrC"),bcr=B/C,mx=Math.max(B,C);
+  document.getElementById("bcrBLbl").textContent=fmt(B,0)+" M BDT";
+  document.getElementById("bcrCLbl").textContent=fmt(C,0)+" M BDT";
+  document.getElementById("bcrBBar").style.width=(B/mx*100)+"%";
+  document.getElementById("bcrCBar").style.width=(C/mx*100)+"%";
+  document.getElementById("bcrV").textContent=fmt(bcr,2);
+  document.getElementById("bcrRes").className="res "+(bcr>1.02?"good":bcr<0.98?"bad":"warn");
+  const vd=document.getElementById("bcrVerdict");
+  if(bcr>1.02){vd.className="verdict accept";vd.textContent=`ACCEPT — BCR ${fmt(bcr,2)} > 1 ⇒ project is economically feasible`;}
+  else if(bcr<0.98){vd.className="verdict reject";vd.textContent=`REJECT — BCR ${fmt(bcr,2)} < 1 ⇒ costs exceed benefits`;}
+  else{vd.className="verdict marginal";vd.textContent="BCR ≈ 1 — marginal: benefits barely cover costs";}
+}
+wireSliders(["bcrB","bcrC"],drawBCR);
+
+/* LCOE */
+function drawLCOE(){
+  const cap=V("lcCap"),om=V("lcOm"),r=V("lcR")/100,n=V("lcN"),aep=V("lcAep");
+  const lcoe=lcoeCalc(cap,om,aep,Math.max(r,1e-4),n);
+  document.getElementById("lcV").textContent=fmt(lcoe,2);
+  document.getElementById("lcRes").className="res "+(lcoe<10?"good":lcoe<15?"warn":"bad");
+  document.getElementById("lcBar").style.width=Math.min(100,lcoe/25*100)+"%";
+  document.getElementById("lcCmp").textContent=lcoe<25?fmt((1-lcoe/25)*100,0)+"% cheaper than diesel":"costlier than diesel";
+}
+wireSliders(["lcCap","lcOm","lcR","lcN","lcAep"],drawLCOE);
+
+/* ---- Technology metrics for radar & decision dashboard ---- */
+function techMetrics(name){
+  const t=TECHS[name],Pr=5,tariff=12,i=0.10,n=t.life;
+  const aep=Pr*8760*t.cf/100/1000;               /* GWh/yr */
+  const rev=aep*tariff;                          /* M BDT/yr (GWh × BDT/kWh = M BDT) */
+  const I0=t.capexMW*Pr;                         /* M BDT */
+  const cf=rev-t.om*Pr;                          /* net annual cash flow */
+  return {aep,I0,cfNet:cf,
+    spp:cf>0?I0/cf:Infinity,
+    npv:npvCalc(I0,cf,i,n),
+    irr:irrCalc(I0,cf,n),
+    bcr:(rev*annuity(i,n))/(I0+t.om*Pr*annuity(i,n)),
+    lcoe:lcoeCalc(I0,t.om*Pr,aep,i,n)};
+}
+/* radar */
+const AXES=["SPP","NPV","IRR","BCR","LCOE"];
+let radarOn=new Set(["Solar PV","Wind","Diesel Generator"]);
+const radarToggles=document.getElementById("radarToggles");
+radarToggles.innerHTML=Object.keys(TECHS).map(t=>`
+ <button class="pick" style="display:inline-block;width:auto;padding:7px 14px;margin:3px;border-color:${TECHS[t].color};${radarOn.has(t)?`background:${TECHS[t].color}22;font-weight:700`:""}"
+  data-rt="${t}" aria-pressed="${radarOn.has(t)}">${t}</button>`).join("");
+radarToggles.addEventListener("click",e=>{
+  const b=e.target.closest("[data-rt]");if(!b)return;
+  const t=b.dataset.rt;
+  if(radarOn.has(t)){radarOn.delete(t);b.style.background="";b.style.fontWeight="";b.setAttribute("aria-pressed","false");}
+  else{radarOn.add(t);b.style.background=TECHS[t].color+"22";b.style.fontWeight="700";b.setAttribute("aria-pressed","true");}
+  drawRadar();
+});
+function norm(name){
+  const m=techMetrics(name);
+  /* normalize 0..1, higher=better; clamp */
+  const cl=x=>Math.max(0.04,Math.min(1,x));
+  return [cl(1-(Math.min(m.spp,20)-1)/19),          /* SPP: 1yr→1, 20yr→0 */
+          cl((m.npv+500)/2500),                     /* NPV: −500..2000 */
+          cl((Number.isFinite(m.irr)?m.irr:0)/0.35),/* IRR: 0..35% */
+          cl((m.bcr-0.5)/1.5),                      /* BCR: 0.5..2 */
+          cl(1-(Math.min(m.lcoe,26)-4)/22)];        /* LCOE: 4→1, 26→0 */
+}
+function drawRadar(){
+  const cx=280,cy=205,R=150,N=AXES.length;
+  const pt=(k,f)=>{const a=-Math.PI/2+k*2*Math.PI/N;return [cx+f*R*Math.cos(a),cy+f*R*Math.sin(a)];};
+  let g="";
+  for(let ring=1;ring<=4;ring++){
+    g+="<polygon points='"+AXES.map((_,k)=>pt(k,ring/4).map(v=>v.toFixed(1)).join(",")).join(" ")+
+       "' fill='none' stroke='#dfe3ec'/>";
+  }
+  AXES.forEach((ax,k)=>{const[x,y]=pt(k,1);const[lx,ly]=pt(k,1.16);
+    g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#dfe3ec"/>
+        <text x="${lx}" y="${ly}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--navy)">${ax}</text>`;});
+  [...radarOn].forEach(t=>{
+    const v=norm(t);
+    const pts=v.map((f,k)=>pt(k,f).map(x=>x.toFixed(1)).join(",")).join(" ");
+    g+=`<polygon points="${pts}" fill="${TECHS[t].color}" opacity="0.20" stroke="${TECHS[t].color}" stroke-width="2.4">
+        <animate attributeName="opacity" from="0" to="0.20" dur="0.6s"/></polygon>`;
+    g+=v.map((f,k)=>{const[x,y]=pt(k,f);return `<circle cx="${x}" cy="${y}" r="3.6" fill="${TECHS[t].color}"/>`;}).join("");
+  });
+  g+=[...radarOn].map((t,i)=>`<rect x="20" y="${370+i*0}" width="0" height="0"/>`).join("");
+  /* legend */
+  g+=[...radarOn].map((t,i)=>`<g><rect x="${20+i*180}" y="392" width="13" height="13" rx="3" fill="${TECHS[t].color}"/>
+     <text x="${38+i*180}" y="403" font-size="12.5" fill="var(--ink)">${t}</text></g>`).join("");
+  document.getElementById("radarSVG").innerHTML=g;
+}
+drawRadar();
+/* decision dashboard */
+function drawDD(){
+  const name=document.getElementById("ddTech").value,m=techMetrics(name);
+  const rows=[["SPP",fmt(m.spp,1)+" yr",m.spp<=6?2:m.spp<=10?1:0],
+    ["NPV",(m.npv>=0?"+":"")+fmt(m.npv,0)+" M BDT",m.npv>200?2:m.npv>0?1:0],
+    ["IRR",Number.isFinite(m.irr)?fmt(m.irr*100,1)+"%":"n/a",m.irr>0.15?2:m.irr>0.10?1:0],
+    ["BCR",fmt(m.bcr,2),m.bcr>1.3?2:m.bcr>1?1:0],
+    ["LCOE",fmt(m.lcoe,2)+" BDT/kWh",m.lcoe<9?2:m.lcoe<13?1:0]];
+  document.getElementById("ddStrip").innerHTML=rows.map(r=>`
+   <div class="res ${r[2]===2?"good":r[2]===1?"warn":"bad"}"><div class="rv">${r[1]}</div><div class="rl">${r[0]}</div></div>`).join("");
+  const score=rows.reduce((a,r)=>a+r[2],0);
+  const vd=document.getElementById("ddVerdict");
+  let label,cls;
+  if(score>=9){label="EXCELLENT investment";cls="accept";}
+  else if(score>=6){label="GOOD investment";cls="accept";}
+  else if(score>=4){label="MARGINAL investment";cls="marginal";}
+  else{label="POOR investment";cls="reject";}
+  vd.className="verdict "+cls;vd.textContent=label+` — score ${score}/10 on the General Decision Criteria`;
+  document.getElementById("ddWhy").innerHTML=
+   `Applying the lecture's criteria (lower SPP · higher NPV · higher IRR · BCR &gt; 1 · lower LCOE) to a
+    standard 5 MW project at 12 BDT/kWh: green cells satisfy the criterion comfortably, amber are marginal,
+    red fail. ${name==="Diesel Generator"?"Diesel's low CAPEX gives it a deceptively fast payback in some settings, but its fuel-dominated O&M destroys NPV and LCOE — exactly why the case study replaces diesel.":""}`;
+}
+document.getElementById("ddTech").addEventListener("change",drawDD);
+drawDD();
+
+/* ==========================================================================
+   8. TAB — AEP & CAPACITY FACTOR
+   ========================================================================== */
+document.getElementById("panel-aep").innerHTML=`
+ <h2 class="sec">${svg("gauge",24)} Annual Energy Production (AEP)</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition</h4>
+  <p><b>Annual Energy Production (AEP)</b> is the total electrical energy generated by a power plant in
+  one year. AEP is the primary source of project revenue because electricity is sold in units of energy
+  (kWh or MWh). Therefore, accurate estimation of AEP is critical for economic analysis.</p></div>
+ <div class="formula">Revenue = AEP × Electricity Tariff</div>
+
+ <h3 class="subsec">${svg("gear",20)} Energy-production &amp; Revenue Simulator</h3>
+ <p class="lede">Move the sliders — the animated cash counter and revenue trend update continuously.</p>
+ <div class="calc">
+  ${sliderRow("aepPr","Rated Capacity Pr",0.5,50,0.5,2,"MW")}
+  ${sliderRow("aepCF","Capacity Factor CF",5,80,1,20,"%")}
+  ${sliderRow("aepAv","Availability",80,100,1,100,"%")}
+  ${sliderRow("aepTar","Electricity Tariff",2,25,0.5,10,"BDT/kWh")}
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="aepOut">—</div><div class="rl">AEP (MWh/year)</div></div>
+   <div class="res good"><div class="rv" id="revOut" style="font-variant-numeric:tabular-nums">—</div><div class="rl">Annual Revenue (Million BDT)</div></div>
+  </div>
+  <svg class="cf-chart" id="revTrend" viewBox="0 0 720 170" preserveAspectRatio="none"
+   role="img" aria-label="Revenue trend versus capacity factor with current operating point"></svg>
+  <p class="small-note"><b>Revenue sensitivity:</b> the curve shows annual revenue across the whole CF
+  range at your chosen capacity and tariff — the marker is your current operating point. AEP here uses
+  AEP = Pr × 8760 × CF × Availability.</p>
+ </div>
+
+ <h2 class="sec" style="margin-top:40px">${svg("gauge",24)} Capacity Factor</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition</h4>
+  <p><b>Capacity Factor</b> relates the actual annual energy production to the maximum possible energy
+  production. Higher Capacity Factor generally results in greater annual revenue.</p></div>
+ <div class="formula">CF = <span class="frac"><span>AEP</span><span>P<sub>r</sub> × 8760</span></span></div>
+ <p class="small-note">where AEP = Annual Energy Production (MWh/year); P<sub>r</sub> = Rated (Installed)
+ Capacity (MW); 8760 = hours in one year.</p>
+
+ <h3 class="subsec">${svg("gauge",20)} Capacity Factor Explorer &amp; Dashboard</h3>
+ <p class="lede">Adjust the six engineering levers — AEP, Capacity Factor, Revenue, NPV, and LCOE all
+ change simultaneously. The turbine spins faster and the PV array brightens as CF rises. (Base project:
+ 5 MW, CAPEX 1200 M BDT, O&amp;M 33 M BDT/yr, tariff 12 BDT/kWh, 20 years, 10% discount rate.)</p>
+ <div class="calc">
+  <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;flex-wrap:wrap">
+   <div>
+    ${sliderRow("cfRes","Resource quality (gross CF potential)",10,60,1,40,"%")}
+    ${sliderRow("cfEff","Equipment efficiency",70,100,1,92,"%")}
+    ${sliderRow("cfLoss","System losses",0,20,1,5,"%")}
+    ${sliderRow("cfMaint","Maintenance downtime",0,15,1,3,"%")}
+    ${sliderRow("cfGrid","Grid outage",0,15,1,2,"%")}
+    ${sliderRow("cfCurt","Curtailment",0,20,1,0,"%")}
+   </div>
+   <div id="cfViz" style="text-align:center;min-width:230px"></div>
+  </div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="cfV">—</div><div class="rl">Capacity Factor</div></div>
+   <div class="res"><div class="rv" id="cfAep">—</div><div class="rl">AEP (GWh/yr)</div></div>
+   <div class="res"><div class="rv" id="cfRev">—</div><div class="rl">Revenue (M BDT/yr)</div></div>
+   <div class="res" id="cfNpvRes"><div class="rv" id="cfNpv">—</div><div class="rl">NPV (M BDT)</div></div>
+   <div class="res"><div class="rv" id="cfLcoe">—</div><div class="rl">LCOE (BDT/kWh)</div></div>
+  </div>
+  <p class="small-note">Effective CF = resource CF × efficiency × (1 − losses) × (1 − downtime) ×
+  (1 − grid outage) × (1 − curtailment). Watch NPV flip sign as CF collapses — capacity factor IS the
+  business case.</p>
+ </div>
+
+ <h3 class="subsec">${svg("gear",20)} Factors Affecting AEP and Capacity Factor</h3>
+ <p class="lede">The lecture's factors as interactive engineering cards — click each for engineering
+ impact, economic consequence, and mitigation strategy.</p>
+ ${FACTORS.map(f=>expander(
+  `<span class="icon-circle">${svg("gear",20)}</span><span><b>${f[0]}</b><br>
+   <span style="font-weight:400;font-size:.85rem;color:var(--ink2)">${f[1]}</span></span>`,
+  `<h5>Engineering impact</h5><p>${f[2]}</p><h5>Economic consequence</h5><p>${f[3]}</p>
+   <h5>Mitigation strategy</h5><p>${f[4]}</p>`)).join("")}
+
+ <h3 class="subsec">${svg("calc",20)} Example: Estimating Annual Revenue</h3>
+ <p class="lede">The lecture example, made interactive — every calculation step is displayed and updates live.</p>
+ <div class="calc">
+  ${sliderRow("exPr","Rated Capacity",0.5,20,0.5,2,"MW")}
+  ${sliderRow("exCF","Capacity Factor",5,80,1,20,"%")}
+  ${sliderRow("exTar","Electricity Tariff",2,25,0.5,10,"BDT/kWh")}
+  <div class="formula" id="exStep1"></div>
+  <div class="formula" id="exStep2"></div>
+  <p class="small-note">Lecture values (2 MW, 20%, 10 BDT/kWh): AEP = 2 × 8760 × 0.20 = 3504 MWh/year;
+  Revenue = 3504 × 1000 × 10 = 35.04 Million BDT/year.</p>
+ </div>
+
+ <h3 class="subsec">${svg("bulb",20)} Why are AEP and Capacity Factor Important?</h3>
+ <div class="grid c3">
+  ${["Determine annual electricity sales.","Directly influence annual project revenue.",
+     "Affect Simple Payback Period, NPV, IRR and BCR.","Used by investors to assess financial viability.",
+     "Essential inputs for Levelized Cost of Energy (LCOE)."].map((x,i)=>`
+   <div class="card"><h4><span class="icon-circle" style="background:var(--navy);color:#fff;font-weight:800">${i+1}</span>${x}</h4></div>`).join("")}
+ </div>
+ <div class="keytake"><h4>Key Takeaways — Critical Relationship</h4>
+  <p>Resource → AEP → Revenue → Economic Feasibility<br>
+  <span style="font-size:.95rem;font-weight:400">AEP determines how much electricity is sold ·
+  Capacity Factor measures how effectively the installed capacity is utilized ·
+  Higher AEP generally leads to higher revenue and improved project economics.</span></p></div>`;
+
+/* AEP simulator */
+let lastRev=0;
+function drawAEP(){
+  const Pr=V("aepPr"),cf=V("aepCF")/100,av=V("aepAv")/100,tar=V("aepTar");
+  const aep=Pr*8760*cf*av;                    /* MWh */
+  const rev=aep*1000*tar/1e6;                 /* Million BDT */
+  document.getElementById("aepOut").textContent=fmt(aep,0);
+  /* animated counter */
+  const el=document.getElementById("revOut"),from=lastRev,to=rev,t0=performance.now();
+  lastRev=rev;
+  (function tick(now){
+    const p=Math.min(1,(now-t0)/450);
+    el.textContent=fmt(from+(to-from)*p,2);
+    if(p<1)requestAnimationFrame(tick);
+  })(t0);
+  /* revenue-vs-CF curve */
+  const w=720,h=170,pad=38;
+  const revAt=c=>Pr*8760*c*av*1000*tar/1e6;
+  const mx=revAt(0.8);
+  const X=c=>pad+(c-0.05)/(0.80-0.05)*(w-pad-14),Y=v=>14+(1-v/mx)*(h-48);
+  let d="";
+  for(let k=0;k<=50;k++){const c=0.05+k/50*0.75;d+=(k?"L":"M")+X(c).toFixed(1)+" "+Y(revAt(c)).toFixed(1);}
+  document.getElementById("revTrend").innerHTML=
+   `<path d="${d}" fill="none" stroke="var(--navy)" stroke-width="2.4"/>
+    <line x1="${pad}" y1="${h-34}" x2="${w-10}" y2="${h-34}" stroke="#9aa7bd"/>
+    <circle cx="${X(cf)}" cy="${Y(rev)}" r="7" fill="var(--gold)" stroke="var(--navy)" stroke-width="2">
+     <animate attributeName="r" values="7;9;7" dur="1.6s" repeatCount="indefinite"/></circle>
+    <text x="${Math.min(X(cf)+10,w-190)}" y="${Math.max(16,Y(rev)-10)}" font-size="12" font-weight="800" fill="var(--navy)">CF ${fmt(cf*100,0)}% → ${fmt(rev,1)} M BDT/yr</text>
+    <text x="${w-130}" y="${h-10}" font-size="11" fill="#4d576e">Capacity Factor →</text>`;
+}
+wireSliders(["aepPr","aepCF","aepAv","aepTar"],drawAEP);
+
+/* CF explorer */
+function turbineSVG(cf){
+  const spin=cf>0.02?(2.2/Math.max(cf,0.05)).toFixed(2):"0";
+  const glow=Math.min(1,cf/0.5);
+  return `
+<svg viewBox="0 0 230 240" width="230" height="240" role="img" aria-label="Animated wind turbine and PV array; speed and brightness follow capacity factor">
+ <rect x="0" y="205" width="230" height="35" fill="#d9e2d3"/>
+ <rect x="62" y="90" width="7" height="118" fill="#5a6a80" rx="2"/>
+ <g transform="translate(65.5,90)">
+  <g class="rotor" style="--spin:${cf>0.02?spin+"s":"999s"}">
+   <g fill="#8ea2bd" stroke="#5a6a80" stroke-width="1">
+    <path d="M0 0 L6 -55 Q0 -64 -6 -55 Z"/>
+    <path d="M0 0 L6 -55 Q0 -64 -6 -55 Z" transform="rotate(120)"/>
+    <path d="M0 0 L6 -55 Q0 -64 -6 -55 Z" transform="rotate(240)"/>
+   </g></g>
+  <circle r="6.5" fill="#3c4a5e"/>
+ </g>
+ <g transform="translate(130,150)">
+  <g transform="skewX(-16)">
+   <rect x="0" y="0" width="72" height="42" rx="3" fill="#173a6b" stroke="#0e2547" opacity="${0.45+0.55*glow}"/>
+   <g stroke="#7fb2d8" stroke-width="1" opacity="${0.45+0.55*glow}">
+    <line x1="18" y1="0" x2="18" y2="42"/><line x1="36" y1="0" x2="36" y2="42"/><line x1="54" y1="0" x2="54" y2="42"/>
+    <line x1="0" y1="14" x2="72" y2="14"/><line x1="0" y1="28" x2="72" y2="28"/></g></g>
+  <rect x="6" y="42" width="5" height="16" fill="#5a6a80"/><rect x="52" y="42" width="5" height="16" fill="#5a6a80"/>
+ </g>
+ ${glow>0.35?`<g stroke="#f2b632" stroke-width="2.4" stroke-linecap="round" opacity="${glow}">
+   <line x1="196" y1="126" x2="196" y2="134"/><line x1="180" y1="130" x2="186" y2="136"/><line x1="212" y1="130" x2="206" y2="136"/></g>`:""}
+ <text x="115" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2440">CF = ${fmt(cf*100,1)}%</text>
+</svg>
+<svg viewBox="0 0 200 30" width="200" height="30" aria-hidden="true" style="margin-top:4px">
+ <rect x="0" y="10" width="200" height="12" rx="6" fill="#eef1f6"/>
+ <rect x="0" y="10" width="${Math.min(200,cf*250)}" height="12" rx="6" fill="${cf>0.3?"var(--ok)":cf>0.18?"var(--warn)":"var(--bad)"}"/>
+</svg>`;
+}
+function drawCFX(){
+  const res=V("cfRes")/100,eff=V("cfEff")/100,loss=V("cfLoss")/100,mnt=V("cfMaint")/100,
+        grid=V("cfGrid")/100,curt=V("cfCurt")/100;
+  const cf=res*eff*(1-loss)*(1-mnt)*(1-grid)*(1-curt);
+  const Pr=5,tar=12,I0=1200,om=33,i=0.10,n=20;
+  const aep=Pr*8760*cf/1000;             /* GWh */
+  const rev=aep*tar;                      /* M BDT */
+  const npv=npvCalc(I0,rev-om,i,n);
+  const lcoe=lcoeCalc(I0,om,aep,i,n);
+  document.getElementById("cfV").textContent=fmt(cf*100,1)+"%";
+  document.getElementById("cfAep").textContent=fmt(aep,2);
+  document.getElementById("cfRev").textContent=fmt(rev,1);
+  document.getElementById("cfNpv").textContent=(npv>=0?"+":"")+fmt(npv,0);
+  document.getElementById("cfNpvRes").className="res "+(npv>0?"good":"bad");
+  document.getElementById("cfLcoe").textContent=fmt(lcoe,2);
+  document.getElementById("cfViz").innerHTML=turbineSVG(cf);
+}
+wireSliders(["cfRes","cfEff","cfLoss","cfMaint","cfGrid","cfCurt"],drawCFX);
+
+/* Example */
+function drawEx(){
+  const Pr=V("exPr"),cf=V("exCF")/100,tar=V("exTar");
+  const aep=Pr*8760*cf;
+  const rev=aep*1000*tar/1e6;
+  document.getElementById("exStep1").innerHTML=
+   `AEP = ${Pr} × 8760 × ${cf.toFixed(2)} = <b>${fmt(aep,0)} MWh/year</b>`;
+  document.getElementById("exStep2").innerHTML=
+   `Revenue = ${fmt(aep,0)} × 1000 × ${tar} = <b>${fmt(rev,2)} Million BDT/year</b>`;
+}
+wireSliders(["exPr","exCF","exTar"],drawEx);
+
+/* ==========================================================================
+   9. TAB — EA FLOWCHART (+ simulator, sensitivity, Monte Carlo)
+   ========================================================================== */
+document.getElementById("panel-ea").innerHTML=`
+ <h2 class="sec">${svg("route",24)} EA Flowchart</h2>
+ <p class="lede"><b>Economic Analysis Flowchart</b> — the lecture's complete engineering economic analysis
+ workflow. Click any stage for its detailed engineering explanation; the chart animates each time you open
+ this tab.</p>
+ <div class="flow" id="flowWrap"></div>
+
+ <h3 class="subsec">${svg("route",20)} Overall Economic Evaluation Framework</h3>
+ <div class="card">${frameworkSVG()}</div>
+
+ <h3 class="subsec">${svg("gear",20)} Interactive Economic Analysis Simulator</h3>
+ <p class="lede">Complete an economic evaluation end-to-end. Set the inputs; the simulator computes AEP,
+ Capacity Factor, Revenue, SPP, NPV, IRR, BCR, LCOE, and the Investment Decision — then generates a final
+ engineering report.</p>
+ <div class="calc">
+  <div class="crow"><label for="simTech">Renewable resource / technology:</label>
+   <select id="simTech" class="match" style="max-width:220px;margin:0">
+    <option value="35">Wind — good site (gross CF 35%)</option>
+    <option value="28">Wind — moderate site (gross CF 28%)</option>
+    <option value="20">Solar PV — Bangladesh (gross CF 20%)</option>
+    <option value="45">Hydro — run-of-river (gross CF 45%)</option>
+    <option value="60">Biomass (gross CF 60%)</option></select></div>
+  ${sliderRow("simPr","Capacity",1,50,1,5,"MW")}
+  ${sliderRow("simCapex","Capital cost (CAPEX)",50,500,10,240,"M BDT per MW")}
+  ${sliderRow("simTar","Electricity tariff",2,25,0.5,12,"BDT/kWh")}
+  ${sliderRow("simN","Project lifetime",5,40,1,20,"years")}
+  ${sliderRow("simR","Discount rate",1,25,0.5,10,"%")}
+  ${sliderRow("simLoss","System losses",0,25,1,8,"%")}
+  ${sliderRow("simMaint","Maintenance downtime",0,15,1,3,"%")}
+  ${sliderRow("simOm","Annual O&M cost",0,15,0.5,2.8,"% of CAPEX")}
+  <div class="result-strip" id="simStrip"></div>
+  <div class="verdict" id="simVerdict"></div>
+  <div style="margin-top:12px"><button class="btn gold" id="simReport">Generate final engineering report</button></div>
+  <div class="fb" id="simReportBox" style="white-space:pre-wrap;font-family:Consolas,Menlo,monospace;font-size:.8rem"></div>
+ </div>
+
+ <h3 class="subsec">${svg("chart",20)} Sensitivity Analysis — animated tornado chart</h3>
+ <p class="lede">Each parameter is varied by ±20% around your simulator inputs while the others stay fixed.
+ The tornado shows the swing in NPV — the longest bars are the parameters that decide your project.</p>
+ <div class="card"><svg id="tornado" viewBox="0 0 720 260" style="width:100%" role="img"
+   aria-label="Tornado chart of NPV sensitivity to tariff, discount rate, CAPEX, O&M, and capacity factor"></svg>
+  <div class="verdict" id="tornVerdict"></div></div>
+
+ <h3 class="subsec">${svg("dice",20)} Monte Carlo Simulation (Bonus)</h3>
+ <p class="lede">Randomize resource, tariff, maintenance, and downtime around your inputs (±15%, uniform)
+ and run 1000 projects. The histogram is the probability distribution of NPV.</p>
+ <div class="card">
+  <button class="btn" id="mcRun">▶ Run 1000 simulations</button>
+  <svg id="mcHist" viewBox="0 0 720 220" style="width:100%;margin-top:10px" role="img"
+   aria-label="Histogram of NPV outcomes from Monte Carlo simulation"></svg>
+  <div class="verdict" id="mcVerdict" style="display:none"></div>
+ </div>`;
+
+function frameworkSVG(){return `
+<svg viewBox="0 0 760 210" role="img" aria-label="Overall Economic Evaluation Framework: Wind Resource to Capacity Factor to AEP to Revenue; Revenue to Cash Flow to SPP, NPV, IRR, BCR, LCOE to Investment Decision"
+ style="width:100%;max-width:760px;display:block;margin:auto" font-family="Segoe UI,system-ui,sans-serif">
+ <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+  <path d="M0 0L10 5L0 10z" fill="#8a6008"/></marker></defs>
+ ${["Wind Resource","Capacity Factor","AEP","Revenue"].map((t,i)=>`
+  <rect x="${20+i*190}" y="18" width="160" height="40" rx="9" fill="#fdf7e8" stroke="#b07d10" stroke-width="1.6"/>
+  <text x="${100+i*190}" y="43" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a2440">${t}</text>
+  ${i<3?`<line x1="${180+i*190}" y1="38" x2="${208+i*190}" y2="38" stroke="#8a6008" stroke-width="2" marker-end="url(#arr)"/>`:""}`).join("")}
+ <line x1="620" y1="58" x2="620" y2="86" stroke="#8a6008" stroke-width="2" marker-end="url(#arr)"/>
+ <rect x="20" y="88" width="140" height="40" rx="9" fill="#eef1f8" stroke="#1a2440" stroke-width="1.6"/>
+ <text x="90" y="113" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a2440">Cash Flow</text>
+ <rect x="540" y="88" width="160" height="40" rx="9" fill="#eef1f8" stroke="#1a2440" stroke-width="1.6"/>
+ <text x="620" y="106" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a2440">Revenue →</text>
+ <text x="620" y="121" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a2440">Cash Flow</text>
+ <line x1="540" y1="108" x2="168" y2="108" stroke="#8a6008" stroke-width="2" marker-end="url(#arr)"/>
+ <line x1="90" y1="128" x2="90" y2="158" stroke="#8a6008" stroke-width="2" marker-end="url(#arr)"/>
+ ${["SPP","NPV","IRR","BCR","LCOE"].map((t,i)=>`
+  <rect x="${25+i*88}" y="160" width="72" height="34" rx="8" fill="#f6efdc" stroke="#b07d10" stroke-width="1.4"/>
+  <text x="${61+i*88}" y="182" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1a2440">${t}</text>`).join("")}
+ <line x1="470" y1="177" x2="520" y2="177" stroke="#8a6008" stroke-width="2" marker-end="url(#arr)"/>
+ <rect x="524" y="158" width="216" height="40" rx="9" fill="#1a2440"/>
+ <text x="632" y="183" text-anchor="middle" font-size="13.5" font-weight="800" fill="#f2b632">Investment Decision</text>
+</svg>`;}
+
+/* flowchart */
+const flowWrap=document.getElementById("flowWrap");
+flowWrap.innerHTML=EA_STAGES.map((s,i)=>`
+ ${i>0?`<div class="flow-arrow" aria-hidden="true">
+  <svg width="24" height="26" viewBox="0 0 26 30" fill="none" stroke="var(--teal2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2v22m-7-7l7 7 7-7"/></svg></div>`:""}
+ <button class="flow-stage" data-flow="${i}" aria-label="Stage ${i+1}: ${s.t} — ${s.d}">
+  <span class="flow-num">${i+1}</span><span><h4>${s.t}</h4><p>${s.d}</p></span></button>`).join("");
+function animateFlow(){
+  const items=flowWrap.querySelectorAll(".flow-stage,.flow-arrow");
+  items.forEach(el=>el.classList.remove("reveal"));
+  items.forEach((el,i)=>setTimeout(()=>el.classList.add("reveal"),110*i+80));
+}
+flowWrap.addEventListener("click",e=>{
+  const b=e.target.closest("[data-flow]");if(!b)return;
+  const s=EA_STAGES[+b.dataset.flow];
+  openInfo(s.t,`<h5>What this stage does</h5><p>${s.d}</p>
+   <h5>Detailed engineering explanation — in the wind case study</h5><p>${s.x}</p>`,"var(--navy)");
+});
+
+/* Economic Analysis Simulator */
+function simInputs(){
+  const grossCF=+document.getElementById("simTech").value/100;
+  const Pr=V("simPr"),capexMW=V("simCapex"),tar=V("simTar"),n=V("simN"),r=V("simR")/100,
+        loss=V("simLoss")/100,mnt=V("simMaint")/100,omPct=V("simOm")/100;
+  const cf=grossCF*(1-loss)*(1-mnt);
+  const I0=capexMW*Pr,om=I0*omPct;
+  const aep=Pr*8760*cf/1000;              /* GWh */
+  const rev=aep*tar,cfNet=rev-om;
+  return {grossCF,Pr,capexMW,tar,n,r,loss,mnt,omPct,cf,I0,om,aep,rev,cfNet};
+}
+function simCompute(s){
+  return {spp:s.cfNet>0?s.I0/s.cfNet:Infinity,
+    npv:npvCalc(s.I0,s.cfNet,s.r,s.n),
+    irr:irrCalc(s.I0,s.cfNet,s.n),
+    bcr:(s.rev*annuity(s.r,s.n))/(s.I0+s.om*annuity(s.r,s.n)),
+    lcoe:lcoeCalc(s.I0,s.om,s.aep,s.r,s.n)};
+}
+function simDecision(m,r){
+  let score=0;
+  score+=m.spp<=6?2:m.spp<=10?1:0;
+  score+=m.npv>0.15*1?2:m.npv>0?1:0;  /* npv positive */
+  score+=(Number.isFinite(m.irr)&&m.irr>r+0.05)?2:(m.irr>r?1:0);
+  score+=m.bcr>1.3?2:m.bcr>1?1:0;
+  score+=m.lcoe<9?2:m.lcoe<13?1:0;
+  if(m.npv<=0||m.bcr<=1)return["REJECT","reject","NPV ≤ 0 or BCR ≤ 1 — fails the General Decision Criteria."];
+  if(score>=9)return["EXCELLENT INVESTMENT","accept","All indicators pass with wide margins."];
+  if(score>=6)return["ACCEPT","accept","Indicators pass the General Decision Criteria."];
+  return["MARGINAL","marginal","Positive but thin margins — sensitivity analysis is essential before committing."];
+}
+function drawSim(){
+  const s=simInputs(),m=simCompute(s),[lbl,cls,why]=simDecision(m,s.r);
+  document.getElementById("simStrip").innerHTML=[
+   ["Capacity Factor",fmt(s.cf*100,1)+"%",s.cf>0.28?"good":s.cf>0.16?"warn":"bad"],
+   ["AEP",fmt(s.aep,2)+" GWh/yr",""],
+   ["Revenue",fmt(s.rev,1)+" M BDT/yr",""],
+   ["SPP",Number.isFinite(m.spp)?fmt(m.spp,1)+" yr":"never",m.spp<=6?"good":m.spp<=10?"warn":"bad"],
+   ["NPV",(m.npv>=0?"+":"")+fmt(m.npv,0)+" M BDT",m.npv>0?"good":"bad"],
+   ["IRR",Number.isFinite(m.irr)?fmt(m.irr*100,1)+"%":"n/a",m.irr>s.r?"good":"bad"],
+   ["BCR",fmt(m.bcr,2),m.bcr>1?"good":"bad"],
+   ["LCOE",fmt(m.lcoe,2)+" BDT/kWh",m.lcoe<s.tar?"good":"bad"]
+  ].map(x=>`<div class="res ${x[2]}"><div class="rv">${x[1]}</div><div class="rl">${x[0]}</div></div>`).join("");
+  const vd=document.getElementById("simVerdict");
+  vd.className="verdict "+cls;vd.textContent="Investment Decision: "+lbl+" — "+why;
+  drawTornado();
+}
+["simTech"].forEach(id=>document.getElementById(id).addEventListener("change",drawSim));
+wireSliders(["simPr","simCapex","simTar","simN","simR","simLoss","simMaint","simOm"],drawSim);
+document.getElementById("simReport").addEventListener("click",()=>{
+  const s=simInputs(),m=simCompute(s),[lbl]=simDecision(m,s.r);
+  const box=document.getElementById("simReportBox");
+  box.className="fb mid show";
+  box.textContent=
+`==============================================================
+ ME4011 — ECONOMIC ANALYSIS REPORT (EA Flowchart workflow)
+==============================================================
+ 1. COST IDENTIFICATION
+    CAPEX ........................ ${fmt(s.I0,0)} Million BDT (${fmt(s.capexMW,0)} M/MW × ${s.Pr} MW)
+    Annual O&M ................... ${fmt(s.om,1)} Million BDT/yr (${fmt(s.omPct*100,1)}% of CAPEX)
+ 2. REVENUE ESTIMATION
+    Gross resource CF ............ ${fmt(s.grossCF*100,0)}%
+    Effective Capacity Factor .... ${fmt(s.cf*100,1)}%  (losses ${fmt(s.loss*100,0)}%, downtime ${fmt(s.mnt*100,0)}%)
+    AEP = Pr × 8760 × CF ......... ${fmt(s.aep,2)} GWh/yr
+    Revenue = AEP × Tariff ....... ${fmt(s.rev,1)} Million BDT/yr @ ${s.tar} BDT/kWh
+    Annual Net Cash Flow ......... ${fmt(s.cfNet,1)} Million BDT/yr
+ 3. ECONOMIC/FINANCIAL PARAMETERS (${s.n} yr @ ${fmt(s.r*100,1)}%)
+    SPP .......................... ${Number.isFinite(m.spp)?fmt(m.spp,1)+" years":"not recovered"}
+    NPV .......................... ${(m.npv>=0?"+":"")+fmt(m.npv,0)} Million BDT
+    IRR .......................... ${Number.isFinite(m.irr)?fmt(m.irr*100,1)+"%":"n/a"} (required ${fmt(s.r*100,1)}%)
+    BCR .......................... ${fmt(m.bcr,2)}
+    LCOE ......................... ${fmt(m.lcoe,2)} BDT/kWh (tariff ${s.tar})
+ 4. RISK & SENSITIVITY ........... see tornado chart below
+ 5. SUSTAINABILITY EVALUATION .... economic + People + Planet returns
+ 6. DECISION-MAKING .............. ${lbl}
+==============================================================
+ General Decision Criteria: Lower SPP · Higher NPV · Higher IRR
+ · BCR > 1 · Lower LCOE
+==============================================================`;
+});
+
+/* Tornado */
+function drawTornado(){
+  const base=simInputs(),m0=simCompute(base).npv;
+  const vary=[
+   ["Tariff",s=>{s.rev=s.aep*s.tar*1.2;s.cfNet=s.rev-s.om;},s=>{s.rev=s.aep*s.tar*0.8;s.cfNet=s.rev-s.om;}],
+   ["Capacity Factor",s=>{s.aep*=1.2;s.rev=s.aep*s.tar;s.cfNet=s.rev-s.om;},s=>{s.aep*=0.8;s.rev=s.aep*s.tar;s.cfNet=s.rev-s.om;}],
+   ["CAPEX",s=>{s.I0*=1.2;},s=>{s.I0*=0.8;}],
+   ["Discount Rate",s=>{s.r*=1.2;},s=>{s.r*=0.8;}],
+   ["O&M",s=>{s.om*=1.2;s.cfNet=s.rev-s.om;},s=>{s.om*=0.8;s.cfNet=s.rev-s.om;}]];
+  const rows=vary.map(([name,up,dn])=>{
+    const a=simInputs();up(a);const hi=simCompute(a).npv;
+    const b=simInputs();dn(b);const lo=simCompute(b).npv;
+    return {name,hi,lo,span:Math.abs(hi-lo)};
+  }).sort((a,b)=>b.span-a.span);
+  const w=720,h=260,cx=390,scale=Math.max(...rows.map(r=>Math.max(Math.abs(r.hi-m0),Math.abs(r.lo-m0))),1);
+  const X=v=>cx+(v-m0)/scale*270;
+  let g=`<line x1="${cx}" y1="16" x2="${cx}" y2="${h-30}" stroke="#9aa7bd" stroke-dasharray="4 4"/>
+   <text x="${cx}" y="${h-12}" text-anchor="middle" font-size="11.5" fill="#4d576e">base NPV ${(m0>=0?"+":"")+fmt(m0,0)} M BDT</text>`;
+  rows.forEach((r,i)=>{
+    const y=26+i*42;
+    const x1=Math.min(X(r.lo),X(r.hi)),x2=Math.max(X(r.lo),X(r.hi));
+    g+=`<text x="10" y="${y+15}" font-size="12.5" font-weight="700" fill="var(--navy)">${r.name}</text>
+     <rect x="${x1}" y="${y}" width="${Math.max(2,x2-x1)}" height="22" rx="5"
+       fill="${i===0?"var(--gold)":"#b8c4d8"}" stroke="var(--navy)" stroke-width="1">
+       <animate attributeName="width" from="0" to="${Math.max(2,x2-x1)}" dur="0.6s" fill="freeze"/></rect>
+     <text x="${x2+6}" y="${y+15}" font-size="10.5" fill="#4d576e">±20%</text>`;
+  });
+  document.getElementById("tornado").innerHTML=g;
+  const worst=rows.filter(r=>Math.min(r.hi,r.lo)<0).map(r=>r.name);
+  const tv=document.getElementById("tornVerdict");
+  if(m0<=0){tv.className="verdict reject";tv.textContent="Decision unstable — base NPV is already non-positive.";}
+  else if(worst.length){tv.className="verdict marginal";
+    tv.textContent=`Decision NOT fully stable — a 20% adverse move in ${worst.join(", ")} turns NPV negative.`;}
+  else{tv.className="verdict accept";tv.textContent="Decision stable — NPV stays positive across all ±20% single-parameter variations.";}
+}
+
+/* Monte Carlo */
+document.getElementById("mcRun").addEventListener("click",()=>{
+  const N=1000,vals=[];
+  for(let k=0;k<N;k++){
+    const s=simInputs();
+    const u=()=>0.85+Math.random()*0.30;                /* ±15% uniform */
+    s.aep=s.Pr*8760*(s.grossCF*u())*(1-s.loss)*(1-(s.mnt*u()))/1000;
+    s.rev=s.aep*(s.tar*u());
+    s.om=s.om*u();
+    s.cfNet=s.rev-s.om;
+    vals.push(npvCalc(s.I0,s.cfNet,s.r,s.n));
+  }
+  vals.sort((a,b)=>a-b);
+  const lo=vals[0],hi=vals[N-1],bins=28,cnt=new Array(bins).fill(0);
+  vals.forEach(v=>cnt[Math.min(bins-1,Math.floor((v-lo)/(hi-lo+1e-9)*bins))]++);
+  const mx=Math.max(...cnt),w=720,h=220,pad=30;
+  const zeroX=pad+((0-lo)/(hi-lo+1e-9))*(w-pad-14);
+  let g="";
+  cnt.forEach((c,i)=>{
+    const x=pad+i*(w-pad-14)/bins,bw=(w-pad-14)/bins*0.86;
+    const bh=c/mx*(h-64);
+    const mid=lo+(i+0.5)*(hi-lo)/bins;
+    g+=`<rect x="${x}" y="${h-34-bh}" width="${bw}" height="${bh}" rx="2" fill="${mid>=0?"var(--ok)":"var(--bad)"}" opacity=".85">
+      <animate attributeName="height" from="0" to="${bh}" dur="0.7s" fill="freeze"/>
+      <animate attributeName="y" from="${h-34}" to="${h-34-bh}" dur="0.7s" fill="freeze"/></rect>`;
+  });
+  const pPos=vals.filter(v=>v>0).length/N*100,p50=vals[Math.floor(N/2)];
+  g+=`<line x1="${pad}" y1="${h-34}" x2="${w-10}" y2="${h-34}" stroke="#9aa7bd"/>
+   ${(zeroX>pad&&zeroX<w-10)?`<line x1="${zeroX}" y1="14" x2="${zeroX}" y2="${h-32}" stroke="var(--navy)" stroke-width="2" stroke-dasharray="5 4"/>
+   <text x="${zeroX+5}" y="24" font-size="11.5" font-weight="700" fill="var(--navy)">NPV = 0</text>`:""}
+   <text x="${pad}" y="${h-10}" font-size="11" fill="#4d576e">${fmt(lo,0)} M BDT</text>
+   <text x="${w-10}" y="${h-10}" text-anchor="end" font-size="11" fill="#4d576e">${fmt(hi,0)} M BDT</text>`;
+  document.getElementById("mcHist").innerHTML=g;
+  const mv=document.getElementById("mcVerdict");
+  mv.style.display="block";
+  mv.className="verdict "+(pPos>=90?"accept":pPos>=60?"marginal":"reject");
+  mv.textContent=`P(NPV > 0) = ${fmt(pPos,1)}% · median NPV ${(p50>=0?"+":"")+fmt(p50,0)} Million BDT over ${N} randomized projects`;
+});
+
+/* ==========================================================================
+   10. TAB — CASE STUDY: ECONOMIC EVALUATION OF A WIND POWER PROJECT
+   ========================================================================== */
+document.getElementById("panel-case").innerHTML=`
+ <h2 class="sec">${svg("wind",24)} Case Study: Economic Evaluation of a Wind Power Project</h2>
+ <p class="lede"><b>Case Study: Wind Power Project at Saint Martin's Island.</b> Work through the lecture's
+ six steps — enter your own calculations and check them against the lecture at every stage.</p>
+
+ <div class="callout navy"><h4>${svg("pin",18)} Project Background</h4>
+  <p>Saint Martin's Island is Bangladesh's only coral island located in the Bay of Bengal. The island is
+  isolated from the national electricity grid; electricity is presently supplied mainly by diesel
+  generators and small photovoltaic (PV) systems. Diesel generation results in: high fuel transportation
+  cost, high electricity generation cost, greenhouse gas emissions, and fuel supply uncertainty.
+  <b>A wind power project is proposed to improve energy security and reduce diesel consumption.</b></p></div>
+
+ <h3 class="subsec">${svg("clip",20)} Proposed Wind Power Project — Project Specifications</h3>
+ <table class="simple"><tr><th>Parameter</th><th>Value</th></tr>
+  ${CASE_SPECS.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
+
+ <div class="sim-steps" id="caseSteps" role="tablist" aria-label="Case study steps"></div>
+ <div class="quiz-card" id="caseBody"></div>
+
+ <h3 class="subsec">${svg("check",20)} Investment Decision Panel</h3>
+ <div class="card" id="decisionPanel"></div>`;
+
+const CASE_STEPS=[
+ {t:"Step 1: Cost Identification",render:()=>`
+   <p style="font-size:.92rem;margin-bottom:8px"><b>Identify all project costs.</b></p>
+   <table class="simple"><tr><th>Item</th><th>Cost (Million BDT)</th></tr>
+    ${CASE_COSTS.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}
+    <tr class="hl"><td>Total Capital Cost</td><td id="caseTotalCell">?</td></tr></table>
+   <div class="qrow"><div class="qtext">Add up the cost items — what is the Total Capital Cost (Million BDT)?</div>
+    <div class="crow"><input type="number" class="fib-input" style="max-width:170px" id="caseIn0" inputmode="decimal">
+     <button class="btn" data-ck="0" data-ans="1200" data-tol="1">Check</button></div>
+    <div class="fb" id="caseFb0"></div></div>
+   <p class="small-note">Annual O&amp;M Cost = 33 Million BDT/year · Decommissioning Cost = 20 Million BDT.</p>`},
+ {t:"Step 2(a): Estimate AEP",render:()=>`
+   <p style="font-size:.92rem"><b>Capacity Factor determines Annual Energy Production.</b></p>
+   <div class="formula">AEP = P<sub>r</sub> × 8760 × CF</div>
+   <p class="small-note">where P<sub>r</sub> = 5 MW; CF = 32%; 8760 = hours/year.</p>
+   <div class="qrow"><div class="qtext">Calculate AEP (GWh/year):</div>
+    <div class="crow"><input type="number" step="any" class="fib-input" style="max-width:170px" id="caseIn1" inputmode="decimal">
+     <button class="btn" data-ck="1" data-ans="14.02" data-tol="0.12">Check</button></div>
+    <div class="fb" id="caseFb1"></div></div>
+   <div class="callout"><h4>${svg("bulb",16)} Key Observation</h4>
+    <p>Higher Capacity Factor ⇒ Higher AEP ⇒ Greater Revenue</p></div>`},
+ {t:"Step 2(b): Estimate Annual Revenue",render:()=>`
+   <p style="font-size:.92rem"><b>Annual Energy Production:</b> AEP = 14.02 GWh/year = 14.02 × 10⁶ kWh/year
+   (14.02 million kWh/year sold).</p>
+   <div class="qrow"><div class="qtext">Electricity Revenue at 12 BDT/kWh (Million BDT/year)?</div>
+    <div class="crow"><input type="number" step="any" class="fib-input" style="max-width:170px" id="caseIn2" inputmode="decimal">
+     <button class="btn" data-ck="2" data-ans="168.2" data-tol="1">Check</button></div>
+    <div class="fb" id="caseFb2"></div></div>
+   <p class="small-note"><b>Additional Revenue:</b> Carbon Credits = 15 Million BDT/year; Renewable Energy
+   Incentives (if applicable). Total revenue = 168.2 + 15 = 183.2 Million BDT/year.</p>`},
+ {t:"Step 3: Economic and Financial Analysis",render:()=>`
+   <div class="formula">CF → AEP → Revenue → Cash Flow</div>
+   <div class="qrow"><div class="qtext">Annual Net Cash Flow = total revenue (183.2) − O&amp;M (33) = ? (Million BDT/year)</div>
+    <div class="crow"><input type="number" step="any" class="fib-input" style="max-width:170px" id="caseIn3" inputmode="decimal">
+     <button class="btn" data-ck="3" data-ans="150.2" data-tol="0.5">Check</button></div>
+    <div class="fb" id="caseFb3"></div></div>
+   <p style="font-size:.9rem;margin:10px 0 4px"><b>Students Calculate:</b> Payback Period · NPV · IRR · BCR · LCOE</p>
+   <table class="simple"><tr><th>Parameter</th><th>Example Results (lecture)</th></tr>
+    ${CASE_RESULTS.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
+   <p class="small-note"><b>Interpretation:</b> positive cash flow produces a positive NPV, IRR above the
+   10% required return, and BCR &gt; 1. (Try reproducing these in the Calculator Toolbox — small differences
+   arise from the lecture's detailed cash-flow model, e.g. incentives and end-of-life terms.)</p>`},
+ {t:"Step 4: Risk and Sensitivity Analysis",render:()=>`
+   <p style="font-size:.92rem"><b>Evaluate project performance under different scenarios</b> — match each
+   scenario to its expected impact.</p>
+   ${CASE_RISKS.map((r,i)=>`<div class="qrow"><div class="qtext">${r[0]}</div>
+     <select class="match" data-risk="${i}" aria-label="Impact of: ${r[0]}">
+       <option value="">— select the expected impact —</option>
+       ${[...CASE_RISKS.map(x=>x[1])].sort().map(x=>`<option>${x}</option>`).join("")}
+     </select></div>`).join("")}
+   <button class="btn" id="riskCheck" style="margin-top:6px">Check scenario analysis</button>
+   <div class="fb" id="caseFb4"></div>
+   <p class="small-note">Students should evaluate the effects on Payback Period, NPV, IRR — use the
+   Sensitivity Analysis tornado in the EA Flowchart tab.</p>`},
+ {t:"Step 5 & 6: Sustainability Evaluation → Decision Making",render:()=>`
+   <p style="font-size:.92rem"><b>Step 5 — Sustainability Evaluation:</b> evaluate the project using the
+   three pillars of sustainability.</p>
+   <ul style="margin:6px 0 12px 20px;font-size:.9rem;color:var(--ink2)">
+    ${CASE_SUS.map(x=>`<li>${x}</li>`).join("")}</ul>
+   <p class="small-note"><b>Outcome:</b> determine whether the project provides long-term economic,
+   environmental, and social benefits.</p>
+   <p style="font-size:.92rem;margin-top:12px"><b>Step 6 — Decision Making: the investment decision should
+   consider</b></p>
+   <ul style="margin:6px 0 12px 20px;font-size:.9rem;color:var(--ink2)">
+    ${CASE_DECIDE.map(x=>`<li>${x}</li>`).join("")}</ul>
+   <div class="qrow"><div class="qtext">Your recommendation: with SPP 8.0 yr (20-yr life), NPV +96 M BDT, IRR 11.8% (required 10%), BCR 1.19 — should the project proceed?</div>
+    <div class="crow" style="gap:8px">
+     <button class="btn" data-dec="accept">Accept / recommend</button>
+     <button class="btn ghost" data-dec="reject">Reject</button></div>
+    <div class="fb" id="caseFb5"></div></div>`}
+];
+let caseCur=0;
+const caseSteps=document.getElementById("caseSteps"),caseBody=document.getElementById("caseBody");
+function drawCaseSteps(){
+  caseSteps.innerHTML=CASE_STEPS.map((s,i)=>
+   `<button role="tab" aria-selected="${i===caseCur}" class="${STATE.caseDone["c"+i]?"done":""}" data-cs="${i}">${s.t.split(":")[0]}</button>`).join("");
+}
+caseSteps.addEventListener("click",e=>{const b=e.target.closest("[data-cs]");if(b){caseCur=+b.dataset.cs;drawCase();}});
+function caseAdvance(i){
+  STATE.caseDone["c"+i]=true;save();drawCaseSteps();drawDecisionPanel();
+  const fb=document.getElementById("caseFb"+i);
+  if(i<CASE_STEPS.length-1&&fb){
+    fb.innerHTML+=`<div style="margin-top:8px"><button class="btn gold" id="caseNext">Continue to ${CASE_STEPS[i+1].t} →</button></div>`;
+    fb.querySelector("#caseNext").addEventListener("click",()=>{caseCur=i+1;drawCase();});
+  }
+}
+function drawCase(){
+  drawCaseSteps();
+  caseBody.innerHTML=`<span class="qtype-tag">${CASE_STEPS[caseCur].t}</span>`+CASE_STEPS[caseCur].render();
+  /* numeric checks */
+  caseBody.querySelectorAll("[data-ck]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.ck,ans=+b.dataset.ans,tol=+b.dataset.tol;
+    const v=parseFloat(document.getElementById("caseIn"+i).value);
+    const fb=document.getElementById("caseFb"+i);
+    if(isNaN(v)){fb.className="fb mid show";fb.textContent="Enter a number first.";return;}
+    if(Math.abs(v-ans)<=tol){
+      fb.className="fb good show";
+      const msgs={0:"✔ Correct — Total Capital Cost = 650+140+70+60+80+120+80 = 1200 Million BDT.",
+        1:"✔ Correct — AEP = 5 × 8760 × 0.32 = 14,016 MWh/year ≈ 14.02 GWh/year.",
+        2:"✔ Correct — 14.02 × 10⁶ kWh × 12 BDT/kWh = 168.2 Million BDT/year.",
+        3:"✔ Correct — 183.2 − 33 = 150.2 Million BDT/year of net cash flow."};
+      fb.innerHTML=msgs[i];
+      if(i===0)document.getElementById("caseTotalCell").textContent="1200";
+      caseAdvance(i);
+    }else{fb.className="fb poor show";
+      fb.innerHTML="✖ Not quite — check your arithmetic. "+
+       ({0:"Sum the seven cost items in the table.",
+         1:"AEP = Pr × 8760 × CF, with Pr = 5 MW and CF = 0.32; give the answer in GWh (divide MWh by 1000).",
+         2:"Revenue = energy sold (kWh) × tariff (BDT/kWh); convert to Million BDT.",
+         3:"Net cash flow = total revenue − annual O&M."}[i]);}
+  }));
+  /* risk matching */
+  const rc=caseBody.querySelector("#riskCheck");
+  if(rc)rc.addEventListener("click",()=>{
+    let ok=true,filled=true;
+    caseBody.querySelectorAll("[data-risk]").forEach(sel=>{
+      const i=+sel.dataset.risk;sel.classList.remove("right","wrong");
+      if(!sel.value){filled=false;return;}
+      const right=sel.value===CASE_RISKS[i][1];
+      sel.classList.add(right?"right":"wrong");if(!right)ok=false;
+    });
+    const fb=document.getElementById("caseFb4");
+    if(!filled){fb.className="fb mid show";fb.textContent="Select an expected impact for every scenario.";return;}
+    fb.className="fb show "+(ok?"good":"poor");
+    fb.innerHTML=ok?"✔ Correct — this is the lecture's Step 4 scenario table.":"✖ Some pairings are wrong — re-read the Step 4 table: wind speed → CF → AEP → revenue; capital cost → investment; tariff → revenue; curtailment → sales and AEP; battery replacement → lifecycle cost.";
+    if(ok)caseAdvance(4);
+  });
+  /* decision */
+  caseBody.querySelectorAll("[data-dec]").forEach(b=>b.addEventListener("click",()=>{
+    const fb=document.getElementById("caseFb5");
+    if(b.dataset.dec==="accept"){
+      fb.className="fb good show";
+      fb.innerHTML="✔ Correct — <b>Accept.</b> IRR 11.8% &gt; 10% required, NPV +96 Million BDT &gt; 0, BCR 1.19 &gt; 1, and SPP 8.0 years within a 20-year lifetime. Final Decision (lecture): recommend the project only if it produces sufficient AEP, achieves an acceptable Capacity Factor, generates positive economic returns, and provides long-term environmental and social benefits — this project does.";
+      caseAdvance(5);
+    }else{
+      fb.className="fb poor show";
+      fb.innerHTML="✖ Reconsider — every decision rule passes: IRR &gt; required return, NPV &gt; 0, BCR &gt; 1. Rejecting a project that satisfies the General Decision Criteria and the sustainability evaluation would be leaving value (and clean energy) on the table.";
+    }
+  }));
+}
+function drawDecisionPanel(){
+  const n=Object.keys(STATE.caseDone).length;
+  const done=n>=6;
+  document.getElementById("decisionPanel").innerHTML=done?
+   `<div class="verdict accept" style="font-size:1.1rem">FINAL RECOMMENDATION: ACCEPT — a GOOD investment</div>
+    <p style="font-size:.92rem;color:var(--ink2);margin-top:10px"><b>Why:</b> the project passes every
+    General Decision Criterion — SPP 8.0 years (well within the 20-year lifetime), NPV +96 Million BDT (&gt; 0),
+    IRR 11.8% (&gt; 10% required rate of return), BCR 1.19 (&gt; 1), LCOE 9.4 BDT/kWh (below the 12 BDT/kWh
+    selling price and far below diesel). It is not an <i>Excellent</i> investment — margins are moderate and
+    Step 4 shows sensitivity to wind speed and tariff — but with positive economic returns plus reduced
+    diesel consumption, lower greenhouse gas emissions, improved energy security, and local employment,
+    the sustainability evaluation supports proceeding.</p>
+    <p style="margin-top:8px">${chips([7,8,9,11,12,13])}</p>`:
+   `<p style="font-size:.92rem;color:var(--ink2)">Complete all six case study steps above to unlock the
+    final Investment Decision Panel. Progress: <b>${n} / 6</b> steps.</p>
+    <div class="meter" style="height:12px;border-radius:99px;background:#eef1f6;overflow:hidden">
+     <span style="display:block;height:100%;width:${n/6*100}%;background:linear-gradient(90deg,var(--gold),var(--teal))"></span></div>`;
+}
+drawCase();drawDecisionPanel();
+
+/* ==========================================================================
+   11. TAB — REFLECTIONS
+   ========================================================================== */
+document.getElementById("panel-reflect").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Reflections</h2>
+ <p class="lede">Write your own thinking first — then open the guidance to compare with points drawn from
+ the lecture. Notes are saved on this device.</p>
+ ${REFLECT.map((r,i)=>`
+  <div class="qrow"><div class="qtext">${r[0]}</div>
+   <textarea class="reflect-box" data-ref="${i}" aria-label="Your reflection: ${r[0]}"
+    placeholder="Type your reflection here…">${STATE.reflect[i]||""}</textarea>
+   ${expander(`<span class="icon-circle">${svg("bulb",18)}</span><span>Guidance — points to consider</span>`,`<p>${r[1]}</p>`)}
+  </div>`).join("")}
+ <p class="small-note">Reflections are stored locally in your browser only.</p>`;
+document.getElementById("panel-reflect").addEventListener("input",e=>{
+  const t=e.target.closest("[data-ref]");if(t){STATE.reflect[t.dataset.ref]=t.value;save();}
+});
+
+/* ==========================================================================
+   12. TAB — SUMMARY
+   ========================================================================== */
+document.getElementById("panel-summary").innerHTML=`
+ <h2 class="sec">${svg("book",24)} Summary</h2>
+ <p class="lede">The Economic (Profit/Prosperity) pillar in eight animated cards — lecture wording throughout.</p>
+ <div id="sumWrap"></div>
+ <div class="keytake"><h4>Critical Relationship</h4>
+  <p>Resource → AEP → Revenue → Economic Feasibility<br>
+  <span style="font-size:.95rem;font-weight:400">…and Revenue → Cash Flow → {SPP, NPV, IRR, BCR, LCOE} → Investment Decision.</span></p></div>`;
+const sumWrap=document.getElementById("sumWrap");
+sumWrap.innerHTML=SUMMARY.map((s,i)=>`
+ <div class="card sum-card" style="margin-bottom:12px;opacity:0;transform:translateY(14px);transition:opacity .5s ${i*.1}s,transform .5s ${i*.1}s">
+  <h4><span class="icon-circle" style="background:var(--navy);color:#fff;font-weight:800">${i+1}</span>${s[0]}</h4>
+  <p>${s[1]}</p></div>`).join("");
+new MutationObserver(()=>{
+  if(document.getElementById("panel-summary").classList.contains("active"))
+    requestAnimationFrame(()=>sumWrap.querySelectorAll(".sum-card").forEach(c=>{c.style.opacity=1;c.style.transform="none";}));
+}).observe(document.getElementById("panel-summary"),{attributes:true,attributeFilter:["class"]});
+
+/* ==========================================================================
+   13. TAB — ENGINEERING CALCULATOR TOOLBOX
+   ========================================================================== */
+const TOOLS=[
+ {id:"tSpp",t:"SPP",ins:[["Initial Investment (M BDT)",600],["Annual Net Cash Flow (M BDT/yr)",150]],
+  f:v=>({val:v[0]/v[1],unit:"years",note:"SPP = Initial Investment / Annual Net Cash Flow"})},
+ {id:"tNpv",t:"NPV",ins:[["Initial Investment I₀ (M BDT)",600],["Annual Cash Flow (M BDT/yr)",150],["Discount rate (%)",10],["Lifetime (years)",20]],
+  f:v=>({val:npvCalc(v[0],v[1],v[2]/100,v[3]),unit:"Million BDT",note:"NPV = Σ CFₜ/(1+i)ᵗ − I₀ (uniform cash flows)"})},
+ {id:"tIrr",t:"IRR",ins:[["Initial Investment I₀ (M BDT)",600],["Annual Cash Flow (M BDT/yr)",150],["Lifetime (years)",20]],
+  f:v=>({val:irrCalc(v[0],v[1],v[2])*100,unit:"%",note:"IRR: the discount rate at which NPV = 0"})},
+ {id:"tBcr",t:"BCR",ins:[["PV of Benefits (M BDT)",900],["PV of Costs (M BDT)",600]],
+  f:v=>({val:v[0]/v[1],unit:"",note:"BCR = PV of Benefits / PV of Costs; BCR > 1 ⇒ economically feasible"})},
+ {id:"tLcoe",t:"LCOE",ins:[["CAPEX (M BDT)",1200],["Annual O&M (M BDT/yr)",33],["AEP (GWh/yr)",14.02],["Discount rate (%)",10],["Lifetime (years)",20]],
+  f:v=>({val:lcoeCalc(v[0],v[1],v[2],v[3]/100,v[4]),unit:"BDT/kWh",note:"LCOE = Σ Cₜ/(1+i)ᵗ ÷ Σ Eₜ/(1+i)ᵗ"})},
+ {id:"tAep",t:"AEP",ins:[["Rated Capacity Pr (MW)",5],["Capacity Factor (%)",32]],
+  f:v=>({val:v[0]*8760*v[1]/100,unit:"MWh/year",note:"AEP = Pr × 8760 × CF"})},
+ {id:"tCf",t:"Capacity Factor",ins:[["AEP (MWh/year)",14016],["Rated Capacity Pr (MW)",5]],
+  f:v=>({val:v[0]/(v[1]*8760)*100,unit:"%",note:"CF = AEP / (Pr × 8760)"})},
+ {id:"tRev",t:"Annual Revenue",ins:[["AEP (MWh/year)",14016],["Electricity Tariff (BDT/kWh)",12]],
+  f:v=>({val:v[0]*1000*v[1]/1e6,unit:"Million BDT/year",note:"Revenue = AEP × Electricity Tariff"})}
+];
+document.getElementById("panel-toolbox").innerHTML=`
+ <h2 class="sec">${svg("calc",24)} Engineering Calculator Toolbox</h2>
+ <p class="lede">Standalone calculators for every quantity in this lecture — pre-loaded with the lecture's
+ example values. Change any input; results update instantly.</p>
+ <div class="grid c2">${TOOLS.map(t=>`
+  <div class="calc" style="margin:0"><h4>${svg("calc",18)} ${t.t}</h4>
+   ${t.ins.map((inp,k)=>`<div class="crow"><label for="${t.id}_${k}">${inp[0]}</label>
+     <input type="number" step="any" id="${t.id}_${k}" value="${inp[1]}" inputmode="decimal"></div>`).join("")}
+   <div class="result-strip"><div class="res good"><div class="rv" id="${t.id}_out">—</div>
+    <div class="rl" id="${t.id}_unit"></div></div></div>
+   <p class="small-note">${t.f(t.ins.map(x=>x[1])).note}</p>
+  </div>`).join("")}</div>`;
+TOOLS.forEach(t=>{
+  const upd=()=>{
+    const vals=t.ins.map((_,k)=>parseFloat(document.getElementById(`${t.id}_${k}`).value));
+    const r=t.f(vals);
+    document.getElementById(t.id+"_out").textContent=Number.isFinite(r.val)?fmt(r.val,2):"n/a";
+    document.getElementById(t.id+"_unit").textContent=r.unit||t.t;
+  };
+  t.ins.forEach((_,k)=>document.getElementById(`${t.id}_${k}`).addEventListener("input",upd));
+  upd();
+});
+
+/* ==========================================================================
+   14. TAB — QUIZ (15 randomized questions, 6 formats)
+   ========================================================================== */
+const TOPIC_NAMES={pillar:"SD: Economic (Profit/Prosperity) Pillar",econ:"Economic Parameters",
+ aep:"AEP & Capacity Factor",ea:"EA Flowchart",case:"Case Study: Economic Evaluation of a Wind Power Project"};
+const TYPE_NAMES={mc:"Multiple Choice",tf:"True / False",num:"Numerical Problem",match:"Matching",scen:"Scenario Decision"};
+let quiz={qs:[],i:0,score:0,answered:false};
+const quizPanel=document.getElementById("panel-quiz");
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function startQuiz(){
+  const pick=(t,n)=>shuffle(QUIZ_POOL.filter(q=>q.type===t)).slice(0,n);
+  quiz={qs:shuffle([...pick("mc",5),...pick("tf",3),...pick("num",4),...pick("match",1),...pick("scen",2)]),
+        i:0,score:0,answered:false};
+  drawQuiz();
+}
+function drawQuiz(){
+  if(quiz.i>=quiz.qs.length)return quizResult();
+  const q=quiz.qs[quiz.i],pct=Math.round(100*quiz.i/quiz.qs.length);
+  let inner="";
+  if(q.type==="mc"||q.type==="scen"){
+    inner=shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="quiz-opt" data-oi="${i}">${q.opts[i]}</button>`).join("");
+  }else if(q.type==="tf"){
+    inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  }else if(q.type==="num"){
+    inner=`<div class="crow"><input class="fib-input" id="numIn" type="number" step="any" inputmode="decimal"
+      placeholder="Your answer" aria-label="Numerical answer"><span style="font-weight:700;color:var(--ink2)">${q.unit}</span></div>
+      <div style="margin-top:12px"><button class="btn" id="numGo">Submit answer</button></div>`;
+  }else if(q.type==="match"){
+    const rights=shuffle(q.pairs.map(p=>p[1]));
+    inner=q.pairs.map((p,i)=>`<div class="qrow" style="box-shadow:none"><div class="qtext">${p[0]}</div>
+      <select class="match" data-qi="${i}" aria-label="Match for ${p[0]}">
+       <option value="">— select —</option>${rights.map(x=>`<option>${x}</option>`).join("")}</select></div>`).join("")+
+     `<div style="margin-top:10px"><button class="btn" id="matchGo">Check matches</button></div>`;
+  }
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz — Sustainable Development: Economic (Profit/Prosperity)</h2>
+   <div class="quiz-top">
+     <span class="qcount">Question ${quiz.i+1} / ${quiz.qs.length}</span>
+     <div class="pbar" style="flex:1;min-width:120px;background:#e8ebf1"><span style="width:${pct}%"></span></div>
+     <span class="qscore">Score: ${quiz.score} / ${quiz.i}</span>
+   </div>
+   <div class="quiz-card">
+     <span class="qtype-tag">${TYPE_NAMES[q.type]} · ${TOPIC_NAMES[q.topic]}</span>
+     <h3>${q.q}</h3>${inner}
+     <div class="explain" id="qEx"></div>
+     <div style="margin-top:16px;display:none" id="nextWrap">
+       <button class="btn gold" id="qNext">${quiz.i===quiz.qs.length-1?"See results →":"Next question →"}</button>
+     </div>
+   </div>`;
+  quizPanel.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let right;
+    if(q.type==="tf"){right=(b.dataset.tf==="true")===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+    }else{right=+b.dataset.oi===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});}
+    if(!right)b.classList.add("wrong");
+    settle(right);
+  }));
+  const ng=quizPanel.querySelector("#numGo");
+  if(ng){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=parseFloat(quizPanel.querySelector("#numIn").value);
+      if(isNaN(v))return;
+      const right=Math.abs(v-q.a)<=q.tol;
+      quizPanel.querySelector("#numIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    ng.addEventListener("click",go);
+    quizPanel.querySelector("#numIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#numIn").focus();
+  }
+  const mg=quizPanel.querySelector("#matchGo");
+  if(mg)mg.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let filled=true,right=true;
+    quizPanel.querySelectorAll("select.match").forEach(sel=>{
+      const i=+sel.dataset.qi;sel.classList.remove("right","wrong");
+      if(!sel.value){filled=false;return;}
+      const ok=sel.value===q.pairs[i][1];
+      sel.classList.add(ok?"right":"wrong");if(!ok)right=false;
+    });
+    if(!filled)return;
+    settle(right);
+  });
+  function settle(right){
+    quiz.answered=true;
+    if(right)quiz.score++;
+    else{STATE.quiz.wrongTopics[q.topic]=(STATE.quiz.wrongTopics[q.topic]||0)+1;save();}
+    quizPanel.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const ex=quizPanel.querySelector("#qEx");
+    ex.className="explain show "+(right?"good":"poor");
+    ex.innerHTML=`<b>${right?"✔ Correct!":"✖ Not quite."}</b>${q.ex}${q.type==="num"&&!right?`<br><b style="margin-top:6px">Worked solution:</b> answer = ${q.a} ${q.unit}`:""}`;
+    quizPanel.querySelector(".qscore").textContent=`Score: ${quiz.score} / ${quiz.i+1}`;
+    const nw=quizPanel.querySelector("#nextWrap");nw.style.display="block";
+    nw.querySelector("#qNext").addEventListener("click",()=>{quiz.i++;quiz.answered=false;drawQuiz();});
+    nw.querySelector("#qNext").focus();
+  }
+}
+function quizResult(){
+  const pct=Math.round(100*quiz.score/quiz.qs.length);
+  const grade=pct>=90?"A+":pct>=80?"A":pct>=70?"B":pct>=60?"C":pct>=50?"D":"F";
+  const col=pct>=80?"var(--ok)":pct>=60?"var(--warn)":"var(--bad)";
+  STATE.quiz.last=pct;
+  if(STATE.quiz.best===null||pct>STATE.quiz.best)STATE.quiz.best=pct;
+  save();
+  const C=2*Math.PI*62;
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz Results</h2>
+   <div class="quiz-card quiz-result">
+     <svg class="grade-ring" viewBox="0 0 150 150" role="img" aria-label="Score ${pct} percent, grade ${grade}">
+       <circle cx="75" cy="75" r="62" fill="none" stroke="#e8ebf1" stroke-width="13"/>
+       <circle cx="75" cy="75" r="62" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round"
+         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}" transform="rotate(-90 75 75)"
+         style="transition:stroke-dashoffset 1.2s ease"/>
+       <text x="75" y="70" text-anchor="middle" font-size="30" font-weight="800" fill="var(--navy)">${pct}%</text>
+       <text x="75" y="97" text-anchor="middle" font-size="20" font-weight="700" fill="${col}">${grade}</text>
+     </svg>
+     <h3>${quiz.score} of ${quiz.qs.length} correct — Grade ${grade}</h3>
+     <p style="color:var(--ink2);max-width:54ch;margin:10px auto">${
+      pct>=80?"Excellent command of the Economic (Profit/Prosperity) pillar — indicators, AEP, Capacity Factor, the EA Flowchart, and the wind case study.":
+      pct>=60?"A solid base — check your weak areas on the Dashboard, replay the calculators, and retake the quiz.":
+      "Revisit Economic Parameters and AEP & Capacity Factor — practice with the Calculator Toolbox, then try again."}</p>
+     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+       <button class="btn gold" id="restartQuiz">↻ Restart Quiz</button>
+       <button class="btn ghost" id="toDash">View Dashboard</button>
+     </div>
+   </div>`;
+  quizPanel.querySelector("#restartQuiz").addEventListener("click",startQuiz);
+  quizPanel.querySelector("#toDash").addEventListener("click",()=>selectTab("dash"));
+}
+startQuiz();
+
+/* ==========================================================================
+   15. TAB — STUDENT DASHBOARD
+   ========================================================================== */
+function renderDash(){
+  const pct=updateProgress();
+  const topics=[["Learning Outcomes","outcomes"],["Brain Storming Session","brain"],
+   ["SD: Economic (Profit/Prosperity) Pillar","pillar"],["Economic Parameters","econ"],
+   ["Annual Energy Production (AEP) & Capacity Factor","aep"],["EA Flowchart","ea"],
+   ["Case Study: Economic Evaluation of a Wind Power Project","case"],
+   ["Reflections","reflect"],["Summary","summary"],["Calculator Toolbox","toolbox"],["Quiz","quiz"]];
+  const wrongs=Object.entries(STATE.quiz.wrongTopics||{}).sort((a,b)=>b[1]-a[1]);
+  const recs=[];
+  wrongs.forEach(([t])=>{
+    if(t==="pillar")recs.push("Re-open the <b>Triple Bottom Line explorer</b> and the Economic Sustainability cards — including the Aligned SDGs (7, 8, 9, 11, 12).");
+    if(t==="econ")recs.push("Replay the five <b>Economic Parameters</b> calculators — memorize each definition, formula, and decision rule (lower SPP · higher NPV · higher IRR · BCR > 1 · lower LCOE).");
+    if(t==="aep")recs.push("Practice <b>AEP = Pr × 8760 × CF</b> and <b>Revenue = AEP × Electricity Tariff</b> in the Example and the Capacity Factor Explorer.");
+    if(t==="ea")recs.push("Re-run the animated <b>EA Flowchart</b> — the six stages in order, and what each one does.");
+    if(t==="case")recs.push("Redo the <b>wind power case study</b> step-by-step — costs (1200 M BDT), AEP (14.02 GWh), revenue (183.2 M), cash flow (150.2 M), and the Example Results table.");
+  });
+  const caseDone=Object.keys(STATE.caseDone).length;
+  if(caseDone<6)recs.push(`Finish the <b>guided case study</b> — ${6-caseDone} step(s) remaining.`);
+  if(!Object.keys(STATE.reflect).length)recs.push("Write your <b>Reflections</b> — start with: why is Capacity Factor critical for investors?");
+  if(!recs.length)recs.push("Nothing weak detected — do a final pass of the <b>Summary</b> cards and the Critical Relationship before the exam.");
+  document.getElementById("panel-dash").innerHTML=`
+   <h2 class="sec">${svg("clip",24)} Student Dashboard</h2>
+   <div class="stat-grid">
+     <div class="stat"><div class="val">${pct}%</div><div class="lbl">Completion</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.best!==null?STATE.quiz.best+"%":"—"}</div><div class="lbl">Best quiz score</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.last!==null?STATE.quiz.last+"%":"—"}</div><div class="lbl">Last quiz score</div></div>
+     <div class="stat"><div class="val">${caseDone}/6</div><div class="lbl">Case study steps</div></div>
+   </div>
+   <h3 class="subsec">${svg("book",20)} Topics mastered</h3>
+   ${topics.map(([n,id])=>`<div class="topic-row ${STATE.visited[id]?"done":""}">
+     <span class="tick">${STATE.visited[id]?"✓":"•"}</span>${n}
+     ${STATE.visited[id]?"":`<button class="btn ghost" style="margin-left:auto;padding:5px 12px;font-size:.75rem" onclick="selectTab('${id}')">Open</button>`}
+    </div>`).join("")}
+   <h3 class="subsec">${svg("search",20)} Economic concepts needing revision (from quiz mistakes)</h3>
+   ${wrongs.length?wrongs.map(([t,n])=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+     ${TOPIC_NAMES[t]}<span style="margin-left:auto;font-size:.8rem;color:var(--ink2)">${n} incorrect answer${n>1?"s":""}</span></div>`).join(""):
+     `<p class="lede">No quiz mistakes recorded yet — take the Quiz to generate your revision analysis.</p>`}
+   <h3 class="subsec">${svg("bulb",20)} Recommended review modules</h3>
+   ${recs.map(r=>`<div class="topic-row"><span class="tick" style="background:#fdf3dd;color:var(--amber2)">→</span><span>${r}</span></div>`).join("")}`;
+}
+
+/* ========================================================================== 16. INIT */
+selectTab("outcomes");
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ME4011 Renewable Energy | Sustainable Development: 3 Pillars — Social (People)</title>
+<!--
+  ============================================================================
+  ME4011 Renewable Energy — Interactive Companion
+  Sustainable Development: 3 Pillars — Social (People)
+  Based on the lecture notes of Professor Dr. Mazharul Islam
+  Department of Mechanical and Production Engineering
+  Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh
+  Single-file, offline, vanilla HTML/CSS/JS. No external assets.
+  ============================================================================
+-->
+<style>
+/* ============ Design tokens ============ */
+:root{
+  --navy:#0d2137; --navy2:#123a5c; --teal:#0e7c7b; --teal2:#0a5f5e;
+  --amber:#f5a623; --amber2:#c97e08;
+  --bg:#f4f7fa; --card:#ffffff; --ink:#15242f; --ink2:#42586b;
+  --line:#dbe4ec; --ok:#1e8e3e; --warn:#e8a10c; --bad:#c5221f;
+  --radius:14px; --shadow:0 2px 10px rgba(13,33,55,.08);
+  --shadow2:0 10px 28px rgba(13,33,55,.16);
+  --focus:3px solid #f5a623;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px;
+}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:var(--focus);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--amber);color:var(--navy);
+  padding:8px 14px;z-index:200;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+/* ============ Header ============ */
+header.site{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,var(--teal2) 100%);
+  color:#fff;padding:26px 20px 20px;position:relative;overflow:hidden;
+}
+header.site .gear-bg{position:absolute;right:-40px;top:-40px;opacity:.10;pointer-events:none}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:3px 12px;border-radius:99px;font-size:.78rem;font-weight:600;letter-spacing:.4px}
+.badge.gold{background:var(--amber);color:var(--navy);border-color:var(--amber)}
+header.site h1{font-size:clamp(1.25rem,3.2vw,1.9rem);font-weight:800;line-height:1.25}
+header.site h1 .accent{color:var(--amber)}
+header.site .sub{margin-top:6px;font-size:.92rem;color:#cfe3ea}
+.progress-wrap{margin-top:14px;max-width:520px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:#cfe3ea;margin-bottom:4px}
+.pbar{height:9px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.pbar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#ffd469);
+  border-radius:99px;transition:width .6s ease}
+
+/* ============ Nav tabs ============ */
+nav.tabs{position:sticky;top:0;z-index:100;background:var(--card);box-shadow:var(--shadow);
+  display:flex;overflow-x:auto;scrollbar-width:thin;padding:0 8px}
+nav.tabs button{
+  flex:0 0 auto;border:0;background:none;padding:14px 15px 11px;font-size:.88rem;font-weight:600;
+  color:var(--ink2);border-bottom:3px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:7px;transition:color .2s,border-color .2s;
+}
+nav.tabs button svg{flex:0 0 auto}
+nav.tabs button:hover{color:var(--teal)}
+nav.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--amber)}
+nav.tabs button .done-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:none}
+nav.tabs button.visited .done-dot{display:inline-block}
+
+/* ============ Layout ============ */
+main{max-width:1080px;margin:0 auto;padding:26px 18px 80px}
+section.tabpanel{display:none;animation:fadeUp .45s ease}
+section.tabpanel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h2.sec{font-size:1.45rem;color:var(--navy);margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+h3.subsec{font-size:1.12rem;color:var(--teal2);margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+p.lede{color:var(--ink2);margin:6px 0 20px;max-width:70ch}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:#fff;
+  border:none;border-radius:6px;padding:3px 8px;margin:2px;letter-spacing:.2px}
+.chip:hover,.chip:focus-visible{filter:brightness(1.12);transform:translateY(-1px)}
+.chip{transition:transform .15s,filter .15s;cursor:pointer}
+
+/* ============ Cards ============ */
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.grid.c4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.card h4{color:var(--navy);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.card p{font-size:.9rem;color:var(--ink2)}
+.icon-circle{width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;flex:0 0 auto;background:#e7f4f4;color:var(--teal)}
+.expander{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s}
+.expander>button.exp-head{
+  width:100%;text-align:left;background:none;border:0;padding:16px 18px;display:flex;gap:12px;
+  align-items:center;font-weight:600;color:var(--navy);font-size:.97rem}
+.expander>button.exp-head:hover{background:#f4f9fb}
+.expander .chev{margin-left:auto;transition:transform .3s;flex:0 0 auto;color:var(--teal)}
+.expander.open .chev{transform:rotate(180deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.expander.open .exp-body{max-height:1200px}
+.exp-inner{padding:0 18px 18px;font-size:.9rem;color:var(--ink2)}
+.exp-inner h5{color:var(--teal2);font-size:.82rem;text-transform:uppercase;letter-spacing:.6px;margin:12px 0 4px}
+.exp-inner ul{margin:4px 0 4px 20px}
+.exp-inner li{margin:3px 0}
+
+/* Callout boxes */
+.callout{border-radius:var(--radius);padding:18px 20px;margin:24px 0;border-left:6px solid var(--amber);
+  background:linear-gradient(135deg,#fff8ea,#fff);box-shadow:var(--shadow)}
+.callout.teal{border-left-color:var(--teal);background:linear-gradient(135deg,#eaf6f6,#fff)}
+.callout.navy{border-left-color:var(--navy);background:linear-gradient(135deg,#eef3f8,#fff)}
+.callout h4{color:var(--navy);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.callout p{font-size:.95rem}
+.keytake{background:linear-gradient(135deg,var(--navy),var(--teal2));color:#fff;text-align:center;
+  border-radius:var(--radius);padding:28px 22px;margin:26px 0;box-shadow:var(--shadow2)}
+.keytake h4{color:var(--amber);letter-spacing:1px;text-transform:uppercase;font-size:.85rem;margin-bottom:8px}
+.keytake p{font-size:1.12rem;font-weight:600;max-width:60ch;margin:0 auto;line-height:1.5}
+
+/* ============ SDG grid ============ */
+.sdg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px}
+.sdg-tile{border:0;border-radius:10px;color:#fff;padding:12px 10px;text-align:left;min-height:96px;
+  display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);
+  transition:transform .18s,box-shadow .18s;position:relative}
+.sdg-tile:hover,.sdg-tile:focus-visible{transform:translateY(-4px) scale(1.03);box-shadow:var(--shadow2)}
+.sdg-tile .num{font-size:1.5rem;font-weight:800;line-height:1}
+.sdg-tile .nm{font-size:.68rem;font-weight:700;line-height:1.25;text-transform:uppercase;letter-spacing:.2px}
+
+/* ============ Modal ============ */
+.modal-veil{position:fixed;inset:0;background:rgba(13,33,55,.55);display:none;z-index:300;
+  align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
+.modal-veil.show{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:560px;width:100%;max-height:86vh;
+  overflow:auto;box-shadow:var(--shadow2);animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.modal-head{padding:20px 22px;color:#fff;display:flex;align-items:center;gap:14px;
+  border-radius:16px 16px 0 0}
+.modal-head .mnum{font-size:2rem;font-weight:800}
+.modal-head h4{font-size:1.15rem;line-height:1.3}
+.modal-body{padding:20px 22px}
+.modal-body h5{color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.7px;margin:14px 0 4px}
+.modal-body h5:first-child{margin-top:0}
+.modal-body p{font-size:.92rem;color:var(--ink2)}
+.modal-close{margin-left:auto;background:rgba(255,255,255,.2);border:0;color:#fff;width:34px;height:34px;
+  border-radius:50%;font-size:1.05rem;font-weight:700;flex:0 0 auto}
+.modal-close:hover{background:rgba(255,255,255,.35)}
+
+/* ============ Flowchart ============ */
+.flow{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+.flow-stage{width:100%;max-width:620px;background:var(--card);border:2px solid var(--line);
+  border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:center;cursor:pointer;
+  transition:border-color .25s,transform .2s,box-shadow .2s;opacity:0;transform:translateY(16px)}
+.flow-stage.reveal{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease,border-color .25s,box-shadow .2s}
+.flow-stage:hover{border-color:var(--teal);box-shadow:var(--shadow2)}
+.flow-stage.current{border-color:var(--amber);background:#fffaf0}
+.flow-num{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:0 0 auto}
+.flow-stage.current .flow-num{background:var(--amber);color:var(--navy)}
+.flow-stage h4{color:var(--navy);font-size:1.02rem}
+.flow-stage p{font-size:.85rem;color:var(--ink2)}
+.flow-arrow{height:34px;display:flex;align-items:center;opacity:0}
+.flow-arrow.reveal{opacity:1;transition:opacity .5s .15s}
+
+/* ============ Checklist & simulator ============ */
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  margin-bottom:11px;box-shadow:var(--shadow)}
+.qrow .qtext{font-weight:600;color:var(--navy);font-size:.95rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ans-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ans-btns button{border:2px solid var(--line);background:#fff;border-radius:99px;padding:6px 18px;
+  font-size:.83rem;font-weight:700;color:var(--ink2);transition:all .18s}
+.ans-btns button:hover{border-color:var(--teal);color:var(--teal)}
+.ans-btns button.sel-yes{background:var(--ok);border-color:var(--ok);color:#fff}
+.ans-btns button.sel-part{background:var(--warn);border-color:var(--warn);color:#fff}
+.ans-btns button.sel-no{background:var(--bad);border-color:var(--bad);color:#fff}
+.score-panel{border-radius:var(--radius);padding:22px;background:var(--card);border:1px solid var(--line);
+  box-shadow:var(--shadow);margin-top:18px;display:none}
+.score-panel.show{display:block;animation:fadeUp .4s ease}
+.big-score{font-size:2.4rem;font-weight:800;color:var(--navy)}
+.meter{height:14px;border-radius:99px;background:#e8eef4;overflow:hidden;margin:10px 0}
+.meter>span{display:block;height:100%;border-radius:99px;transition:width .8s ease;
+  background:linear-gradient(90deg,var(--teal),var(--amber))}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-weight:700;
+  font-size:.92rem;box-shadow:var(--shadow);transition:background .2s,transform .15s}
+.btn:hover{background:var(--teal2);transform:translateY(-2px)}
+.btn.gold{background:var(--amber);color:var(--navy)}
+.btn.gold:hover{background:var(--amber2);color:#fff}
+.btn.ghost{background:#fff;color:var(--teal2);border:2px solid var(--teal)}
+.btn.ghost:hover{background:#eaf6f6}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Simulator */
+.sim-steps{display:flex;gap:6px;margin:14px 0 20px;flex-wrap:wrap}
+.sim-steps button{flex:1 1 100px;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:9px 6px;font-size:.76rem;font-weight:700;color:var(--ink2);position:relative}
+.sim-steps button[aria-selected="true"]{border-color:var(--amber);background:#fffaf0;color:var(--navy)}
+.sim-steps button.done{border-color:var(--ok);color:var(--ok)}
+.sim-steps button.done::after{content:"✓";position:absolute;top:-8px;right:-4px;background:var(--ok);
+  color:#fff;width:19px;height:19px;border-radius:50%;font-size:.68rem;display:flex;align-items:center;justify-content:center}
+.pick{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:11px 14px;margin:7px 0;font-size:.88rem;color:var(--ink);transition:all .15s}
+.pick:hover{border-color:var(--teal)}
+.pick.on{border-color:var(--teal);background:#eaf6f6;font-weight:600}
+.pick.right{border-color:var(--ok);background:#e9f7ee}
+.pick.wrong{border-color:var(--bad);background:#fdeeee}
+.fb{border-radius:10px;padding:13px 16px;margin-top:12px;font-size:.9rem;display:none}
+.fb.show{display:block;animation:fadeUp .3s ease}
+.fb.good{background:#e9f7ee;border:1px solid #b5dfc2;color:#155724}
+.fb.mid{background:#fff7e2;border:1px solid #f0dc9d;color:#7a5b00}
+.fb.poor{background:#fdeeee;border:1px solid #f0bdbd;color:#8c1a17}
+/* drag & drop */
+.dd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:640px){.dd-wrap{grid-template-columns:1fr}}
+.dd-zone{border:2px dashed var(--line);border-radius:12px;min-height:150px;padding:10px;background:#fbfdfe;transition:border-color .2s,background .2s}
+.dd-zone.hot{border-color:var(--amber);background:#fffaf0}
+.dd-zone h5{font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;color:var(--navy)}
+.dd-item{background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 12px;margin:6px 0;
+  font-size:.84rem;cursor:grab;user-select:none;display:flex;gap:8px;align-items:center;transition:box-shadow .15s}
+.dd-item:hover{box-shadow:var(--shadow)}
+.dd-item.dragging{opacity:.45}
+.dd-item.right{border-color:var(--ok);background:#e9f7ee}
+.dd-item.wrong{border-color:var(--bad);background:#fdeeee}
+.dd-pool{margin-top:12px}
+select.match{width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:8px;font:inherit;
+  font-size:.86rem;background:#fff;color:var(--ink);margin-top:6px}
+select.match.right{border-color:var(--ok);background:#e9f7ee}
+select.match.wrong{border-color:var(--bad);background:#fdeeee}
+
+/* ============ Quiz ============ */
+.quiz-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-top .qcount{font-weight:700;color:var(--navy)}
+.quiz-top .qscore{margin-left:auto;font-weight:700;color:var(--teal2)}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow)}
+.qtype-tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+  background:var(--navy);color:#fff;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.quiz-card h3{color:var(--navy);font-size:1.08rem;margin-bottom:14px;line-height:1.45}
+.quiz-opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;
+  border-radius:10px;padding:12px 15px;margin:8px 0;font-size:.93rem;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--teal);background:#f2fafa}
+.quiz-opt.right{border-color:var(--ok);background:#e9f7ee;font-weight:600}
+.quiz-opt.wrong{border-color:var(--bad);background:#fdeeee}
+.quiz-opt:disabled{cursor:default}
+.fib-input{width:100%;max-width:360px;padding:11px 14px;border:2px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.95rem}
+.fib-input:focus{border-color:var(--teal);outline:none}
+.explain{border-radius:10px;padding:14px 16px;margin-top:14px;font-size:.9rem;display:none}
+.explain.show{display:block;animation:fadeUp .3s ease}
+.explain.good{background:#e9f7ee;border:1px solid #b5dfc2}
+.explain.poor{background:#fdeeee;border:1px solid #f0bdbd}
+.explain b{display:block;margin-bottom:4px}
+.quiz-result{text-align:center;padding:34px 20px}
+.grade-ring{width:150px;height:150px;margin:0 auto 14px}
+.quiz-result h3{font-size:1.5rem;color:var(--navy)}
+
+/* ============ Dashboard ============ */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);text-align:center}
+.stat .val{font-size:2rem;font-weight:800;color:var(--teal2)}
+.stat .lbl{font-size:.8rem;color:var(--ink2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.topic-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:11px 15px;margin:7px 0;font-size:.9rem}
+.topic-row .tick{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;flex:0 0 auto;background:#e8eef4;color:var(--ink2)}
+.topic-row.done .tick{background:var(--ok);color:#fff}
+
+/* footer */
+footer{background:var(--navy);color:#b9cfdd;text-align:center;padding:22px 16px;font-size:.8rem;line-height:1.7}
+footer b{color:#fff}
+
+table.simple{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0}
+table.simple th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:.8rem}
+table.simple td{border:1px solid var(--line);padding:9px 12px;background:#fff;vertical-align:top}
+.small-note{font-size:.78rem;color:var(--ink2);margin-top:8px}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site">
+  <svg class="gear-bg" width="260" height="260" viewBox="0 0 100 100" aria-hidden="true">
+    <path fill="#fff" d="M50 30a20 20 0 1 0 0 40 20 20 0 0 0 0-40zm0 8a12 12 0 1 1 0 24 12 12 0 0 1 0-24z"/>
+    <g fill="#fff"><rect x="46" y="8" width="8" height="14" rx="2"/><rect x="46" y="78" width="8" height="14" rx="2"/>
+    <rect x="8" y="46" width="14" height="8" rx="2"/><rect x="78" y="46" width="14" height="8" rx="2"/>
+    <rect x="18" y="18" width="8" height="14" rx="2" transform="rotate(-45 22 25)"/>
+    <rect x="74" y="18" width="8" height="14" rx="2" transform="rotate(45 78 25)"/>
+    <rect x="18" y="68" width="8" height="14" rx="2" transform="rotate(45 22 75)"/>
+    <rect x="74" y="68" width="8" height="14" rx="2" transform="rotate(-45 78 75)"/></g>
+  </svg>
+  <div class="badge-row">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge">AUST · Dept. of Mechanical and Production Engineering</span>
+    <span class="badge">Interactive Companion</span>
+  </div>
+  <h1>Sustainable Development: 3 Pillars — <span class="accent">Social (People)</span></h1>
+  <p class="sub">Based on the lecture notes of Professor Dr. Mazharul Islam · Ahsanullah University of Science and Technology, Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Course module progress</span><span id="hdrPct">0%</span></div>
+    <div class="pbar"><span id="hdrBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Module sections" id="tabbar"></nav>
+
+<main id="main">
+  <section class="tabpanel" id="panel-outcomes" role="tabpanel" aria-labelledby="tab-outcomes"></section>
+  <section class="tabpanel" id="panel-brain" role="tabpanel" aria-labelledby="tab-brain"></section>
+  <section class="tabpanel" id="panel-pillar" role="tabpanel" aria-labelledby="tab-pillar"></section>
+  <section class="tabpanel" id="panel-sia" role="tabpanel" aria-labelledby="tab-sia"></section>
+  <section class="tabpanel" id="panel-case" role="tabpanel" aria-labelledby="tab-case"></section>
+  <section class="tabpanel" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary"></section>
+  <section class="tabpanel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></section>
+  <section class="tabpanel" id="panel-dash" role="tabpanel" aria-labelledby="tab-dash"></section>
+</main>
+
+<!-- Shared SDG / info modal -->
+<div class="modal-veil" id="modalVeil" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head" id="modalHead">
+      <span class="mnum" id="modalNum"></span>
+      <h4 id="modalTitle"></h4>
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <b>ME4011 Renewable Energy</b> — Interactive companion to the lecture
+  “Sustainable Development: 3 Pillars — Social (People)” by <b>Professor Dr. Mazharul Islam</b><br>
+  Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh<br>
+  Lecture notes licensed under the Creative Commons Attribution-ShareAlike 4.0 International License
+</footer>
+
+<script>
+"use strict";
+/* ==========================================================================
+   1. DATA — all content preserves the exact terminology of the lecture notes
+   ========================================================================== */
+
+/* --- The 17 SDGs (titles as listed in the lecture, official UN colors) --- */
+const SDGS = {
+ 1:{name:"No poverty",color:"#E5243B",
+   eng:"Engineers design low-cost infrastructure and technologies that reduce the cost of essential services for poor communities.",
+   re:"Off-grid solar home systems and mini-grids cut household energy costs and protect livelihoods — such as the fishing and tourism livelihoods highlighted in the Saint Martins Island case study.",
+   proj:"The case study safeguards fishing and tourism-based livelihoods through livelihood restoration, local hiring, and skills training."},
+ 2:{name:"Zero hunger",color:"#DDA63A",
+   eng:"Engineering supports irrigation, cold storage, and food-processing systems that improve food security.",
+   re:"Solar water pumping and renewable-powered cold chains raise agricultural productivity and reduce food losses."},
+ 3:{name:"Good health and well-being",color:"#4C9F38",
+   eng:"Engineers protect public health by reducing air and noise pollution and powering health services.",
+   re:"Reduce air pollution and improve public health through clean energy systems. Displacing diesel generators removes noise and exhaust, and reliable electricity powers clinics.",
+   proj:"Replacing diesel generation on Saint Martins Island reduces air and noise pollution and improves electricity access for clinics."},
+ 4:{name:"Quality education",color:"#C5192D",
+   eng:"Reliable electricity supports schools, laboratories, digital learning, and research.",
+   re:"Renewable electricity keeps schools, laboratories, and digital-learning facilities running in remote and off-grid areas.",
+   proj:"Improved electricity access for schools and community facilities is a positive impact identified in Stage 3 (Impact Assessment) of the case study."},
+ 5:{name:"Gender equity",color:"#FF3A21",
+   eng:"Modern energy enhances educational, employment, and entrepreneurial opportunities, expanding participation for women.",
+   re:"Clean cooking and electrification reduce time poverty and health burdens, enabling women to study, work, and start enterprises."},
+ 6:{name:"Clean water and sanitation",color:"#26BDE2",
+   eng:"Engineers design water-supply, treatment, and sanitation systems for communities.",
+   re:"Solar-powered pumping and desalination bring safe water to remote and island communities."},
+ 7:{name:"Affordable and clean energy",color:"#FCC30B",
+   eng:"The core engineering goal: affordable, reliable, sustainable, and modern energy for all.",
+   re:"The case study's proposal — a 10 MW Solar PV based power system (Hybrid or Grid-tied) to replace diesel generation — directly serves SDG 7.",
+   proj:"The proposal replaces diesel generation with solar PV, improving reliable and affordable electricity supply for households and essential services."},
+ 8:{name:"Decent work and economic growth",color:"#A21942",
+   eng:"Engineering projects create jobs, occupational safety obligations, and local economic opportunity.",
+   re:"Job creation and income diversification during construction and operation of renewable energy plants; dependable electricity supports local economies.",
+   proj:"The project supports the local fishing and tourism economy through dependable electricity, with local hiring and skills training as safeguards."},
+ 9:{name:"Industry, innovation and infrastructure",color:"#FD6925",
+   eng:"Resilient infrastructure and innovation are core mechanical engineering deliverables.",
+   re:"Renewable plants, storage, and grids are modern infrastructure; island logistics (sea transport of equipment) is an SDG 9 challenge in the case study.",
+   proj:"Logistics Constraints — transportation of equipment by sea affected by weather and seasonal access limitations — are mapped to SDG 9."},
+ 10:{name:"Reduced inequalities",color:"#DD1367",
+   eng:"Expand affordable and reliable electricity access to underserved communities.",
+   re:"Equitable access ensures that vulnerable and remote communities benefit from sustainable energy.",
+   proj:"Mitigation ensures affordable electricity access for low-income and marginalized households (Social Equity, Stage 4)."},
+ 11:{name:"Sustainable cities and communities",color:"#FD9D24",
+   eng:"Improve community resilience through reliable and sustainable energy infrastructure.",
+   re:"Renewable systems strengthen community resilience; seasonal demand and land scarcity shape system design in the case study.",
+   proj:"Community Safety measures — public lighting and enhanced safety in residential and tourist areas — are mapped to SDG 11."},
+ 12:{name:"Responsible consumption and production",color:"#BF8B2E",
+   eng:"Engineers minimize resource use and waste across the life cycle of systems.",
+   re:"Land Use Optimization — rooftop, clustered, and distributed PV systems to minimize land use — reflects responsible production.",
+   proj:"Stage 4 mitigation adopts rooftop, clustered, and distributed PV systems to minimize land use (SDG 12)."},
+ 13:{name:"Climate action",color:"#3F7E44",
+   eng:"Engineering decisions determine emissions, climate risk, and resilience of energy systems.",
+   re:"Replacing diesel generation with solar PV reduces emissions and fuel dependence and strengthens energy security and climate resilience.",
+   proj:"The project objectives include strengthening energy security and climate resilience (SDG 13)."},
+ 14:{name:"Life below water",color:"#0A97D9",
+   eng:"Coastal and marine projects must protect aquatic ecosystems.",
+   re:"Saint Martins Island is the only coral island of Bangladesh with high ecological and tourism value — marine protection shapes every project decision.",
+   proj:"The location's coral-island ecology (SDG 14) drives the strict safeguards and the mandated full SIA."},
+ 15:{name:"Life on land",color:"#56C02B",
+   eng:"Land-use planning and biodiversity protection are engineering responsibilities.",
+   re:"The island's Ecologically Critical Area (ECA) status requires strict environmental and social safeguards for any PV land footprint.",
+   proj:"ECA Status and potential land pressure (Stage 3 Negative Impacts) are mapped to SDG 15."},
+ 16:{name:"Peace, justice and strong institutions",color:"#00689D",
+   eng:"Promote transparency, stakeholder engagement, and accountable decision-making.",
+   re:"Regulatory compliance (ECA status), grievance redress mechanisms, and transparent SIA processes institutionalize good governance in energy projects.",
+   proj:"Regulatory Risk in Screening and the accessible grievance redress mechanism in Monitoring & Review are mapped to SDG 16."},
+ 17:{name:"Partnerships for the goals",color:"#19486A",
+   eng:"Complex projects require collaboration among government, utilities, regulators, and communities.",
+   re:"Institutional Engagement — involving local government, utilities, regulators, and community reps — is an SDG 17 practice in the SIA.",
+   proj:"Coordination: continuous collaboration among community, utilities, and regulators (Stage 5) is mapped to SDG 17."}
+};
+
+/* --- Learning Outcomes (exact wording from the lecture) --- */
+const OUTCOMES=[
+ {text:"Explain the principles of social sustainability and people-centered engineering in the context of renewable energy projects, with reference to inclusion, public health, ethics, and relevant SDGs.",
+  why:"Renewable energy projects influence society far beyond electricity generation. An engineer who cannot articulate the social dimension of sustainability cannot justify design choices to communities, regulators, or investors.",
+  eng:"You will use these principles when selecting sites, setting design criteria (safety, accessibility, affordability), and defending a project as socially acceptable — one of the four tests in the lecture's Engineering Perspective.",
+  sdgs:[3,4,5,10,11,16]},
+ {text:"Apply the Social Impact Assessment (SIA) framework to identify and evaluate social risks and benefits of renewable energy projects in socially and environmentally sensitive areas.",
+  why:"SIA is the standard framework for identifying and managing the social effects of new projects — especially in socially or environmentally sensitive areas such as an Ecologically Critical Area (ECA).",
+  eng:"You will walk through the five SIA stages — Screening, Scoping, Impact Assessment, Mitigation Measures, and Monitoring & Review — exactly as applied to the Saint Martins Island 10 MW Solar PV case study.",
+  sdgs:[1,10,14,15,16]},
+ {text:"Propose appropriate mitigation and monitoring measures that promote social equity, protect livelihoods, and enhance community resilience in renewable energy case studies.",
+  why:"Identifying impacts is not enough — engineers must plan actions to reduce harm and then track progress and adjust. Mitigation and monitoring turn assessment into accountable practice.",
+  eng:"You will design measures such as Land Use Optimization, Livelihood Safeguards, Social Equity, and Community Safety, then monitor livelihoods, service performance, accountability, and coordination.",
+  sdgs:[1,8,10,11,12,17]}
+];
+
+/* --- People-Centered Engineering principle cards (lecture wording) --- */
+const PCE=[
+ {t:"Promote inclusion",icon:"users",d:"Engineering solutions must include all groups in society — no community is left outside the benefits of the energy system.",ex:"Community consultations that include fishers, tourism workers, small businesses, and vulnerable households (as identified in SIA Scoping)."},
+ {t:"Accessibility",icon:"door",d:"Systems must be physically, technically, and economically accessible to the people they serve.",ex:"Simple, locally maintainable solar home systems; service points reachable by remote and island communities."},
+ {t:"Equitable access to energy",icon:"plug",d:"Promote inclusion, accessibility, and equitable access to energy — the benefits of electrification must reach vulnerable and remote communities.",ex:"Lifeline tariffs and distributed PV ensuring affordable electricity access for low-income and marginalized households."},
+ {t:"Public health",icon:"heart",d:"Protect public health — clean energy reduces air pollution, improving public health and quality of life.",ex:"Displacing diesel generators removes exhaust and noise; reliable electricity powers clinics and vaccine cold chains."},
+ {t:"Safety",icon:"shield",d:"Protect safety in design, construction, and operation — for workers and for the public.",ex:"Occupational safety during construction; public lighting and enhanced safety in residential and tourist areas."},
+ {t:"Human dignity",icon:"person",d:"Protect public health, safety, and human dignity — engineering must respect the worth of every person affected by a project.",ex:"Grievance redress mechanisms that treat community complaints seriously and transparently."},
+ {t:"Community resilience",icon:"home",d:"Strengthen community resilience through stakeholder participation — communities that shape a project can sustain it.",ex:"Reliable and sustainable energy infrastructure that keeps essential services running through seasonal and climate stresses."},
+ {t:"Stakeholder participation",icon:"chat",d:"Strengthen community resilience through stakeholder participation — engaging stakeholders throughout planning, design, and operation.",ex:"Institutional Engagement: involving local government, utilities, regulators, and community reps (SIA Stage 2)."},
+ {t:"Ethical engineering",icon:"scale",d:"Practice ethical, transparent, and culturally responsible engineering — professional integrity in every decision.",ex:"Honest reporting of social risks in the SIA; refusing shortcuts that transfer harm to vulnerable groups."},
+ {t:"Transparent engineering",icon:"eye",d:"Practice ethical, transparent, and culturally responsible engineering — open information and accountable decision-making.",ex:"Publishing assessment findings; operating an accessible grievance redress mechanism and ensuring transparency (SIA Stage 5)."},
+ {t:"Culturally responsible engineering",icon:"globe",d:"Practice ethical, transparent, and culturally responsible engineering — respecting local culture, community priorities, and social equity.",ex:"Designing around fishing seasons and tourist-season demand patterns; protecting cultural and livelihood practices on the island."}
+];
+
+/* --- Social Sustainability and the SDGs dashboard (slide wording) --- */
+const SDG_DASH=[
+ {n:3,label:"Good Health",rel:"Reduce air pollution and improve public health through clean energy systems.",
+  eng:"Engineers select clean generation and emission-free equipment to protect community health.",
+  re:"Solar PV displacing diesel generators removes exhaust and noise around homes, clinics, and schools."},
+ {n:4,label:"Quality Education",rel:"Reliable electricity supports schools, laboratories, digital learning, and research.",
+  eng:"System reliability targets (availability, supply hours) are engineering decisions that directly affect education.",
+  re:"Extended supply hours from PV + storage keep evening study, laboratories, and digital classrooms powered."},
+ {n:5,label:"Gender Equality",rel:"Modern energy enhances educational, employment, and entrepreneurial opportunities.",
+  eng:"Inclusive design and hiring practices open technical roles and enterprise opportunities to women.",
+  re:"Electrified workshops, cold storage, and communications enable women-led businesses in off-grid communities."},
+ {n:10,label:"Reduced Inequalities",rel:"Expand affordable and reliable electricity access to underserved communities.",
+  eng:"Tariff design, system sizing, and siting decide who can actually afford and reach the service.",
+  re:"Distributed PV and mini-grids reach remote and vulnerable communities the main grid does not."},
+ {n:11,label:"Sustainable Cities",rel:"Improve community resilience through reliable and sustainable energy infrastructure.",
+  eng:"Engineers design infrastructure that withstands seasonal demand peaks and climate stresses.",
+  re:"Hybrid PV systems sized for tourist-season peaks keep island communities functioning year-round."},
+ {n:16,label:"Strong Institutions",rel:"Promote transparency, stakeholder engagement, and accountable decision-making.",
+  eng:"SIA procedures, disclosure, and grievance mechanisms embed accountability in project delivery.",
+  re:"ECA compliance and a transparent SIA process build public trust in renewable energy projects."}
+];
+
+/* --- Why Social Sustainability Matters (lecture wording) --- */
+const WHY=[
+ {t:"Reliable electricity",pts:"Reliable electricity improves healthcare, education, communication, and economic productivity.",
+  keys:["Healthcare","Education","Communication","Economic productivity"],
+  more:"One dependable supply upgrades four social systems at once: clinics can refrigerate medicine and run equipment; schools gain lighting, laboratories, and digital learning; mobile networks and internet stay up; and shops, workshops, and services can operate longer and invest with confidence."},
+ {t:"Air pollution reduction",pts:"Clean energy reduces air pollution, improving public health and quality of life.",
+  keys:["Public health","Quality of life"],
+  more:"Diesel generation concentrates exhaust and noise inside communities. Displacing it with clean energy is a direct public-health intervention — exactly the health benefit quantified in Stage 3 of the case study SIA."},
+ {t:"Community acceptance",pts:"Inclusive planning increases community acceptance and reduces project conflicts.",
+  keys:["Inclusive planning","Reduced conflicts"],
+  more:"Projects imposed on communities meet resistance, delay, and cost overruns. Projects planned with communities gain legitimacy — stakeholder participation is risk management as much as ethics."},
+ {t:"Vulnerable communities",pts:"Equitable access ensures that vulnerable and remote communities benefit from sustainable energy.",
+  keys:["Equitable access","Remote communities"],
+  more:"Without deliberate equity measures, energy benefits concentrate where paying capacity is highest. Engineering for equity — tariffs, siting, distributed systems — ensures no one is left behind."}
+];
+
+/* --- Engineering Practices Supporting Social Sustainability (lecture wording) --- */
+const PRACTICES=[
+ {t:"Designing affordable, reliable, and accessible renewable energy systems",icon:"gear",
+  d:"Mechanical engineers contribute to social sustainability by designing affordable, reliable, and accessible renewable energy systems.",
+  ex:["Right-sizing PV arrays and storage to seasonal demand so tariffs stay affordable.","Selecting robust, locally serviceable components to keep reliability high and O&M cost low."],
+  rw:"Solar home systems and mini-grids across rural Bangladesh succeeded because cost, reliability, and access were designed in from the start."},
+ {t:"Protecting public health",icon:"heart",
+  d:"Protecting public health and ensuring occupational safety are core engineering duties.",
+  ex:["Displacing diesel generators to remove air and noise pollution from settlements.","Specifying safe electrical layouts, clearances, and protective systems near homes."],
+  rw:"The Saint Martins case study lists reduced air and noise pollution as a principal health benefit of the PV project."},
+ {t:"Occupational safety",icon:"helmet",
+  d:"Ensuring occupational safety during construction, operation, and maintenance of energy systems.",
+  ex:["Safe working procedures for rooftop PV installation and marine equipment handling.","Lockout-tagout, PPE, and training for O&M crews on inverters and storage."],
+  rw:"Island logistics — moving heavy equipment by sea — make construction-phase safety planning essential."},
+ {t:"Minimizing disruption",icon:"route",
+  d:"Minimizing disruption to local communities during project implementation.",
+  ex:["Scheduling construction and sea deliveries outside peak fishing and tourist seasons.","Using rooftop, clustered, and distributed PV to avoid displacing land uses."],
+  rw:"Stage 4 of the case study adopts Land Use Optimization precisely to minimize disruption on a land-scarce island."},
+ {t:"Stakeholder engagement",icon:"chat",
+  d:"Engaging stakeholders throughout planning, design, and operation.",
+  ex:["Structured consultations with fishers, tourism workers, small businesses, and vulnerable households.","Institutional engagement with local government, utilities, regulators, and community reps."],
+  rw:"SIA Stage 2 (Scoping) makes stakeholder identification and engagement a formal engineering deliverable."},
+ {t:"Respecting local culture",icon:"globe",
+  d:"Respecting local culture, community priorities, and social equity.",
+  ex:["Designing around livelihood calendars (fishing seasons, tourist season) rather than against them.","Protecting sites and practices the community values."],
+  rw:"Community Sensitivity is listed among the case study's Core Challenges — culture and livelihoods shape the engineering solution."},
+ {t:"Social equity",icon:"scale",
+  d:"Respecting social equity — ensuring benefits and burdens are fairly shared.",
+  ex:["Affordable electricity access for low-income and marginalized households.","Local hiring and skills training so economic benefits stay on the island."],
+  rw:"Social Equity is an explicit Mitigation Measure (Stage 4) mapped to SDG 10: Reduced Inequalities."},
+ {t:"Transparency",icon:"eye",
+  d:"Promoting transparency in decisions, data, and performance.",
+  ex:["Publishing SIA findings and monitoring results.","Operating an accessible grievance redress mechanism."],
+  rw:"Accountability in Stage 5 (Monitoring & Review) is mapped to SDG 16: Strong Institutions."},
+ {t:"Ethics",icon:"shield",
+  d:"Promoting ethics in professional engineering judgment.",
+  ex:["Reporting social risks honestly, even when inconvenient for the project schedule.","Refusing design shortcuts that shift harm onto vulnerable groups."],
+  rw:"Professional codes of ethics make the public's safety, health, and welfare paramount — the engineering root of social sustainability."},
+ {t:"Responsible engineering practice",icon:"gear",
+  d:"Promoting transparency, ethics, and responsible engineering practice as one integrated duty.",
+  ex:["Complying with national and international environmental and social safeguards.","Aligning design decisions with the SDGs throughout the project life cycle."],
+  rw:"The Summary of Key Concepts: engineers play a crucial role in risk mitigation, stakeholder inclusion, and alignment with SDGs."}
+];
+
+/* --- Renewable Energy Project: Social Sustainability Checklist (exact) --- */
+const CHECKLIST=[
+ {q:"Will the project improve public health?",sdgs:[3]},
+ {q:"Will it provide equitable access to electricity?",sdgs:[7,10]},
+ {q:"Will local communities benefit economically?",sdgs:[8]},
+ {q:"Have stakeholders participated in planning?",sdgs:[16]},
+ {q:"Does the project strengthen community resilience?",sdgs:[11]},
+ {q:"Is the project socially inclusive and ethically responsible?",sdgs:[]}
+];
+
+/* --- SIA five stages (exact names and descriptions) --- */
+const SIA_STAGES=[
+ {n:1,t:"Screening",d:"Check if SIA is needed.",
+  detail:"Determine if a full SIA is required based on project scale and location sensitivity."},
+ {n:2,t:"Scoping",d:"Identify impacts & key groups.",
+  detail:"Identify key affected groups, define assessment boundaries, and engage with institutional stakeholders."},
+ {n:3,t:"Impact Assessment",d:"Analyze social risks and benefits.",
+  detail:"Analyze potential negative impacts (e.g., livelihood disruption) and positive benefits (e.g., job creation)."},
+ {n:4,t:"Mitigation Measures",d:"Plan actions to reduce harm.",
+  detail:"Develop plans to reduce harm, such as livelihood safeguards and ensuring social equity."},
+ {n:5,t:"Monitoring & Review",d:"Track progress and adjust.",
+  detail:"Continuously track project impacts, monitor service performance, and ensure accountability."}
+];
+
+/* --- SIA Case Study: Stage Explorer content (exact lecture wording) --- */
+const CASE_STAGES=[
+ {t:"SIA Stage 1: Screening",items:[
+   ["Project Context","Major energy infrastructure proposed within a protected island ecosystem.",[11]],
+   ["Sensitivity Check","High ecological value; livelihoods heavily dependent on fishing and tourism.",[1,14]],
+   ["Regulatory Risk","Ecologically Critical Area status triggers strict environmental/social compliance.",[16]],
+   ["Screening Outcome","Full Social Impact Assessment (SIA) mandated due to high sensitivities.",[16]]]},
+ {t:"SIA Stage 2: Scoping",items:[
+   ["Affected Groups","Identify fishers, tourism workers, small businesses, and vulnerable households.",[10]],
+   ["Service Access","Assess current and future access to electricity, water, health, and education.",[7]],
+   ["Assessment Boundaries","Define spatial limits (site, settlements, tourist zones) and seasonal demands.",[11]],
+   ["Institutional Engagement","Involve local government, utilities, regulators, and community reps.",[17]]]},
+ {t:"SIA Stage 3: Impact Assessment",items:[
+   ["Negative Impacts","Potential land pressure; temporary disruption to fishing and tourism.",[1,15]],
+   ["Health Benefits","Reduced air and noise pollution by displacing diesel generators.",[3]],
+   ["Economic Effects","Job creation and income diversification during construction and operation.",[8]],
+   ["Social Services","Improved electricity access for clinics, schools, and community facilities.",[4,7]]]},
+ {t:"SIA Stage 4: Mitigation Measures",items:[
+   ["Land Use Optimization","Adopt rooftop, clustered, and distributed PV systems to minimize land use.",[12]],
+   ["Livelihood Safeguards","Implement local hiring, skills training, and livelihood restoration.",[1,8]],
+   ["Social Equity","Ensure affordable electricity access for low-income and marginalized households.",[10]],
+   ["Community Safety","Install public lighting and enhance safety in residential and tourist areas.",[11]]]},
+ {t:"SIA Stage 5: Monitoring & Review",items:[
+   ["Livelihood Monitoring","Track employment and income changes in the fishing and tourism sectors.",[8]],
+   ["Service Performance","Monitor reliability, affordability, and quality of the electricity supply.",[7]],
+   ["Accountability","Operate an accessible grievance redress mechanism and ensure transparency.",[16]],
+   ["Coordination","Maintain continuous collaboration among community, utilities, and regulators.",[17]]]}
+];
+
+/* --- Case Study: Problem Specifications — Project Profile (exact) --- */
+const PROFILE=[
+ ["Proposal","10 MW Solar PV based power system (Hybrid or Grid-tied) to replace diesel generation.",[7],"sun"],
+ ["Location","Saint Martins Island, the only coral island of Bangladesh with high ecological and tourism value.",[14],"pin"],
+ ["Current State","Dependence on diesel generators resulting in high electricity cost, limited supply hours, noise, and air pollution.",[3,13],"fuel"],
+ ["Energy Demand Context","Seasonal peak demand during tourist season and lower off-peak residential demand.",[11],"chart"]
+];
+
+/* --- Core Challenges (exact) --- */
+const CHALLENGES=[
+ ["Land Scarcity","Limited island area with competing demands from housing, tourism, and agriculture; large land footprint of PV systems.",[11],
+  "A 10 MW ground-mounted PV plant needs several hectares — a serious constraint on a small coral island. This challenge drives the Stage 4 mitigation: rooftop, clustered, and distributed PV systems."],
+ ["ECA Status","Declared an Ecologically Critical Area requiring strict environmental and social safeguards.",[15,16],
+  "ECA designation under Bangladesh's regulatory framework (ECA 1995, ECR 1997) legally mandates ESIA and stakeholder engagement — it is the Regulatory Risk that makes a full SIA mandatory in Screening."],
+ ["Logistics Constraints","Transportation of equipment by sea affected by weather and seasonal access limitations.",[9],
+  "Panels, inverters, and storage must arrive by boat. Weather windows and seasonal access shape the construction schedule, cost, and occupational safety planning."],
+ ["Community Sensitivity","Strong dependence on fishing and tourism-based livelihoods vulnerable to disruption.",[1,8],
+  "Any land take, construction disturbance, or access restriction can directly cut household incomes — which is why Livelihood Safeguards and Livelihood Monitoring appear in Stages 4 and 5."]
+];
+
+/* --- Project Objectives (exact) --- */
+const OBJECTIVES=[
+ ["Replace diesel generation with solar PV to reduce emissions and fuel dependence.",[7,13]],
+ ["Improve reliable and affordable electricity supply for households and essential services.",[7,3]],
+ ["Support the local fishing and tourism economy through dependable electricity.",[8,14]],
+ ["Strengthen energy security and climate resilience.",[13]],
+ ["Promote socially inclusive and environmentally sustainable development.",[10,12]]
+];
+
+/* --- Summary of Key Concepts (exact lecture wording) --- */
+const SUMMARY=[
+ "Renewable energy projects must comply with both national and international environmental and social safeguards.",
+ "UNDP SES provides a global framework to integrate sustainability, equity, and resilience into engineering design.",
+ "Key SES standards relevant to RE include biodiversity protection, climate risk, pollution prevention, and community safety.",
+ "Bangladesh's regulatory framework (ECA 1995, ECR 1997) legally mandates ESIA and stakeholder engagement.",
+ "Engineers play a crucial role in risk mitigation, stakeholder inclusion, and alignment with SDGs."
+];
+
+/* ==========================================================================
+   2. QUIZ QUESTION POOL  (type: mc | tf | fib ; topic keys used by dashboard)
+   ========================================================================== */
+const QUIZ_POOL=[
+ {type:"mc",topic:"pillar",q:"According to the lecture, social sustainability focuses on improving human well-being through engineering solutions that are:",
+  opts:["Equitable, inclusive, safe, and socially responsible","Cheap, fast, profitable, and scalable","Automated, digital, efficient, and modern","Centralized, standardized, patented, and exportable"],a:0,
+  ex:"The lecture defines social sustainability as improving human well-being through engineering solutions that are equitable, inclusive, safe, and socially responsible."},
+ {type:"mc",topic:"pillar",q:"Which set of SDGs does the lecture list as most relevant to the Social (People) pillar?",
+  opts:["SDG 3, 4, 5, 10, 11, 16","SDG 6, 7, 12, 13, 14, 15","SDG 1, 2, 8, 9, 12, 17","SDG 2, 6, 9, 13, 14, 17"],a:0,
+  ex:"The lecture maps the Social pillar to SDG 3 (Good Health), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 10 (Reduced Inequalities), SDG 11 (Sustainable Cities), and SDG 16 (Strong Institutions)."},
+ {type:"mc",topic:"sia",q:"What is the correct order of the five SIA stages?",
+  opts:["Screening → Scoping → Impact Assessment → Mitigation Measures → Monitoring & Review",
+        "Scoping → Screening → Mitigation Measures → Impact Assessment → Monitoring & Review",
+        "Impact Assessment → Screening → Scoping → Monitoring & Review → Mitigation Measures",
+        "Screening → Impact Assessment → Scoping → Mitigation Measures → Monitoring & Review"],a:0,
+  ex:"The SIA flowchart proceeds: Screening (check if SIA is needed) → Scoping (identify impacts & key groups) → Impact Assessment (analyze social risks and benefits) → Mitigation Measures (plan actions to reduce harm) → Monitoring & Review (track progress and adjust)."},
+ {type:"mc",topic:"sia",q:"The purpose of the Screening stage of SIA is to:",
+  opts:["Check if SIA is needed","Identify impacts & key groups","Plan actions to reduce harm","Track progress and adjust"],a:0,
+  ex:"Screening checks if SIA is needed — determining whether a full SIA is required based on project scale and location sensitivity."},
+ {type:"mc",topic:"sia",q:"In the SIA flowchart, 'Plan actions to reduce harm' describes which stage?",
+  opts:["Mitigation Measures","Scoping","Impact Assessment","Monitoring & Review"],a:0,
+  ex:"Mitigation Measures is the stage where actions are planned to reduce harm, such as livelihood safeguards and ensuring social equity."},
+ {type:"mc",topic:"case",q:"The case study proposal is:",
+  opts:["A 10 MW Solar PV based power system (Hybrid or Grid-tied) to replace diesel generation",
+        "A 50 MW offshore wind farm connected to the national grid",
+        "A biomass gasification plant fueled by agricultural residues",
+        "A tidal barrage across the island's harbor"],a:0,
+  ex:"The Project Profile states: Proposal — 10 MW Solar PV based power system (Hybrid or Grid-tied) to replace diesel generation [SDG 7]."},
+ {type:"mc",topic:"case",q:"Why does Saint Martins Island's ECA status matter for the project?",
+  opts:["It requires strict environmental and social safeguards and makes a full SIA mandatory",
+        "It exempts the project from all environmental regulation",
+        "It guarantees government subsidy for solar projects",
+        "It restricts the island to wind energy only"],a:0,
+  ex:"ECA (Ecologically Critical Area) status triggers strict environmental/social compliance — the Regulatory Risk that leads to the Screening Outcome: full SIA mandated due to high sensitivities."},
+ {type:"mc",topic:"case",q:"Which mitigation measure addresses Land Scarcity in the case study?",
+  opts:["Land Use Optimization: adopt rooftop, clustered, and distributed PV systems to minimize land use",
+        "Community Safety: install public lighting in tourist areas",
+        "Livelihood Safeguards: implement local hiring and skills training",
+        "Coordination: collaborate with utilities and regulators"],a:0,
+  ex:"Stage 4 pairs Land Use Optimization — rooftop, clustered, and distributed PV systems to minimize land use [SDG 12] — with the island's land scarcity challenge."},
+ {type:"mc",topic:"case",q:"In SIA Stage 2 (Scoping), the Affected Groups identified are:",
+  opts:["Fishers, tourism workers, small businesses, and vulnerable households",
+        "Foreign investors, shipping companies, and airlines",
+        "Only the electricity utility and its employees",
+        "Mainland industrial consumers"],a:0,
+  ex:"Scoping identifies fishers, tourism workers, small businesses, and vulnerable households [SDG 10: Reduced Inequalities]."},
+ {type:"mc",topic:"case",q:"Which of the following is a Negative Impact identified in Stage 3 (Impact Assessment)?",
+  opts:["Potential land pressure and temporary disruption to fishing and tourism",
+        "Reduced air and noise pollution",
+        "Job creation and income diversification",
+        "Improved electricity access for clinics and schools"],a:0,
+  ex:"Negative Impacts: potential land pressure; temporary disruption to fishing and tourism [SDG 1, SDG 15]. The other three options are positive impacts (Health Benefits, Economic Effects, Social Services)."},
+ {type:"mc",topic:"sia",q:"'Operate an accessible grievance redress mechanism and ensure transparency' belongs to which Stage 5 element?",
+  opts:["Accountability","Livelihood Monitoring","Service Performance","Coordination"],a:0,
+  ex:"Accountability [SDG 16: Strong Institutions] — operating an accessible grievance redress mechanism and ensuring transparency — is part of Monitoring & Review."},
+ {type:"mc",topic:"summary",q:"According to the Engineering Perspective, a renewable energy project is sustainable only when it is:",
+  opts:["Technically feasible, economically viable, environmentally responsible, and socially acceptable",
+        "Profitable, patented, exportable, and automated",
+        "Large-scale, grid-connected, subsidized, and centralized",
+        "Fast to build, cheap to run, and politically popular"],a:0,
+  ex:"The Engineering Perspective: a renewable energy project is sustainable only when it is technically feasible, economically viable, environmentally responsible, and socially acceptable."},
+ {type:"mc",topic:"summary",q:"Which regulatory instruments of Bangladesh legally mandate ESIA and stakeholder engagement?",
+  opts:["ECA 1995 and ECR 1997","BNBC 2020 and ISO 9001","Paris Agreement and Kyoto Protocol","IEC 61215 and IEEE 1547"],a:0,
+  ex:"The Summary of Key Concepts states that Bangladesh's regulatory framework (ECA 1995, ECR 1997) legally mandates ESIA and stakeholder engagement."},
+ {type:"mc",topic:"sdg",q:"Which SDG is 'Affordable and clean energy'?",
+  opts:["SDG 7","SDG 3","SDG 11","SDG 13"],a:0,
+  ex:"SDG 7 is Affordable and clean energy — the SDG mapped to the case study's proposal to replace diesel generation with solar PV."},
+ {type:"mc",topic:"sdg",q:"In the Social Sustainability and the SDGs dashboard, SDG 16 (Strong Institutions) is described as promoting:",
+  opts:["Transparency, stakeholder engagement, and accountable decision-making",
+        "Higher electricity tariffs for industry",
+        "Centralized decision-making without consultation",
+        "Faster construction permits for all projects"],a:0,
+  ex:"SDG 16: promote transparency, stakeholder engagement, and accountable decision-making."},
+ {type:"tf",topic:"pillar",q:"True or False: Inclusive planning increases community acceptance and reduces project conflicts.",a:true,
+  ex:"True — the lecture lists this under Why Social Sustainability Matters: inclusive planning increases community acceptance and reduces project conflicts."},
+ {type:"tf",topic:"pillar",q:"True or False: According to the lecture, renewable energy projects influence society only through electricity generation.",a:false,
+  ex:"False — the lecture states the opposite: renewable energy projects influence society far beyond electricity generation."},
+ {type:"tf",topic:"sia",q:"True or False: In the case study Screening stage, the outcome was that no SIA was required.",a:false,
+  ex:"False — the Screening Outcome was: full Social Impact Assessment (SIA) mandated due to high sensitivities."},
+ {type:"tf",topic:"case",q:"True or False: Saint Martins Island is the only coral island of Bangladesh.",a:true,
+  ex:"True — the Project Profile describes Saint Martins Island as the only coral island of Bangladesh with high ecological and tourism value [SDG 14: Life Below Water]."},
+ {type:"tf",topic:"case",q:"True or False: The island's energy demand peaks during the tourist season, with lower off-peak residential demand.",a:true,
+  ex:"True — Energy Demand Context: seasonal peak demand during tourist season and lower off-peak residential demand [SDG 11]."},
+ {type:"tf",topic:"sia",q:"True or False: Monitoring & Review ends once the plant is commissioned.",a:false,
+  ex:"False — Monitoring & Review means to track progress and adjust: continuously tracking project impacts, monitoring service performance, and ensuring accountability throughout operation."},
+ {type:"tf",topic:"summary",q:"True or False: UNDP SES provides a global framework to integrate sustainability, equity, and resilience into engineering design.",a:true,
+  ex:"True — this is stated directly in the Summary of Key Concepts."},
+ {type:"fib",topic:"sia",q:"The SIA stage that comes immediately after Scoping is called ______ Assessment.",a:["impact"],
+  ex:"Scoping is followed by Impact Assessment — analyze social risks and benefits."},
+ {type:"fib",topic:"case",q:"Saint Martins Island has been declared an Ecologically ______ Area (ECA).",a:["critical"],
+  ex:"ECA stands for Ecologically Critical Area — a designation requiring strict environmental and social safeguards."},
+ {type:"fib",topic:"case",q:"The proposed solar PV power system in the case study has a capacity of ______ MW.",a:["10","ten"],
+  ex:"The proposal is a 10 MW Solar PV based power system (Hybrid or Grid-tied) to replace diesel generation."},
+ {type:"fib",topic:"sia",q:"In Stage 5, operating an accessible ______ redress mechanism ensures transparency and accountability.",a:["grievance"],
+  ex:"Accountability [SDG 16]: operate an accessible grievance redress mechanism and ensure transparency."},
+ {type:"fib",topic:"pillar",q:"Social sustainability ensures that renewable energy projects create lasting benefits for people, communities, and future ______.",a:["generations"],
+  ex:"The Key Takeaway: social sustainability ensures that renewable energy projects create lasting benefits for people, communities, and future generations."},
+ {type:"fib",topic:"summary",q:"A renewable energy project is sustainable only when it is technically feasible, economically viable, environmentally responsible, and socially ______.",a:["acceptable"],
+  ex:"The Engineering Perspective lists four tests: technically feasible, economically viable, environmentally responsible, and socially acceptable."},
+ {type:"mc",topic:"sdg",q:"In Stage 4, 'Social Equity: ensure affordable electricity access for low-income and marginalized households' is mapped to:",
+  opts:["SDG 10: Reduced Inequalities","SDG 14: Life Below Water","SDG 9: Industry, Innovation and Infrastructure","SDG 2: Zero hunger"],a:0,
+  ex:"Social Equity is mapped to SDG 10: Reduced Inequalities in the case study's Mitigation Measures."},
+ {type:"mc",topic:"sia",q:"Which Stage 5 element tracks employment and income changes in the fishing and tourism sectors?",
+  opts:["Livelihood Monitoring","Service Performance","Accountability","Coordination"],a:0,
+  ex:"Livelihood Monitoring [SDG 8: Decent Work] tracks employment and income changes in the fishing and tourism sectors."}
+];
+
+/* ==========================================================================
+   3. CORE FRAMEWORK — icons, state, tabs, modal, shared widgets
+   ========================================================================== */
+
+/* Small inline SVG icon library (stroke-based, engineering theme) */
+const IC={
+ gear:'<path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1l1.7 1.3-1.7 3-2-.7a7 7 0 0 1-1.6 1l-.3 2.1h-3.4l-.3-2.1a7 7 0 0 1-1.6-1l-2 .7-1.7-3 1.7-1.3a7 7 0 0 1 0-1.9L6.5 10l1.7-3 2 .7a7 7 0 0 1 1.6-1l.3-2.1h3.4l.3 2.1a7 7 0 0 1 1.6 1l2-.7 1.7 3-1.7 1.3a7 7 0 0 1 0 1.9z"/>',
+ users:'<circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.2 5 2 5 4.8"/>',
+ door:'<rect x="5" y="3" width="11" height="18" rx="1"/><circle cx="13" cy="12" r="1"/><path d="M16 6h3v15h-3"/>',
+ plug:'<path d="M9 3v5m6-5v5M7 8h10v3a5 5 0 0 1-10 0V8zm5 8v5"/>',
+ heart:'<path d="M12 20s-7-4.6-9-9a5 5 0 0 1 9-3.6A5 5 0 0 1 21 11c-2 4.4-9 9-9 9z"/>',
+ shield:'<path d="M12 3l8 3v6c0 4.5-3.4 7.7-8 9-4.6-1.3-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+ person:'<circle cx="12" cy="7" r="3.4"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>',
+ home:'<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9z"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9h8M8 12h5"/>',
+ scale:'<path d="M12 4v16m-7 0h14M12 4l-6 3 6-1 6 1-6-3zM6 7l-2.6 6a3 3 0 0 0 5.2 0L6 7zm12 0l-2.6 6a3 3 0 0 0 5.2 0L18 7z"/>',
+ eye:'<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18-3-3.5-3-14.5 0-18z"/>',
+ helmet:'<path d="M4 15a8 8 0 0 1 16 0v2H4v-2z"/><path d="M10 7.4V4h4v3.4M2.8 17h18.4"/>',
+ route:'<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M19.1 4.9l-2.1 2.1m-10 10l-2.1 2.1"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ fuel:'<rect x="4" y="4" width="10" height="16" rx="1.5"/><path d="M6 8h6M14 11h2.5a2 2 0 0 1 2 2v3a1.5 1.5 0 0 0 3 0V9l-3-3"/>',
+ chart:'<path d="M4 20V4m0 16h16"/><path d="M7 16l4-5 3 3 5-7"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M19 19H6a2 2 0 0 0-2 2"/>',
+ bulb:'<path d="M9 18h6m-5 3h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.4-1 2.5h-6c0-1.1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/>',
+ flag:'<path d="M5 21V4m0 1h12l-2.5 3.5L17 12H5"/>',
+ check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ clip:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0M8.5 11l2.3 2.3L15.5 9M8.5 16.5h7"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',
+ grad:'<path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/>'
+};
+function svg(name,size=20){return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[name]||IC.gear}</svg>`;}
+
+/* --- Persistent state (localStorage with in-memory fallback) --- */
+let STATE={visited:{},checklist:{},sim:{},quiz:{best:null,last:null,wrongTopics:{}},outcomesOpened:{},pceOpened:{}};
+try{const s=localStorage.getItem("me4011_sd_people");if(s)STATE=Object.assign(STATE,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem("me4011_sd_people",JSON.stringify(STATE));}catch(e){}updateProgress();}
+
+/* --- Tabs --- */
+const TABS=[
+ {id:"outcomes",label:"Learning Outcomes",icon:"grad"},
+ {id:"brain",label:"Brain Storming",icon:"bulb"},
+ {id:"pillar",label:"SD: Social (People) Pillar",icon:"users"},
+ {id:"sia",label:"Social Impact Assessment (SIA)",icon:"clip"},
+ {id:"case",label:"SIA Case Study with SDG Mapping",icon:"pin"},
+ {id:"summary",label:"Summary",icon:"book"},
+ {id:"quiz",label:"Quiz",icon:"check"},
+ {id:"dash",label:"Dashboard",icon:"chart"}
+];
+const tabbar=document.getElementById("tabbar");
+TABS.forEach((t,i)=>{
+  const b=document.createElement("button");
+  b.id="tab-"+t.id;b.setAttribute("role","tab");b.setAttribute("aria-controls","panel-"+t.id);
+  b.setAttribute("aria-selected",i===0?"true":"false");b.tabIndex=i===0?0:-1;
+  b.innerHTML=svg(t.icon,16)+`<span>${t.label}</span><span class="done-dot" aria-hidden="true"></span>`;
+  b.addEventListener("click",()=>selectTab(t.id));
+  tabbar.appendChild(b);
+});
+tabbar.addEventListener("keydown",e=>{ /* arrow-key tab navigation */
+  const btns=[...tabbar.querySelectorAll("button")];
+  const i=btns.indexOf(document.activeElement);
+  if(i<0)return;
+  let j=null;
+  if(e.key==="ArrowRight")j=(i+1)%btns.length;
+  else if(e.key==="ArrowLeft")j=(i-1+btns.length)%btns.length;
+  else if(e.key==="Home")j=0;else if(e.key==="End")j=btns.length-1;
+  if(j!==null){e.preventDefault();btns[j].focus();btns[j].click();}
+});
+function selectTab(id){
+  TABS.forEach(t=>{
+    const b=document.getElementById("tab-"+t.id),p=document.getElementById("panel-"+t.id);
+    const on=t.id===id;
+    b.setAttribute("aria-selected",on?"true":"false");b.tabIndex=on?0:-1;
+    p.classList.toggle("active",on);
+  });
+  if(!STATE.visited[id]){STATE.visited[id]=true;save();}
+  document.getElementById("tab-"+id).classList.add("visited");
+  if(id==="dash")renderDash();
+  if(id==="sia")animateFlow();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* --- Progress --- */
+const TRACKED=["outcomes","brain","pillar","sia","case","summary","quiz"];
+function updateProgress(){
+  let done=TRACKED.filter(t=>STATE.visited[t]).length;
+  let extra=0;
+  if(Object.keys(STATE.checklist).length>=CHECKLIST.length)extra++;
+  if(simDoneCount()>=5)extra++;
+  if(STATE.quiz.best!==null)extra++;
+  const pct=Math.round(100*(done+extra)/(TRACKED.length+3));
+  document.getElementById("hdrPct").textContent=pct+"%";
+  document.getElementById("hdrBar").style.width=pct+"%";
+  TABS.forEach(t=>{if(STATE.visited[t.id])document.getElementById("tab-"+t.id).classList.add("visited");});
+  return pct;
+}
+function simDoneCount(){return Object.values(STATE.sim||{}).filter(Boolean).length;}
+
+/* --- SDG chips & modal --- */
+function chips(list,ctx){ // ctx: 'gen' | 'proj'
+  return (list||[]).map(n=>`<button class="chip" style="background:${SDGS[n].color}" data-sdg="${n}" data-ctx="${ctx||'gen'}" aria-label="Open SDG ${n}: ${SDGS[n].name}">SDG ${n}</button>`).join("");
+}
+const veil=document.getElementById("modalVeil");
+let lastFocus=null;
+function openSDG(n,ctx){
+  const s=SDGS[n];lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=s.color;
+  document.getElementById("modalNum").textContent=n;
+  document.getElementById("modalTitle").textContent=s.name;
+  let html=`<h5>Explanation</h5><p>${s.eng}</p>
+            <h5>Engineering interpretation · renewable energy relevance</h5><p>${s.re}</p>`;
+  if(ctx==="proj"&&s.proj)html+=`<h5>Contribution of the project (Saint Martins Island case study)</h5><p>${s.proj}</p>`;
+  document.getElementById("modalBody").innerHTML=html;
+  veil.classList.add("show");
+  document.getElementById("modalClose").focus();
+}
+function openInfo(title,bodyHTML,color){
+  lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=color||"var(--navy)";
+  document.getElementById("modalNum").textContent="";
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=bodyHTML;
+  veil.classList.add("show");document.getElementById("modalClose").focus();
+}
+function closeModal(){veil.classList.remove("show");if(lastFocus)lastFocus.focus();}
+document.getElementById("modalClose").addEventListener("click",closeModal);
+veil.addEventListener("click",e=>{if(e.target===veil)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&veil.classList.contains("show"))closeModal();});
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip[data-sdg]");
+  if(c)openSDG(+c.dataset.sdg,c.dataset.ctx);
+});
+
+/* --- Expander helper --- */
+function expander(head,bodyHTML,extraClass){
+  return `<div class="expander ${extraClass||""}">
+    <button class="exp-head" aria-expanded="false">${head}
+      <span class="chev">${svg("chart",0).replace(/.*/,"")}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </button>
+    <div class="exp-body"><div class="exp-inner">${bodyHTML}</div></div>
+  </div>`;
+}
+document.addEventListener("click",e=>{
+  const h=e.target.closest(".exp-head");
+  if(!h)return;
+  const ex=h.parentElement;const open=ex.classList.toggle("open");
+  h.setAttribute("aria-expanded",open?"true":"false");
+  if(open&&ex.dataset.track){STATE[ex.dataset.track]=STATE[ex.dataset.track]||{};STATE[ex.dataset.track][ex.dataset.key]=true;save();}
+});
+
+/* ==========================================================================
+   4. TAB 1 — LEARNING OUTCOMES
+   ========================================================================== */
+document.getElementById("panel-outcomes").innerHTML=`
+ <h2 class="sec">${svg("grad",24)} Learning Outcomes for the Class Session</h2>
+ <p class="lede">After duly participating in this class session and studying the related contents on the
+ accompanying online course site, the students will be expected to —
+ <em>click each outcome to see why it matters, its engineering relevance, and the related SDGs.</em></p>
+ <div id="outcomesWrap"></div>`;
+document.getElementById("outcomesWrap").innerHTML=OUTCOMES.map((o,i)=>{
+  const body=`<h5>Why it matters</h5><p>${o.why}</p>
+    <h5>Engineering relevance</h5><p>${o.eng}</p>
+    <h5>Related SDGs</h5><p>${chips(o.sdgs,"gen")}</p>`;
+  const el=document.createElement("div");
+  el.innerHTML=expander(`<span class="icon-circle">${svg(["bulb","clip","shield"][i],20)}</span><span><b>Outcome ${i+1}.</b> ${o.text}</span>`,body);
+  el.firstElementChild.dataset.track="outcomesOpened";el.firstElementChild.dataset.key="o"+i;
+  el.firstElementChild.style.marginBottom="12px";
+  return el.innerHTML;
+}).join("");
+
+/* ==========================================================================
+   5. TAB 2 — BRAIN STORMING SESSION
+   ========================================================================== */
+document.getElementById("panel-brain").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Brain Storming Session</h2>
+ <div class="keytake" style="margin-top:16px">
+   <h4>Think first</h4>
+   <p>What are the Sustainable Development Goals?</p>
+ </div>
+ <h3 class="subsec">${svg("globe",20)} The 17 SDGs</h3>
+ <p class="lede">Click any goal to explore its title, official color, engineering relevance, and renewable
+ energy relevance.</p>
+ <div class="sdg-grid" id="sdgGrid"></div>
+ <h3 class="subsec">${svg("flag",20)} Case Study: Bangladesh</h3>
+ <div class="card" style="max-width:640px">
+   <h4><span class="icon-circle">${svg("flag",20)}</span>“39+1 INDICATORS”</h4>
+   <p>Bangladesh tracks its SDG implementation through the national <b>“39+1 Indicators”</b> framework —
+   39 priority indicators plus one additional indicator selected by each ministry/division.</p>
+   <p class="small-note">Reference: https://www.sdg.gov.bd/page/thirty_nine_plus_one_indicator/5</p>
+ </div>`;
+document.getElementById("sdgGrid").innerHTML=Object.keys(SDGS).map(n=>
+ `<button class="sdg-tile" style="background:${SDGS[n].color}" data-open-sdg="${n}"
+   aria-label="SDG ${n}: ${SDGS[n].name}">
+   <span class="num">${n}</span><span class="nm">${SDGS[n].name}</span></button>`).join("");
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-open-sdg]");
+  if(t)openSDG(+t.dataset.openSdg,"gen");
+});
+
+/* ==========================================================================
+   6. TAB 3 — SD: SOCIAL (PEOPLE) PILLAR
+   ========================================================================== */
+const pillarEl=document.getElementById("panel-pillar");
+pillarEl.innerHTML=`
+ <h2 class="sec">${svg("users",24)} SD: Social (People) Pillar</h2>
+
+ <h3 class="subsec">${svg("users",20)} Social Sustainability in Renewable Energy Engineering</h3>
+ <div class="callout teal">
+   <h4>${svg("person",18)} People-Centered Engineering</h4>
+   <p>Social sustainability focuses on improving human well-being through engineering solutions that are
+   <b>equitable, inclusive, safe, and socially responsible</b>.</p>
+ </div>
+ <p class="lede">Explore each principle from the lecture — click a card to expand its engineering meaning and examples.</p>
+ <div class="grid c3" id="pceGrid"></div>
+ <div class="callout navy">
+   <h4>${svg("globe",18)} Relevant Sustainable Development Goals</h4>
+   <p>SDG 3 (Good Health), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 10 (Reduced
+   Inequalities), SDG 11 (Sustainable Cities), SDG 16 (Strong Institutions)</p>
+   <p style="margin-top:8px">${chips([3,4,5,10,11,16],"gen")}</p>
+ </div>
+
+ <h3 class="subsec">${svg("globe",20)} Social Sustainability and the SDGs</h3>
+ <p class="lede">An interactive dashboard of the six SDGs at the heart of the Social (People) pillar.
+ Click a row to reveal relevance, engineering examples, and renewable energy examples.</p>
+ <div id="sdgDash"></div>
+ <div class="callout">
+   <h4>${svg("bulb",18)} Key Message</h4>
+   <p>Social sustainability ensures that engineering projects create lasting benefits for people,
+   communities, and future generations — leaving no one behind.</p>
+ </div>
+
+ <h3 class="subsec">${svg("heart",20)} Why Social Sustainability Matters</h3>
+ <p class="lede">Renewable energy projects influence society far beyond electricity generation.
+ Click each point to expand it.</p>
+ <div id="whyWrap"></div>
+ <div class="callout">
+   <h4>${svg("gear",18)} Engineering Perspective</h4>
+   <p>A renewable energy project is sustainable only when it is <b>technically feasible</b>,
+   <b>economically viable</b>, <b>environmentally responsible</b>, and <b>socially acceptable</b>.</p>
+ </div>
+
+ <h3 class="subsec">${svg("gear",20)} Engineering Practices Supporting Social Sustainability</h3>
+ <p class="lede">Mechanical engineers contribute to social sustainability by the practices below —
+ each card expands into an explanation, engineering examples, and real-world applications.</p>
+ <div id="practicesWrap"></div>
+
+ <h3 class="subsec">${svg("clip",20)} Renewable Energy Project: Social Sustainability Checklist</h3>
+ <p class="lede">Before approving a renewable energy project, engineers should ask the questions below.
+ Answer <b>YES</b>, <b>PARTIALLY</b>, or <b>NO</b> for a project you have in mind, then view your
+ Social Sustainability Score.</p>
+ <div id="checkWrap"></div>
+ <button class="btn gold" id="checkBtn">Compute Social Sustainability Score</button>
+ <div class="score-panel" id="checkPanel" aria-live="polite"></div>
+
+ <div class="keytake">
+  <h4>Key Takeaway</h4>
+  <p>Social sustainability ensures that renewable energy projects create lasting benefits for people,
+  communities, and future generations.</p>
+ </div>`;
+
+/* People-Centered Engineering cards */
+document.getElementById("pceGrid").innerHTML=PCE.map((c,i)=>{
+  const el=document.createElement("div");
+  el.innerHTML=expander(`<span class="icon-circle">${svg(c.icon,20)}</span><span>${c.t}</span>`,
+    `<p>${c.d}</p><h5>Engineering example</h5><p>${c.ex}</p>`);
+  el.firstElementChild.dataset.track="pceOpened";el.firstElementChild.dataset.key="p"+i;
+  return el.innerHTML;
+}).join("");
+
+/* SDG dashboard */
+document.getElementById("sdgDash").innerHTML=SDG_DASH.map(d=>{
+  const s=SDGS[d.n];
+  return expander(
+   `<span class="icon-circle" style="background:${s.color};color:#fff;font-weight:800;font-size:.95rem">${d.n}</span>
+    <span><b>SDG ${d.n} · ${d.label}</b><br><span style="font-weight:400;font-size:.85rem;color:var(--ink2)">${d.rel}</span></span>`,
+   `<h5>Relevance</h5><p>${d.rel}</p>
+    <h5>Engineering examples</h5><p>${d.eng}</p>
+    <h5>Renewable energy examples</h5><p>${d.re}</p>
+    <p style="margin-top:10px">${chips([d.n],"gen")}</p>`);
+}).join("");
+
+/* Why it matters */
+document.getElementById("whyWrap").innerHTML=WHY.map(w=>expander(
+  `<span class="icon-circle">${svg("heart",20)}</span>
+   <span><b>${w.t}</b><br><span style="font-weight:400;font-size:.85rem;color:var(--ink2)">${w.pts}</span></span>`,
+  `<p>${w.more}</p><h5>Key terms</h5><p>${w.keys.map(k=>`<span class="chip" style="background:var(--teal2);cursor:default">${k}</span>`).join("")}</p>`)).join("");
+
+/* Engineering practices */
+document.getElementById("practicesWrap").innerHTML=PRACTICES.map(p=>expander(
+  `<span class="icon-circle">${svg(p.icon,20)}</span><span>${p.t}</span>`,
+  `<h5>Explanation</h5><p>${p.d}</p>
+   <h5>Engineering examples</h5><ul>${p.ex.map(x=>`<li>${x}</li>`).join("")}</ul>
+   <h5>Real-world application</h5><p>${p.rw}</p>`)).join("");
+
+/* Checklist */
+document.getElementById("checkWrap").innerHTML=CHECKLIST.map((c,i)=>`
+ <div class="qrow">
+   <div class="qtext"><span>${i+1}. ${c.q}</span> ${c.sdgs.length?chips(c.sdgs,"gen"):""}</div>
+   <div class="ans-btns" role="group" aria-label="Answer for question ${i+1}">
+     <button data-ck="${i}" data-v="2">YES</button>
+     <button data-ck="${i}" data-v="1">PARTIALLY</button>
+     <button data-ck="${i}" data-v="0">NO</button>
+   </div>
+ </div>`).join("");
+document.getElementById("checkWrap").addEventListener("click",e=>{
+  const b=e.target.closest("[data-ck]");if(!b)return;
+  const i=b.dataset.ck;
+  STATE.checklist[i]=+b.dataset.v;save();
+  b.parentElement.querySelectorAll("button").forEach(x=>x.className="");
+  b.className=b.dataset.v==="2"?"sel-yes":b.dataset.v==="1"?"sel-part":"sel-no";
+});
+/* restore saved checklist answers */
+Object.entries(STATE.checklist).forEach(([i,v])=>{
+  const b=document.querySelector(`[data-ck="${i}"][data-v="${v}"]`);
+  if(b)b.className=v===2?"sel-yes":v===1?"sel-part":"sel-no";
+});
+document.getElementById("checkBtn").addEventListener("click",()=>{
+  const n=Object.keys(STATE.checklist).length;
+  const panel=document.getElementById("checkPanel");
+  if(n<CHECKLIST.length){
+    panel.innerHTML=`<p><b>Please answer all ${CHECKLIST.length} questions</b> — ${CHECKLIST.length-n} remaining.</p>`;
+    panel.classList.add("show");return;
+  }
+  const score=Object.values(STATE.checklist).reduce((a,b)=>a+b,0);
+  const pct=Math.round(100*score/(CHECKLIST.length*2));
+  let band,cls,fb;
+  if(pct>=80){band="Strong social sustainability";cls="good";
+    fb="Your project performs strongly against the lecture's checklist. It is likely to create lasting benefits for people, communities, and future generations. Maintain stakeholder participation and monitoring so performance does not erode over time.";}
+  else if(pct>=50){band="Moderate — needs strengthening";cls="mid";
+    fb="Your project meets some social criteria but has gaps. Focus on the questions answered PARTIALLY or NO: revisit stakeholder participation (SDG 16), equitable access (SDGs 7 & 10), and community resilience (SDG 11) before approval.";}
+  else{band="Weak — significant social risk";cls="poor";
+    fb="On the lecture's test, this project is not yet socially acceptable — and a renewable energy project is sustainable only when it is technically feasible, economically viable, environmentally responsible, AND socially acceptable. Redesign with people-centered engineering principles before proceeding.";}
+  const weak=CHECKLIST.map((c,i)=>STATE.checklist[i]<2?`<li>${c.q} ${c.sdgs.length?chips(c.sdgs,"gen"):""}</li>`:"").filter(Boolean).join("");
+  panel.innerHTML=`
+    <div class="big-score">${pct}%</div>
+    <div class="meter"><span style="width:${pct}%"></span></div>
+    <p style="font-weight:700;color:var(--navy)">${band}</p>
+    <p style="margin-top:8px;font-size:.92rem;color:var(--ink2)">${fb}</p>
+    ${weak?`<h5 style="margin-top:14px;color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.6px">Improve these areas</h5><ul style="margin:6px 0 0 20px;font-size:.9rem">${weak}</ul>`:""}`;
+  panel.classList.add("show");
+  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  updateProgress();
+});
+
+/* ==========================================================================
+   7. TAB 4 — SOCIAL IMPACT ASSESSMENT (SIA): flowchart + simulator
+   ========================================================================== */
+document.getElementById("panel-sia").innerHTML=`
+ <h2 class="sec">${svg("clip",24)} Social Impact Assessment (SIA)</h2>
+ <p class="lede">Social Impact Assessment (SIA) is a framework used to identify and manage the social
+ effects of new projects. It ensures that development is equitable, protects local livelihoods, and
+ enhances community well-being — especially for projects in socially or environmentally sensitive areas.</p>
+ <div class="grid c3">
+  <div class="card"><h4><span class="icon-circle">${svg("search",20)}</span>Purpose</h4>
+   <p>Identify and manage the social effects of new projects — both the risks they create and the
+   benefits they can deliver — before, during, and after implementation.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("shield",20)}</span>Importance</h4>
+   <p>SIA ensures development is equitable, protects local livelihoods, and enhances community
+   well-being. In sensitive areas (such as an Ecologically Critical Area) it is legally mandated.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("gear",20)}</span>Engineering applications</h4>
+   <p>Site selection, technology choice (e.g., rooftop vs. ground-mounted PV), construction scheduling,
+   tariff design, safety systems, and grievance mechanisms are all shaped by SIA findings.</p></div>
+ </div>
+
+ <h3 class="subsec">${svg("route",20)} Social Impact Assessment (SIA) Flowchart</h3>
+ <p class="lede">The five stages, exactly as in the lecture. Click any stage for its full description —
+ the chart animates each time you open this tab.</p>
+ <div class="flow" id="flowWrap"></div>
+
+ <h3 class="subsec">${svg("gear",20)} Interactive SIA Simulator</h3>
+ <p class="lede">Now act as the project engineer. Complete an entire SIA for the
+ <b>10 MW Solar PV based power system on Saint Martins Island</b> — one interactive exercise per stage,
+ with immediate feedback.</p>
+ <div class="sim-steps" role="tablist" aria-label="Simulator stages" id="simSteps"></div>
+ <div class="quiz-card" id="simBody"></div>
+ <div class="fb" id="simOverall"></div>`;
+
+/* --- Flowchart --- */
+const flowWrap=document.getElementById("flowWrap");
+flowWrap.innerHTML=SIA_STAGES.map((s,i)=>`
+  ${i>0?`<div class="flow-arrow" aria-hidden="true">
+    <svg width="26" height="30" viewBox="0 0 26 30" fill="none" stroke="var(--teal)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2v22m-7-7l7 7 7-7"/></svg></div>`:""}
+  <button class="flow-stage" data-flow="${i}" aria-label="Stage ${s.n}: ${s.t} — ${s.d}">
+    <span class="flow-num">${s.n}</span>
+    <span><h4>${s.t}</h4><p>${s.d}</p></span>
+  </button>`).join("");
+function animateFlow(){
+  const items=flowWrap.querySelectorAll(".flow-stage,.flow-arrow");
+  items.forEach(el=>el.classList.remove("reveal"));
+  items.forEach((el,i)=>setTimeout(()=>el.classList.add("reveal"),120*i+80));
+}
+flowWrap.addEventListener("click",e=>{
+  const b=e.target.closest("[data-flow]");if(!b)return;
+  flowWrap.querySelectorAll(".flow-stage").forEach(x=>x.classList.remove("current"));
+  b.classList.add("current");
+  const s=SIA_STAGES[+b.dataset.flow];
+  openInfo(`Stage ${s.n}: ${s.t}`,
+    `<h5>In one line</h5><p>${s.d}</p><h5>Full description</h5><p>${s.detail}</p>
+     <h5>In the Saint Martins Island case study</h5><p>${CASE_STAGES[+b.dataset.flow].items.map(it=>`<b>${it[0]}:</b> ${it[1]}`).join("<br>")}</p>`,
+    "var(--teal2)");
+});
+
+/* --- Simulator data --- */
+const SIM=[
+ {t:"1 · Screening",kind:"multi",
+  intro:"<b>Screening — check if SIA is needed.</b> Select ALL the factors of the Saint Martins Island project that raise its sensitivity and trigger the need for a full SIA, then submit.",
+  opts:[
+   ["Major energy infrastructure proposed within a protected island ecosystem",true],
+   ["High ecological value; livelihoods heavily dependent on fishing and tourism",true],
+   ["Ecologically Critical Area status triggers strict environmental/social compliance",true],
+   ["The project uses solar PV rather than wind technology",false],
+   ["The developer prefers a fast construction schedule",false]],
+  good:"Correct. Project Context, Sensitivity Check, and Regulatory Risk all point one way — the Screening Outcome is that a full Social Impact Assessment (SIA) is mandated due to high sensitivities. Technology preference and schedule are not screening triggers.",
+  poor:"Not quite. The screening triggers are: the protected island ecosystem (Project Context), livelihoods dependent on fishing and tourism (Sensitivity Check), and ECA status (Regulatory Risk). Technology choice and schedule preference do not decide whether SIA is needed. Screening Outcome: full SIA mandated."},
+ {t:"2 · Scoping",kind:"multi",
+  intro:"<b>Scoping — identify impacts & key groups.</b> Select the four Affected Groups the lecture identifies for this project.",
+  opts:[
+   ["Fishers",true],["Tourism workers",true],["Small businesses",true],["Vulnerable households",true],
+   ["Mainland industrial consumers",false],["International shipping companies",false]],
+  good:"Correct — Scoping identifies fishers, tourism workers, small businesses, and vulnerable households [SDG 10: Reduced Inequalities]. Scoping also defines assessment boundaries (site, settlements, tourist zones; seasonal demands), assesses service access, and engages institutions.",
+  poor:"The lecture's Affected Groups are: fishers, tourism workers, small businesses, and vulnerable households. Mainland consumers and shipping companies lie outside the assessment boundaries defined in Scoping."},
+ {t:"3 · Impact Assessment",kind:"sort",
+  intro:"<b>Impact Assessment — analyze social risks and benefits.</b> Drag each finding into the correct column (or click a finding, then click a column).",
+  zones:["Social Risks (Negative Impacts)","Social Benefits"],
+  items:[
+   ["Potential land pressure",0],
+   ["Temporary disruption to fishing and tourism",0],
+   ["Reduced air and noise pollution by displacing diesel generators",1],
+   ["Job creation and income diversification during construction and operation",1],
+   ["Improved electricity access for clinics, schools, and community facilities",1]],
+  good:"Correct. Negative Impacts: land pressure and temporary disruption to fishing and tourism [SDG 1, SDG 15]. Benefits: Health Benefits [SDG 3], Economic Effects [SDG 8], and Social Services [SDG 4, SDG 7].",
+  poor:"Check the Stage 3 slide: the only Negative Impacts are potential land pressure and temporary disruption to fishing and tourism. Everything else — health, economic, and social-service effects — is a benefit."},
+ {t:"4 · Mitigation Measures",kind:"match",
+  intro:"<b>Mitigation Measures — plan actions to reduce harm.</b> Match each mitigation measure to the correct action from the lecture, then check your plan.",
+  pairs:[
+   ["Land Use Optimization","Adopt rooftop, clustered, and distributed PV systems to minimize land use"],
+   ["Livelihood Safeguards","Implement local hiring, skills training, and livelihood restoration"],
+   ["Social Equity","Ensure affordable electricity access for low-income and marginalized households"],
+   ["Community Safety","Install public lighting and enhance safety in residential and tourist areas"]],
+  good:"Correct — your mitigation plan matches Stage 4 of the case study exactly: Land Use Optimization [SDG 12], Livelihood Safeguards [SDG 1, SDG 8], Social Equity [SDG 10], and Community Safety [SDG 11].",
+  poor:"Some measures are mismatched. Remember: Land Use Optimization → minimize land use; Livelihood Safeguards → local hiring, skills training, livelihood restoration; Social Equity → affordable access for low-income households; Community Safety → public lighting and safety."},
+ {t:"5 · Monitoring & Review",kind:"multi",
+  intro:"<b>Monitoring & Review — track progress and adjust.</b> Select the four monitoring actions that belong in the lecture's Stage 5 plan.",
+  opts:[
+   ["Track employment and income changes in the fishing and tourism sectors",true],
+   ["Monitor reliability, affordability, and quality of the electricity supply",true],
+   ["Operate an accessible grievance redress mechanism and ensure transparency",true],
+   ["Maintain continuous collaboration among community, utilities, and regulators",true],
+   ["Stop all monitoring once the plant is commissioned",false],
+   ["Monitor only the technical energy output of the PV array",false]],
+  good:"Correct — Livelihood Monitoring [SDG 8], Service Performance [SDG 7], Accountability [SDG 16], and Coordination [SDG 17]. Monitoring & Review is continuous: track progress and adjust.",
+  poor:"Stage 5 has four elements: Livelihood Monitoring, Service Performance, Accountability, and Coordination. Monitoring never stops at commissioning, and it covers social outcomes — not just technical output."}
+];
+
+/* --- Simulator engine --- */
+let simCur=0,simSel=new Set(),sortAssign={},sortPicked=null;
+const simSteps=document.getElementById("simSteps"),simBody=document.getElementById("simBody");
+function drawSimSteps(){
+  simSteps.innerHTML=SIM.map((s,i)=>
+   `<button role="tab" aria-selected="${i===simCur}" class="${STATE.sim["s"+i]?"done":""}" data-sim="${i}">${s.t}</button>`).join("");
+}
+simSteps.addEventListener("click",e=>{const b=e.target.closest("[data-sim]");if(b){simCur=+b.dataset.sim;drawSim();}});
+function drawSim(){
+  drawSimSteps();
+  const s=SIM[simCur];simSel=new Set();sortAssign={};sortPicked=null;
+  let html=`<p style="font-size:.95rem;margin-bottom:6px">${s.intro}</p>`;
+  if(s.kind==="multi"){
+    html+=s.opts.map((o,i)=>`<button class="pick" data-mi="${i}" aria-pressed="false">${o[0]}</button>`).join("");
+    html+=`<div style="margin-top:14px"><button class="btn" id="simCheck">Submit</button></div>`;
+  }else if(s.kind==="sort"){
+    html+=`<div class="dd-pool" id="ddPool" aria-label="Findings to classify">
+      ${s.items.map((it,i)=>`<div class="dd-item" draggable="true" tabindex="0" role="button" data-di="${i}">${svg("route",15)} ${it[0]}</div>`).join("")}
+    </div>
+    <div class="dd-wrap">
+      ${s.zones.map((z,zi)=>`<div class="dd-zone" data-zone="${zi}"><h5>${z}</h5></div>`).join("")}
+    </div>
+    <div style="margin-top:14px"><button class="btn" id="simCheck">Check classification</button></div>
+    <p class="small-note">Tip: you can also click a finding and then click a column (keyboard friendly).</p>`;
+  }else if(s.kind==="match"){
+    const actions=s.pairs.map(p=>p[1]);
+    const shuffled=[...actions].sort(()=>Math.random()-.5);
+    html+=s.pairs.map((p,i)=>`
+      <div class="qrow"><div class="qtext">${p[0]}</div>
+      <select class="match" data-pi="${i}" aria-label="Action for ${p[0]}">
+        <option value="">— select the matching action —</option>
+        ${shuffled.map(a=>`<option>${a}</option>`).join("")}
+      </select></div>`).join("");
+    html+=`<div style="margin-top:6px"><button class="btn" id="simCheck">Check plan</button></div>`;
+  }
+  html+=`<div class="fb" id="simFb"></div>`;
+  simBody.innerHTML=html;
+  wireSim();
+}
+function wireSim(){
+  const s=SIM[simCur];
+  simBody.querySelectorAll("[data-mi]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.mi;
+    if(simSel.has(i)){simSel.delete(i);b.classList.remove("on");b.setAttribute("aria-pressed","false");}
+    else{simSel.add(i);b.classList.add("on");b.setAttribute("aria-pressed","true");}
+  }));
+  /* drag & drop */
+  simBody.querySelectorAll(".dd-item").forEach(it=>{
+    it.addEventListener("dragstart",e=>{it.classList.add("dragging");e.dataTransfer.setData("text/plain",it.dataset.di);});
+    it.addEventListener("dragend",()=>it.classList.remove("dragging"));
+    it.addEventListener("click",()=>{ /* click-to-pick fallback */
+      simBody.querySelectorAll(".dd-item").forEach(x=>x.style.outline="");
+      sortPicked=+it.dataset.di;it.style.outline="3px solid var(--amber)";
+    });
+    it.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();it.click();}});
+  });
+  simBody.querySelectorAll(".dd-zone").forEach(z=>{
+    z.addEventListener("dragover",e=>{e.preventDefault();z.classList.add("hot");});
+    z.addEventListener("dragleave",()=>z.classList.remove("hot"));
+    z.addEventListener("drop",e=>{
+      e.preventDefault();z.classList.remove("hot");
+      dropItem(+e.dataTransfer.getData("text/plain"),z);
+    });
+    z.addEventListener("click",()=>{if(sortPicked!==null){dropItem(sortPicked,z);sortPicked=null;}});
+  });
+  function dropItem(di,zone){
+    const el=simBody.querySelector(`.dd-item[data-di="${di}"]`);
+    if(el){zone.appendChild(el);el.style.outline="";el.classList.remove("right","wrong");sortAssign[di]=+zone.dataset.zone;}
+  }
+  const check=simBody.querySelector("#simCheck");
+  if(check)check.addEventListener("click",()=>{
+    const fb=simBody.querySelector("#simFb");let ok=false;
+    if(s.kind==="multi"){
+      let allRight=true;
+      simBody.querySelectorAll("[data-mi]").forEach(b=>{
+        const i=+b.dataset.mi,want=s.opts[i][1],got=simSel.has(i);
+        b.classList.remove("right","wrong");
+        if(want&&got)b.classList.add("right");
+        else if(want!==got){b.classList.add("wrong");allRight=false;}
+      });
+      ok=allRight;
+    }else if(s.kind==="sort"){
+      let n=0,allRight=true;
+      s.items.forEach((it,i)=>{
+        const el=simBody.querySelector(`.dd-item[data-di="${i}"]`);
+        if(sortAssign[i]===undefined){allRight=false;return;}
+        n++;
+        const right=sortAssign[i]===it[1];
+        el.classList.add(right?"right":"wrong");
+        if(!right)allRight=false;
+      });
+      if(n<s.items.length){fb.className="fb mid show";fb.innerHTML="Place every finding into a column before checking.";return;}
+      ok=allRight;
+    }else if(s.kind==="match"){
+      let allRight=true,filled=true;
+      simBody.querySelectorAll("select.match").forEach(sel=>{
+        const i=+sel.dataset.pi;sel.classList.remove("right","wrong");
+        if(!sel.value){filled=false;return;}
+        const right=sel.value===s.pairs[i][1];
+        sel.classList.add(right?"right":"wrong");
+        if(!right)allRight=false;
+      });
+      if(!filled){fb.className="fb mid show";fb.innerHTML="Select an action for every mitigation measure first.";return;}
+      ok=allRight;
+    }
+    fb.className="fb show "+(ok?"good":"poor");
+    fb.innerHTML=(ok?"✔ ":"✖ ")+(ok?s.good:s.poor);
+    if(ok){
+      STATE.sim["s"+simCur]=true;save();drawSimSteps();
+      const overall=document.getElementById("simOverall");
+      if(simDoneCount()>=5){
+        overall.className="fb good show";
+        overall.innerHTML="<b>SIA complete.</b> You have carried the Saint Martins Island project through all five stages — Screening, Scoping, Impact Assessment, Mitigation Measures, and Monitoring &amp; Review. Now open the <b>SIA Case Study with SDG Mapping</b> tab to compare your decisions with the full lecture case study.";
+      }else if(simCur<4){
+        fb.innerHTML+=`<div style="margin-top:10px"><button class="btn gold" id="simNext">Continue to ${SIM[simCur+1].t.split("· ")[1]} →</button></div>`;
+        fb.querySelector("#simNext").addEventListener("click",()=>{simCur++;drawSim();});
+      }
+    }
+  });
+}
+drawSim();
+
+/* ==========================================================================
+   8. TAB 5 — SIA CASE STUDY WITH SDG MAPPING
+   ========================================================================== */
+document.getElementById("panel-case").innerHTML=`
+ <h2 class="sec">${svg("pin",24)} SIA Case Study with SDG Mapping</h2>
+ <p class="lede">Case Study: Problem Specifications — a proposed <b>10 MW Solar PV based power system on
+ Saint Martins Island</b>, examined stage by stage through the SIA framework, with every element mapped
+ to the SDGs. Click any SDG chip for its explanation, engineering interpretation, and the contribution
+ of the project.</p>
+
+ <div style="margin:14px 0 6px">${islandSVG()}</div>
+
+ <h3 class="subsec">${svg("clip",20)} Project Profile</h3>
+ <div class="grid c2" id="profileGrid"></div>
+
+ <h3 class="subsec">${svg("shield",20)} Core Challenges</h3>
+ <p class="lede">Technical, Social, and Environmental Challenges — click each card for its engineering interpretation.</p>
+ <div id="chalWrap"></div>
+
+ <h3 class="subsec">${svg("flag",20)} Project Objectives</h3>
+ <div class="grid c2" id="objGrid"></div>
+
+ <h3 class="subsec">${svg("route",20)} SIA Stage Explorer</h3>
+ <p class="lede">One interactive page per SIA stage — the exact wording of the lecture, with SDG mapping.</p>
+ <div class="sim-steps" id="caseSteps" role="tablist" aria-label="Case study stages"></div>
+ <div id="caseStage"></div>`;
+
+/* Simple SVG illustration of the island project (no external assets) */
+function islandSVG(){return `
+<svg viewBox="0 0 760 190" role="img" aria-label="Illustration: Saint Martins Island with solar PV replacing diesel generation"
+ style="width:100%;max-width:760px;display:block;margin:auto;background:linear-gradient(180deg,#dff1f7 0%,#bfe4ef 100%);border-radius:14px">
+ <title>Saint Martins Island — 10 MW Solar PV based power system (Hybrid or Grid-tied)</title>
+ <circle cx="670" cy="40" r="20" fill="#f5a623"/>
+ <g stroke="#f5a623" stroke-width="3" stroke-linecap="round">
+   <line x1="670" y1="8" x2="670" y2="16"/><line x1="670" y1="64" x2="670" y2="72"/>
+   <line x1="638" y1="40" x2="646" y2="40"/><line x1="694" y1="40" x2="702" y2="40"/>
+   <line x1="647" y1="17" x2="653" y2="23"/><line x1="687" y1="57" x2="693" y2="63"/>
+   <line x1="693" y1="17" x2="687" y2="23"/><line x1="653" y1="57" x2="647" y2="63"/>
+ </g>
+ <path d="M0 150 Q 60 138 120 150 T 240 150 T 360 150 T 480 150 T 600 150 T 720 150 L 760 150 L 760 190 L 0 190 Z" fill="#7fc6dd"/>
+ <path d="M110 152 Q 380 96 650 152 L 650 168 Q 380 150 110 168 Z" fill="#e8d9a0"/>
+ <path d="M150 150 Q 380 106 610 150 L 610 156 Q 380 122 150 156 Z" fill="#9fce85"/>
+ <g transform="translate(210,108)">
+   <rect x="0" y="14" width="46" height="4" fill="#123a5c"/>
+   <g transform="skewX(-18)"><rect x="8" y="-8" width="44" height="20" rx="2" fill="#1b4e7e" stroke="#0d2137"/>
+   <g stroke="#7fb2d8" stroke-width="1"><line x1="19" y1="-8" x2="19" y2="12"/><line x1="30" y1="-8" x2="30" y2="12"/><line x1="41" y1="-8" x2="41" y2="12"/><line x1="8" y1="2" x2="52" y2="2"/></g></g>
+   <rect x="6" y="18" width="4" height="10" fill="#123a5c"/><rect x="36" y="18" width="4" height="10" fill="#123a5c"/>
+ </g>
+ <g transform="translate(300,108)">
+   <rect x="0" y="14" width="46" height="4" fill="#123a5c"/>
+   <g transform="skewX(-18)"><rect x="8" y="-8" width="44" height="20" rx="2" fill="#1b4e7e" stroke="#0d2137"/>
+   <g stroke="#7fb2d8" stroke-width="1"><line x1="19" y1="-8" x2="19" y2="12"/><line x1="30" y1="-8" x2="30" y2="12"/><line x1="41" y1="-8" x2="41" y2="12"/><line x1="8" y1="2" x2="52" y2="2"/></g></g>
+   <rect x="6" y="18" width="4" height="10" fill="#123a5c"/><rect x="36" y="18" width="4" height="10" fill="#123a5c"/>
+ </g>
+ <g transform="translate(408,96)">
+   <rect x="0" y="18" width="34" height="26" rx="3" fill="#f7f3e8" stroke="#123a5c"/>
+   <path d="M0 18 L17 4 L34 18 Z" fill="#c96f4a" stroke="#123a5c"/>
+   <rect x="13" y="30" width="9" height="14" fill="#123a5c"/>
+   <rect x="40" y="10" width="16" height="34" rx="2" fill="#f7f3e8" stroke="#123a5c"/>
+   <rect x="43" y="16" width="10" height="6" fill="#7fc6dd"/><rect x="43" y="26" width="10" height="6" fill="#7fc6dd"/>
+   <path d="M48 6 l4 0 0 4" stroke="#123a5c" fill="none"/>
+ </g>
+ <g transform="translate(505,112)">
+   <path d="M0 22 Q 4 6 30 6 Q 56 6 60 22 L 54 30 L 6 30 Z" fill="#fff" stroke="#123a5c"/>
+   <rect x="24" y="-4" width="4" height="12" fill="#123a5c"/><path d="M26 -4 q 8 -4 12 2" stroke="#c5221f" fill="none" stroke-width="2"/>
+ </g>
+ <g fill="none" stroke="#0d2137" stroke-width="1.6" stroke-linecap="round">
+   <path d="M560 120 q 10 -14 22 -6 m -8 -6 q 12 -8 20 2"/>
+ </g>
+ <text x="20" y="26" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#0d2137">Saint Martins Island — the only coral island of Bangladesh</text>
+ <text x="20" y="45" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#123a5c">Proposal: 10 MW Solar PV (Hybrid or Grid-tied) to replace diesel generation · ECA · fishing &amp; tourism livelihoods</text>
+</svg>`;}
+
+document.getElementById("profileGrid").innerHTML=PROFILE.map(p=>`
+ <div class="card"><h4><span class="icon-circle">${svg(p[3],20)}</span>${p[0]}</h4>
+  <p>${p[1]}</p><p style="margin-top:8px">${chips(p[2],"proj")}</p></div>`).join("");
+
+document.getElementById("chalWrap").innerHTML=CHALLENGES.map(c=>expander(
+  `<span class="icon-circle" style="background:#fdeeee;color:var(--bad)">${svg("shield",20)}</span>
+   <span><b>${c[0]}</b><br><span style="font-weight:400;font-size:.85rem;color:var(--ink2)">${c[1]}</span></span>`,
+  `<h5>Engineering interpretation</h5><p>${c[3]}</p><h5>SDG mapping</h5><p>${chips(c[2],"proj")}</p>`)).join("");
+
+document.getElementById("objGrid").innerHTML=OBJECTIVES.map((o,i)=>`
+ <div class="card"><h4><span class="icon-circle">${svg("flag",20)}</span>Objective ${i+1}</h4>
+  <p>${o[0]}</p><p style="margin-top:8px">${chips(o[1],"proj")}</p></div>`).join("");
+
+/* Stage explorer */
+let caseCur=0;
+const caseSteps=document.getElementById("caseSteps"),caseStage=document.getElementById("caseStage");
+caseSteps.innerHTML=SIA_STAGES.map((s,i)=>
+ `<button role="tab" aria-selected="${i===0}" data-cs="${i}">${s.n} · ${s.t}</button>`).join("");
+caseSteps.addEventListener("click",e=>{
+  const b=e.target.closest("[data-cs]");if(!b)return;
+  caseCur=+b.dataset.cs;
+  caseSteps.querySelectorAll("button").forEach((x,i)=>x.setAttribute("aria-selected",i===caseCur));
+  drawCaseStage();
+});
+function drawCaseStage(){
+  const st=CASE_STAGES[caseCur];
+  caseStage.innerHTML=`<div class="quiz-card" style="animation:fadeUp .35s ease">
+    <span class="qtype-tag" style="background:var(--teal2)">${st.t}</span>
+    <p style="font-size:.9rem;color:var(--ink2);margin-bottom:10px">${SIA_STAGES[caseCur].d} — ${SIA_STAGES[caseCur].detail}</p>
+    ${st.items.map(it=>expander(
+      `<span class="icon-circle">${svg("clip",18)}</span><span><b>${it[0]}</b></span>`,
+      `<p>${it[1]}</p><h5>SDG mapping</h5><p>${chips(it[2],"proj")}</p>`)).join("")}
+  </div>`;
+}
+drawCaseStage();
+
+/* ==========================================================================
+   9. TAB 6 — SUMMARY (Engineering Perspective + Summary of Key Concepts)
+   ========================================================================== */
+document.getElementById("panel-summary").innerHTML=`
+ <h2 class="sec">${svg("book",24)} Engineering Perspective &amp; Summary</h2>
+
+ <h3 class="subsec">${svg("gear",20)} Engineering Perspective</h3>
+ <div class="callout">
+  <h4>${svg("gear",18)} The four tests of a sustainable project</h4>
+  <p>A renewable energy project is sustainable only when it is <b>technically feasible</b>,
+  <b>economically viable</b>, <b>environmentally responsible</b>, and <b>socially acceptable</b>.</p>
+ </div>
+ <p class="lede">Mechanical Engineers must weigh all four dimensions together when designing renewable
+ energy projects — click each quadrant.</p>
+ <div class="grid c2" id="perspGrid"></div>
+
+ <h3 class="subsec">${svg("book",20)} Summary of Key Concepts</h3>
+ <div id="sumWrap"></div>
+
+ <div class="keytake">
+  <h4>Key Takeaway</h4>
+  <p>Social sustainability ensures that renewable energy projects create lasting benefits for people,
+  communities, and future generations.</p>
+ </div>`;
+const PERSP=[
+ ["Technically feasible","gear","Can it be engineered and operated? Resource assessment, system sizing (e.g., 10 MW PV for seasonal peak demand), reliability, logistics (equipment by sea), and O&M capability on a remote island."],
+ ["Economically viable","chart","Do the numbers work for everyone? Levelized cost versus diesel, affordable tariffs for low-income households, local economic benefits, and financing that survives the off-peak season."],
+ ["Environmentally responsible","globe","Does it protect the ecosystem? ECA compliance, minimal land footprint (rooftop, clustered, distributed PV), and protection of the coral island's ecological value (SDG 14, SDG 15)."],
+ ["Socially acceptable","users","Do people benefit and consent? Stakeholder participation, livelihood safeguards, equitable access, community safety, and grievance redress — the whole Social (People) pillar of this lecture."]
+];
+document.getElementById("perspGrid").innerHTML=PERSP.map(p=>expander(
+ `<span class="icon-circle">${svg(p[1],20)}</span><span><b>${p[0]}</b></span>`,`<p>${p[2]}</p>`)).join("");
+const sumWrap=document.getElementById("sumWrap");
+sumWrap.innerHTML=SUMMARY.map((s,i)=>`
+ <div class="card sum-card" style="margin-bottom:12px;opacity:0;transform:translateY(14px);transition:opacity .5s ${i*.12}s,transform .5s ${i*.12}s">
+   <h4><span class="icon-circle" style="background:var(--navy);color:#fff;font-weight:800">${i+1}</span>${s}</h4>
+ </div>`).join("");
+/* animate summary cards when tab becomes visible */
+new MutationObserver(()=>{
+  if(document.getElementById("panel-summary").classList.contains("active"))
+    requestAnimationFrame(()=>sumWrap.querySelectorAll(".sum-card").forEach(c=>{c.style.opacity=1;c.style.transform="none";}));
+}).observe(document.getElementById("panel-summary"),{attributes:true,attributeFilter:["class"]});
+
+/* ==========================================================================
+   10. TAB 7 — QUIZ
+   ========================================================================== */
+const TOPIC_NAMES={pillar:"SD: Social (People) Pillar",sia:"Social Impact Assessment (SIA)",
+  case:"SIA Case Study with SDG Mapping",sdg:"SDG Mapping",summary:"Engineering Perspective & Summary"};
+let quiz={qs:[],i:0,score:0,answered:false};
+const quizPanel=document.getElementById("panel-quiz");
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function startQuiz(){
+  /* pick 10 questions with a guaranteed mix of types */
+  const mc=shuffle(QUIZ_POOL.filter(q=>q.type==="mc")).slice(0,5);
+  const tf=shuffle(QUIZ_POOL.filter(q=>q.type==="tf")).slice(0,3);
+  const fib=shuffle(QUIZ_POOL.filter(q=>q.type==="fib")).slice(0,2);
+  quiz={qs:shuffle([...mc,...tf,...fib]),i:0,score:0,answered:false};
+  drawQuiz();
+}
+function drawQuiz(){
+  if(quiz.i>=quiz.qs.length){return quizResult();}
+  const q=quiz.qs[quiz.i];
+  const pct=Math.round(100*quiz.i/quiz.qs.length);
+  let inner="";
+  if(q.type==="mc"){
+    const order=shuffle(q.opts.map((_,i)=>i));
+    inner=order.map(i=>`<button class="quiz-opt" data-oi="${i}">${q.opts[i]}</button>`).join("");
+  }else if(q.type==="tf"){
+    inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  }else{
+    inner=`<input class="fib-input" id="fibIn" type="text" autocomplete="off" placeholder="Type your answer…" aria-label="Your answer">
+      <div style="margin-top:12px"><button class="btn" id="fibGo">Submit answer</button></div>`;
+  }
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz — Sustainable Development: Social (People)</h2>
+   <div class="quiz-top">
+     <span class="qcount">Question ${quiz.i+1} / ${quiz.qs.length}</span>
+     <div class="pbar" style="flex:1;min-width:120px;background:#e3ebf2"><span style="width:${pct}%"></span></div>
+     <span class="qscore">Score: ${quiz.score} / ${quiz.i}</span>
+   </div>
+   <div class="quiz-card">
+     <span class="qtype-tag">${q.type==="mc"?"Multiple Choice":q.type==="tf"?"True / False":"Fill in the Blank"} · ${TOPIC_NAMES[q.topic]}</span>
+     <h3>${q.q}</h3>
+     ${inner}
+     <div class="explain" id="qEx"></div>
+     <div style="margin-top:16px;display:none" id="nextWrap">
+       <button class="btn gold" id="qNext">${quiz.i===quiz.qs.length-1?"See results →":"Next question →"}</button>
+     </div>
+   </div>`;
+  /* wire */
+  quizPanel.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let right;
+    if(q.type==="mc"){right=+b.dataset.oi===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});
+    }else{right=(b.dataset.tf==="true")===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+    }
+    if(!right)b.classList.add("wrong");
+    settle(right);
+  }));
+  const fg=quizPanel.querySelector("#fibGo");
+  if(fg){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=(quizPanel.querySelector("#fibIn").value||"").trim().toLowerCase();
+      if(!v)return;
+      const right=q.a.some(ans=>v===ans.toLowerCase()||v.includes(ans.toLowerCase()));
+      quizPanel.querySelector("#fibIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    fg.addEventListener("click",go);
+    quizPanel.querySelector("#fibIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#fibIn").focus();
+  }
+  function settle(right){
+    quiz.answered=true;
+    if(right)quiz.score++;
+    else{STATE.quiz.wrongTopics[q.topic]=(STATE.quiz.wrongTopics[q.topic]||0)+1;save();}
+    quizPanel.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const ex=quizPanel.querySelector("#qEx");
+    ex.className="explain show "+(right?"good":"poor");
+    ex.innerHTML=`<b>${right?"✔ Correct!":"✖ Not quite."}</b>${q.ex}${q.type==="fib"&&!right?`<br><b style="margin-top:6px">Accepted answer:</b> ${q.a[0]}`:""}`;
+    quizPanel.querySelector(".qscore").textContent=`Score: ${quiz.score} / ${quiz.i+1}`;
+    const nw=quizPanel.querySelector("#nextWrap");nw.style.display="block";
+    nw.querySelector("#qNext").addEventListener("click",()=>{quiz.i++;quiz.answered=false;drawQuiz();});
+    nw.querySelector("#qNext").focus();
+  }
+}
+function quizResult(){
+  const pct=Math.round(100*quiz.score/quiz.qs.length);
+  const grade=pct>=90?"A+":pct>=80?"A":pct>=70?"B":pct>=60?"C":pct>=50?"D":"F";
+  const col=pct>=80?"var(--ok)":pct>=60?"var(--warn)":"var(--bad)";
+  STATE.quiz.last=pct;
+  if(STATE.quiz.best===null||pct>STATE.quiz.best)STATE.quiz.best=pct;
+  save();
+  const C=2*Math.PI*62;
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz Results</h2>
+   <div class="quiz-card quiz-result">
+     <svg class="grade-ring" viewBox="0 0 150 150" role="img" aria-label="Score ${pct} percent, grade ${grade}">
+       <circle cx="75" cy="75" r="62" fill="none" stroke="#e6edf3" stroke-width="13"/>
+       <circle cx="75" cy="75" r="62" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round"
+         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}" transform="rotate(-90 75 75)"
+         style="transition:stroke-dashoffset 1.2s ease"/>
+       <text x="75" y="70" text-anchor="middle" font-size="30" font-weight="800" fill="var(--navy)">${pct}%</text>
+       <text x="75" y="97" text-anchor="middle" font-size="20" font-weight="700" fill="${col}">${grade}</text>
+     </svg>
+     <h3>${quiz.score} of ${quiz.qs.length} correct — Grade ${grade}</h3>
+     <p style="color:var(--ink2);max-width:52ch;margin:10px auto">${
+       pct>=80?"Excellent command of the Social (People) pillar, the SIA framework, and the Saint Martins Island case study.":
+       pct>=60?"A solid foundation — review the weak areas listed on your Dashboard, then try again.":
+       "Revisit the lecture tabs — especially the SIA flowchart and the case study stages — then retake the quiz."}</p>
+     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+       <button class="btn gold" id="restartQuiz">↻ Restart Quiz</button>
+       <button class="btn ghost" id="toDash">View Dashboard</button>
+     </div>
+   </div>`;
+  quizPanel.querySelector("#restartQuiz").addEventListener("click",startQuiz);
+  quizPanel.querySelector("#toDash").addEventListener("click",()=>selectTab("dash"));
+}
+startQuiz();
+
+/* ==========================================================================
+   11. TAB 8 — STUDENT DASHBOARD
+   ========================================================================== */
+function renderDash(){
+  const pct=updateProgress();
+  const topics=[
+   ["Learning Outcomes","outcomes"],["Brain Storming Session","brain"],
+   ["SD: Social (People) Pillar","pillar"],["Social Impact Assessment (SIA)","sia"],
+   ["SIA Case Study with SDG Mapping","case"],["Engineering Perspective & Summary of Key Concepts","summary"],
+   ["Quiz","quiz"]];
+  const wrongs=Object.entries(STATE.quiz.wrongTopics||{}).sort((a,b)=>b[1]-a[1]);
+  const recs=[];
+  wrongs.forEach(([t])=>{
+    if(t==="pillar")recs.push("Re-read <b>SD: Social (People) Pillar</b> — People-Centered Engineering and Why Social Sustainability Matters.");
+    if(t==="sia")recs.push("Replay the <b>SIA flowchart and Interactive SIA Simulator</b> — focus on what each of the five stages does.");
+    if(t==="case")recs.push("Walk through the <b>SIA Stage Explorer</b> in the case study tab — Project Profile, Core Challenges, and all five stages.");
+    if(t==="sdg")recs.push("Open the SDG tiles in <b>Brain Storming Session</b> and the SDG dashboard — memorize the SDG numbers used in the lecture's mappings.");
+    if(t==="summary")recs.push("Review <b>Engineering Perspective</b> (the four tests) and the <b>Summary of Key Concepts</b>.");
+  });
+  if(!Object.keys(STATE.checklist).length)recs.push("Complete the <b>Renewable Energy Project: Social Sustainability Checklist</b> for a project you know.");
+  if(simDoneCount()<5)recs.push(`Finish the <b>Interactive SIA Simulator</b> — ${5-simDoneCount()} stage(s) remaining.`);
+  if(!recs.length)recs.push("Nothing weak detected — do a final pass of the <b>Key Takeaway</b> and Summary cards before the exam.");
+  document.getElementById("panel-dash").innerHTML=`
+   <h2 class="sec">${svg("chart",24)} Student Dashboard</h2>
+   <div class="stat-grid">
+     <div class="stat"><div class="val">${pct}%</div><div class="lbl">Completion</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.best!==null?STATE.quiz.best+"%":"—"}</div><div class="lbl">Best quiz score</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.last!==null?STATE.quiz.last+"%":"—"}</div><div class="lbl">Last quiz score</div></div>
+     <div class="stat"><div class="val">${simDoneCount()}/5</div><div class="lbl">SIA simulator stages</div></div>
+   </div>
+   <h3 class="subsec">${svg("book",20)} Topics completed</h3>
+   ${topics.map(([n,id])=>`<div class="topic-row ${STATE.visited[id]?"done":""}">
+      <span class="tick">${STATE.visited[id]?"✓":"•"}</span>${n}
+      ${STATE.visited[id]?"":`<button class="btn ghost" style="margin-left:auto;padding:5px 12px;font-size:.75rem" onclick="selectTab('${id}')">Open</button>`}
+    </div>`).join("")}
+   <h3 class="subsec">${svg("search",20)} Weak areas (from quiz mistakes)</h3>
+   ${wrongs.length?wrongs.map(([t,n])=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+     ${TOPIC_NAMES[t]}<span style="margin-left:auto;font-size:.8rem;color:var(--ink2)">${n} incorrect answer${n>1?"s":""}</span></div>`).join(""):
+     `<p class="lede">No quiz mistakes recorded yet — take the Quiz to generate your weak-area analysis.</p>`}
+   <h3 class="subsec">${svg("bulb",20)} Recommended revision topics</h3>
+   ${recs.map(r=>`<div class="topic-row"><span class="tick" style="background:#fff4dd;color:var(--amber2)">→</span><span>${r}</span></div>`).join("")}`;
+}
+
+/* ==========================================================================
+   12. INIT
+   ========================================================================== */
+selectTab("outcomes");
+updateProgress();
+</script>
+</body>
+</html>

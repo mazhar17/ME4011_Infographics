@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ME4011 | Solar Energy - Part 1 — Resource Assessment: Solar Geometry</title>
+<!--
+  ============================================================================
+  ME4011 Renewable Energy — Interactive Companion
+  Solar Energy - Part 1 — Resource Assessment: Solar Geometry
+  Based on the lecture slides of Professor Mazharul Islam
+  Department of Mechanical and Production Engineering
+  Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh
+  Single-file, offline, vanilla HTML/CSS/JS. No external assets.
+  ============================================================================
+-->
+<style>
+/* ============ Design tokens (Solar theme: night-sky navy + sun gold) ===== */
+:root{
+  --navy:#14213d; --navy2:#1d2f57; --teal:#c2611a; --teal2:#a04c0e;
+  --gold:#fca311; --amber2:#c97e08; --sky:#3a86ff;
+  --bg:#f7f7f4; --card:#ffffff; --ink:#1b2436; --ink2:#4e5a72;
+  --line:#e2e4ea; --ok:#1e8e3e; --warn:#e8a10c; --bad:#c5221f;
+  --radius:14px; --shadow:0 2px 10px rgba(20,33,61,.08);
+  --shadow2:0 10px 28px rgba(20,33,61,.16);
+  --focus:3px solid #fca311;
+}
+body.hc{--ink:#000;--ink2:#1c1c1c;--line:#777;--bg:#fff;--shadow:none;--shadow2:0 0 0 2px #000}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:var(--focus);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:var(--navy);
+  padding:8px 14px;z-index:200;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+header.site{background:linear-gradient(135deg,#0b1226 0%,var(--navy) 55%,#4a2c07 100%);
+  color:#fff;padding:26px 20px 20px;position:relative;overflow:hidden}
+header.site .sun-bg{position:absolute;right:-46px;top:-46px;opacity:.14;pointer-events:none}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:3px 12px;border-radius:99px;font-size:.78rem;font-weight:600;letter-spacing:.4px}
+.badge.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.hc-btn{margin-left:auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);
+  color:#fff;border-radius:99px;padding:4px 14px;font-size:.78rem;font-weight:700}
+.hc-btn:hover{background:rgba(255,255,255,.3)}
+header.site h1{font-size:clamp(1.2rem,3.2vw,1.85rem);font-weight:800;line-height:1.25}
+header.site h1 .accent{color:var(--gold)}
+header.site .sub{margin-top:6px;font-size:.92rem;color:#cdd6e8}
+.progress-wrap{margin-top:14px;max-width:520px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:#cdd6e8;margin-bottom:4px}
+.pbar{height:9px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.pbar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ffd97a);
+  border-radius:99px;transition:width .6s ease}
+nav.tabs{position:sticky;top:0;z-index:100;background:var(--card);box-shadow:var(--shadow);
+  display:flex;overflow-x:auto;scrollbar-width:thin;padding:0 8px;border-bottom:1px solid var(--line)}
+nav.tabs button{flex:0 0 auto;border:0;background:none;padding:14px 11px 11px;font-size:.84rem;font-weight:600;
+  color:var(--ink2);border-bottom:3px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;transition:color .2s,border-color .2s}
+nav.tabs button:hover{color:var(--teal)}
+nav.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--gold)}
+nav.tabs button .done-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:none}
+nav.tabs button.visited .done-dot{display:inline-block}
+main{max-width:1100px;margin:0 auto;padding:26px 18px 80px}
+section.tabpanel{display:none;animation:fadeUp .45s ease}
+section.tabpanel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h2.sec{font-size:1.45rem;color:var(--navy);margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+h3.subsec{font-size:1.12rem;color:var(--teal2);margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+p.lede{color:var(--ink2);margin:6px 0 20px;max-width:72ch}
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.card h4{color:var(--navy);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.card p{font-size:.9rem;color:var(--ink2)}
+.icon-circle{width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;flex:0 0 auto;background:#fdf1dc;color:var(--teal2)}
+.expander{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
+.expander>button.exp-head{width:100%;text-align:left;background:none;border:0;padding:16px 18px;
+  display:flex;gap:12px;align-items:center;font-weight:600;color:var(--navy);font-size:.97rem}
+.expander>button.exp-head:hover{background:#faf7f0}
+.expander .chev{margin-left:auto;transition:transform .3s;flex:0 0 auto;color:var(--teal2)}
+.expander.open .chev{transform:rotate(180deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.expander.open .exp-body{max-height:2400px}
+.exp-inner{padding:0 18px 18px;font-size:.9rem;color:var(--ink2)}
+.exp-inner h5{color:var(--teal2);font-size:.82rem;text-transform:uppercase;letter-spacing:.6px;margin:12px 0 4px}
+.exp-inner ul{margin:4px 0 4px 20px}
+.exp-inner li{margin:3px 0}
+.callout{border-radius:var(--radius);padding:18px 20px;margin:22px 0;border-left:6px solid var(--gold);
+  background:linear-gradient(135deg,#fdf6e8,#fff);box-shadow:var(--shadow)}
+.callout.navy{border-left-color:var(--navy);background:linear-gradient(135deg,#eef1f8,#fff)}
+.callout.teal{border-left-color:var(--teal);background:linear-gradient(135deg,#fbf0e6,#fff)}
+.callout h4{color:var(--navy);margin-bottom:6px;display:flex;gap:8px;align-items:center;font-size:.98rem}
+.callout p{font-size:.93rem}
+.keytake{background:linear-gradient(135deg,#0b1226,var(--navy2));color:#fff;text-align:center;
+  border-radius:var(--radius);padding:28px 22px;margin:26px 0;box-shadow:var(--shadow2)}
+.keytake h4{color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-size:.85rem;margin-bottom:8px}
+.keytake p{font-size:1.08rem;font-weight:600;max-width:66ch;margin:0 auto;line-height:1.5}
+/* hint panels */
+.panelset{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:14px 0}
+.hintbox{border-radius:12px;padding:13px 16px;font-size:.88rem;border:1.5px solid;background:#fff}
+.hintbox b{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.5px}
+.hintbox.hb-hint{border-color:#3a86ff44;background:#f3f8ff}.hintbox.hb-hint b{color:#2456b3}
+.hintbox.hb-insight{border-color:#1e8e3e44;background:#f2faf4}.hintbox.hb-insight b{color:#166b30}
+.hintbox.hb-mistake{border-color:#c5221f44;background:#fdf3f3}.hintbox.hb-mistake b{color:#a01b18}
+.hintbox.hb-exam{border-color:#fca31166;background:#fdf6e8}.hintbox.hb-exam b{color:#9a6b00}
+.hintbox.hb-app{border-color:#6a1b9a44;background:#f8f3fc}.hintbox.hb-app b{color:#5a1585}
+.hintbox.hb-know{border-color:#00838f44;background:#f0fafb}.hintbox.hb-know b{color:#00676f}
+/* formulas */
+.formula{background:#f4f6fb;border:1.5px solid var(--line);border-radius:10px;padding:14px 18px;
+  font-family:Cambria,Georgia,"Times New Roman",serif;font-size:1.12rem;color:var(--navy);
+  text-align:center;margin:12px 0;overflow-x:auto}
+.formula .frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 4px}
+.formula .frac span{display:block;padding:1px 8px}
+.formula .frac span:first-child{border-bottom:1.6px solid var(--navy)}
+.formula sub,.formula sup{font-size:.72em}
+/* calculators */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.calc h4{color:var(--navy);display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.crow{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.crow label{font-size:.85rem;font-weight:600;color:var(--navy);min-width:180px}
+.crow input[type=range]{flex:1;min-width:150px;accent-color:var(--teal)}
+.crow input[type=number],.crow input[type=text]{width:130px;padding:8px 10px;border:2px solid var(--line);border-radius:9px;font:inherit}
+.crow .cval{font-weight:800;color:var(--teal2);min-width:105px;font-variant-numeric:tabular-nums}
+.result-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.res{flex:1 1 130px;background:#f7f8fb;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;text-align:center}
+.res .rv{font-size:1.22rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.res .rl{font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2)}
+.res.good{border-color:var(--ok);background:#e9f7ee}
+.steps{background:#f8f9fc;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;
+  font-size:.92rem;margin-top:12px;font-variant-numeric:tabular-nums}
+.steps .st{margin:7px 0;padding-left:26px;position:relative}
+.steps .st::before{content:attr(data-n);position:absolute;left:0;top:2px;width:19px;height:19px;
+  border-radius:50%;background:var(--navy);color:#fff;font-size:.68rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center}
+/* picks/fb/steps */
+.sim-steps{display:flex;gap:6px;margin:14px 0 20px;flex-wrap:wrap}
+.sim-steps button{flex:1 1 90px;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:9px 5px;font-size:.74rem;font-weight:700;color:var(--ink2);position:relative}
+.sim-steps button[aria-selected="true"]{border-color:var(--gold);background:#fdf6e8;color:var(--navy)}
+.sim-steps button.done{border-color:var(--ok);color:var(--ok)}
+.sim-steps button.done::after{content:"✓";position:absolute;top:-8px;right:-4px;background:var(--ok);
+  color:#fff;width:19px;height:19px;border-radius:50%;font-size:.68rem;display:flex;align-items:center;justify-content:center}
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  margin-bottom:11px;box-shadow:var(--shadow)}
+.qrow .qtext{font-weight:600;color:var(--navy);font-size:.95rem}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-weight:700;
+  font-size:.92rem;box-shadow:var(--shadow);transition:background .2s,transform .15s}
+.btn:hover{background:var(--navy2);transform:translateY(-2px)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.gold:hover{background:var(--amber2);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.ghost:hover{background:#eef1f8}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.pick{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:11px 14px;margin:7px 0;font-size:.88rem;color:var(--ink);transition:all .15s}
+.pick:hover{border-color:var(--teal)}
+.pick.right{border-color:var(--ok);background:#e9f7ee}
+.pick.wrong{border-color:var(--bad);background:#fdeeee}
+.fb{border-radius:10px;padding:13px 16px;margin-top:12px;font-size:.9rem;display:none}
+.fb.show{display:block;animation:fadeUp .3s ease}
+.fb.good{background:#e9f7ee;border:1px solid #b5dfc2;color:#155724}
+.fb.mid{background:#fff7e2;border:1px solid #f0dc9d;color:#7a5b00}
+.fb.poor{background:#fdeeee;border:1px solid #f0bdbd;color:#8c1a17}
+select.match{width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:8px;font:inherit;
+  font-size:.86rem;background:#fff;color:var(--ink);margin-top:6px}
+select.match.right{border-color:var(--ok);background:#e9f7ee}
+select.match.wrong{border-color:var(--bad);background:#fdeeee}
+/* flash cards */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:14px}
+.wall-card{position:relative;border:0;border-radius:12px;min-height:130px;cursor:pointer;perspective:800px;background:none;text-align:left}
+.wall-inner{position:relative;width:100%;height:100%;min-height:130px;transition:transform .5s;transform-style:preserve-3d}
+.wall-card.flip .wall-inner{transform:rotateY(180deg)}
+.wall-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:14px;
+  display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow)}
+.wall-front{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;font-weight:700;font-size:.92rem}
+.wall-front small{color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.wall-back{background:#fff;border:1.5px solid var(--gold);transform:rotateY(180deg);font-size:.79rem;color:var(--ink2)}
+/* tables */
+table.simple{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0}
+table.simple th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:.8rem}
+table.simple td{border:1px solid var(--line);padding:9px 12px;background:#fff;vertical-align:top;font-variant-numeric:tabular-nums}
+/* modal */
+.modal-veil{position:fixed;inset:0;background:rgba(11,18,38,.6);display:none;z-index:300;
+  align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
+.modal-veil.show{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:600px;width:100%;max-height:86vh;
+  overflow:auto;box-shadow:var(--shadow2);animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.modal-head{padding:20px 22px;color:#fff;display:flex;align-items:center;gap:14px;border-radius:16px 16px 0 0}
+.modal-head h4{font-size:1.15rem;line-height:1.3}
+.modal-body{padding:20px 22px}
+.modal-body h5{color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.7px;margin:14px 0 4px}
+.modal-body h5:first-child{margin-top:0}
+.modal-body p{font-size:.92rem;color:var(--ink2)}
+.modal-body ul{margin:4px 0 4px 20px;font-size:.9rem;color:var(--ink2)}
+.modal-close{margin-left:auto;background:rgba(255,255,255,.2);border:0;color:#fff;width:34px;height:34px;
+  border-radius:50%;font-size:1.05rem;font-weight:700;flex:0 0 auto}
+.modal-close:hover{background:rgba(255,255,255,.35)}
+/* quiz */
+.quiz-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-top .qcount{font-weight:700;color:var(--navy)}
+.quiz-top .qscore{margin-left:auto;font-weight:700;color:var(--teal2)}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow)}
+.qtype-tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+  background:var(--navy);color:#fff;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.quiz-card h3{color:var(--navy);font-size:1.08rem;margin-bottom:14px;line-height:1.45}
+.quiz-opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;
+  border-radius:10px;padding:12px 15px;margin:8px 0;font-size:.93rem;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--teal);background:#fbf5ec}
+.quiz-opt.right{border-color:var(--ok);background:#e9f7ee;font-weight:600}
+.quiz-opt.wrong{border-color:var(--bad);background:#fdeeee}
+.quiz-opt:disabled{cursor:default}
+.fib-input{width:100%;max-width:340px;padding:11px 14px;border:2px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.95rem}
+.fib-input:focus{border-color:var(--teal);outline:none}
+.explain{border-radius:10px;padding:14px 16px;margin-top:14px;font-size:.9rem;display:none}
+.explain.show{display:block;animation:fadeUp .3s ease}
+.explain.good{background:#e9f7ee;border:1px solid #b5dfc2}
+.explain.poor{background:#fdeeee;border:1px solid #f0bdbd}
+.explain b{display:block;margin-bottom:4px}
+.quiz-result{text-align:center;padding:34px 20px}
+.grade-ring{width:150px;height:150px;margin:0 auto 14px}
+.quiz-result h3{font-size:1.5rem;color:var(--navy)}
+/* dashboard */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);text-align:center}
+.stat .val{font-size:2rem;font-weight:800;color:var(--teal2)}
+.stat .lbl{font-size:.8rem;color:var(--ink2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.topic-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:11px 15px;margin:7px 0;font-size:.9rem}
+.topic-row .tick{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;flex:0 0 auto;background:#eef1f6;color:var(--ink2)}
+.topic-row.done .tick{background:var(--ok);color:#fff}
+.reflect-box{width:100%;min-height:100px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;
+  font:inherit;font-size:.92rem;resize:vertical;background:#fff;margin-top:10px}
+.reflect-box:focus{border-color:var(--teal);outline:none}
+.small-note{font-size:.78rem;color:var(--ink2);margin-top:8px}
+footer{background:#0b1226;color:#c2cbdd;text-align:center;padding:22px 16px;font-size:.8rem;line-height:1.7}
+footer b{color:#fff}
+/* animations */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.mastery{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:.75rem;
+  font-weight:700;color:var(--ink2)}
+.mastery input{width:17px;height:17px;accent-color:var(--ok)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site">
+  <svg class="sun-bg" width="280" height="280" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="22" fill="#fff"/>
+    <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+      <line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/>
+      <line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/>
+      <line x1="20" y1="20" x2="28" y2="28"/><line x1="72" y1="72" x2="80" y2="80"/>
+      <line x1="80" y1="20" x2="72" y2="28"/><line x1="28" y1="72" x2="20" y2="80"/>
+    </g>
+  </svg>
+  <div class="badge-row">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge">AUST · Dept. of Mechanical and Production Engineering</span>
+    <button class="hc-btn" id="hcToggle" aria-pressed="false">◐ High contrast</button>
+  </div>
+  <h1>Solar Energy - Part 1 — <span class="accent">Resource Assessment: Solar Geometry</span></h1>
+  <p class="sub">Interactive companion to the lecture by Professor Mazharul Islam · Ahsanullah University of Science and Technology, Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Module progress</span><span id="hdrPct">0%</span></div>
+    <div class="pbar"><span id="hdrBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Module sections" id="tabbar"></nav>
+
+<main id="main">
+  <section class="tabpanel" id="panel-outcomes" role="tabpanel" aria-labelledby="tab-outcomes"></section>
+  <section class="tabpanel" id="panel-review" role="tabpanel" aria-labelledby="tab-review"></section>
+  <section class="tabpanel" id="panel-intro" role="tabpanel" aria-labelledby="tab-intro"></section>
+  <section class="tabpanel" id="panel-decl" role="tabpanel" aria-labelledby="tab-decl"></section>
+  <section class="tabpanel" id="panel-hour" role="tabpanel" aria-labelledby="tab-hour"></section>
+  <section class="tabpanel" id="panel-wss" role="tabpanel" aria-labelledby="tab-wss"></section>
+  <section class="tabpanel" id="panel-day" role="tabpanel" aria-labelledby="tab-day"></section>
+  <section class="tabpanel" id="panel-explore" role="tabpanel" aria-labelledby="tab-explore"></section>
+  <section class="tabpanel" id="panel-problem" role="tabpanel" aria-labelledby="tab-problem"></section>
+  <section class="tabpanel" id="panel-toolbox" role="tabpanel" aria-labelledby="tab-toolbox"></section>
+  <section class="tabpanel" id="panel-resources" role="tabpanel" aria-labelledby="tab-resources"></section>
+  <section class="tabpanel" id="panel-reflect" role="tabpanel" aria-labelledby="tab-reflect"></section>
+  <section class="tabpanel" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary"></section>
+  <section class="tabpanel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></section>
+  <section class="tabpanel" id="panel-dash" role="tabpanel" aria-labelledby="tab-dash"></section>
+</main>
+
+<div class="modal-veil" id="modalVeil" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head" id="modalHead">
+      <h4 id="modalTitle"></h4>
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <b>ME4011 Renewable Energy</b> — Interactive companion to
+  “Solar Energy - Part 1 — Resource Assessment: Solar Geometry” by <b>Professor Mazharul Islam</b><br>
+  Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh<br>
+  Lecture slides licensed under the Creative Commons Attribution-ShareAlike 4.0 International License
+</footer>
+
+<script>
+"use strict";
+/* ==========================================================================
+   1. SOLAR GEOMETRY MATH (exact lecture formulas)
+   ========================================================================== */
+const D2R=Math.PI/180,R2D=180/Math.PI;
+const sinD=x=>Math.sin(x*D2R),cosD=x=>Math.cos(x*D2R),tanD=x=>Math.tan(x*D2R);
+/* δ = 23.45° sin( 360/365 (284 + N) )   (ScienceDirect, nd) */
+const decl=N=>23.45*sinD(360/365*(284+N));
+/* ω = 15°(ST − 12)   (Heinemann, 2002) */
+const hourAngle=ST=>15*(ST-12);
+/* cos ωss = − tan δ · tan φ   (Heinemann, 2002, p. 15) */
+function wss(delta,phi){
+  const x=-tanD(delta)*tanD(phi);
+  if(x>1)return 0;      /* polar night */
+  if(x<-1)return 180;   /* polar day */
+  return Math.acos(x)*R2D;
+}
+/* Lday = 2 cos⁻¹(− tan δ · tan φ) / 15  [hours] */
+const dayLength=(delta,phi)=>2*wss(delta,phi)/15;
+const fmt=(x,d=2)=>Number.isFinite(x)?x.toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:0}):"—";
+function hhmm(h){
+  let H=Math.floor(h),M=Math.round((h-H)*60);
+  if(M===60){H++;M=0;}
+  const ap=H<12?"AM":"PM";const h12=((H+11)%12)+1;
+  return `${h12}:${String(M).padStart(2,"0")} ${ap}`;
+}
+const MONTHS=[["Jan",31],["Feb",28],["Mar",31],["Apr",30],["May",31],["Jun",30],
+ ["Jul",31],["Aug",31],["Sep",30],["Oct",31],["Nov",30],["Dec",31]];
+function dateFromN(N){
+  let n=N;for(const[m,d]of MONTHS){if(n<=d)return `${m} ${n}`;n-=d;}return "Dec 31";
+}
+
+/* ==========================================================================
+   2. DATA — exact lecture content
+   ========================================================================== */
+const OUTCOMES=[
+ {text:"explain basic principles related to solar radiation;",
+  rel:"Solar resource assessment starts with knowing why radiation varies — geographic location, time of day, season, local landscape, and local weather (EERE, 2013).",
+  why:"You cannot size a PV array or a solar thermal collector without first understanding what drives the available resource.",
+  app:"Solar site prospecting, feasibility studies, and irradiance data interpretation.",
+  real:"Bangladesh's solar home system program succeeded because designers matched systems to the local solar resource.",
+  future:"Leads directly to Solar Energy - Part 2: the Sun Path Diagram and radiation on tilted surfaces."},
+ {text:"explain important parameters related to the earth.",
+  rel:"Equator, latitude, longitude, meridian, and Prime Meridian are the coordinate language of every solar calculation.",
+  why:"The latitude φ of a site enters directly into the sunrise/sunset hour angle and day length equations.",
+  app:"Reading site coordinates (like Dhaka: 23.7104° N, 90.40744° E) from maps and GPS for solar design.",
+  real:"Every solar design document begins with the site's latitude and longitude.",
+  future:"Latitude φ reappears in every later solar angle: elevation, zenith, azimuth, and tilt optimization."},
+ {text:"determine the following solar geometry related parameters for any location for a particular day: 1. Declination Angle of the Sun (δ); 2. Hour Angle (ω); 3. Sunrise & Sunset Hour Angles (ωss); and 4. Day length (Lday)",
+  rel:"These four parameters are the computational core of solar resource assessment — everything in this lecture builds the chain N → δ → ω, ωss → Lday.",
+  why:"Given only a date and a latitude you can already predict when the sun rises and sets and how many solar hours are available.",
+  app:"Estimating daily collection windows, scheduling solar-powered systems, and preparing inputs for irradiation models.",
+  real:"The lecture's own problem: on March 15 in Dhaka, δ = −2.82°, ω(9 AM) = −45°, ωss = 88.76°, Lday = 11.83 hours.",
+  future:"Part 2 combines these with solar elevation and azimuth to draw the Sun Path Diagram and optimize collector tilt."}
+];
+
+const REVIEW=[
+ {cat:"Geometry",front:"Degrees in a full circle — and Earth's rotation rate?",
+  back:"360° per full circle. Earth rotates 360° in 24 hours ⇒ 15° per hour. This single fact powers the hour angle, sunrise/sunset conversion, and day length equations."},
+ {cat:"Trigonometry",front:"What are sin, cos, tan of an angle — and what is cos⁻¹?",
+  back:"Ratios of sides in a right triangle; cos⁻¹ (arccos) inverts the cosine: if cos ω = x then ω = cos⁻¹(x). You will use cos⁻¹ to find the sunrise/sunset hour angle."},
+ {cat:"Trigonometry",front:"tan of a negative angle?",
+  back:"tan(−θ) = −tan(θ) — odd function. That is why a negative declination (winter in the north) makes −tan δ · tan φ positive, giving ωss < 90° and short days."},
+ {cat:"Calculator skill",front:"DEG or RAD mode?",
+  back:"The lecture's formulas use degrees (23.45°, 360/365, 15°/hour). Set your calculator to DEGREE mode — the most common source of wrong answers in this topic."},
+ {cat:"Earth science",front:"Why are there seasons?",
+  back:"Earth's rotation axis is tilted 23.45° from the normal to its orbital plane. As Earth orbits the Sun, each hemisphere leans toward or away from the Sun — captured mathematically by the declination angle δ."},
+ {cat:"Earth science",front:"Latitude vs longitude — which is which?",
+  back:"Latitude: how far north/south of the Equator (0° at Equator, 90° at poles). Longitude: how far east/west of the Prime Meridian. Dhaka: 23.7104° N, 90.40744° E."},
+ {cat:"Time",front:"Solar time vs clock time?",
+  back:"Solar time follows the sun: solar noon is when the sun crosses the local meridian (highest point). Clock time follows time zones. This lecture's ST in ω = 15°(ST − 12) is Solar Time."},
+ {cat:"Units",front:"Angular degrees ↔ hours ↔ minutes",
+  back:"15° = 1 hour = 60 min ⇒ 1° = 4 minutes of time. Also 1° = 60 arc-minutes (′) and 1′ = 60 arc-seconds (″) — used when writing Dhaka's latitude 23°42′37.44″ N."}
+];
+const REVIEW_HINTS=[
+ ["Memory aid","“15 per hour” — Earth's rotation gives 15° of hour angle per hour; write it at the top of your exam script before anything else."],
+ ["Examination tip","Always write the formula first, then substitute with units, then compute. Marks are awarded for method — and check DEG mode twice."],
+ ["Engineering intuition","Angles are just clocks and maps: δ is the calendar (season), ω is the clock (time of day), φ is the map (location). Every solar formula mixes these three."],
+ ["Frequently confused","δ (declination — property of the DAY, same for the whole planet) vs φ (latitude — property of the PLACE) vs ω (hour angle — property of the TIME). Three different symbols, three different inputs."],
+ ["Common mistake","Forgetting the minus sign in cos ωss = − tan δ · tan φ, or dropping the negative sign of a winter declination. Sign errors flip sunrise and sunset."],
+ ["Practical shortcut","At the equinoxes δ = 0 ⇒ cos ωss = 0 ⇒ ωss = 90° ⇒ Lday = 12 h everywhere on Earth — a free sanity check for any calculator or code you write."],
+ ["Quick reminder","Morning ω is negative, afternoon positive, solar noon exactly 0°."],
+ ["Conceptual relationship","N → δ (calendar sets declination) ; ST → ω (clock sets hour angle) ; δ + φ → ωss → Lday (season + location set the day's window)."]
+];
+
+const SUN_LIFE=[
+ ["Birth (~4.6 billion years ago)","The Sun formed from a collapsing cloud of gas and dust; nuclear fusion ignited in its core."],
+ ["Now — main sequence","A middle-aged main-sequence star, steadily fusing hydrogen into helium. Its warming is gradual over billions of years."],
+ ["Gradual warming (next ~5 billion years)","Output slowly increases as hydrogen in the core is consumed."],
+ ["Red Giant","The core contracts, outer layers swell enormously — the Sun becomes a red giant."],
+ ["Planetary nebula → White Dwarf","Outer layers drift away as a planetary nebula; the remaining core cools as a white dwarf."]
+];
+const SUN_STRUCT=[
+ ["Core","~15 million K. Nuclear fusion converts ~4 million tonnes of mass to energy every second: 4 ¹H → ⁴He + energy (E = mc²)."],
+ ["Radiative zone","Photons random-walk outward for thousands of years, scattering constantly."],
+ ["Convective zone","Hot plasma rises, cools, and sinks — like boiling water — carrying energy to the surface."],
+ ["Photosphere","The visible 'surface' (~5,500 °C) that emits the solar radiation we harvest on Earth."]
+];
+const SUN_FACTS=[
+ ["Engineering fact","The solar power arriving at the top of Earth's atmosphere averages about 1361 W/m² (the solar constant) — the ultimate 'nameplate rating' of every solar project."],
+ ["Interesting note","Light takes ~8 minutes 20 seconds to travel from the Sun to Earth — the sunshine on your PV panel left the photosphere while you were reading this sentence."],
+ ["Engineering fact","The Sun radiates in all directions; Earth intercepts only about half a billionth of the total output — and that still dwarfs humanity's entire energy demand."]
+];
+
+const BANDS=[
+ ["Gamma rays","< 0.01 nm"],["X-rays","0.01–10 nm"],["Ultraviolet","10–380 nm"],
+ ["Visible","380–750 nm"],["Infrared","750 nm–1 mm"],["Microwave","1 mm–1 m"],["Radio","> 1 m"]];
+
+const PLACES=[
+ {n:"Dhaka, Bangladesh",lat:23.7104,lon:90.40744,note:"The lecture's reference site — latitude 23°42′37.44″ N (Decimal: 23.7104° N), longitude 90°24′26.78″ E (Decimal: 90.40744° E). These coordinates are essential for calculating solar angles like declination, hour angle, and day length."},
+ {n:"Quito, Ecuador",lat:-0.18,lon:-78.47,note:"Nearly on the Equator (φ ≈ 0°): day length stays ≈ 12 hours all year — see it in the Day Length tab."},
+ {n:"London, UK",lat:51.51,lon:-0.13,note:"Near the Prime Meridian (0° longitude) — the reference from which all longitude is measured east or west."},
+ {n:"Reykjavik, Iceland",lat:64.15,lon:-21.94,note:"High latitude: enormous seasonal swing in day length — approaching the polar day/night condition |tan δ tan φ| → 1."},
+ {n:"Sydney, Australia",lat:-33.87,lon:151.21,note:"Southern Hemisphere: latitude is negative in the formulas, so seasons are reversed — December brings long days."},
+ {n:"New York, USA",lat:40.71,lon:-74.01,note:"Mid-latitude northern site: strong but manageable seasonal variation, typical of major solar markets."},
+ {n:"Cape Town, South Africa",lat:-33.92,lon:18.42,note:"Southern mid-latitude — mirror image of a 34° N site in solar geometry."},
+ {n:"Tokyo, Japan",lat:35.68,lon:139.69,note:"East of Dhaka by ~49° of longitude ⇒ its solar noon comes about 3.3 hours earlier (15° per hour)."}
+];
+
+const ANNUAL=[
+ ["March 21 (N = 80)","Vernal Equinox","0°","Sun over the Equator"],
+ ["June 21 (N = 172)","Summer Solstice","+23.45°","Farthest North"],
+ ["September 23 (N = 266)","Autumnal Equinox","0°","Sun over the Equator"],
+ ["December 21 (N = 355)","Winter Solstice","−23.45°","Farthest South"]];
+
+const REFLECT=[
+ {q:"Why does the declination angle δ change through the year, and why is its range exactly ±23.45°?",
+  hint:"Think about what is tilted and what stays fixed as Earth orbits the Sun. What angle is the tilt?",
+  disc:"Earth's rotation axis is tilted 23.45° from the normal to its orbital plane and keeps pointing the same direction in space. As Earth orbits, the Sun appears to move between 23.45° N (June solstice, δ = +23.45°) and 23.45° S (December solstice, δ = −23.45°) of the equatorial plane — which is precisely the definition of δ: the angle between the Earth's equatorial plane and the line connecting the center of the Earth to the center of the Sun.",
+  takeaway:"δ is set by the calendar alone — every location on Earth shares the same declination on the same day.",
+  eng:"A designer cannot change δ — only respond to it: collector tilt, array spacing, and seasonal energy estimates all track the declination cycle.",
+  re:"Seasonal tilt adjustment of PV arrays (e.g., latitude ±15°) exists purely because of the ±23.45° swing in δ.",
+  design:"Fixed-tilt arrays are usually tilted near the site latitude so the annual average of the sun's rays arrives near-perpendicular.",
+  exam:"Memorize the four anchor dates from the lecture table: N = 80 (0°), N = 172 (+23.45°), N = 266 (0°), N = 355 (−23.45°)."},
+ {q:"The hour angle at 10:00 AM is −30° and at 2:00 PM it is +30°. What symmetry does this reveal, and why is it useful?",
+  hint:"Both times are the same number of hours from solar noon. What does ω measure, and around what reference?",
+  disc:"ω = 15°(ST − 12) is antisymmetric about solar noon: equal times before and after noon give equal and opposite hour angles. The sun's path is symmetric about the local meridian, so morning and afternoon geometry mirror each other. This is why ωss alone captures both sunrise (−ωss) and sunset (+ωss), and why the day length formula contains the factor 2.",
+  takeaway:"One number, ωss, describes both ends of the day.",
+  eng:"Symmetry halves your work: compute the morning, mirror the afternoon.",
+  re:"Energy yield simulations exploit this symmetry — solar position tables are often computed for half a day.",
+  design:"East–west symmetric shading (e.g., row spacing) can be checked at one time and inferred for the mirror time.",
+  exam:"If an exam asks for sunrise hour angle after you found sunset: it is simply −ωss. Do not recompute."},
+ {q:"Dhaka (23.71° N) and a site at 23.71° S have the same |φ|. How do their solar geometries compare on June 21?",
+  hint:"Put δ = +23.45° into cos ωss = −tan δ · tan φ with φ positive, then with φ negative.",
+  disc:"On June 21, δ = +23.45°. For Dhaka, −tan(23.45°)tan(23.71°) ≈ −0.19 ⇒ ωss ≈ 101° ⇒ Lday ≈ 13.5 h (long day). For 23.71° S the product flips sign: ωss ≈ 79° ⇒ Lday ≈ 10.5 h (short day). Same magnitudes, opposite seasons — the latitude sign convention (positive for Northern Hemisphere, negative for Southern) does all the work.",
+  takeaway:"Hemispheres experience mirror-image solar geometry on the same date.",
+  eng:"Never drop the sign of φ — a southern-hemisphere project designed with northern day lengths would mis-predict energy by season.",
+  re:"Global solar companies run one and the same formula set worldwide; only φ (with its sign) and N change.",
+  design:"In the Southern Hemisphere, fixed collectors face north — the mirrored consequence of the same geometry.",
+  exam:"State the convention explicitly in your solution: 'φ positive for Northern Hemisphere, negative for Southern' — it earns method marks."},
+ {q:"Why does the day length formula divide by 15, and multiply by 2?",
+  hint:"What does ωss measure, and in what units? How fast does the Earth rotate?",
+  disc:"ωss is the angular displacement of the sun from the local meridian at sunrise or sunset, in degrees. Since ωss is in degrees, dividing by 15 converts it to hours (15° = 1 hour of Earth's rotation). The factor of 2 accounts for both morning and evening hour angles (sunrise and sunset) — the sun spends ωss degrees before noon and ωss degrees after noon above the horizon: Lday = 2ωss/15.",
+  takeaway:"The formula is pure unit conversion wrapped around symmetry.",
+  eng:"Understanding a formula's anatomy (what each factor does) lets you rebuild it under exam pressure instead of memorizing blindly.",
+  re:"Day length sets the daily solar collection window — the first number an off-grid system designer needs for battery sizing.",
+  design:"Short winter days (small ωss) size the battery bank; long summer days size the charge controller.",
+  exam:"The result is in solar hours, assuming 15° of Earth's rotation per hour — quote this assumption."}
+];
+
+const RESOURCES=[
+ ["Energy Meteorology — by Detlev Heinemann",
+  "https://uol.de/f/5/inst/physik/ag/ehf/enmet/download/lectures/Energy_Meteorology_Script.pdf",
+  "The lecture's primary reference (Heinemann, 2002) — a full university script covering solar geometry, radiation, and meteorology for energy applications.",
+  "Master the derivations behind ω, ωss, and Lday; see the sign conventions in context (p. 14–15).",
+  "Read the solar geometry sections after this lecture; return for radiation modelling in Part 2.",
+  "Intermediate → Advanced","The exact source of this lecture's hour-angle and sunrise/sunset equations."],
+ ["PVCDROM — pveducation.org",
+  "https://www.pveducation.org/pvcdrom",
+  "Interactive online textbook on photovoltaics with animated solar-position modules (the lecture links its declination-angle page).",
+  "Visualize declination, elevation, and azimuth interactively; connect geometry to PV performance.",
+  "Use the 'Properties of Sunlight' chapter alongside this app's simulators.",
+  "Beginner → Intermediate","Best quick visual explanations; ideal for revision before exams."],
+ ["Power From The Sun — powerfromthesun.net",
+  "http://www.powerfromthesun.net/index.html",
+  "A free full-length book on solar energy system engineering with rigorous solar geometry chapters.",
+  "Deepen the vector/derivation view of sun-position angles; see concentrating-collector applications.",
+  "Consult Chapter 3 (Sun position) when you want derivations beyond the lecture's scope.",
+  "Advanced","Bridges this lecture to solar thermal and concentrating system design."]
+];
+const REFS=[
+ "EERE (2013). Solar Radiation Basics. https://www.energy.gov/eere/solar/articles/solar-radiation-basics",
+ "Heinemann, D. (2002). Energy Meteorology. https://uol.de/f/5/inst/physik/ag/ehf/enmet/download/lectures/Energy_Meteorology_Script.pdf",
+ "ScienceDirect (n.d.). Solar Declination. https://www.sciencedirect.com/topics/engineering/solar-declination"];
+
+const SUMMARY=[
+ "Solar radiation reaching Earth varies with location, time, season, and atmospheric conditions.",
+ "The Sun's position relative to Earth is described using angles such as declination angle and hour angle.",
+ "Latitude and declination determine the sunrise and sunset hour angles for any location and date.",
+ "Day length is calculated using the sunrise/sunset hour angle and varies throughout the year.",
+ "Understanding these concepts is essential for analyzing solar energy availability and designing solar systems."];
+
+/* ==========================================================================
+   3. QUIZ POOL — mc | tf | fib | num | match | diag
+   ========================================================================== */
+const QUIZ_POOL=[
+ {type:"mc",topic:"intro",q:"According to EERE (2013), the amount of solar radiation that reaches any one spot on the Earth's surface varies according to:",
+  opts:["Geographic location, time of day, season, local landscape, and local weather",
+        "Only the cloud cover","Only the altitude of the site","The price of electricity"],a:0,
+  ex:"The lecture's Basic Principles of Solar Radiation list exactly these five factors — and note that every location on Earth receives sunlight at least part of the year."},
+ {type:"mc",topic:"intro",q:"Solar radiation is defined in the lecture as:",
+  opts:["A general term for the electromagnetic radiation emitted by the sun",
+        "Only the visible light from the sun","Only the heat that reaches Earth","Radioactive particles from the sun"],a:0,
+  ex:"“Solar radiation is a general term for the electromagnetic radiation emitted by the sun” — capturable and convertible into heat and electricity using a variety of technologies."},
+ {type:"mc",topic:"earth",q:"The Equator is:",
+  opts:["An imaginary line equidistant from the North Pole and South Pole, dividing Earth into the Northern and Southern Hemispheres",
+        "The line running from pole to pole through Greenwich",
+        "The circle at 23.45° N latitude","The Earth's orbital path around the Sun"],a:0,
+  ex:"The lecture quotes: the Equator is an imaginary line on the Earth's surface equidistant from the North Pole and South Pole, dividing the Earth into the Northern Hemisphere and Southern Hemisphere."},
+ {type:"mc",topic:"earth",q:"A 'meridian' or 'line of longitude' is:",
+  opts:["An imaginary vertical line that runs from the North Pole to the South Pole",
+        "A horizontal circle parallel to the Equator",
+        "The path of the sun across the sky","The boundary between time zones only"],a:0,
+  ex:"All locations along a meridian share the same longitude value (e.g., 90° E); meridians measure how far east or west a location is from the Prime Meridian (0° longitude)."},
+ {type:"mc",topic:"decl",q:"The declination angle of the sun (δ) is the angle between:",
+  opts:["The Earth's equatorial plane and the line connecting the center of the Earth to the center of the Sun",
+        "The horizon and the sun at noon","The Earth's axis and its orbital plane","The local meridian and the Prime Meridian"],a:0,
+  ex:"Exact lecture definition — this angle varies throughout the year as the Earth orbits the Sun and is a key parameter in solar energy calculations."},
+ {type:"mc",topic:"decl",q:"In δ = 23.45° sin(360/365 (284 + N)), the symbol N is:",
+  opts:["The day of the year, with N = 1 on January 1","The number of daylight hours","The latitude in degrees","The week number"],a:0,
+  ex:"N is the day of the year, with N = 1 on January 1 (ScienceDirect, nd)."},
+ {type:"mc",topic:"hour",q:"The hour angle ω represents:",
+  opts:["The angular displacement of the sun from the local meridian, caused by Earth's rotation",
+        "The angle between the sun and the horizon","The tilt of the Earth's axis","The angle between two meridians"],a:0,
+  ex:"Heinemann (2002): ω is the angular displacement of the sun from the local meridian, caused by Earth's rotation. Since Earth rotates 360° in 24 hours, one hour corresponds to 15° of hour angle."},
+ {type:"mc",topic:"hour",q:"The sign convention for the hour angle is:",
+  opts:["Morning: ω < 0; Solar noon: ω = 0°; Afternoon: ω > 0",
+        "Morning: ω > 0; Afternoon: ω < 0","ω is always positive","ω is negative only in winter"],a:0,
+  ex:"Exact lecture sign convention. E.g., 10:00 AM → ω = −30°; 2:00 PM → ω = +30°; at solar noon the sun is directly aligned with the local meridian and ω = 0°."},
+ {type:"mc",topic:"wss",q:"In cos ωss = − tan δ · tan φ, the symbol φ is:",
+  opts:["The latitude of the location (positive for Northern Hemisphere, negative for Southern)",
+        "The longitude of the location","The solar altitude","The tilt of the collector"],a:0,
+  ex:"φ is the latitude — positive for Northern Hemisphere, negative for Southern; δ is the solar declination angle, which varies throughout the year."},
+ {type:"mc",topic:"wss",q:"ωss is used to calculate:",
+  opts:["The length of daylight hours","The solar constant","The Earth-Sun distance","The collector efficiency"],a:0,
+  ex:"The lecture's Note: ωss is used to calculate the length of daylight hours — via Lday = 2ωss/15."},
+ {type:"mc",topic:"day",q:"In the day length formula, the factor of 2 accounts for:",
+  opts:["Both morning and evening hour angles (sunrise and sunset)",
+        "Daylight saving time","The two hemispheres","Leap years"],a:0,
+  ex:"Lday = 2 cos⁻¹(−tan δ tan φ)/15 [hours] — the factor of 2 accounts for both morning and evening hour angles; dividing by 15 converts degrees to solar hours."},
+ {type:"mc",topic:"day",q:"According to the lecture, day length varies with seasons and is:",
+  opts:["Longest during summer, shortest during winter","Constant everywhere","Longest at the equinoxes","Always 12 hours at 45° latitude"],a:0,
+  ex:"The lecture's Note: day length varies with seasons — longest during summer, shortest during winter."},
+ {type:"mc",topic:"day",q:"For the Dhaka January 1 example (ωss = 79.25°), the lecture concludes the sunset will be at approximately:",
+  opts:["5.28 pm","6.30 pm","7.15 pm","4.45 pm"],a:0,
+  ex:"Sunset time = 12 + ωss/15 = 12 + 5.28 = 17.28 h — i.e., the sunset will be at 5.28 pm (approximately)."},
+ {type:"tf",topic:"intro",q:"True or False: Every location on Earth receives sunlight at least part of the year.",a:true,
+  ex:"True — the opening quotation of the lecture's Basic Principles of Solar Radiation (EERE, 2013)."},
+ {type:"tf",topic:"decl",q:"True or False: On the same day, the declination angle is different for every city.",a:false,
+  ex:"False — δ depends only on the day of the year N. Every location on Earth shares the same declination on a given day; it is the latitude φ that differs between cities."},
+ {type:"tf",topic:"hour",q:"True or False: At solar noon, the sun is directly aligned with the local meridian and the hour angle is exactly zero.",a:true,
+  ex:"True — solar noon occurs when the sun is at its highest point in the sky for a given location, aligned with the local meridian: ω = 0°."},
+ {type:"tf",topic:"wss",q:"True or False: The sunrise hour angle equals +ωss and the sunset hour angle equals −ωss.",a:false,
+  ex:"False — it is the other way round: morning hour angles are negative (sunrise at −ωss) and afternoon hour angles are positive (sunset at +ωss)."},
+ {type:"tf",topic:"day",q:"True or False: At an equinox (δ = 0), the day length is 12 hours at every latitude.",a:true,
+  ex:"True — with δ = 0, cos ωss = 0 ⇒ ωss = 90° ⇒ Lday = 2(90)/15 = 12 hours everywhere."},
+ {type:"fib",topic:"hour",q:"Since Earth rotates 360° in 24 hours, one hour corresponds to ______ degrees of hour angle.",a:["15"],
+  ex:"15° of hour angle per hour (Heinemann, 2002) — the conversion factor in ω = 15°(ST − 12) and in the day length formula."},
+ {type:"fib",topic:"decl",q:"The maximum value of the declination angle is +______ degrees.",a:["23.45"],
+  ex:"δ ranges between −23.45° and +23.45°; the maximum occurs at the Summer Solstice (June 21, N = 172)."},
+ {type:"fib",topic:"earth",q:"Dhaka's latitude is 23.7104° N and its longitude is ______° E (decimal).",a:["90.40744","90.4","90.41"],
+  ex:"According to latitudelongitude.org/bd/dhaka: latitude 23°42′37.44″ N (23.7104°), longitude 90°24′26.78″ E (90.40744°)."},
+ {type:"fib",topic:"wss",q:"cos ωss = − tan δ · tan ______",a:["φ","phi","latitude"],
+  ex:"cos ωss = −tan δ · tan φ, where φ is the latitude of the location (Heinemann, 2002, p. 15)."},
+ {type:"num",topic:"decl",q:"Calculate the declination angle δ (in degrees) on March 15 (N = 74), using δ = 23.45° sin(360/365 (284 + N)).",a:-2.82,tol:0.15,unit:"degrees",
+  ex:"δ = 23.45 sin(360/365 × 358) ≈ −2.82° — part (a) of the lecture's problem."},
+ {type:"num",topic:"decl",q:"Calculate δ (in degrees) for January 1 (N = 1).",a:-23.01,tol:0.15,unit:"degrees",
+  ex:"δ = 23.45 sin(360/365 × 285) ≈ −23.0116° — the value used in the lecture's Dhaka sunset example."},
+ {type:"num",topic:"hour",q:"What is the hour angle ω at 9:00 AM solar time (degrees)?",a:-45,tol:0.5,unit:"degrees",
+  ex:"ω = 15°(ST − 12) = 15(9 − 12) = −45°. At 9:00 AM solar time, the hour angle is −45° (negative: morning)."},
+ {type:"num",topic:"hour",q:"What is the hour angle at 7 pm (degrees)? (The lecture's Exercise)",a:105,tol:0.5,unit:"degrees",
+  ex:"ω = 15(19 − 12) = +105° — the lecture's exercise answer: 105°."},
+ {type:"num",topic:"hour",q:"What is the hour angle ω at 5:00 PM solar time (degrees)?",a:75,tol:0.5,unit:"degrees",
+  ex:"ST = 17.0 hours ⇒ ω = 15(17 − 12) = +75° (positive: afternoon)."},
+ {type:"num",topic:"wss",q:"For Dhaka (φ = 23.7104° N) on January 1 (δ = −23.0116°), compute the sunset hour angle ωss (degrees).",a:79.25,tol:0.4,unit:"degrees",
+  ex:"ωss = cos⁻¹(−tan(−23.0116°) tan(23.7104°)) = cos⁻¹(0.1866) = 79.25° = 79°15′0″ — the lecture's worked example; sunset ≈ 5.28 pm."},
+ {type:"num",topic:"wss",q:"For Dhaka (φ = 23.71° N) on March 15 (δ = −2.82°), compute ωss (degrees).",a:88.76,tol:0.4,unit:"degrees",
+  ex:"cos ωss = −tan(−2.82°)tan(23.71°) = +0.0216 ⇒ ωss = cos⁻¹(0.0216) ≈ 88.76° — part (c) of the lecture problem."},
+ {type:"num",topic:"day",q:"Using ωss = 88.76°, compute the day length Lday (hours) for Dhaka on March 15.",a:11.83,tol:0.08,unit:"hours",
+  ex:"Lday = 2ωss/15 = 2(88.76)/15 = 11.83 hours — part (d) of the lecture problem."},
+ {type:"num",topic:"day",q:"At the equinox (δ = 0°), what is the day length (hours) at ANY latitude?",a:12,tol:0.05,unit:"hours",
+  ex:"cos ωss = 0 ⇒ ωss = 90° ⇒ Lday = 180/15 = 12 hours everywhere on Earth."},
+ {type:"match",topic:"decl",q:"Match each date to its declination angle (lecture's annual variation table).",
+  pairs:[["March 21 (N = 80) — Vernal Equinox","0° (over the Equator)"],
+         ["June 21 (N = 172) — Summer Solstice","+23.45° (farthest North)"],
+         ["December 21 (N = 355) — Winter Solstice","−23.45° (farthest South)"]],
+  ex:"The annual variation of δ: equinoxes 0°, June solstice +23.45°, December solstice −23.45°."},
+ {type:"match",topic:"hour",q:"Match each solar time to its hour angle.",
+  pairs:[["9:00 AM","−45°"],["12:00 PM (solar noon)","0°"],["5:00 PM","+75°"],["7:00 PM","+105°"]],
+  ex:"ω = 15°(ST − 12): 9 AM → −45°; noon → 0°; 5 PM → +75°; 7 PM → +105° (the lecture's examples and exercise)."},
+ {type:"diag",topic:"hour",q:"In the sun-path sketch below, the sun is at position P, west of the local meridian. What is the sign of the hour angle ω?",
+  svg:`<svg viewBox="0 0 380 150" style="width:100%;max-width:380px" aria-label="Sun path arc with sun west of the meridian">
+   <path d="M30 130 Q 190 -10 350 130" fill="none" stroke="#c2611a" stroke-width="2" stroke-dasharray="5 4"/>
+   <line x1="190" y1="130" x2="190" y2="25" stroke="#14213d" stroke-width="1.6" stroke-dasharray="3 3"/>
+   <text x="190" y="18" text-anchor="middle" font-size="10.5" fill="#14213d" font-weight="700">local meridian</text>
+   <circle cx="262" cy="66" r="11" fill="#fca311"/><text x="262" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#c2611a">P</text>
+   <text x="34" y="145" font-size="10.5" fill="#4e5a72">East (sunrise)</text><text x="300" y="145" font-size="10.5" fill="#4e5a72">West (sunset)</text>
+   <line x1="20" y1="130" x2="360" y2="130" stroke="#4e5a72"/></svg>`,
+  opts:["Positive — the sun is west of the meridian, so it is afternoon (ω > 0)",
+        "Negative — west always means morning","Zero — the sun is above the horizon","Cannot be determined"],a:0,
+  ex:"The sun moves east → meridian → west. West of the local meridian means after solar noon: afternoon, so ω > 0 by the lecture's sign convention."},
+ {type:"diag",topic:"day",q:"The daylight bar below shows sunrise at −ωss and sunset at +ωss with ωss = 105°. What is the day length?",
+  svg:`<svg viewBox="0 0 380 90" style="width:100%;max-width:380px" aria-label="Daylight bar from minus 105 to plus 105 degrees">
+   <rect x="20" y="34" width="340" height="22" rx="11" fill="#e2e4ea"/>
+   <rect x="66" y="34" width="248" height="22" rx="11" fill="#fca311"/>
+   <text x="66" y="26" text-anchor="middle" font-size="10.5" fill="#14213d" font-weight="700">−105°</text>
+   <text x="314" y="26" text-anchor="middle" font-size="10.5" fill="#14213d" font-weight="700">+105°</text>
+   <text x="190" y="74" text-anchor="middle" font-size="10.5" fill="#4e5a72">hour angle scale (15° = 1 hour)</text></svg>`,
+  opts:["14 hours — Lday = 2(105)/15","12 hours — days are always 12 hours","7 hours — Lday = 105/15","21 hours — Lday = 3(105)/15"],a:0,
+  ex:"Lday = 2ωss/15 = 210/15 = 14 hours — a long summer day at a high-latitude site."}
+];
+
+/* ==========================================================================
+   4. CORE FRAMEWORK
+   ========================================================================== */
+const IC={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M19.1 4.9l-2.1 2.1m-10 10l-2.1 2.1"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18-3-3.5-3-14.5 0-18z"/>',
+ grad:'<path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M19 19H6a2 2 0 0 0-2 2"/>',
+ check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ clip:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0M8.5 11l2.3 2.3L15.5 9M8.5 16.5h7"/>',
+ bulb:'<path d="M9 18h6m-5 3h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.4-1 2.5h-6c0-1.1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6.5V12l3.5 2.5"/>',
+ sunrise:'<path d="M12 9V3m-4.2 8.2L5 8.4m14 2.8l-2.8-2.8M3 17h18M6 17a6 6 0 0 1 12 0"/><path d="M9 6l3-3 3 3"/>',
+ wave:'<path d="M3 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2M3 14c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2"/>',
+ calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 19h.01M12 19h.01M15.5 19h.01"/>',
+ gear:'<path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1l1.7 1.3-1.7 3-2-.7a7 7 0 0 1-1.6 1l-.3 2.1h-3.4l-.3-2.1a7 7 0 0 1-1.6-1l-2 .7-1.7-3 1.7-1.3a7 7 0 0 1 0-1.9L6.5 10l1.7-3 2 .7a7 7 0 0 1 1.6-1l.3-2.1h3.4l.3 2.1a7 7 0 0 1 1.6 1l2-.7 1.7 3-1.7 1.3a7 7 0 0 1 0 1.9z"/>',
+ chart:'<path d="M4 20V4m0 16h16"/><path d="M7 16l4-5 3 3 5-7"/>',
+ route:'<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>',
+ cal:'<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4m8-4v4"/><circle cx="12" cy="15" r="2"/>',
+ link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1.5 1.5M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1.5-1.5"/>'
+};
+function svg(n,s=20){return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||IC.gear}</svg>`;}
+function hintPanels(obj){
+  const map=[["hint","hb-hint","💡 Beneficial Hint"],["insight","hb-insight","⚙ Engineering Insight"],
+   ["mistake","hb-mistake","⚠ Common Mistake"],["exam","hb-exam","🎓 Examination Tip"],
+   ["app","hb-app","🔧 Practical Application"],["know","hb-know","★ Did You Know?"],
+   ["later","hb-know","→ Relationship with later topics"]];
+  return `<div class="panelset">`+map.filter(m=>obj[m[0]]).map(m=>
+   `<div class="hintbox ${m[1]}"><b>${m[2]}</b>${obj[m[0]]}</div>`).join("")+`</div>`;
+}
+
+let STATE={visited:{},mastered:{},reflect:{},probDone:{},quiz:{best:null,last:null,wrongTopics:{}}};
+try{const s=localStorage.getItem("me4011_solar1");if(s)STATE=Object.assign(STATE,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem("me4011_solar1",JSON.stringify(STATE));}catch(e){}updateProgress();}
+
+document.getElementById("hcToggle").addEventListener("click",function(){
+  const on=document.body.classList.toggle("hc");
+  this.setAttribute("aria-pressed",on);
+});
+
+const TABS=[
+ {id:"outcomes",label:"Learning Outcomes",icon:"grad"},
+ {id:"review",label:"Review",icon:"bulb"},
+ {id:"intro",label:"Introduction",icon:"sun"},
+ {id:"decl",label:"Declination Angle",icon:"globe"},
+ {id:"hour",label:"Hour Angle",icon:"clock"},
+ {id:"wss",label:"Sunrise & Sunset Hour Angles",icon:"sunrise"},
+ {id:"day",label:"Day Length",icon:"wave"},
+ {id:"explore",label:"Solar Geometry Explorer",icon:"play"},
+ {id:"problem",label:"Problem Solving",icon:"clip"},
+ {id:"toolbox",label:"Formula Toolbox",icon:"calc"},
+ {id:"resources",label:"Useful Resources",icon:"link"},
+ {id:"reflect",label:"Reflections",icon:"bulb"},
+ {id:"summary",label:"Summary",icon:"book"},
+ {id:"quiz",label:"Quiz",icon:"check"},
+ {id:"dash",label:"Dashboard",icon:"chart"}
+];
+const tabbar=document.getElementById("tabbar");
+TABS.forEach((t,i)=>{
+  const b=document.createElement("button");
+  b.id="tab-"+t.id;b.setAttribute("role","tab");b.setAttribute("aria-controls","panel-"+t.id);
+  b.setAttribute("aria-selected",i===0?"true":"false");b.tabIndex=i===0?0:-1;
+  b.innerHTML=svg(t.icon,16)+`<span>${t.label}</span><span class="done-dot" aria-hidden="true"></span>`;
+  b.addEventListener("click",()=>selectTab(t.id));
+  tabbar.appendChild(b);
+});
+tabbar.addEventListener("keydown",e=>{
+  const btns=[...tabbar.querySelectorAll("button")],i=btns.indexOf(document.activeElement);
+  if(i<0)return;let j=null;
+  if(e.key==="ArrowRight")j=(i+1)%btns.length;else if(e.key==="ArrowLeft")j=(i-1+btns.length)%btns.length;
+  else if(e.key==="Home")j=0;else if(e.key==="End")j=btns.length-1;
+  if(j!==null){e.preventDefault();btns[j].focus();btns[j].click();}
+});
+function selectTab(id){
+  TABS.forEach(t=>{
+    const b=document.getElementById("tab-"+t.id),p=document.getElementById("panel-"+t.id);
+    const on=t.id===id;
+    b.setAttribute("aria-selected",on?"true":"false");b.tabIndex=on?0:-1;
+    p.classList.toggle("active",on);
+  });
+  if(!STATE.visited[id]){STATE.visited[id]=true;save();}
+  document.getElementById("tab-"+id).classList.add("visited");
+  if(id==="dash")renderDash();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+const TRACKED=TABS.map(t=>t.id).filter(t=>t!=="dash");
+function updateProgress(){
+  let done=TRACKED.filter(t=>STATE.visited[t]).length,extra=0;
+  if(Object.keys(STATE.mastered).length>=3)extra++;
+  if(STATE.quiz.best!==null)extra++;
+  const pct=Math.round(100*(done+extra)/(TRACKED.length+2));
+  document.getElementById("hdrPct").textContent=pct+"%";
+  document.getElementById("hdrBar").style.width=pct+"%";
+  TABS.forEach(t=>{if(STATE.visited[t.id])document.getElementById("tab-"+t.id).classList.add("visited");});
+  return pct;
+}
+const veil=document.getElementById("modalVeil");let lastFocus=null;
+function openInfo(title,bodyHTML,color){
+  lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=color||"var(--navy)";
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=bodyHTML;
+  veil.classList.add("show");document.getElementById("modalClose").focus();
+}
+function closeModal(){veil.classList.remove("show");if(lastFocus)lastFocus.focus();}
+document.getElementById("modalClose").addEventListener("click",closeModal);
+veil.addEventListener("click",e=>{if(e.target===veil)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&veil.classList.contains("show"))closeModal();});
+function expander(head,bodyHTML){
+  return `<div class="expander">
+    <button class="exp-head" aria-expanded="false">${head}
+      <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </button>
+    <div class="exp-body"><div class="exp-inner">${bodyHTML}</div></div>
+  </div>`;
+}
+document.addEventListener("click",e=>{
+  const h=e.target.closest(".exp-head");if(!h)return;
+  const ex=h.parentElement,open=ex.classList.toggle("open");
+  h.setAttribute("aria-expanded",open?"true":"false");
+});
+function sliderRow(id,label,min,max,step,val,unit){
+ return `<div class="crow"><label for="${id}">${label}</label>
+  <input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}">
+  <span class="cval"><span id="${id}V">${val}</span> ${unit}</span></div>`;
+}
+function wireSliders(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);
+  el.addEventListener("input",()=>{document.getElementById(id+"V").textContent=el.value;fn();});});fn();}
+const V=id=>+document.getElementById(id).value;
+
+/* ==========================================================================
+   5. TAB — LEARNING OUTCOMES
+   ========================================================================== */
+document.getElementById("panel-outcomes").innerHTML=`
+ <h2 class="sec">${svg("grad",24)} Learning Outcomes for the Class Session</h2>
+ <p class="lede">After the completion of this class, the students will be expected to —
+ <em>click each outcome to expand it, and tick “Mastered” when you can do it without notes.</em></p>
+ ${OUTCOMES.map((o,i)=>`
+  <div class="expander" id="outcome${i}">
+   <button class="exp-head" aria-expanded="false">
+     <span class="icon-circle">${svg(["sun","globe","calc"][i],20)}</span>
+     <span><b>Outcome ${i+1}.</b> ${o.text}</span>
+     <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+   </button>
+   <div class="exp-body"><div class="exp-inner">
+     <h5>Engineering relevance</h5><p>${o.rel}</p>
+     <h5>Why it matters</h5><p>${o.why}</p>
+     <h5>Renewable energy applications</h5><p>${o.app}</p>
+     <h5>Real-world example</h5><p>${o.real}</p>
+     <h5>Related future topics</h5><p>${o.future}</p>
+     <label class="mastery" style="margin-top:12px;justify-content:flex-start">
+       <input type="checkbox" data-master="${i}" ${STATE.mastered[i]?"checked":""}> Mark this outcome as mastered
+     </label>
+   </div></div>
+  </div>`).join("")}`;
+document.getElementById("panel-outcomes").addEventListener("change",e=>{
+  const c=e.target.closest("[data-master]");
+  if(c){if(c.checked)STATE.mastered[c.dataset.master]=true;else delete STATE.mastered[c.dataset.master];save();}
+});
+
+/* ==========================================================================
+   6. TAB — REVIEW  (BOPPPS: Pre-Assessment — checking the learner)
+   ========================================================================== */
+document.getElementById("panel-review").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Review</h2>
+ <div class="callout navy"><h4>${svg("check",18)} BOPPPS — Pre-Assessment</h4>
+  <p>In the BOPPPS lesson model (Bridge-in · Objectives · <b>Pre-assessment</b> · Participatory learning ·
+  Post-assessment · Summary), this stage <b>checks what you, the learner, already know</b> before the
+  lecture begins. Answer the diagnostic questions below — the app then measures your readiness, pinpoints
+  your gaps, and directs you to exactly the remediation you need.</p></div>
+
+ <h3 class="subsec">${svg("check",20)} Pre-Assessment — prerequisite knowledge check</h3>
+ <div class="quiz-card" id="preBox"></div>
+
+
+ <h3 class="subsec">${svg("route",20)} Concept map — what feeds what</h3>
+ <div class="card">${conceptMapSVG()}</div>
+
+ <h3 class="subsec">${svg("bulb",20)} Beneficial Hints</h3>
+ <div class="panelset">${REVIEW_HINTS.map(h=>`
+  <div class="hintbox ${["Memory aid","Practical shortcut","Quick reminder"].includes(h[0])?"hb-hint":
+    h[0]==="Examination tip"?"hb-exam":h[0]==="Common mistake"?"hb-mistake":
+    h[0]==="Engineering intuition"?"hb-insight":"hb-know"}"><b>${h[0]}</b>${h[1]}</div>`).join("")}</div>`;
+function conceptMapSVG(){return `
+<svg viewBox="0 0 760 240" role="img" aria-label="Concept map: day number feeds declination; solar time feeds hour angle; declination and latitude feed sunrise/sunset hour angle, which feeds day length"
+ style="width:100%;max-width:760px;display:block;margin:auto" font-family="Segoe UI,system-ui,sans-serif">
+ <defs><marker id="cma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+  <path d="M0 0L10 5L0 10z" fill="#a04c0e"/></marker></defs>
+ <rect x="20" y="20" width="150" height="40" rx="9" fill="#fdf6e8" stroke="#fca311" stroke-width="1.6"/>
+ <text x="95" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#14213d">Day Number N</text>
+ <rect x="20" y="90" width="150" height="40" rx="9" fill="#fdf6e8" stroke="#fca311" stroke-width="1.6"/>
+ <text x="95" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#14213d">Latitude φ</text>
+ <rect x="20" y="160" width="150" height="40" rx="9" fill="#fdf6e8" stroke="#fca311" stroke-width="1.6"/>
+ <text x="95" y="185" text-anchor="middle" font-size="13" font-weight="700" fill="#14213d">Solar Time ST</text>
+ <rect x="255" y="20" width="180" height="40" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.6"/>
+ <text x="345" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#14213d">Declination δ</text>
+ <rect x="255" y="160" width="180" height="40" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.6"/>
+ <text x="345" y="185" text-anchor="middle" font-size="13" font-weight="700" fill="#14213d">Hour Angle ω</text>
+ <rect x="500" y="55" width="240" height="40" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.6"/>
+ <text x="620" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">Sunrise &amp; Sunset Hour Angles ωss</text>
+ <rect x="500" y="140" width="240" height="40" rx="9" fill="#14213d"/>
+ <text x="620" y="165" text-anchor="middle" font-size="13" font-weight="800" fill="#fca311">Day Length L<tspan font-size="9" dy="3">day</tspan></text>
+ <g stroke="#a04c0e" stroke-width="2" fill="none" marker-end="url(#cma)">
+  <line x1="170" y1="40" x2="250" y2="40"/>
+  <line x1="435" y1="40" x2="495" y2="65"/>
+  <line x1="170" y1="110" x2="495" y2="78"/>
+  <line x1="170" y1="180" x2="250" y2="180"/>
+  <line x1="620" y1="95" x2="620" y2="135"/>
+ </g>
+ <text x="380" y="228" text-anchor="middle" font-size="11.5" fill="#4e5a72">The calendar sets δ, the clock sets ω, and δ + φ set the day's sunrise/sunset window and length.</text>
+</svg>`;}
+/* ---- Pre-Assessment engine ---- */
+const PREQ=[
+ {type:"num",q:"Earth rotates 360° in 24 hours. How many degrees does it rotate per hour?",a:15,tol:0.01,unit:"°/hour",
+  topic:"Angle–time conversion",fc:0,fix:"15° per hour powers the hour angle and day length equations."},
+ {type:"mc",q:"The lecture's formulas use angles in degrees (23.45°, 15°/h). Your calculator must be set to:",
+  opts:["DEG (degree) mode","RAD (radian) mode","GRAD mode","Any mode — it does not matter"],a:0,
+  topic:"Calculator skill",fc:3,fix:"DEG mode; the most common source of wrong answers."},
+ {type:"tf",q:"True or False: tan(−θ) = −tan(θ).",a:true,
+  topic:"Trigonometry",fc:2,fix:"tan is an odd function; this sign behaviour drives the winter/summer day-length asymmetry."},
+ {type:"mc",q:"Latitude measures how far a location is…",
+  opts:["North or south of the Equator","East or west of the Prime Meridian","Above sea level","From the nearest pole"],a:0,
+  topic:"Earth science",fc:5,fix:"latitude: N/S of the Equator; longitude: E/W of the Prime Meridian."},
+ {type:"num",q:"cos⁻¹(0) = ? (degrees) — you will need this at the equinoxes.",a:90,tol:0.01,unit:"°",
+  topic:"Trigonometry",fc:1,fix:"cos⁻¹ inverts the cosine; cos 90° = 0."},
+ {type:"mc",q:"Why does Earth have seasons?",
+  opts:["Earth's rotation axis is tilted 23.45° from the normal to its orbital plane",
+        "Earth is much closer to the Sun in summer","The Sun's output changes through the year","The atmosphere thickens in winter"],a:0,
+  topic:"Earth science",fc:4,fix:"the 23.45° axial tilt is the origin of the declination angle δ."},
+ {type:"mc",q:"'Solar noon' means:",
+  opts:["The sun crosses the local meridian at its highest point of the day","Exactly 12:00 on your phone clock","The moment of sunrise","The hottest hour of the afternoon"],a:0,
+  topic:"Solar time",fc:6,fix:"solar time follows the sun, not the zone clock; ST in the formulas is Solar Time."},
+ {type:"num",q:"If 15° of rotation = 1 hour = 60 minutes, then 1° corresponds to how many minutes of time?",a:4,tol:0.01,unit:"minutes",
+  topic:"Angle–time conversion",fc:7,fix:"1° = 4 minutes of time; also 1° = 60′ and 1′ = 60″ for coordinates."}
+];
+let preI=0,preScore=0,preGaps=[];
+function drawPre(){
+  const box=document.getElementById("preBox");
+  if(preI>=PREQ.length){ /* readiness report */
+    const pct=Math.round(100*preScore/PREQ.length);
+    const level=preScore>=7?["READY — proceed to the Introduction","good","Your prerequisites are solid. Move straight into the lecture."]:
+      preScore>=5?["MOSTLY READY — patch the gaps first","mid","Close the flagged gaps with the flash cards below, then proceed."]:
+      ["REVIEW NEEDED — remediate before the lecture","poor","Work through ALL the Beneficial Hints below before starting the lecture — the formulas will assume this knowledge."];
+    STATE.preScore=pct;save();
+    box.innerHTML=`
+     <span class="qtype-tag">Pre-Assessment result</span>
+     <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:6px">
+      <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Readiness ${pct} percent">
+       <circle cx="55" cy="55" r="46" fill="none" stroke="#e8e8e2" stroke-width="11"/>
+       <circle cx="55" cy="55" r="46" fill="none" stroke="${preScore>=7?"var(--ok)":preScore>=5?"var(--warn)":"var(--bad)"}"
+        stroke-width="11" stroke-linecap="round" stroke-dasharray="${2*Math.PI*46}"
+        stroke-dashoffset="${2*Math.PI*46*(1-pct/100)}" transform="rotate(-90 55 55)"/>
+       <text x="55" y="62" text-anchor="middle" font-size="22" font-weight="800" fill="var(--navy)">${preScore}/${PREQ.length}</text>
+      </svg>
+      <div style="flex:1;min-width:220px">
+       <div class="verdict-like fb ${level[1]} show" style="margin-top:0;font-weight:800">${level[0]}</div>
+       <p style="font-size:.9rem;color:var(--ink2);margin-top:8px">${level[2]}</p>
+      </div>
+     </div>
+     ${preGaps.length?`<h5 style="color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.6px;margin:16px 0 6px">Your knowledge gaps — targeted remediation</h5>
+      ${preGaps.map(g=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+       <span><b>${g.topic}:</b> ${g.fix}</span></div>`).join("")}
+      <p class="small-note">Study the Beneficial Hints below and revisit the matching lecture tabs, then retake the pre-assessment.</p>`:
+      `<p class="small-note" style="margin-top:12px">No gaps detected — every prerequisite checked out.</p>`}
+     <div style="margin-top:14px"><button class="btn gold" id="preRestart">↻ Retake Pre-Assessment</button></div>`;
+    box.querySelector("#preRestart").addEventListener("click",()=>{preI=0;preScore=0;preGaps=[];drawPre();});
+    return;
+  }
+  const q=PREQ[preI];
+  let inner="";
+  if(q.type==="mc")inner=q.opts.map((o,i)=>`<button class="quiz-opt" data-oi="${i}">${o}</button>`).join("");
+  else if(q.type==="tf")inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  else inner=`<div class="crow"><input class="fib-input" id="preIn" type="number" step="any" inputmode="decimal"
+    placeholder="Your answer" aria-label="Numerical answer" style="max-width:170px"><span style="font-weight:700;color:var(--ink2)">${q.unit}</span>
+    <button class="btn" id="preGo">Check</button></div>`;
+  box.innerHTML=`
+   <span class="qtype-tag">Pre-Assessment · ${preI+1} / ${PREQ.length} · ${q.topic}</span>
+   <div class="pbar" style="background:#e8e8e2;margin:8px 0 12px"><span style="width:${preI/PREQ.length*100}%"></span></div>
+   <h3 style="font-size:1.02rem">${q.q}</h3>${inner}
+   <div class="fb" id="preFb"></div>`;
+  const settle=right=>{
+    if(right)preScore++;else preGaps.push(q);
+    box.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const fb=document.getElementById("preFb");
+    fb.className="fb show "+(right?"good":"poor");
+    fb.innerHTML=(right?"✔ Correct — prerequisite in place.":"✖ Gap detected. <b>Remediation:</b> "+q.fix)+
+     `<div style="margin-top:10px"><button class="btn gold" id="preNext">${preI===PREQ.length-1?"See readiness report →":"Next →"}</button></div>`;
+    fb.querySelector("#preNext").addEventListener("click",()=>{preI++;drawPre();});
+    fb.querySelector("#preNext").focus();
+  };
+  box.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(q.type==="tf"){const right=(b.dataset.tf==="true")===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+    else{const right=+b.dataset.oi===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+  }));
+  const pg=box.querySelector("#preGo");
+  if(pg){
+    const go=()=>{const v=parseFloat(document.getElementById("preIn").value);
+      if(isNaN(v))return;
+      const right=Math.abs(v-q.a)<=q.tol;
+      document.getElementById("preIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      pg.disabled=true;settle(right);};
+    pg.addEventListener("click",go);
+    document.getElementById("preIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!pg.disabled)go();});
+    document.getElementById("preIn").focus();
+  }
+}
+drawPre();
+
+/* ==========================================================================
+   7. TAB — INTRODUCTION (Basic Principles, The Sun, Solar Radiation, The Earth)
+   ========================================================================== */
+document.getElementById("panel-intro").innerHTML=`
+ <h2 class="sec">${svg("sun",24)} Introduction</h2>
+ <h3 class="subsec">${svg("sun",20)} Basic Principles of Solar Radiation (EERE, 2013)</h3>
+ <div class="callout navy">
+  <p>“Every location on Earth receives sunlight at least part of the year.”</p>
+  <p style="margin-top:8px">“The amount of solar radiation that reaches any one spot on the Earth's surface
+  varies according to: <b>geographic location · time of day · season · local landscape · local weather.”</b></p>
+ </div>
+ <p class="lede">Try it yourself: change the location (latitude), the season, and the time of day — and watch
+ the sun's height and the intercepted radiation change in the animated Earth–Sun view.</p>
+ <div class="calc">
+  ${sliderRow("inLat","Location — latitude",-66,66,1,23.7,"°")}
+  <div class="crow"><label>Season:</label>
+   <div style="display:flex;gap:6px;flex-wrap:wrap">
+    ${[["Spring (Mar 21)",80],["Summer (Jun 21)",172],["Autumn (Sep 23)",266],["Winter (Dec 21)",355]].map((s,i)=>
+      `<button class="btn ghost" style="padding:7px 13px;font-size:.8rem" data-season="${s[1]}">${s[0]}</button>`).join("")}
+   </div></div>
+  ${sliderRow("inST","Time of day (solar time)",5,19,0.25,12,"h")}
+  <div id="introViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="inDelta">—</div><div class="rl">Declination δ</div></div>
+   <div class="res"><div class="rv" id="inNoon">—</div><div class="rl">Sun height at noon*</div></div>
+   <div class="res"><div class="rv" id="inLd">—</div><div class="rl">Day length</div></div>
+   <div class="res"><div class="rv" id="inRad">—</div><div class="rl">Relative radiation now</div></div>
+  </div>
+  <p class="small-note">*Noon solar elevation = 90° − |φ − δ| (a preview of Part 2). Relative radiation ∝ sin(elevation)
+  — the geometric reason radiation varies with location, time of day, and season.</p>
+ </div>
+
+ <h3 class="subsec">${svg("sun",20)} The Sun</h3>
+ <p class="lede">Structure, life cycle (Solar Life Cycle — Wikipedia figure in the lecture), and how the
+ energy that reaches your collector is produced.</p>
+ <div class="card">${sunSVG()}</div>
+ ${expander(`<span class="icon-circle">${svg("route",18)}</span><span><b>Life cycle of the Sun</b> — from birth to white dwarf</span>`,
+  `<ul>${SUN_LIFE.map(s=>`<li><b>${s[0]}:</b> ${s[1]}</li>`).join("")}</ul>`)}
+ ${expander(`<span class="icon-circle">${svg("search",18)}</span><span><b>Structure &amp; energy production</b> — zoom through the layers</span>`,
+  `<ul>${SUN_STRUCT.map(s=>`<li><b>${s[0]}:</b> ${s[1]}</li>`).join("")}</ul>`)}
+ <div class="panelset">${SUN_FACTS.map(f=>`<div class="hintbox ${f[0]==="Engineering fact"?"hb-insight":"hb-know"}"><b>${f[0]==="Engineering fact"?"⚙ ":"★ "}${f[0]}</b>${f[1]}</div>`).join("")}</div>
+
+ <h3 class="subsec">${svg("wave",20)} Solar Radiation</h3>
+ <div class="callout navy">
+  <p>“Solar radiation is a general term for the <b>electromagnetic radiation emitted by the sun</b>.
+  We can capture and convert solar radiation into useful forms of energy, such as heat and electricity,
+  using a variety of technologies. The technical feasibility and economical operation of these technologies
+  at a specific location depends on the available solar radiation or <b>solar resource</b>.”</p>
+ </div>
+ <h3 class="subsec">${svg("wave",20)} Visible Spectrum — interactive explorer</h3>
+ <p class="lede">Slide across the electromagnetic spectrum. Wavelength λ, frequency ν = c/λ, and photon
+ energy E = hν update together; the visible band (380–750 nm) renders in true color.</p>
+ <div class="calc">
+  ${sliderRow("spec","log₁₀(wavelength in nm)",-2,9,0.02,2.75,"")}
+  <div id="specViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="specL">—</div><div class="rl">Wavelength λ</div></div>
+   <div class="res"><div class="rv" id="specF">—</div><div class="rl">Frequency ν = c/λ</div></div>
+   <div class="res"><div class="rv" id="specE">—</div><div class="rl">Photon energy E = hν</div></div>
+   <div class="res"><div class="rv" id="specB">—</div><div class="rl">Band</div></div>
+  </div>
+  <p class="small-note"><b>Engineering explanation:</b> about half of the sun's energy arrives as visible
+  light and much of the rest as near-infrared. PV cells convert photons with energy above the semiconductor
+  band gap (~1.1 eV for silicon ⇒ λ &lt; ~1100 nm); solar thermal collectors absorb across the whole band.</p>
+ </div>
+
+ <h3 class="subsec">${svg("globe",20)} The Earth — Important Parameters</h3>
+ <div class="grid c3">
+  ${[["Equator","“The Equator refers to the Earth's equator and is an imaginary line on the Earth's surface equidistant from the North Pole and South Pole, dividing the Earth into the Northern Hemisphere and Southern Hemisphere.”"],
+     ["Latitude","How far north or south a location is from the Equator (0°); ±90° at the poles. Enters the solar formulas as φ."],
+     ["Longitude","How far east or west a location is from the Prime Meridian (0° longitude)."],
+     ["Meridian","“A 'meridian' or 'line of longitude' is an imaginary vertical line that runs from the North Pole to the South Pole.” All locations along a meridian share the same longitude value (e.g., 90° E)."],
+     ["Prime Meridian","The 0° longitude reference meridian from which east/west positions are measured."],
+     ["Why meridians matter","“Meridians are important for defining time zones, solar angles, and for global positioning.”"]].map(x=>`
+   <div class="card"><h4><span class="icon-circle">${svg("globe",18)}</span>${x[0]}</h4><p>${x[1]}</p></div>`).join("")}
+ </div>
+ <h3 class="subsec">${svg("pin",20)} Interactive globe — click any location</h3>
+ <div class="card"><div style="display:grid;grid-template-columns:minmax(260px,1fr) minmax(240px,1fr);gap:16px;align-items:center;flex-wrap:wrap">
+  <div id="globeBox">${globeSVG()}</div>
+  <div id="globeInfo"><p style="font-size:.9rem;color:var(--ink2)">Click a marker on the globe (or a button below) to display its latitude, longitude, hemisphere, and engineering significance.</p></div>
+ </div>
+ <div class="crow" style="margin-top:10px;gap:6px">${PLACES.map((p,i)=>
+   `<button class="btn ghost" style="padding:6px 11px;font-size:.76rem" data-place="${i}">${p.n.split(",")[0]}</button>`).join("")}</div>
+ </div>
+ <div class="callout">
+  <h4>${svg("pin",18)} Latitude &amp; Longitude of Dhaka</h4>
+  <p>According to https://latitudelongitude.org/bd/dhaka/: <b>Latitude = 23°42′37.44″ N (Decimal: 23.7104° N)</b>,
+  <b>Longitude = 90°24′26.78″ E (Decimal: 90.40744° E)</b>. The latitude tells us how far north Dhaka is from
+  the Equator; the longitude indicates how far east Dhaka is from the Prime Meridian. These coordinates are
+  essential for calculating solar angles like declination, hour angle, and day length.</p>
+ </div>`;
+
+/* Intro Earth-Sun viz */
+let introN=80;
+document.querySelectorAll("[data-season]").forEach(b=>b.addEventListener("click",()=>{introN=+b.dataset.season;drawIntro();}));
+function drawIntro(){
+  const lat=V("inLat"),ST=V("inST");
+  const d=decl(introN);
+  const noonEl=90-Math.abs(lat-d);
+  const Ld=dayLength(d,lat);
+  const w=wss(d,lat);
+  const om=hourAngle(ST);
+  /* crude current elevation using cos rule: sin α = sinφ sinδ + cosφ cosδ cos ω (Part 2 preview) */
+  const sa=sinD(lat)*sinD(d)+cosD(lat)*cosD(d)*cosD(om);
+  const el=Math.asin(Math.max(-1,Math.min(1,sa)))*R2D;
+  const rad=Math.max(0,sa);
+  document.getElementById("inDelta").textContent=fmt(d,2)+"°";
+  document.getElementById("inNoon").textContent=fmt(noonEl,1)+"°";
+  document.getElementById("inLd").textContent=fmt(Ld,2)+" h";
+  document.getElementById("inRad").textContent=el<=0?"night":fmt(rad*100,0)+"%";
+  /* horizon view */
+  const W=680,H=190;
+  const frac=(om+w)/(2*w); /* 0..1 across the day */
+  const sunVis=el>0&&w>0;
+  const sx=60+Math.max(0,Math.min(1,frac))*(W-120);
+  const sy=H-38-(Math.max(el,0)/90)*(H-80);
+  document.getElementById("introViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:12px auto 0;border-radius:12px;
+    background:linear-gradient(180deg,${el>0?"#bfe0f5 0%,#e8f4fc":"#0d1830 0%,#25355c"} 100%)"
+    role="img" aria-label="Horizon view of the sun for the chosen latitude, season, and time">
+   <rect x="0" y="${H-36}" width="${W}" height="36" fill="#3f7a3f"/>
+   <path d="M60 ${H-38} Q ${W/2} ${H-38-(90-Math.abs(lat-d))/90*(H-80)} ${W-60} ${H-38}" fill="none"
+     stroke="#c2611a" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+   ${sunVis?`<circle cx="${sx}" cy="${sy}" r="13" fill="#fca311">
+      <animate attributeName="r" values="13;15;13" dur="2.5s" repeatCount="indefinite"/></circle>`:
+     `<circle cx="${W-90}" cy="40" r="9" fill="#e8eefc" opacity=".85"/>`}
+   <text x="62" y="${H-12}" font-size="11" fill="#fff">E (sunrise)</text>
+   <text x="${W-120}" y="${H-12}" font-size="11" fill="#fff">W (sunset)</text>
+   <text x="16" y="24" font-size="12" font-weight="700" fill="${el>0?"#14213d":"#fff"}">${dateFromN(introN)} · φ = ${fmt(lat,1)}° · ${hhmm(ST)} solar ${el>0?"":"· night"}</text>
+  </svg>`;
+}
+wireSliders(["inLat","inST"],drawIntro);
+
+function sunSVG(){return `
+<svg viewBox="0 0 760 220" role="img" aria-label="Cutaway of the Sun: core, radiative zone, convective zone, photosphere; energy travels to Earth"
+ style="width:100%;max-width:760px;display:block;margin:auto" font-family="Segoe UI,system-ui,sans-serif">
+ <defs>
+  <radialGradient id="sg"><stop offset="0" stop-color="#fff7cf"/><stop offset=".35" stop-color="#fca311"/>
+   <stop offset=".75" stop-color="#e07207"/><stop offset="1" stop-color="#b34c04"/></radialGradient>
+ </defs>
+ <circle cx="200" cy="110" r="92" fill="url(#sg)"/>
+ <circle cx="200" cy="110" r="34" fill="#fff2b8" stroke="#c2611a" stroke-dasharray="4 4"/>
+ <circle cx="200" cy="110" r="58" fill="none" stroke="#c2611a" stroke-dasharray="4 4"/>
+ <circle cx="200" cy="110" r="80" fill="none" stroke="#c2611a" stroke-dasharray="4 4"/>
+ <text x="200" y="114" text-anchor="middle" font-size="11.5" font-weight="800" fill="#7a3c00">Core</text>
+ <text x="200" y="66" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3c00">Radiative zone</text>
+ <text x="200" y="40" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3c00">Convective zone</text>
+ <text x="200" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4e5a72">Photosphere — the visible surface</text>
+ <g stroke="#fca311" stroke-width="2.6" stroke-linecap="round">
+  <line x1="300" y1="86" x2="560" y2="86"><animate attributeName="x2" values="310;560" dur="2.2s" repeatCount="indefinite"/></line>
+  <line x1="300" y1="110" x2="560" y2="110"><animate attributeName="x2" values="310;560" dur="2.2s" begin=".7s" repeatCount="indefinite"/></line>
+  <line x1="300" y1="134" x2="560" y2="134"><animate attributeName="x2" values="310;560" dur="2.2s" begin="1.4s" repeatCount="indefinite"/></line>
+ </g>
+ <circle cx="620" cy="110" r="26" fill="#3a86ff"/>
+ <path d="M600 104 q10 -8 20 -2 q12 -8 20 4 q-8 10 -20 6 q-10 6 -20 -8z" fill="#56C02B" opacity=".9"/>
+ <text x="620" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#14213d">Earth — 8 min 20 s later</text>
+ <text x="430" y="70" text-anchor="middle" font-size="10.5" fill="#4e5a72">solar radiation (electromagnetic)</text>
+</svg>`;}
+
+/* Spectrum */
+function drawSpec(){
+  const lg=V("spec"),lam=Math.pow(10,lg); /* nm */
+  const c=2.998e8,h=4.1357e-15; /* eV·s */
+  const f=c/(lam*1e-9);
+  const E=h*f;
+  const band=lam<0.01?BANDS[0]:lam<10?BANDS[1]:lam<380?BANDS[2]:lam<=750?BANDS[3]:lam<1e6?BANDS[4]:lam<1e9?BANDS[5]:BANDS[6];
+  document.getElementById("specL").textContent=lam<1?fmt(lam*1000,1)+" pm":lam<1e3?fmt(lam,1)+" nm":lam<1e6?fmt(lam/1e3,1)+" µm":lam<1e9?fmt(lam/1e6,1)+" mm":fmt(lam/1e9,1)+" m";
+  document.getElementById("specF").textContent=f>1e15?fmt(f/1e15,2)+" PHz":f>1e12?fmt(f/1e12,2)+" THz":f>1e9?fmt(f/1e9,2)+" GHz":fmt(f/1e6,1)+" MHz";
+  document.getElementById("specE").textContent=E>1e3?fmt(E/1e3,2)+" keV":E>1?fmt(E,2)+" eV":fmt(E*1000,2)+" meV";
+  document.getElementById("specB").textContent=band[0];
+  /* strip */
+  const W=680,H=86;
+  const X=l=>((Math.log10(l)+2)/11)*(W-40)+20;
+  let vis="";
+  for(let k=0;k<=60;k++){
+    const l=380+k/60*370;
+    vis+=`<rect x="${X(l)}" y="18" width="${(X(750)-X(380))/60+0.6}" height="30" fill="${wl2rgb(l)}"/>`;
+  }
+  document.getElementById("specViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Electromagnetic spectrum strip with marker">
+   <rect x="20" y="18" width="${W-40}" height="30" fill="#2a3350" rx="4"/>
+   ${vis}
+   ${BANDS.map(b=>{const mids={ "Gamma rays":0.003,"X-rays":0.3,"Ultraviolet":60,"Visible":540,"Infrared":20000,"Microwave":1e7,"Radio":5e9}[b[0]];
+     return `<text x="${X(mids)}" y="64" text-anchor="middle" font-size="9.5" fill="#4e5a72">${b[0]}</text>`;}).join("")}
+   <polygon points="${X(lam)},14 ${X(lam)-6},4 ${X(lam)+6},4" fill="#c2611a"/>
+   <line x1="${X(lam)}" y1="14" x2="${X(lam)}" y2="50" stroke="#c2611a" stroke-width="2"/>
+  </svg>`;
+}
+function wl2rgb(l){ /* approximate visible color */
+  let r=0,g=0,b=0;
+  if(l<440){r=-(l-440)/60;b=1;}else if(l<490){g=(l-440)/50;b=1;}
+  else if(l<510){g=1;b=-(l-510)/20;}else if(l<580){r=(l-510)/70;g=1;}
+  else if(l<645){r=1;g=-(l-645)/65;}else{r=1;}
+  const f=l>700?0.3+0.7*(750-l)/50:l<420?0.3+0.7*(l-380)/40:1;
+  const s=x=>Math.round(255*Math.pow(Math.max(0,x*f),0.8));
+  return `rgb(${s(r)},${s(g)},${s(b)})`;
+}
+wireSliders(["spec"],drawSpec);
+
+/* Globe */
+function globeSVG(){
+  const R=115,cx=140,cy=140;
+  const pt=(lat,lon)=>{ /* simple orthographic centered on lon=90E */
+    const lo=lon-90;
+    if(Math.abs(lo)>90)return null;
+    return [cx+R*sinD(lo)*cosD(lat),cy-R*sinD(lat)];
+  };
+  let marks="";
+  PLACES.forEach((p,i)=>{
+    const q=pt(p.lat,p.lon);if(!q)return;
+    marks+=`<g data-place="${i}" style="cursor:pointer" tabindex="0" role="button" aria-label="${p.n}">
+      <circle cx="${q[0]}" cy="${q[1]}" r="6.5" fill="#c2611a" stroke="#fff" stroke-width="1.6">
+        <animate attributeName="r" values="6.5;8;6.5" dur="2s" begin="${i*.3}s" repeatCount="indefinite"/></circle></g>`;
+  });
+  let grid="";
+  for(let la=-60;la<=60;la+=30)grid+=`<ellipse cx="${cx}" cy="${cy-R*sinD(la)}" rx="${R*cosD(la)}" ry="${R*cosD(la)*0.18}" fill="none" stroke="#9fb4d8" stroke-width="${la===0?2:0.8}" opacity="${la===0?1:.6}"/>`;
+  for(let lo=-60;lo<=60;lo+=30)grid+=`<ellipse cx="${cx+R*sinD(lo)*0}" cy="${cy}" rx="${Math.abs(R*sinD(lo))||0.1}" ry="${R}" fill="none" stroke="#9fb4d8" stroke-width="${lo===0?2:0.8}" opacity="${lo===0?1:.5}" transform="translate(${R*sinD(lo)*0},0)"/>`;
+  /* meridian ellipses centered: rx = R*sin(lo) around center */
+  grid="";
+  for(let la=-60;la<=60;la+=30)grid+=`<ellipse cx="${cx}" cy="${cy-R*sinD(la)}" rx="${R*cosD(la)}" ry="${R*cosD(la)*0.16}" fill="none" stroke="${la===0?"#c2611a":"#9fb4d8"}" stroke-width="${la===0?2:0.8}" opacity="${la===0?1:.6}"/>`;
+  for(let lo=0;lo<=60;lo+=30){
+    grid+=`<ellipse cx="${cx}" cy="${cy}" rx="${R*sinD(lo)||0.4}" ry="${R}" fill="none" stroke="#9fb4d8" stroke-width="0.8" opacity=".55"/>`;
+  }
+  return `
+<svg viewBox="0 0 280 290" style="width:100%;max-width:300px;display:block;margin:auto" role="img"
+ aria-label="Interactive globe centered near 90 degrees east with clickable location markers" font-family="Segoe UI,system-ui,sans-serif">
+ <circle cx="${cx}" cy="${cy}" r="${R}" fill="#dcecfa" stroke="#14213d" stroke-width="2"/>
+ ${grid}
+ <text x="${cx+R*cosD(0)*0+4}" y="${cy-3}" font-size="9.5" fill="#c2611a" font-weight="700">Equator</text>
+ <line x1="${cx}" y1="${cy-R}" x2="${cx}" y2="${cy+R}" stroke="#14213d" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+ <text x="${cx+4}" y="${cy-R+12}" font-size="9" fill="#14213d">90° E meridian</text>
+ ${marks}
+ <text x="140" y="284" text-anchor="middle" font-size="10.5" fill="#4e5a72">markers pulse — click one (view centered on 90° E)</text>
+</svg>`;}
+document.getElementById("panel-intro").addEventListener("click",e=>{
+  const g=e.target.closest("[data-place]");if(!g)return;
+  const p=PLACES[+g.dataset.place];
+  document.getElementById("globeInfo").innerHTML=`
+   <h4 style="color:var(--navy);margin-bottom:6px">${svg("pin",16)} ${p.n}</h4>
+   <table class="simple">
+    <tr><th>Latitude</th><td>${fmt(Math.abs(p.lat),4)}° ${p.lat>=0?"N":"S"}</td></tr>
+    <tr><th>Longitude</th><td>${fmt(Math.abs(p.lon),4)}° ${p.lon>=0?"E":"W"}</td></tr>
+    <tr><th>Hemisphere</th><td>${p.lat>=0?"Northern":"Southern"} (φ ${p.lat>=0?"positive":"negative"} in the formulas)</td></tr>
+   </table>
+   <p style="font-size:.86rem;color:var(--ink2)"><b>Engineering significance:</b> ${p.note}</p>`;
+});
+document.getElementById("panel-intro").addEventListener("keydown",e=>{
+  if((e.key==="Enter"||e.key===" ")&&e.target.closest&&e.target.closest("[data-place]")){
+    e.preventDefault();e.target.closest("[data-place]").dispatchEvent(new MouseEvent("click",{bubbles:true}));}
+});
+
+/* ==========================================================================
+   8. TAB — DECLINATION ANGLE (δ)
+   ========================================================================== */
+document.getElementById("panel-decl").innerHTML=`
+ <h2 class="sec">${svg("globe",24)} Declination Angle (δ)</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (exact lecture wording)</h4>
+  <p>The <b>“declination angle” of the sun (δ)</b> is the angle between the Earth's equatorial plane and
+  the line connecting the center of the Earth to the center of the Sun. This angle varies throughout the
+  year as the Earth orbits the Sun and is a key parameter in solar energy calculations.</p>
+  <p class="small-note">Learn more: pveducation.org/pvcdrom/properties-of-sunlight/declination-angle ·
+  Video: youtube.com/watch?v=ZALVBxzmPIk</p></div>
+
+ <h3 class="subsec">${svg("calc",20)} Formula for Declination Angle (δ)</h3>
+ <p class="lede">According to (ScienceDirect, nd):</p>
+ <div class="formula">δ = 23.45° sin <span style="font-size:1.4em">(</span>
+  <span class="frac"><span>360</span><span>365</span></span> (284 + N) <span style="font-size:1.4em">)</span></div>
+ <p class="small-note">where N is the day of the year, with N = 1 on January 1.</p>
+
+ <h3 class="subsec">${svg("play",20)} Interactive Earth–Sun animation &amp; declination slider</h3>
+ <p class="lede">Drag the day-of-year slider (or press ▶ for the yearly animation, or pick a month) and watch
+ the Earth–Sun geometry, the sine curve, and the seasonal explanation update together.</p>
+ <div class="calc">
+  <div class="crow">
+   <button class="btn gold" id="declPlay">▶ Play year</button>
+   <div style="display:flex;gap:4px;flex-wrap:wrap">${MONTHS.map((m,i)=>{
+     const n=MONTHS.slice(0,i).reduce((a,x)=>a+x[1],0)+15;
+     return `<button class="btn ghost" style="padding:5px 8px;font-size:.72rem" data-mon="${n}">${m[0]}</button>`;}).join("")}</div>
+  </div>
+  ${sliderRow("declN","Day of the year N",1,365,1,74,"")}
+  <div id="declViz"></div>
+  <div class="result-strip">
+   <div class="res good"><div class="rv" id="declOut">—</div><div class="rl">Declination δ</div></div>
+   <div class="res"><div class="rv" id="declDate">—</div><div class="rl">Date</div></div>
+   <div class="res"><div class="rv" id="declSeason">—</div><div class="rl">Seasonal position</div></div>
+  </div>
+ </div>
+
+ <h3 class="subsec">${svg("cal",20)} Annual variation of δ</h3>
+ <table class="simple"><tr><th>Day</th><th>Event</th><th>Declination δ</th><th>Position of Sun</th></tr>
+  ${ANNUAL.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</table>
+
+ <h3 class="subsec">${svg("calc",20)} Live Declination Angle calculator</h3>
+ <div class="calc">
+  <div class="crow"><label for="dcN">Day Number (N):</label>
+   <input type="number" id="dcN" min="1" max="365" value="74" inputmode="numeric">
+   <button class="btn" id="dcGo">Calculate δ</button></div>
+  <div class="steps" id="dcSteps" style="display:none"></div>
+ </div>
+ ${hintPanels({
+  insight:"δ is the same for the whole planet on a given day — it is a property of the Earth-Sun geometry, not of your site. Location enters later through the latitude φ.",
+  hint:"Anchor the sine: the argument 360/365·(284+N) hits its maximum near N = 172 (June 21). If your δ is +23.45° in December, your calculator is in radian mode or you mistyped 284.",
+  mistake:"Using the date instead of the day number (e.g., typing 15 for March 15 instead of N = 31 + 28 + 15 = 74), and radian-mode calculators.",
+  exam:"Quote δ to two decimals and always attach the sign — a bare '2.82' where '−2.82°' is required loses marks and flips the later ωss result.",
+  app:"Seasonal tilt schedules for PV arrays and solar water heaters are read directly off the δ curve — steepen the tilt when δ is negative (winter sun low), flatten when positive.",
+  know:"The 284 in the formula shifts the sine so its zero crossing lands near the March equinox: 284 + 81 ≈ 365 — a full cycle from the previous vernal equinox.",
+  later:"δ feeds straight into cos ωss = −tan δ · tan φ (next tabs) and into the elevation/azimuth angles of Solar Energy - Part 2."})}`;
+
+let declTimer=null;
+document.getElementById("declPlay").addEventListener("click",function(){
+  if(declTimer){clearInterval(declTimer);declTimer=null;this.textContent="▶ Play year";return;}
+  this.textContent="⏸ Pause";
+  declTimer=setInterval(()=>{
+    const s=document.getElementById("declN");
+    s.value=(+s.value%365)+1;
+    document.getElementById("declNV").textContent=s.value;
+    drawDecl();
+  },50);
+});
+document.querySelectorAll("[data-mon]").forEach(b=>b.addEventListener("click",()=>{
+  const s=document.getElementById("declN");s.value=b.dataset.mon;
+  document.getElementById("declNV").textContent=s.value;drawDecl();
+}));
+function drawDecl(){
+  const N=V("declN"),d=decl(N);
+  document.getElementById("declOut").textContent=(d>=0?"+":"")+fmt(d,2)+"°";
+  document.getElementById("declDate").textContent=dateFromN(N);
+  document.getElementById("declSeason").textContent=
+    Math.abs(d)<1?"Near equinox — sun over the Equator":
+    d>22?"Near Summer Solstice — farthest North":d<-22?"Near Winter Solstice — farthest South":
+    d>0?"Sun north of the Equator":"Sun south of the Equator";
+  /* orbit + sine curve */
+  const W=700,H=230;
+  const ang=(N-80)/365*2*Math.PI; /* earth position; equinox at right */
+  const ex=170+95*Math.cos(ang),ey=115+42*Math.sin(ang);
+  /* sine curve */
+  let path="";
+  for(let k=0;k<=120;k++){const n=1+k/120*364;const x=360+k/120*300;const y=115-decl(n)/23.45*70;
+    path+=(k?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);}
+  const mx=360+(N-1)/364*300,my=115-d/23.45*70;
+  document.getElementById("declViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Earth orbiting the Sun with tilted axis, beside the annual sine curve of declination"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <ellipse cx="170" cy="115" rx="95" ry="42" fill="none" stroke="#9fb4d8" stroke-dasharray="4 4"/>
+   <circle cx="170" cy="115" r="20" fill="#fca311"/>
+   <g transform="translate(${ex},${ey})">
+     <circle r="11" fill="#3a86ff"/>
+     <line x1="${-7*sinD(23.45)}" y1="${-11}" x2="${7*sinD(23.45)}" y2="11" stroke="#14213d" stroke-width="2" transform="rotate(0)"/>
+     <line x1="0" y1="-15" x2="0" y2="15" stroke="#c2611a" stroke-width="1.6" transform="rotate(23.45)"/>
+   </g>
+   <text x="170" y="180" text-anchor="middle" font-size="10.5" fill="#4e5a72">Earth's tilted axis (23.45°) keeps pointing the same way</text>
+   <line x1="330" y1="115" x2="${W-20}" y2="115" stroke="#9fb4d8"/>
+   <line x1="360" y1="35" x2="360" y2="195" stroke="#9fb4d8"/>
+   <path d="${path}" fill="none" stroke="#c2611a" stroke-width="2.2"/>
+   <circle cx="${mx}" cy="${my}" r="6" fill="#fca311" stroke="#14213d" stroke-width="1.6"/>
+   <text x="352" y="30" font-size="10" fill="#4e5a72">+23.45°</text>
+   <text x="352" y="205" font-size="10" fill="#4e5a72">−23.45°</text>
+   <text x="${Math.min(mx+8,W-120)}" y="${my-10}" font-size="11.5" font-weight="800" fill="#14213d">δ = ${(d>=0?"+":"")+fmt(d,2)}° (${dateFromN(N)})</text>
+   <text x="500" y="215" text-anchor="middle" font-size="10.5" fill="#4e5a72">δ = 23.45° sin(360/365 (284 + N))</text>
+  </svg>`;
+}
+wireSliders(["declN"],drawDecl);
+document.getElementById("dcGo").addEventListener("click",()=>{
+  const N=Math.max(1,Math.min(365,Math.round(+document.getElementById("dcN").value||1)));
+  const arg=360/365*(284+N),d=decl(N);
+  const box=document.getElementById("dcSteps");
+  box.style.display="block";
+  box.innerHTML=`
+   <div class="st" data-n="1">Formula: δ = 23.45° sin(360/365 (284 + N))</div>
+   <div class="st" data-n="2">Substitute N = ${N}: δ = 23.45° sin(360/365 × ${284+N})</div>
+   <div class="st" data-n="3">Evaluate the argument: 360/365 × ${284+N} = ${fmt(arg,2)}°</div>
+   <div class="st" data-n="4">δ = 23.45° × sin(${fmt(arg,2)}°) = 23.45 × ${fmt(sinD(arg),4)}</div>
+   <div class="st" data-n="5"><b>δ = ${(d>=0?"+":"")+fmt(d,2)}°</b> on ${dateFromN(N)}</div>
+   <p class="small-note"><b>Engineering interpretation:</b> ${d>0?"the sun is north of the equatorial plane — Northern-Hemisphere summer side of the year; expect longer days for φ > 0.":d<0?"the sun is south of the equatorial plane — Northern-Hemisphere winter side; expect shorter days for φ > 0.":"the sun lies in the equatorial plane — equinox conditions, 12-hour days everywhere."}</p>`;
+});
+
+/* ==========================================================================
+   9. TAB — HOUR ANGLE (ω)
+   ========================================================================== */
+document.getElementById("panel-hour").innerHTML=`
+ <h2 class="sec">${svg("clock",24)} Hour Angle (ω)</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (Heinemann, 2002)</h4>
+  <p>It represents the <b>“angular displacement” of the sun from the local meridian</b>, caused by Earth's
+  rotation. Since Earth rotates 360° in 24 hours, <b>“one hour corresponds to 15° of hour angle”</b>.</p></div>
+ <div class="formula">ω = 15° (ST − 12)</div>
+ <p class="small-note">where ST = Solar Time (hours).</p>
+ <div class="callout"><h4>${svg("clock",18)} Sign Convention</h4>
+  <p><b>Morning: ω &lt; 0</b> · <b>Solar noon: ω = 0°</b> · <b>Afternoon: ω &gt; 0</b> · 15° hour angle
+  corresponds to 1 hour.</p></div>
+
+ <h3 class="subsec">${svg("play",20)} Animated clock &amp; sun movement</h3>
+ <p class="lede">Move the time — the clock, the sun's position, and the hour angle move together across the
+ local meridian.</p>
+ <div class="calc">
+  ${sliderRow("haST","Solar Time",5,19,0.25,9,"h")}
+  <div class="crow" style="gap:6px">
+   ${[["9:00 AM",9],["12:00 PM",12],["5:00 PM",17],["7:00 PM",19]].map(x=>
+    `<button class="btn ghost" style="padding:6px 12px;font-size:.8rem" data-hat="${x[1]}">${x[0]}</button>`).join("")}
+  </div>
+  <div id="haViz"></div>
+  <div class="result-strip">
+   <div class="res good"><div class="rv" id="haOut">—</div><div class="rl">Hour angle ω</div></div>
+   <div class="res"><div class="rv" id="haPhase">—</div><div class="rl">Phase of day</div></div>
+  </div>
+ </div>
+
+ <h3 class="subsec">${svg("book",20)} Magnitudes of the Hour Angle (ω) — Heinemann (2002, p. 14)</h3>
+ <div class="grid c3">
+  <div class="card"><h4><span class="icon-circle">${svg("clock",18)}</span>Morning hours are negative</h4>
+   <p>Before solar noon, the hour angle ω takes on negative values. For example, at 10:00 AM solar time, ω = −30°.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("sun",18)}</span>At solar noon, ω = 0°</h4>
+   <p>Solar noon occurs when the sun is at its highest point in the sky for a given location. At this moment,
+   the sun is directly aligned with the local meridian, and the hour angle is exactly zero.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("clock",18)}</span>Afternoon hours are positive</h4>
+   <p>After solar noon, ω becomes positive. For instance, at 2:00 PM solar time, ω = +30°.</p></div>
+ </div>
+ <div class="callout teal"><h4>${svg("check",18)} Exercise (from the lecture)</h4>
+  <p>What is the hour angle at 7 pm? &nbsp;
+  <button class="btn ghost" style="padding:5px 14px;font-size:.82rem" id="exReveal">Reveal answer</button>
+  <span id="exAns" style="display:none;font-weight:800;color:var(--teal2)"> Answer: 105°  (ω = 15(19 − 12) = +105°)</span></p></div>
+
+ <h3 class="subsec">${svg("calc",20)} Live Hour Angle calculator</h3>
+ <div class="calc">
+  <div class="crow"><label for="hcST">Solar Time (hours, 24-h):</label>
+   <input type="number" id="hcST" min="0" max="24" step="0.25" value="9" inputmode="decimal">
+   <button class="btn" id="hcGo">Calculate ω</button></div>
+  <div class="steps" id="hcSteps" style="display:none"></div>
+ </div>
+ ${hintPanels({
+  insight:"ω is a clock reading converted to geometry. The Earth is the clock: 15° per hour, zeroed at solar noon on your local meridian.",
+  hint:"Convert times to 24-hour decimals first: 5:00 PM → 17.0, 2:30 PM → 14.5. Then ω = 15(ST − 12) is a one-line calculation.",
+  mistake:"Using clock time instead of Solar Time, and sign slips: 9:00 AM is −45°, never +45°. Morning is negative.",
+  exam:"State the sign convention before you substitute — examiners look for 'morning ω < 0, afternoon ω > 0' in the method.",
+  app:"Single-axis solar trackers rotate at exactly the hour-angle rate: 15° per hour. Tracker control code is literally ω = 15(ST − 12).",
+  know:"ω spans ±180°: −180° (midnight, one side) to +180° (midnight, other side); the sun is above the horizon only while |ω| < ωss.",
+  later:"ω joins δ and φ in Part 2's elevation formula sin α = sin φ sin δ + cos φ cos δ cos ω."})}`;
+
+document.querySelectorAll("[data-hat]").forEach(b=>b.addEventListener("click",()=>{
+  const s=document.getElementById("haST");s.value=b.dataset.hat;
+  document.getElementById("haSTV").textContent=s.value;drawHA();
+}));
+document.getElementById("exReveal").addEventListener("click",()=>{
+  document.getElementById("exAns").style.display="inline";});
+function drawHA(){
+  const ST=V("haST"),om=hourAngle(ST);
+  document.getElementById("haOut").textContent=(om>0?"+":"")+fmt(om,1)+"°";
+  document.getElementById("haPhase").textContent=om<0?"Morning (ω < 0)":om===0?"Solar Noon (ω = 0°)":"Afternoon (ω > 0)";
+  const W=700,H=230;
+  /* sun arc: map ω -105..105 across arc */
+  const t=(om+105)/210;
+  const ang=Math.PI*(1-t);
+  const sx=350+250*Math.cos(ang),sy=195-165*Math.sin(ang);
+  /* clock */
+  const hAng=((ST%12)/12)*360,mAng=(ST*60%60)/60*360;
+  document.getElementById("haViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Animated clock and sun arc showing the hour angle relative to the local meridian"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <path d="M100 195 A 250 250 0 0 1 600 195" fill="none" stroke="#c2611a" stroke-width="1.8" stroke-dasharray="6 5"/>
+   <line x1="350" y1="195" x2="350" y2="26" stroke="#14213d" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <text x="350" y="18" text-anchor="middle" font-size="11" font-weight="800" fill="#14213d">Local Meridian (ω = 0°)</text>
+   <line x1="60" y1="195" x2="640" y2="195" stroke="#4e5a72" stroke-width="1.6"/>
+   <text x="70" y="212" font-size="11" fill="#4e5a72">E — Sunrise side (ω &lt; 0)</text>
+   <text x="520" y="212" font-size="11" fill="#4e5a72">W — Sunset side (ω &gt; 0)</text>
+   <line x1="350" y1="195" x2="${sx}" y2="${sy}" stroke="#fca311" stroke-width="1.6" stroke-dasharray="3 3"/>
+   <circle cx="${sx}" cy="${sy}" r="14" fill="#fca311"><animate attributeName="r" values="14;16;14" dur="2.5s" repeatCount="indefinite"/></circle>
+   <text x="${Math.max(80,Math.min(sx,620))}" y="${Math.max(sy-22,30)}" text-anchor="middle" font-size="12.5" font-weight="800" fill="#c2611a">ω = ${(om>0?"+":"")+fmt(om,0)}°</text>
+   <g transform="translate(115,90)">
+    <circle r="42" fill="#fff" stroke="#14213d" stroke-width="2.4"/>
+    ${[0,90,180,270].map(a=>`<line x1="${36*sinD(a)}" y1="${-36*cosD(a)}" x2="${40*sinD(a)}" y2="${-40*cosD(a)}" stroke="#14213d" stroke-width="2"/>`).join("")}
+    <line x1="0" y1="0" x2="${22*sinD(hAng)}" y2="${-22*cosD(hAng)}" stroke="#14213d" stroke-width="3.4" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="${33*sinD(mAng)}" y2="${-33*cosD(mAng)}" stroke="#c2611a" stroke-width="2.2" stroke-linecap="round"/>
+    <circle r="3" fill="#14213d"/>
+    <text y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#14213d">${hhmm(ST)} solar</text>
+   </g>
+  </svg>`;
+}
+wireSliders(["haST"],drawHA);
+document.getElementById("hcGo").addEventListener("click",()=>{
+  const ST=+document.getElementById("hcST").value||0,om=hourAngle(ST);
+  const box=document.getElementById("hcSteps");box.style.display="block";
+  box.innerHTML=`
+   <div class="st" data-n="1">Formula: ω = 15°(ST − 12), where ST = Solar Time (hours)</div>
+   <div class="st" data-n="2">Substitute ST = ${fmt(ST,2)}: ω = 15°(${fmt(ST,2)} − 12) = 15° × (${fmt(ST-12,2)})</div>
+   <div class="st" data-n="3"><b>ω = ${(om>0?"+":"")+fmt(om,1)}°</b></div>
+   <p class="small-note"><b>Interpretation:</b> ${om<0?`morning — the sun is ${fmt(Math.abs(om),1)}° east of the local meridian (${fmt(Math.abs(om)/15,2)} hours before solar noon).`:om===0?"solar noon — the sun is directly aligned with the local meridian.":`afternoon — the sun is ${fmt(om,1)}° west of the local meridian (${fmt(om/15,2)} hours after solar noon).`}</p>`;
+  const s=document.getElementById("haST");
+  if(ST>=5&&ST<=19){s.value=ST;document.getElementById("haSTV").textContent=s.value;drawHA();}
+});
+
+/* ==========================================================================
+   10. TAB — SUNRISE & SUNSET HOUR ANGLES (ωss)
+   ========================================================================== */
+document.getElementById("panel-wss").innerHTML=`
+ <h2 class="sec">${svg("sunrise",24)} Sunrise &amp; Sunset Hour Angles (ω<sub>ss</sub>)</h2>
+ <p class="lede">According to (Heinemann, 2002, p. 15), the hour angle at sunrise or sunset is given by:</p>
+ <div class="formula">cos ω<sub>ss</sub> = − tan δ · tan ϕ</div>
+ <div class="grid c3">
+  <div class="card"><h4><span class="icon-circle">${svg("sunrise",18)}</span>ω<sub>ss</sub></h4>
+   <p>The “sunrise/sunset hour angle” — the angular displacement of the sun from the local meridian at the
+   time of sunrise or sunset.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("globe",18)}</span>δ</h4>
+   <p>The “solar declination angle”, which varies throughout the year.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("pin",18)}</span>ϕ</h4>
+   <p>The “latitude” of the location (positive for Northern Hemisphere, negative for Southern).</p></div>
+ </div>
+ <div class="callout"><h4>${svg("bulb",18)} Note</h4>
+  <p>ω<sub>ss</sub> is used to calculate the length of daylight hours.</p></div>
+
+ <h3 class="subsec">${svg("play",20)} Interactive Earth model — change latitude and declination</h3>
+ <div class="calc">
+  ${sliderRow("wsLat","Latitude ϕ",-66,66,0.5,23.7,"°")}
+  ${sliderRow("wsN","Day of year N (sets δ)",1,365,1,1,"")}
+  <div id="wsViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="wsDelta">—</div><div class="rl">Declination δ</div></div>
+   <div class="res good"><div class="rv" id="wsOut">—</div><div class="rl">Sunset hour angle ω<sub>ss</sub></div></div>
+   <div class="res"><div class="rv" id="wsRise">—</div><div class="rl">Sunrise (−ω<sub>ss</sub>) → time</div></div>
+   <div class="res"><div class="rv" id="wsSet">—</div><div class="rl">Sunset (+ω<sub>ss</sub>) → time</div></div>
+  </div>
+ </div>
+
+ <h3 class="subsec">${svg("calc",20)} Calculator — with the lecture's Dhaka example</h3>
+ <p class="lede">An Example: Sunset Hour Angle at a Location in Dhaka on January 1, 2019 (ϕ = 23.7104°).
+ Press the button to load it, or enter your own values.</p>
+ <div class="calc">
+  <div class="crow"><label for="wcPhi">Latitude ϕ (°):</label><input type="number" id="wcPhi" step="any" value="23.7104">
+   <label for="wcDelta" style="min-width:auto">δ (°):</label><input type="number" id="wcDelta" step="any" value="-23.0116">
+   <button class="btn" id="wcGo">Calculate ω<sub>ss</sub></button>
+   <button class="btn ghost" id="wcDhaka">Load Dhaka Jan 1 example</button></div>
+  <div class="steps" id="wcSteps" style="display:none"></div>
+ </div>
+ ${hintPanels({
+  insight:"The product tan δ · tan φ measures how much the season (δ) and the location (φ) conspire: same signs (summer + north) lengthen the day; opposite signs shorten it.",
+  hint:"Compute −tan δ · tan φ first as a plain number, check it lies in [−1, 1], then take cos⁻¹. If |value| > 1 you have polar day or polar night.",
+  mistake:"Losing the minus signs: for Dhaka on Jan 1, −tan(−23.0116°) × tan(23.7104°) = +0.1866 — two negatives give a positive, and ωss < 90° (short winter day).",
+  exam:"Give ωss in degrees AND convert to time when asked: sunset solar time = 12 + ωss/15. The lecture example: 79.25° → 5.28 pm (approximately).",
+  app:"Sunrise/sunset directions and times drive PV row spacing (winter shading) and building overhang design.",
+  know:"79.25° = 79°15′0″ — the lecture converts decimal degrees to degrees-minutes-seconds (1° = 60′, 1′ = 60″).",
+  later:"ωss goes straight into Lday = 2ωss/15 in the next tab — and bounds the sun path diagram of Part 2."})}`;
+
+function drawWss(){
+  const phi=V("wsLat"),N=V("wsN"),d=decl(N),w=wss(d,phi);
+  document.getElementById("wsDelta").textContent=(d>=0?"+":"")+fmt(d,2)+"°";
+  document.getElementById("wsOut").textContent=w===0?"Polar night":w===180?"Polar day":fmt(w,2)+"°";
+  document.getElementById("wsRise").textContent=w>0&&w<180?hhmm(12-w/15):"—";
+  document.getElementById("wsSet").textContent=w>0&&w<180?hhmm(12+w/15):"—";
+  /* horizon arc with sunrise/sunset marks */
+  const W=700,H=210;
+  const noonEl=90-Math.abs(phi-d);
+  const peak=Math.max(24,H-40-(noonEl/90)*(H-70));
+  document.getElementById("wsViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Sky dome showing sunrise and sunset positions for the chosen latitude and declination"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <rect x="0" y="0" width="${W}" height="${H-30}" fill="#e8f2fb" rx="10"/>
+   <rect x="0" y="${H-30}" width="${W}" height="30" fill="#3f7a3f"/>
+   ${w>0?`<path d="M${90+ (180-w)/180*260} ${H-30} Q 350 ${peak} ${610-(180-w)/180*260} ${H-30}" fill="none" stroke="#c2611a" stroke-width="2.4"/>`:""}
+   ${w>0&&w<180?`
+   <circle cx="${90+(180-w)/180*260}" cy="${H-30}" r="10" fill="#fca311" stroke="#c2611a" stroke-width="2"/>
+   <text x="${90+(180-w)/180*260}" y="${H-44}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#a04c0e">sunrise −ωₛₛ</text>
+   <circle cx="${610-(180-w)/180*260}" cy="${H-30}" r="10" fill="#fca311" stroke="#c2611a" stroke-width="2"/>
+   <text x="${610-(180-w)/180*260}" y="${H-44}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#a04c0e">sunset +ωₛₛ</text>`:
+   w===180?`<text x="350" y="60" text-anchor="middle" font-size="13" font-weight="800" fill="#a04c0e">POLAR DAY — |tan δ tan ϕ| > 1, the sun never sets</text>`:
+   `<text x="350" y="60" text-anchor="middle" font-size="13" font-weight="800" fill="#14213d">POLAR NIGHT — |tan δ tan ϕ| > 1, the sun never rises</text>`}
+   <line x1="350" y1="${H-30}" x2="350" y2="20" stroke="#14213d" stroke-width="1.4" stroke-dasharray="4 3"/>
+   <text x="350" y="14" text-anchor="middle" font-size="10.5" font-weight="700" fill="#14213d">solar noon (local meridian)</text>
+   <text x="80" y="${H-8}" font-size="10.5" fill="#fff">E</text><text x="612" y="${H-8}" font-size="10.5" fill="#fff">W</text>
+  </svg>`;
+}
+wireSliders(["wsLat","wsN"],drawWss);
+document.getElementById("wcDhaka").addEventListener("click",()=>{
+  document.getElementById("wcPhi").value=23.7104;
+  document.getElementById("wcDelta").value=-23.0116;
+  document.getElementById("wcGo").click();
+});
+document.getElementById("wcGo").addEventListener("click",()=>{
+  const phi=+document.getElementById("wcPhi").value||0,d=+document.getElementById("wcDelta").value||0;
+  const x=-tanD(d)*tanD(phi);
+  const box=document.getElementById("wcSteps");box.style.display="block";
+  if(Math.abs(x)>1){
+    box.innerHTML=`<div class="st" data-n="1">cos ω<sub>ss</sub> = −tan(${fmt(d,4)}°) · tan(${fmt(phi,4)}°) = ${fmt(x,4)}</div>
+     <div class="st" data-n="2"><b>|cos ω<sub>ss</sub>| &gt; 1 — no sunrise/sunset:</b> ${x>1?"polar night (sun never rises)":"polar day (sun never sets)"}.</div>`;
+    return;
+  }
+  const w=Math.acos(x)*R2D;
+  const dmsD=Math.floor(w),dmsM=Math.floor((w-dmsD)*60),dmsS=Math.round(((w-dmsD)*60-dmsM)*60);
+  box.innerHTML=`
+   <div class="st" data-n="1">cos ω<sub>ss</sub> = − tan δ tan ϕ &nbsp;⇒&nbsp; ω<sub>ss</sub> = cos⁻¹(− tan δ tan ϕ)</div>
+   <div class="st" data-n="2">ω<sub>ss</sub> = cos⁻¹(− tan(${fmt(d,4)}) tan(${fmt(phi,4)}))</div>
+   <div class="st" data-n="3">− tan(${fmt(d,4)}°) × tan(${fmt(phi,4)}°) = ${fmt(x,4)}</div>
+   <div class="st" data-n="4"><b>ω<sub>ss</sub> = ${fmt(w,2)} degrees = ${dmsD}°${dmsM}′${dmsS}″</b></div>
+   <div class="st" data-n="5">Sunset solar time = 12 + ω<sub>ss</sub>/15 = 12 + ${fmt(w/15,2)} = ${fmt(12+w/15,2)} h ⇒ <b>≈ ${hhmm(12+w/15)}</b></div>
+   <p class="small-note"><b>Geometric visualization:</b> the sun stands ${fmt(w,1)}° from the local meridian
+   at sunrise (east side, −ω<sub>ss</sub>) and sunset (west side, +ω<sub>ss</sub>).
+   ${Math.abs(phi-23.7104)<0.01&&Math.abs(d+23.0116)<0.01?"<b>This is the lecture's Dhaka example: ωss = 79.25° = 79°15′0″, i.e. the sunset will be at 5.28 pm (approximately).</b>":""}</p>`;
+});
+
+/* ==========================================================================
+   11. TAB — DAY LENGTH
+   ========================================================================== */
+document.getElementById("panel-day").innerHTML=`
+ <h2 class="sec">${svg("wave",24)} Day Length</h2>
+ <p class="lede">The length of the day (i.e., the duration of daylight) for any given location and date can
+ be calculated using the sunrise or sunset hour angle as follows:</p>
+ <div class="formula">L<sub>day</sub> = <span class="frac"><span>2 cos⁻¹(− tan δ · tan ϕ)</span><span>15</span></span> &nbsp;[hours]</div>
+ <div class="grid c3">
+  <div class="card"><h4><span class="icon-circle">${svg("globe",18)}</span>δ and ϕ</h4>
+   <p>δ is the “solar declination angle” for the given day; ϕ is the “latitude” of the location.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("clock",18)}</span>Solar hours</h4>
+   <p>The result is in “solar hours”, assuming 15° of Earth's rotation per hour.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("sunrise",18)}</span>The factor of 2</h4>
+   <p>Accounts for both morning and evening hour angles (sunrise and sunset).</p></div>
+ </div>
+ <div class="callout"><h4>${svg("bulb",18)} Note</h4>
+  <p>Day length varies with seasons — longest during summer, shortest during winter.</p></div>
+
+ <h3 class="subsec">${svg("play",20)} Interactive visualization — animated daylight</h3>
+ <div class="calc">
+  ${sliderRow("dlLat","Latitude ϕ",-66,66,0.5,23.71,"°")}
+  ${sliderRow("dlN","Day Number N (sets δ)",1,365,1,74,"")}
+  <div id="dlViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="dlDelta">—</div><div class="rl">Declination δ</div></div>
+   <div class="res"><div class="rv" id="dlWss">—</div><div class="rl">ω<sub>ss</sub></div></div>
+   <div class="res"><div class="rv" id="dlRise">—</div><div class="rl">Sunrise</div></div>
+   <div class="res"><div class="rv" id="dlSet">—</div><div class="rl">Sunset</div></div>
+   <div class="res good"><div class="rv" id="dlOut">—</div><div class="rl">Day Length</div></div>
+  </div>
+  <div id="dlYear"></div>
+  <p class="small-note">The curve shows day length across the whole year at your latitude — the seasonal
+  interpretation of the formula. Real-world significance: this is the daily solar collection window for
+  sizing off-grid PV systems and batteries.</p>
+ </div>
+
+ <h3 class="subsec">${svg("calc",20)} Live Day Length calculator</h3>
+ <div class="calc">
+  <div class="crow"><label for="dlcPhi">Latitude ϕ (°):</label><input type="number" id="dlcPhi" step="any" value="23.71">
+   <label for="dlcN" style="min-width:auto">Day Number N:</label><input type="number" id="dlcN" min="1" max="365" value="74">
+   <button class="btn" id="dlcGo">Calculate L<sub>day</sub></button></div>
+  <div class="steps" id="dlcSteps" style="display:none"></div>
+ </div>
+ ${hintPanels({
+  insight:"Day length is geometry's gift to the designer: it needs no weather data, no measurements — just N and φ. It is the guaranteed upper bound on collection hours.",
+  hint:"Sanity anchors: 12 h at any equinox; longer than 12 h when δ and φ share a sign; shorter when they differ.",
+  mistake:"Reporting ωss (degrees) as if it were hours — always divide by 15 and double.",
+  exam:"Carry ωss to at least 2 decimals before computing Lday; rounding 88.76° to 89° changes the answer by ~2 minutes.",
+  app:"Battery autonomy sizing uses the SHORTEST day of the year at the site (N = 355 in the Northern Hemisphere) — compute it now with the slider.",
+  know:"Above the polar circles the formula's argument exceeds ±1 — the mathematics itself announces the midnight sun and polar night.",
+  later:"In Part 2, day length becomes the horizontal span of the sun path diagram."})}`;
+
+function drawDL(){
+  const phi=V("dlLat"),N=V("dlN"),d=decl(N),w=wss(d,phi),Ld=dayLength(d,phi);
+  document.getElementById("dlDelta").textContent=(d>=0?"+":"")+fmt(d,2)+"°";
+  document.getElementById("dlWss").textContent=w===0?"—":w===180?"—":fmt(w,2)+"°";
+  document.getElementById("dlRise").textContent=w>0&&w<180?hhmm(12-w/15):"—";
+  document.getElementById("dlSet").textContent=w>0&&w<180?hhmm(12+w/15):"—";
+  document.getElementById("dlOut").textContent=fmt(Ld,2)+" h";
+  /* daylight bar 0-24h */
+  const W=700;
+  const x1=40+(12-w/15)/24*(W-80),x2=40+(12+w/15)/24*(W-80);
+  document.getElementById("dlViz").innerHTML=`
+  <svg viewBox="0 0 ${W} 90" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="24-hour bar with the daylight window highlighted" font-family="Segoe UI,system-ui,sans-serif">
+   <rect x="40" y="30" width="${W-80}" height="26" rx="13" fill="#25355c"/>
+   <rect x="${x1}" y="30" width="${Math.max(0,x2-x1)}" height="26" rx="13" fill="#fca311">
+    <animate attributeName="opacity" values="0.75;1;0.75" dur="3s" repeatCount="indefinite"/></rect>
+   ${[0,6,12,18,24].map(h=>`<text x="${40+h/24*(W-80)}" y="76" text-anchor="middle" font-size="10.5" fill="#4e5a72">${h}:00</text>
+     <line x1="${40+h/24*(W-80)}" y1="56" x2="${40+h/24*(W-80)}" y2="62" stroke="#9aa7bd"/>`).join("")}
+   <text x="${(x1+x2)/2}" y="22" text-anchor="middle" font-size="12" font-weight="800" fill="#a04c0e">${dateFromN(N)} · daylight ${fmt(Ld,2)} h</text>
+  </svg>`;
+  /* year curve */
+  let path="";
+  for(let k=0;k<=120;k++){
+    const n=1+k/120*364,L=dayLength(decl(n),phi);
+    const x=40+k/120*(W-80),y=150-((L)/24)*120;
+    path+=(k?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);
+  }
+  const mx=40+(N-1)/364*(W-80),my=150-(Ld/24)*120;
+  document.getElementById("dlYear").innerHTML=`
+  <svg viewBox="0 0 ${W} 170" style="width:100%;max-width:${W}px;display:block;margin:8px auto 0" role="img"
+   aria-label="Day length across the year at the chosen latitude" font-family="Segoe UI,system-ui,sans-serif">
+   <line x1="40" y1="150" x2="${W-40}" y2="150" stroke="#9aa7bd"/>
+   <line x1="40" y1="150" x2="40" y2="20" stroke="#9aa7bd"/>
+   <line x1="40" y1="${150-12/24*120}" x2="${W-40}" y2="${150-12/24*120}" stroke="#9aa7bd" stroke-dasharray="4 4"/>
+   <text x="46" y="${146-12/24*120}" font-size="10" fill="#4e5a72">12 h</text>
+   <path d="${path}" fill="none" stroke="#c2611a" stroke-width="2.2"/>
+   <circle cx="${mx}" cy="${my}" r="6" fill="#fca311" stroke="#14213d" stroke-width="1.6"/>
+   ${MONTHS.map((m,i)=>{const n=MONTHS.slice(0,i).reduce((a,x)=>a+x[1],0)+1;
+     return `<text x="${40+(n-1)/364*(W-80)}" y="165" font-size="9" fill="#4e5a72">${m[0]}</text>`;}).join("")}
+  </svg>`;
+}
+wireSliders(["dlLat","dlN"],drawDL);
+document.getElementById("dlcGo").addEventListener("click",()=>{
+  const phi=+document.getElementById("dlcPhi").value||0;
+  const N=Math.max(1,Math.min(365,Math.round(+document.getElementById("dlcN").value||1)));
+  const d=decl(N),x=-tanD(d)*tanD(phi);
+  const box=document.getElementById("dlcSteps");box.style.display="block";
+  if(Math.abs(x)>1){
+    box.innerHTML=`<div class="st" data-n="1">δ(N=${N}) = ${fmt(d,2)}°; −tan δ tan ϕ = ${fmt(x,3)} — |value| &gt; 1</div>
+     <div class="st" data-n="2"><b>${x>1?"Polar night: Lday = 0 h":"Polar day: Lday = 24 h"}</b></div>`;return;
+  }
+  const w=Math.acos(x)*R2D,Ld=2*w/15;
+  box.innerHTML=`
+   <div class="st" data-n="1">Find δ: δ = 23.45° sin(360/365 (284 + ${N})) = ${(d>=0?"+":"")+fmt(d,2)}°</div>
+   <div class="st" data-n="2">ω<sub>ss</sub> = cos⁻¹(− tan(${fmt(d,2)}°) tan(${fmt(phi,2)}°)) = cos⁻¹(${fmt(x,4)}) = ${fmt(w,2)}°</div>
+   <div class="st" data-n="3">L<sub>day</sub> = 2 × ${fmt(w,2)} / 15</div>
+   <div class="st" data-n="4"><b>L<sub>day</sub> = ${fmt(Ld,2)} hours</b> (${fmt(Math.floor(Ld),0)} h ${fmt((Ld%1)*60,0)} min) on ${dateFromN(N)}</div>
+   <p class="small-note"><b>Seasonal interpretation:</b> ${Ld>12.2?"longer than 12 h — the summer side of the year for this hemisphere.":Ld<11.8?"shorter than 12 h — the winter side of the year for this hemisphere.":"≈ 12 h — near-equinox conditions."}
+   <b>Engineering explanation:</b> this is the maximum daily collection window; sunrise ${hhmm(12-w/15)}, sunset ${hhmm(12+w/15)} solar time.</p>`;
+});
+
+/* ==========================================================================
+   12. TAB — INTEGRATED SOLAR GEOMETRY EXPLORER (+ simulators)
+   ========================================================================== */
+document.getElementById("panel-explore").innerHTML=`
+ <h2 class="sec">${svg("play",24)} Integrated Solar Geometry Explorer</h2>
+ <p class="lede">The whole lecture in one dashboard: <b>Declination Angle → Hour Angle → Sunrise Hour
+ Angle → Sunset Hour Angle → Day Length</b>. Modify day number, latitude, and solar time — every parameter
+ updates simultaneously.</p>
+ <div class="calc">
+  ${sliderRow("exN","Day Number N",1,365,1,74,"")}
+  ${sliderRow("exLat","Latitude ϕ",-66,66,0.5,23.71,"°")}
+  ${sliderRow("exST","Solar Time",5,19,0.25,9,"h")}
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="exD">—</div><div class="rl">δ (Declination)</div></div>
+   <div class="res"><div class="rv" id="exO">—</div><div class="rl">ω (Hour Angle)</div></div>
+   <div class="res"><div class="rv" id="exWr">—</div><div class="rl">Sunrise −ω<sub>ss</sub></div></div>
+   <div class="res"><div class="rv" id="exWs">—</div><div class="rl">Sunset +ω<sub>ss</sub></div></div>
+   <div class="res good"><div class="rv" id="exL">—</div><div class="rl">L<sub>day</sub></div></div>
+   <div class="res"><div class="rv" id="exSun">—</div><div class="rl">Sun above horizon?</div></div>
+  </div>
+  <div id="exViz"></div>
+ </div>
+
+ <h3 class="subsec">${svg("play",20)} Annual Solar Motion Animation — 365-day Earth revolution</h3>
+ <div class="calc">
+  <div class="crow">
+   <button class="btn gold" id="anPlay">▶ Play</button>
+   <button class="btn ghost" id="anStepB">⏮ −1 day</button>
+   <button class="btn ghost" id="anStepF">+1 day ⏭</button>
+   <button class="btn ghost" id="anFast">⏩ Fast-forward</button>
+   <span class="cval" id="anDate" style="min-width:150px">Mar 15 (N = 74)</span>
+  </div>
+  <div id="anViz"></div>
+ </div>
+
+ <h3 class="subsec">${svg("cal",20)} Seasonal Explorer</h3>
+ <p class="lede">Select a season and observe the changing declination, day length, sunrise, and sunset —
+ computed at your Explorer latitude above.</p>
+ <div class="crow" style="gap:8px">
+  ${[["Spring",80],["Summer",172],["Autumn",266],["Winter",355]].map(s=>
+   `<button class="btn ghost" data-sea="${s[1]}">${s[0]}</button>`).join("")}
+ </div>
+ <div id="seaBox" class="grid c2" style="margin-top:12px"></div>`;
+
+function drawExplore(){
+  const N=V("exN"),phi=V("exLat"),ST=V("exST");
+  const d=decl(N),om=hourAngle(ST),w=wss(d,phi),Ld=dayLength(d,phi);
+  const up=w>0&&Math.abs(om)<w;
+  document.getElementById("exD").textContent=(d>=0?"+":"")+fmt(d,2)+"°";
+  document.getElementById("exO").textContent=(om>0?"+":"")+fmt(om,1)+"°";
+  document.getElementById("exWr").textContent=w>0&&w<180?"−"+fmt(w,2)+"° ("+hhmm(12-w/15)+")":"—";
+  document.getElementById("exWs").textContent=w>0&&w<180?"+"+fmt(w,2)+"° ("+hhmm(12+w/15)+")":"—";
+  document.getElementById("exL").textContent=fmt(Ld,2)+" h";
+  document.getElementById("exSun").textContent=up?"Yes ☀":"No — night";
+  const W=700,H=200;
+  const t=w>0?Math.max(0,Math.min(1,(om+w)/(2*w))):0.5;
+  const noonEl=90-Math.abs(phi-d);
+  const peak=H-36-(Math.max(noonEl,0)/90)*(H-70);
+  const sx=80+t*(W-160);
+  const sy=H-36-Math.sin(Math.PI*t)*(H-36-peak);
+  document.getElementById("exViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:12px auto 0;border-radius:12px;
+   background:linear-gradient(180deg,${up?"#bfe0f5,#eaf5fd":"#0d1830,#25355c"})" role="img"
+   aria-label="Sun position on its daily arc for the chosen inputs" font-family="Segoe UI,system-ui,sans-serif">
+   <rect x="0" y="${H-34}" width="${W}" height="34" fill="#3f7a3f"/>
+   ${w>0?`<path d="M80 ${H-34} Q ${W/2} ${peak-((H-34)-peak)*0} ${W-80} ${H-34}" fill="none" stroke="#c2611a" stroke-width="2" stroke-dasharray="6 5"/>`:""}
+   ${up?`<circle cx="${sx}" cy="${sy}" r="13" fill="#fca311"><animate attributeName="r" values="13;15;13" dur="2.4s" repeatCount="indefinite"/></circle>`:""}
+   <line x1="${W/2}" y1="${H-34}" x2="${W/2}" y2="18" stroke="#14213d" stroke-width="1.4" stroke-dasharray="4 3" opacity=".8"/>
+   <text x="${W/2}" y="14" text-anchor="middle" font-size="10.5" font-weight="700" fill="${up?"#14213d":"#fff"}">solar noon</text>
+   <text x="84" y="${H-12}" font-size="10.5" fill="#fff">E</text><text x="${W-92}" y="${H-12}" font-size="10.5" fill="#fff">W</text>
+   <text x="16" y="32" font-size="12" font-weight="700" fill="${up?"#14213d":"#fff"}">${dateFromN(N)} · ϕ=${fmt(phi,1)}° · ${hhmm(ST)}</text>
+  </svg>`;
+}
+wireSliders(["exN","exLat","exST"],drawExplore);
+
+/* Annual animation */
+let anN=74,anTimer=null,anSpeed=90;
+function drawAn(){
+  const d=decl(anN),phi=V("exLat");
+  const w=wss(d,phi),Ld=dayLength(d,phi);
+  document.getElementById("anDate").textContent=`${dateFromN(anN)} (N = ${anN})`;
+  const W=700,H=210;
+  const ang=(anN-80)/365*2*Math.PI;
+  const ex2=200+120*Math.cos(ang),ey2=105+52*Math.sin(ang);
+  document.getElementById("anViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Animated 365-day revolution of the Earth with live declination and day length readouts"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <ellipse cx="200" cy="105" rx="120" ry="52" fill="none" stroke="#9fb4d8" stroke-dasharray="5 4"/>
+   <circle cx="200" cy="105" r="24" fill="#fca311"/>
+   <text x="200" y="109" text-anchor="middle" font-size="9.5" font-weight="800" fill="#7a3c00">SUN</text>
+   <g transform="translate(${ex2},${ey2}) rotate(23.45)">
+     <circle r="12" fill="#3a86ff"/><line x1="0" y1="-17" x2="0" y2="17" stroke="#c2611a" stroke-width="2"/>
+   </g>
+   ${[["Mar 21",80],["Jun 21",172],["Sep 23",266],["Dec 21",355]].map(s=>{
+     const a=(s[1]-80)/365*2*Math.PI;
+     return `<text x="${200+140*Math.cos(a)}" y="${105+66*Math.sin(a)}" text-anchor="middle" font-size="9.5" fill="#4e5a72">${s[0]}</text>`;}).join("")}
+   <g transform="translate(420,26)">
+    <rect x="0" y="0" width="264" height="158" rx="12" fill="#f7f8fb" stroke="#e2e4ea"/>
+    <text x="14" y="26" font-size="12" font-weight="800" fill="#14213d">${dateFromN(anN)} — solar geometry @ ϕ = ${fmt(phi,1)}°</text>
+    <text x="14" y="52" font-size="12" fill="#1b2436">δ = ${(d>=0?"+":"")+fmt(d,2)}°</text>
+    <text x="14" y="76" font-size="12" fill="#1b2436">ω<tspan font-size="8" dy="2">ss</tspan><tspan dy="-2"> = ${w>0&&w<180?fmt(w,2)+"°":"polar"}</tspan></text>
+    <text x="14" y="100" font-size="12" fill="#1b2436">Sunrise ${w>0&&w<180?hhmm(12-w/15):"—"} · Sunset ${w>0&&w<180?hhmm(12+w/15):"—"}</text>
+    <text x="14" y="124" font-size="12" font-weight="700" fill="#a04c0e">L${"day".sub?"":""}<tspan font-size="8" dy="2">day</tspan><tspan dy="-2"> = ${fmt(Ld,2)} h</tspan></text>
+    <rect x="14" y="134" width="236" height="10" rx="5" fill="#e2e4ea"/>
+    <rect x="14" y="134" width="${236*Ld/24}" height="10" rx="5" fill="#fca311"/>
+   </g>
+  </svg>`;
+}
+document.getElementById("anPlay").addEventListener("click",function(){
+  if(anTimer){clearInterval(anTimer);anTimer=null;this.textContent="▶ Play";return;}
+  this.textContent="⏸ Pause";anSpeed=90;
+  anTimer=setInterval(()=>{anN=(anN%365)+1;drawAn();},anSpeed);
+});
+document.getElementById("anFast").addEventListener("click",()=>{
+  if(anTimer){clearInterval(anTimer);}
+  anSpeed=Math.max(15,anSpeed-25);
+  document.getElementById("anPlay").textContent="⏸ Pause";
+  anTimer=setInterval(()=>{anN=(anN%365)+1;drawAn();},anSpeed);
+});
+document.getElementById("anStepF").addEventListener("click",()=>{anN=(anN%365)+1;drawAn();});
+document.getElementById("anStepB").addEventListener("click",()=>{anN=((anN-2+365)%365)+1;drawAn();});
+drawAn();
+/* Seasonal explorer */
+document.querySelectorAll("[data-sea]").forEach(b=>b.addEventListener("click",()=>{
+  const N=+b.dataset.sea,phi=V("exLat"),d=decl(N),w=wss(d,phi),Ld=dayLength(d,phi);
+  const names={80:"Spring — Vernal Equinox (Mar 21, N = 80)",172:"Summer — Summer Solstice (Jun 21, N = 172)",
+    266:"Autumn — Autumnal Equinox (Sep 23, N = 266)",355:"Winter — Winter Solstice (Dec 21, N = 355)"};
+  document.getElementById("seaBox").innerHTML=`
+   <div class="card"><h4><span class="icon-circle">${svg("cal",18)}</span>${names[N]}</h4>
+    <table class="simple">
+     <tr><th>Declination δ</th><td>${(d>=0?"+":"")+fmt(d,2)}°</td></tr>
+     <tr><th>Sunrise</th><td>${w>0&&w<180?hhmm(12-w/15)+" solar":"—"}</td></tr>
+     <tr><th>Sunset</th><td>${w>0&&w<180?hhmm(12+w/15)+" solar":"—"}</td></tr>
+     <tr><th>Day length</th><td><b>${fmt(Ld,2)} hours</b></td></tr>
+    </table></div>
+   <div class="card"><h4><span class="icon-circle">${svg("bulb",18)}</span>Interpretation at ϕ = ${fmt(phi,1)}°</h4>
+    <p>${Math.abs(d)<1?"Equinox: the sun crosses the sky over the Equator; day and night are each ≈ 12 hours at every latitude.":
+      (d>0)===(phi>0)?"The sun leans toward your hemisphere: days longer than 12 hours, high noon sun — peak solar-collection season.":
+      "The sun leans away from your hemisphere: days shorter than 12 hours, low noon sun — the season that sizes your battery bank."}</p></div>`;
+}));
+
+/* ==========================================================================
+   13. TAB — PROBLEM SOLVING (exact lecture problem + practice)
+   ========================================================================== */
+document.getElementById("panel-problem").innerHTML=`
+ <h2 class="sec">${svg("clip",24)} Problem Solving</h2>
+ <div class="callout navy"><h4>${svg("clip",18)} Problem Statement (exact)</h4>
+  <p>On March 15, estimate the solar angles and daylight duration for Dhaka (latitude 23.71° N).
+  Specifically, calculate:</p>
+  <p style="margin-top:6px">(a) The solar declination angle on March 15,<br>
+  (b) The hour angle at 9:00 AM solar time,<br>
+  (c) The sunset hour angle ω<sub>ss</sub> for that day and location,<br>
+  (d) The approximate length of the day.</p>
+  <p style="margin-top:6px">Use the standard formulas covered in class and show all calculation steps.</p></div>
+ <div class="sim-steps" id="probSteps" role="tablist" aria-label="Problem parts"></div>
+ <div class="quiz-card" id="probBody"></div>
+
+ <h3 class="subsec">${svg("gear",20)} Additional practice problems</h3>
+ <p class="lede">Same methodology, new numbers. Use the calculators in the other tabs, then check yourself.</p>
+ <div id="pracWrap"></div>`;
+
+const PROB=[
+ {t:"(a) Declination",q:"Step 1 — find the day number N for March 15, then compute δ = 23.45° sin(360/365 (284 + N)). Enter δ (degrees):",
+  pre:"N = 31 (Jan) + 28 (Feb) + 15 = 74",ans:-2.82,tol:0.15,
+  sol:`<div class="st" data-n="1">N = 31 + 28 + 15 = 74</div>
+   <div class="st" data-n="2">δ = 23.45 sin(360/365 (284 + 74)) = 23.45 sin(360/365 × 358)</div>
+   <div class="st" data-n="3">= 23.45 sin(353.10°) = 23.45 × (−0.1202)</div>
+   <div class="st" data-n="4"><b>δ ≈ −2.82°</b> — the sun is slightly south of the equatorial plane (just before the vernal equinox).</div>`,
+  hint:"March 15 is day 31 + 28 + 15. Keep your calculator in DEG mode."},
+ {t:"(b) Hour angle",q:"Compute the hour angle ω at 9:00 AM solar time (degrees):",
+  pre:"ω = 15°(ST − 12)",ans:-45,tol:0.5,
+  sol:`<div class="st" data-n="1">ST = 9.0 hours</div>
+   <div class="st" data-n="2">ω = 15°(9 − 12) = 15 × (−3)</div>
+   <div class="st" data-n="3"><b>ω = −45°</b> — negative because 9:00 AM is before solar noon (morning).</div>`,
+  hint:"9:00 AM is 3 hours before solar noon — and each hour is 15°. Watch the sign."},
+ {t:"(c) Sunset hour angle",q:"Compute ωss = cos⁻¹(−tan δ · tan ϕ) with δ = −2.82° and ϕ = 23.71° (degrees):",
+  pre:"cos ωss = −tan δ · tan ϕ",ans:88.76,tol:0.4,
+  sol:`<div class="st" data-n="1">cos ω<sub>ss</sub> = −tan(−2.82°) × tan(23.71°)</div>
+   <div class="st" data-n="2">= −(−0.04926) × (0.43922) = +0.02164</div>
+   <div class="st" data-n="3">ω<sub>ss</sub> = cos⁻¹(0.02164)</div>
+   <div class="st" data-n="4"><b>ω<sub>ss</sub> ≈ 88.76°</b> — slightly less than 90° because δ is slightly negative; sunset ≈ ${hhmm(12+88.76/15)} solar time.</div>`,
+  hint:"Two negatives make the product positive; the answer must be a bit less than 90° (δ is small and negative)."},
+ {t:"(d) Day length",q:"Compute Lday = 2ωss/15 with ωss = 88.76° (hours):",
+  pre:"Lday = 2 cos⁻¹(−tan δ tan ϕ)/15",ans:11.83,tol:0.08,
+  sol:`<div class="st" data-n="1">L<sub>day</sub> = 2 × 88.76 / 15 = 177.52 / 15</div>
+   <div class="st" data-n="2"><b>L<sub>day</sub> ≈ 11.83 hours</b> (≈ 11 h 50 min) — just under 12 h, consistent with a date just before the vernal equinox in the Northern Hemisphere.</div>`,
+  hint:"Double ωss, divide by 15 — the answer should be slightly under 12 hours (why?)."}
+];
+let probCur=0;
+const probStepsEl=document.getElementById("probSteps"),probBody=document.getElementById("probBody");
+function drawProbSteps(){
+  probStepsEl.innerHTML=PROB.map((p,i)=>
+   `<button role="tab" aria-selected="${i===probCur}" class="${STATE.probDone["p"+i]?"done":""}" data-ps="${i}">${p.t}</button>`).join("");
+}
+probStepsEl.addEventListener("click",e=>{const b=e.target.closest("[data-ps]");if(b){probCur=+b.dataset.ps;drawProb();}});
+function drawProb(){
+  drawProbSteps();
+  const p=PROB[probCur];
+  probBody.innerHTML=`<span class="qtype-tag">${p.t} · Dhaka, March 15, ϕ = 23.71° N</span>
+   <h3 style="font-size:1rem">${p.q}</h3>
+   <p class="small-note">Formula: ${p.pre}</p>
+   <div class="crow"><input type="number" step="any" class="fib-input" style="max-width:170px" id="probIn" inputmode="decimal">
+    <button class="btn" id="probGo">Check</button>
+    <button class="btn ghost" id="probHint">💡 Hint</button></div>
+   <div class="fb" id="probFb"></div>`;
+  document.getElementById("probHint").addEventListener("click",()=>{
+    const fb=document.getElementById("probFb");fb.className="fb mid show";fb.innerHTML="💡 <b>Hint:</b> "+p.hint;});
+  const go=()=>{
+    const v=parseFloat(document.getElementById("probIn").value);
+    const fb=document.getElementById("probFb");
+    if(isNaN(v)){fb.className="fb mid show";fb.textContent="Enter a number first.";return;}
+    if(Math.abs(v-p.ans)<=p.tol){
+      STATE.probDone["p"+probCur]=true;save();drawProbSteps();
+      fb.className="fb good show";
+      fb.innerHTML=`✔ Correct!<div class="steps" style="margin-top:10px">${p.sol}</div>`+
+       (probCur<PROB.length-1?`<div style="margin-top:10px"><button class="btn gold" id="probNext">Continue to ${PROB[probCur+1].t} →</button></div>`:
+        `<p style="margin-top:10px;font-weight:700">🏁 Problem complete: δ = −2.82°, ω = −45°, ω<sub>ss</sub> = 88.76°, L<sub>day</sub> = 11.83 hours.</p>`);
+      const nx=fb.querySelector("#probNext");
+      if(nx)nx.addEventListener("click",()=>{probCur++;drawProb();});
+    }else{
+      fb.className="fb poor show";
+      fb.innerHTML="✖ Not quite — check the sign and your calculator's DEG mode, or use the 💡 Hint.";
+    }
+  };
+  document.getElementById("probGo").addEventListener("click",go);
+  document.getElementById("probIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+}
+drawProb();
+/* practice problems */
+const PRAC=[
+ ["★ Basic","June 21 (N = 172) in Dhaka (ϕ = 23.71° N): find δ, ωss, and Lday.",
+  `δ = 23.45 sin(360/365 × 456) = <b>+23.45°</b> (summer solstice).
+   cos ωss = −tan(23.45)tan(23.71) = −0.1905 ⇒ ωss = <b>100.98°</b>.
+   Lday = 2(100.98)/15 = <b>13.46 h</b> — Dhaka's longest day.`],
+ ["★ Basic","What is the hour angle at 2:30 PM solar time?",
+  `ST = 14.5 ⇒ ω = 15(14.5 − 12) = <b>+37.5°</b> (afternoon, positive).`],
+ ["★★ Intermediate","December 21 (N = 355) in London (ϕ = 51.51° N): find δ, ωss, Lday, and the sunrise/sunset solar times.",
+  `δ = <b>−23.45°</b>. cos ωss = −tan(−23.45)tan(51.51) = +0.5456 ⇒ ωss = <b>56.94°</b>.
+   Lday = 2(56.94)/15 = <b>7.59 h</b>. Sunrise = 12 − 56.94/15 = <b>${hhmm(12-56.94/15)}</b>; sunset = <b>${hhmm(12+56.94/15)}</b> solar.`],
+ ["★★ Intermediate","Quito (ϕ ≈ 0°): show that Lday = 12 h on ANY day of the year.",
+  `tan(0°) = 0 ⇒ cos ωss = −tan δ × 0 = 0 ⇒ ωss = 90° always ⇒ Lday = 2(90)/15 = <b>12 h</b>, independent of δ — the equator has no seasons of day length.`],
+ ["★★★ Challenge","Find the day length in Reykjavik (ϕ = 64.15° N) on June 21 (δ = +23.45°) — and comment.",
+  `cos ωss = −tan(23.45)tan(64.15) = −0.8964 ⇒ ωss = cos⁻¹(−0.8964) = <b>153.7°</b>.
+   Lday = 2(153.7)/15 = <b>20.5 h</b> — approaching polar day; at |tan δ tan ϕ| ≥ 1 the sun would not set at all.`],
+ ["★★★ Challenge","Sydney (ϕ = −33.87° S) on June 21 (δ = +23.45°): compute Lday and compare with Dhaka's on the same day.",
+  `cos ωss = −tan(23.45)tan(−33.87) = +0.2911 ⇒ ωss = 73.07° ⇒ Lday = <b>9.74 h</b>.
+   Same date, opposite hemisphere: Dhaka enjoys 13.46 h while Sydney has 9.74 h — the sign of ϕ reverses the season.`]
+];
+document.getElementById("pracWrap").innerHTML=PRAC.map((p,i)=>expander(
+ `<span class="icon-circle">${svg("clip",18)}</span><span><b>${p[0]}</b> — ${p[1]}</span>`,
+ `<h5>Worked solution (same methodology as the lecture problem)</h5><div class="steps"><p>${p[2]}</p></div>`)).join("");
+
+/* ==========================================================================
+   14. TAB — FORMULA TOOLBOX
+   ========================================================================== */
+const TOOLBOX=[
+ {t:"Declination Angle (δ)",f:`δ = 23.45° sin(360/365 (284 + N))`,
+  der:"Earth's axis is tilted 23.45°; as Earth orbits, the sun's apparent position oscillates sinusoidally between ±23.45° about the equatorial plane. The phase constant 284 places the zero crossings at the equinoxes (a full cycle from the previous vernal equinox: 284 + 81 ≈ 365).",
+  vars:"δ = declination angle (°); N = day of the year, with N = 1 on January 1.",
+  ass:"Sinusoidal approximation of the true orbit (adequate for engineering); non-leap year of 365 days.",
+  interp:"The calendar's contribution to solar geometry — identical everywhere on Earth on a given day.",
+  mist:"Radian-mode calculators; using the date instead of the cumulative day number N.",
+  app:"First step of every solar calculation: yield estimates, tilt schedules, and the lecture problem's part (a)."},
+ {t:"Hour Angle (ω)",f:`ω = 15°(ST − 12)`,
+  der:"Earth rotates 360° in 24 hours ⇒ 15° per hour. Measuring from solar noon (sun on the local meridian) and counting morning negative gives ω = 15°(ST − 12).",
+  vars:"ω = hour angle (°); ST = Solar Time (hours, 24-h decimal).",
+  ass:"Uniform rotation; ST is true solar time (not zone clock time).",
+  interp:"The clock's contribution — the sun's angular displacement from the local meridian.",
+  mist:"Sign errors (morning must be negative); using 1:00 PM as 1 instead of 13.",
+  app:"Tracker control (15°/h), and the lecture problem's part (b): 9:00 AM → −45°."},
+ {t:"Sunrise & Sunset Hour Angles (ωss)",f:`cos ωss = − tan δ · tan ϕ`,
+  der:"At sunrise/sunset the sun's elevation is zero. Setting α = 0 in sin α = sin φ sin δ + cos φ cos δ cos ω gives cos ω = −tan δ tan φ (divide by cos φ cos δ) — the geometry of the horizon plane.",
+  vars:"ωss = sunrise/sunset hour angle (°); δ = solar declination angle; ϕ = latitude (positive N, negative S).",
+  ass:"Sea-level horizon; atmospheric refraction and solar disc radius neglected (adds a few minutes in reality).",
+  interp:"Season (δ) and place (ϕ) combine to fix how far from noon the day's edges lie: sunrise at −ωss, sunset at +ωss.",
+  mist:"Dropping the leading minus sign; forgetting φ's sign in the Southern Hemisphere; not checking |cos ωss| ≤ 1 (polar cases).",
+  app:"Sunset time prediction (Dhaka Jan 1: 79.25° → ≈ 5.28 pm) and the gateway to day length."},
+ {t:"Day Length (Lday)",f:`Lday = 2 cos⁻¹(− tan δ · tan ϕ) / 15  [hours]`,
+  der:"The sun is above the horizon from −ωss to +ωss — an angular span of 2ωss degrees. At 15° of Earth's rotation per hour, Lday = 2ωss/15.",
+  vars:"Lday = day length (solar hours); δ, ϕ as above.",
+  ass:"Result in solar hours, assuming 15° of Earth's rotation per hour; horizon effects neglected.",
+  interp:"The daily solar collection window — longest during summer, shortest during winter.",
+  mist:"Forgetting the factor 2, or reporting degrees instead of hours.",
+  app:"Off-grid battery sizing (design on the year's shortest day) and the lecture problem's part (d): 11.83 h."}
+];
+document.getElementById("panel-toolbox").innerHTML=`
+ <h2 class="sec">${svg("calc",24)} Formula Toolbox</h2>
+ <p class="lede">Every formula of the lecture — click for derivation, variable definitions, assumptions,
+ engineering interpretation, common mistakes, and applications.</p>
+ ${TOOLBOX.map(t=>expander(
+  `<span class="icon-circle">${svg("calc",18)}</span><span><b>${t.t}</b><br>
+   <span style="font-weight:400;font-family:Cambria,Georgia,serif;font-size:.95rem;color:var(--ink2)">${t.f}</span></span>`,
+  `<h5>Derivation</h5><p>${t.der}</p>
+   <h5>Variable definitions</h5><p>${t.vars}</p>
+   <h5>Assumptions</h5><p>${t.ass}</p>
+   <h5>Engineering interpretation</h5><p>${t.interp}</p>
+   <h5>Common mistakes</h5><p>${t.mist}</p>
+   <h5>Applications</h5><p>${t.app}</p>`)).join("")}`;
+
+/* ==========================================================================
+   15. TAB — USEFUL RESOURCES
+   ========================================================================== */
+document.getElementById("panel-resources").innerHTML=`
+ <h2 class="sec">${svg("link",24)} Useful Resources</h2>
+ <p class="lede">The lecture's resources, expanded with descriptions, learning objectives, recommended
+ usage, difficulty level, and engineering relevance.</p>
+ ${RESOURCES.map(r=>expander(
+  `<span class="icon-circle">${svg("book",18)}</span><span><b>${r[0]}</b></span>`,
+  `<p style="word-break:break-all"><b>URL:</b> ${r[1]}</p>
+   <h5>Short description</h5><p>${r[2]}</p>
+   <h5>Learning objectives</h5><p>${r[3]}</p>
+   <h5>Recommended usage</h5><p>${r[4]}</p>
+   <h5>Difficulty level</h5><p>${r[5]}</p>
+   <h5>Engineering relevance</h5><p>${r[6]}</p>`)).join("")}
+ <h3 class="subsec">${svg("book",20)} References (from the lecture)</h3>
+ ${REFS.map(r=>`<div class="topic-row"><span class="tick">📖</span><span style="word-break:break-word">${r}</span></div>`).join("")}`;
+
+/* ==========================================================================
+   16. TAB — REFLECTIONS
+   ========================================================================== */
+document.getElementById("panel-reflect").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Reflections</h2>
+ <p class="lede">Think first, write your own reflection, use <b>Show Hint</b> if you are stuck — and only
+ then <b>Reveal Discussion</b> to compare with the full engineering explanation.</p>
+ ${REFLECT.map((r,i)=>`
+  <div class="qrow">
+   <div class="qtext">${i+1}. ${r.q}</div>
+   <textarea class="reflect-box" data-ref="${i}" aria-label="Your reflection"
+     placeholder="Attempt your own reasoning here first…">${STATE.reflect[i]||""}</textarea>
+   <div class="crow" style="margin-top:10px">
+    <button class="btn ghost" data-hintbtn="${i}">💡 Show Hint</button>
+    <button class="btn gold" data-discbtn="${i}">Reveal Discussion</button>
+   </div>
+   <div class="fb" id="refHint${i}"></div>
+   <div class="fb" id="refDisc${i}"></div>
+  </div>`).join("")}
+ <p class="small-note">Your reflections are stored locally in your browser only.</p>`;
+document.getElementById("panel-reflect").addEventListener("input",e=>{
+  const t=e.target.closest("[data-ref]");if(t){STATE.reflect[t.dataset.ref]=t.value;save();}
+});
+document.getElementById("panel-reflect").addEventListener("click",e=>{
+  const hb=e.target.closest("[data-hintbtn]"),db=e.target.closest("[data-discbtn]");
+  if(hb){const i=+hb.dataset.hintbtn,el=document.getElementById("refHint"+i);
+    el.className="fb mid show";el.innerHTML="💡 <b>Beneficial Hint:</b> "+REFLECT[i].hint;}
+  if(db){const i=+db.dataset.discbtn,r=REFLECT[i],el=document.getElementById("refDisc"+i);
+    el.className="fb good show";
+    el.innerHTML=`<b>Engineering discussion</b><p style="margin-top:6px">${r.disc}</p>
+     <div class="panelset" style="margin-top:10px">
+      <div class="hintbox hb-insight"><b>⚙ Engineering Insight</b>${r.eng}</div>
+      <div class="hintbox hb-know"><b>★ Conceptual Takeaway</b>${r.takeaway}</div>
+      <div class="hintbox hb-app"><b>🔧 Practical Engineering Interpretation · Renewable Energy Application</b>${r.re}</div>
+      <div class="hintbox hb-hint"><b>📐 Design Implication</b>${r.design}</div>
+      <div class="hintbox hb-exam"><b>🎓 Examination Tip</b>${r.exam}</div>
+     </div>`;}
+});
+
+/* ==========================================================================
+   17. TAB — SUMMARY
+   ========================================================================== */
+document.getElementById("panel-summary").innerHTML=`
+ <h2 class="sec">${svg("book",24)} Summary of Key Concepts</h2>
+ <div id="sumWrap">${SUMMARY.map((s,i)=>`
+  <div class="card sum-card" style="margin-bottom:12px;opacity:0;transform:translateY(14px);transition:opacity .5s ${i*.1}s,transform .5s ${i*.1}s">
+   <h4><span class="icon-circle" style="background:var(--navy);color:#fff;font-weight:800">${i+1}</span>${s}</h4></div>`).join("")}</div>
+
+ <h3 class="subsec">${svg("route",20)} Concept map — knowledge graph</h3>
+ <div class="card">${conceptMapSVG()}</div>
+
+ <h3 class="subsec">${svg("calc",20)} Most Important Equations</h3>
+ <div class="grid c2">
+  <div class="card"><h4>Declination Angle</h4><div class="formula" style="font-size:.98rem">δ = 23.45° sin(360/365 (284 + N))</div></div>
+  <div class="card"><h4>Hour Angle</h4><div class="formula" style="font-size:.98rem">ω = 15°(ST − 12)</div></div>
+  <div class="card"><h4>Sunrise &amp; Sunset Hour Angles</h4><div class="formula" style="font-size:.98rem">cos ω<sub>ss</sub> = − tan δ · tan ϕ</div></div>
+  <div class="card"><h4>Day Length</h4><div class="formula" style="font-size:.98rem">L<sub>day</sub> = 2 cos⁻¹(− tan δ · tan ϕ)/15 [h]</div></div>
+ </div>
+
+ <h3 class="subsec">${svg("check",20)} Engineering checklist — can you…</h3>
+ ${["state why solar radiation varies with location, time of day, season, landscape, and weather?",
+    "define Equator, latitude, longitude, meridian, and Prime Meridian — and give Dhaka's coordinates?",
+    "compute δ for any day number N (sign included)?",
+    "convert any solar time to an hour angle with the correct sign?",
+    "compute ωss and convert it to sunrise/sunset times?",
+    "compute day length and interpret it seasonally for either hemisphere?"].map((c,i)=>`
+  <div class="topic-row"><span class="tick">${i+1}</span><span>${c}</span></div>`).join("")}
+ <div class="keytake"><h4>Key takeaway</h4>
+  <p>The calendar sets δ, the clock sets ω, the map sets ϕ — and together they hand the engineer the
+  sunrise, the sunset, and the day's solar window, before a single measurement is taken.</p></div>`;
+const sumWrap=document.getElementById("sumWrap");
+new MutationObserver(()=>{
+  if(document.getElementById("panel-summary").classList.contains("active"))
+    requestAnimationFrame(()=>sumWrap.querySelectorAll(".sum-card").forEach(c=>{c.style.opacity=1;c.style.transform="none";}));
+}).observe(document.getElementById("panel-summary"),{attributes:true,attributeFilter:["class"]});
+
+/* ==========================================================================
+   18. TAB — QUIZ (20 randomized questions, 6 formats)
+   ========================================================================== */
+const TOPIC_NAMES={intro:"Introduction / Solar Radiation",earth:"The Earth",decl:"Declination Angle",
+ hour:"Hour Angle",wss:"Sunrise & Sunset Hour Angles",day:"Day Length"};
+const TYPE_NAMES={mc:"Multiple Choice",tf:"True / False",fib:"Fill in the Blank",
+ num:"Numerical Problem",match:"Matching",diag:"Diagram Interpretation"};
+let quiz={qs:[],i:0,score:0,answered:false};
+const quizPanel=document.getElementById("panel-quiz");
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function startQuiz(){
+  const pick=(t,n)=>shuffle(QUIZ_POOL.filter(q=>q.type===t)).slice(0,n);
+  quiz={qs:shuffle([...pick("mc",6),...pick("tf",4),...pick("fib",3),...pick("num",4),...pick("match",1),...pick("diag",2)]),
+        i:0,score:0,answered:false};
+  drawQuiz();
+}
+function drawQuiz(){
+  if(quiz.i>=quiz.qs.length)return quizResult();
+  const q=quiz.qs[quiz.i],pct=Math.round(100*quiz.i/quiz.qs.length);
+  let inner="";
+  if(q.type==="mc"||q.type==="diag"){
+    inner=(q.svg||"")+shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="quiz-opt" data-oi="${i}">${q.opts[i]}</button>`).join("");
+  }else if(q.type==="tf"){
+    inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  }else if(q.type==="fib"){
+    inner=`<input class="fib-input" id="fibIn" type="text" autocomplete="off" placeholder="Type your answer…" aria-label="Your answer">
+      <div style="margin-top:12px"><button class="btn" id="fibGo">Submit answer</button></div>`;
+  }else if(q.type==="num"){
+    inner=`<div class="crow"><input class="fib-input" id="numIn" type="number" step="any" inputmode="decimal"
+      placeholder="Your answer" aria-label="Numerical answer" style="max-width:180px"><span style="font-weight:700;color:var(--ink2)">${q.unit}</span></div>
+      <div style="margin-top:12px"><button class="btn" id="numGo">Submit answer</button></div>`;
+  }else if(q.type==="match"){
+    const rights=shuffle(q.pairs.map(p=>p[1]));
+    inner=q.pairs.map((p,i)=>`<div class="qrow" style="box-shadow:none"><div class="qtext">${p[0]}</div>
+      <select class="match" data-qi="${i}" aria-label="Match for ${p[0]}">
+       <option value="">— select —</option>${rights.map(x=>`<option>${x}</option>`).join("")}</select></div>`).join("")+
+     `<div style="margin-top:10px"><button class="btn" id="matchGo">Check matches</button></div>`;
+  }
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz — Resource Assessment: Solar Geometry</h2>
+   <div class="quiz-top">
+     <span class="qcount">Question ${quiz.i+1} / ${quiz.qs.length}</span>
+     <div class="pbar" style="flex:1;min-width:120px;background:#e8e8e2"><span style="width:${pct}%"></span></div>
+     <span class="qscore">Score: ${quiz.score} / ${quiz.i}</span>
+   </div>
+   <div class="quiz-card">
+     <span class="qtype-tag">${TYPE_NAMES[q.type]} · ${TOPIC_NAMES[q.topic]}</span>
+     <h3>${q.q}</h3>${inner}
+     <div class="explain" id="qEx"></div>
+     <div style="margin-top:16px;display:none" id="nextWrap">
+       <button class="btn gold" id="qNext">${quiz.i===quiz.qs.length-1?"See results →":"Next question →"}</button>
+     </div>
+   </div>`;
+  quizPanel.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let right;
+    if(q.type==="tf"){right=(b.dataset.tf==="true")===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+    }else{right=+b.dataset.oi===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});}
+    if(!right)b.classList.add("wrong");
+    settle(right);
+  }));
+  const fg=quizPanel.querySelector("#fibGo");
+  if(fg){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=(quizPanel.querySelector("#fibIn").value||"").trim().toLowerCase();
+      if(!v)return;
+      const right=q.a.some(ans=>v===ans.toLowerCase()||v.includes(ans.toLowerCase()));
+      quizPanel.querySelector("#fibIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    fg.addEventListener("click",go);
+    quizPanel.querySelector("#fibIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#fibIn").focus();
+  }
+  const ng=quizPanel.querySelector("#numGo");
+  if(ng){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=parseFloat(quizPanel.querySelector("#numIn").value);
+      if(isNaN(v))return;
+      const right=Math.abs(v-q.a)<=q.tol;
+      quizPanel.querySelector("#numIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    ng.addEventListener("click",go);
+    quizPanel.querySelector("#numIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#numIn").focus();
+  }
+  const mg=quizPanel.querySelector("#matchGo");
+  if(mg)mg.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let filled=true,right=true;
+    quizPanel.querySelectorAll("select.match").forEach(sel=>{
+      const i=+sel.dataset.qi;sel.classList.remove("right","wrong");
+      if(!sel.value){filled=false;return;}
+      const ok=sel.value===q.pairs[i][1];
+      sel.classList.add(ok?"right":"wrong");if(!ok)right=false;
+    });
+    if(!filled)return;
+    settle(right);
+  });
+  function settle(right){
+    quiz.answered=true;
+    if(right)quiz.score++;
+    else{STATE.quiz.wrongTopics[q.topic]=(STATE.quiz.wrongTopics[q.topic]||0)+1;save();}
+    quizPanel.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const ex=quizPanel.querySelector("#qEx");
+    ex.className="explain show "+(right?"good":"poor");
+    ex.innerHTML=`<b>${right?"✔ Correct!":"✖ Not quite."}</b>${q.ex}${(q.type==="num"||q.type==="fib")&&!right?`<br><b style="margin-top:6px">Answer:</b> ${q.type==="num"?q.a+" "+q.unit:q.a[0]}`:""}`;
+    quizPanel.querySelector(".qscore").textContent=`Score: ${quiz.score} / ${quiz.i+1}`;
+    const nw=quizPanel.querySelector("#nextWrap");nw.style.display="block";
+    nw.querySelector("#qNext").addEventListener("click",()=>{quiz.i++;quiz.answered=false;drawQuiz();});
+    nw.querySelector("#qNext").focus();
+  }
+}
+function quizResult(){
+  const pct=Math.round(100*quiz.score/quiz.qs.length);
+  const grade=pct>=90?"A+":pct>=80?"A":pct>=70?"B":pct>=60?"C":pct>=50?"D":"F";
+  const col=pct>=80?"var(--ok)":pct>=60?"var(--warn)":"var(--bad)";
+  STATE.quiz.last=pct;
+  if(STATE.quiz.best===null||pct>STATE.quiz.best)STATE.quiz.best=pct;
+  save();
+  const C=2*Math.PI*62;
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz Results</h2>
+   <div class="quiz-card quiz-result">
+     <svg class="grade-ring" viewBox="0 0 150 150" role="img" aria-label="Score ${pct} percent, grade ${grade}">
+       <circle cx="75" cy="75" r="62" fill="none" stroke="#e8e8e2" stroke-width="13"/>
+       <circle cx="75" cy="75" r="62" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round"
+         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}" transform="rotate(-90 75 75)"
+         style="transition:stroke-dashoffset 1.2s ease"/>
+       <text x="75" y="70" text-anchor="middle" font-size="30" font-weight="800" fill="var(--navy)">${pct}%</text>
+       <text x="75" y="97" text-anchor="middle" font-size="20" font-weight="700" fill="${col}">${grade}</text>
+     </svg>
+     <h3>${quiz.score} of ${quiz.qs.length} correct — Grade ${grade}</h3>
+     <p style="color:var(--ink2);max-width:54ch;margin:10px auto">${
+      pct>=80?"Excellent command of solar geometry — δ, ω, ωss, and Lday hold no secrets for you.":
+      pct>=60?"A solid base — check your weak areas on the Dashboard, replay the calculators, and retake the quiz.":
+      "Revisit the four formula tabs and rework the March 15 Dhaka problem, then try again."}</p>
+     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+       <button class="btn gold" id="restartQuiz">↻ Restart Quiz</button>
+       <button class="btn ghost" id="toDash">View Dashboard</button>
+     </div>
+   </div>`;
+  quizPanel.querySelector("#restartQuiz").addEventListener("click",startQuiz);
+  quizPanel.querySelector("#toDash").addEventListener("click",()=>selectTab("dash"));
+}
+startQuiz();
+
+/* ==========================================================================
+   19. TAB — STUDENT DASHBOARD
+   ========================================================================== */
+function renderDash(){
+  const pct=updateProgress();
+  const topics=[["Learning Outcomes","outcomes"],["Review","review"],["Introduction (The Sun · Solar Radiation · The Earth)","intro"],
+   ["Declination Angle","decl"],["Hour Angle","hour"],["Sunrise & Sunset Hour Angles","wss"],
+   ["Day Length","day"],["Integrated Solar Geometry Explorer","explore"],["Problem Solving","problem"],
+   ["Formula Toolbox","toolbox"],["Useful Resources","resources"],["Reflections","reflect"],
+   ["Summary","summary"],["Quiz","quiz"]];
+  const wrongs=Object.entries(STATE.quiz.wrongTopics||{}).sort((a,b)=>b[1]-a[1]);
+  const recs=[];
+  wrongs.forEach(([t])=>{
+    if(t==="intro")recs.push("Re-read <b>Basic Principles of Solar Radiation</b> and replay the Earth–Sun visualization.");
+    if(t==="earth")recs.push("Revisit <b>The Earth</b> — Equator, latitude, longitude, meridian, Prime Meridian, and Dhaka's coordinates.");
+    if(t==="decl")recs.push("Replay the <b>Declination Angle</b> animation and calculator — memorize the four anchor dates (N = 80, 172, 266, 355).");
+    if(t==="hour")recs.push("Practice the <b>Hour Angle</b> examples — 9 AM (−45°), noon (0°), 5 PM (+75°), 7 PM (105°) — and the sign convention.");
+    if(t==="wss")recs.push("Rework the <b>Dhaka January 1 example</b>: ωss = cos⁻¹(−tan δ tan φ) = 79.25° → sunset ≈ 5.28 pm.");
+    if(t==="day")recs.push("Redo <b>Day Length</b> calculations — Lday = 2ωss/15; check the equinox (12 h) sanity anchor.");
+  });
+  const probDone=Object.keys(STATE.probDone).length;
+  if(probDone<4)recs.push(`Finish the <b>Problem Solving</b> step-by-step solver — ${4-probDone} part(s) remaining.`);
+  if(Object.keys(STATE.mastered).length<3)recs.push("Return to <b>Learning Outcomes</b> and honestly tick the outcomes you have mastered.");
+  if(!Object.keys(STATE.reflect).length)recs.push("Write your <b>Reflections</b> — start with why δ ranges exactly ±23.45°.");
+  if(!recs.length)recs.push("Nothing weak detected — do a final pass of the <b>Summary</b> equations and checklist before the exam.");
+  document.getElementById("panel-dash").innerHTML=`
+   <h2 class="sec">${svg("chart",24)} Student Dashboard</h2>
+   <div class="stat-grid">
+     <div class="stat"><div class="val">${pct}%</div><div class="lbl">Completion</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.best!==null?STATE.quiz.best+"%":"—"}</div><div class="lbl">Best quiz score</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.last!==null?STATE.quiz.last+"%":"—"}</div><div class="lbl">Last quiz score</div></div>
+     <div class="stat"><div class="val">${Object.keys(STATE.mastered).length}/3</div><div class="lbl">Outcomes mastered</div></div>
+     <div class="stat"><div class="val">${probDone}/4</div><div class="lbl">Problem parts solved</div></div>
+   </div>
+   <h3 class="subsec">${svg("book",20)} Progress tracker — concepts visited</h3>
+   ${topics.map(([n,id])=>`<div class="topic-row ${STATE.visited[id]?"done":""}">
+     <span class="tick">${STATE.visited[id]?"✓":"•"}</span>${n}
+     ${STATE.visited[id]?"":`<button class="btn ghost" style="margin-left:auto;padding:5px 12px;font-size:.75rem" onclick="selectTab('${id}')">Open</button>`}
+    </div>`).join("")}
+   <h3 class="subsec">${svg("search",20)} Weak areas (from quiz mistakes)</h3>
+   ${wrongs.length?wrongs.map(([t,n])=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+     ${TOPIC_NAMES[t]}<span style="margin-left:auto;font-size:.8rem;color:var(--ink2)">${n} incorrect answer${n>1?"s":""}</span></div>`).join(""):
+     `<p class="lede">No quiz mistakes recorded yet — take the Quiz to generate your weak-area analysis.</p>`}
+   <h3 class="subsec">${svg("bulb",20)} Suggested revision topics</h3>
+   ${recs.map(r=>`<div class="topic-row"><span class="tick" style="background:#fdf3dd;color:var(--amber2)">→</span><span>${r}</span></div>`).join("")}`;
+}
+
+/* ========================================================================== 20. INIT */
+selectTab("outcomes");
+updateProgress();
+</script>
+</body>
+</html>

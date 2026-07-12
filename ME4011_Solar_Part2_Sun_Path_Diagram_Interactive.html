@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ME4011 | Solar Energy - Part 2 — Resource Assessment: The Sun Path Diagram</title>
+<!--
+  ============================================================================
+  ME4011 Renewable Energy — Interactive Companion
+  Solar Energy - Part 2 — Resource Assessment: The Sun Path Diagram
+  Based on the lecture slides of Professor Dr. Mazharul Islam, P.Eng. (Alberta, Canada)
+  Department of Mechanical and Production Engineering
+  Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh
+  Single-file, offline, vanilla HTML/CSS/JS. No external assets.
+  ============================================================================
+-->
+<style>
+/* ============ Design tokens (Solar theme: night-sky navy + sun gold) ===== */
+:root{
+  --navy:#14213d; --navy2:#1d2f57; --teal:#c2611a; --teal2:#a04c0e;
+  --gold:#fca311; --amber2:#c97e08; --sky:#3a86ff;
+  --bg:#f7f7f4; --card:#ffffff; --ink:#1b2436; --ink2:#4e5a72;
+  --line:#e2e4ea; --ok:#1e8e3e; --warn:#e8a10c; --bad:#c5221f;
+  --radius:14px; --shadow:0 2px 10px rgba(20,33,61,.08);
+  --shadow2:0 10px 28px rgba(20,33,61,.16);
+  --focus:3px solid #fca311;
+}
+body.hc{--ink:#000;--ink2:#1c1c1c;--line:#777;--bg:#fff;--shadow:none;--shadow2:0 0 0 2px #000}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:var(--focus);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:var(--navy);
+  padding:8px 14px;z-index:200;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+header.site{background:linear-gradient(135deg,#0b1226 0%,var(--navy) 55%,#4a2c07 100%);
+  color:#fff;padding:26px 20px 20px;position:relative;overflow:hidden}
+header.site .sun-bg{position:absolute;right:-46px;top:-46px;opacity:.14;pointer-events:none}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:3px 12px;border-radius:99px;font-size:.78rem;font-weight:600;letter-spacing:.4px}
+.badge.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.hc-btn{margin-left:auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);
+  color:#fff;border-radius:99px;padding:4px 14px;font-size:.78rem;font-weight:700}
+.hc-btn:hover{background:rgba(255,255,255,.3)}
+header.site h1{font-size:clamp(1.2rem,3.2vw,1.85rem);font-weight:800;line-height:1.25}
+header.site h1 .accent{color:var(--gold)}
+header.site .sub{margin-top:6px;font-size:.92rem;color:#cdd6e8}
+.progress-wrap{margin-top:14px;max-width:520px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:#cdd6e8;margin-bottom:4px}
+.pbar{height:9px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.pbar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ffd97a);
+  border-radius:99px;transition:width .6s ease}
+nav.tabs{position:sticky;top:0;z-index:100;background:var(--card);box-shadow:var(--shadow);
+  display:flex;overflow-x:auto;scrollbar-width:thin;padding:0 8px;border-bottom:1px solid var(--line)}
+nav.tabs button{flex:0 0 auto;border:0;background:none;padding:14px 11px 11px;font-size:.84rem;font-weight:600;
+  color:var(--ink2);border-bottom:3px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;transition:color .2s,border-color .2s}
+nav.tabs button:hover{color:var(--teal)}
+nav.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--gold)}
+nav.tabs button .done-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:none}
+nav.tabs button.visited .done-dot{display:inline-block}
+main{max-width:1100px;margin:0 auto;padding:26px 18px 80px}
+section.tabpanel{display:none;animation:fadeUp .45s ease}
+section.tabpanel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h2.sec{font-size:1.45rem;color:var(--navy);margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+h3.subsec{font-size:1.12rem;color:var(--teal2);margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+p.lede{color:var(--ink2);margin:6px 0 20px;max-width:72ch}
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.card h4{color:var(--navy);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.card p{font-size:.9rem;color:var(--ink2)}
+.icon-circle{width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;
+  justify-content:center;flex:0 0 auto;background:#fdf1dc;color:var(--teal2)}
+.expander{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
+.expander>button.exp-head{width:100%;text-align:left;background:none;border:0;padding:16px 18px;
+  display:flex;gap:12px;align-items:center;font-weight:600;color:var(--navy);font-size:.97rem}
+.expander>button.exp-head:hover{background:#faf7f0}
+.expander .chev{margin-left:auto;transition:transform .3s;flex:0 0 auto;color:var(--teal2)}
+.expander.open .chev{transform:rotate(180deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.expander.open .exp-body{max-height:2400px}
+.exp-inner{padding:0 18px 18px;font-size:.9rem;color:var(--ink2)}
+.exp-inner h5{color:var(--teal2);font-size:.82rem;text-transform:uppercase;letter-spacing:.6px;margin:12px 0 4px}
+.exp-inner ul{margin:4px 0 4px 20px}
+.exp-inner li{margin:3px 0}
+.callout{border-radius:var(--radius);padding:18px 20px;margin:22px 0;border-left:6px solid var(--gold);
+  background:linear-gradient(135deg,#fdf6e8,#fff);box-shadow:var(--shadow)}
+.callout.navy{border-left-color:var(--navy);background:linear-gradient(135deg,#eef1f8,#fff)}
+.callout.teal{border-left-color:var(--teal);background:linear-gradient(135deg,#fbf0e6,#fff)}
+.callout h4{color:var(--navy);margin-bottom:6px;display:flex;gap:8px;align-items:center;font-size:.98rem}
+.callout p{font-size:.93rem}
+.keytake{background:linear-gradient(135deg,#0b1226,var(--navy2));color:#fff;text-align:center;
+  border-radius:var(--radius);padding:28px 22px;margin:26px 0;box-shadow:var(--shadow2)}
+.keytake h4{color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-size:.85rem;margin-bottom:8px}
+.keytake p{font-size:1.08rem;font-weight:600;max-width:66ch;margin:0 auto;line-height:1.5}
+/* hint panels */
+.panelset{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:14px 0}
+.hintbox{border-radius:12px;padding:13px 16px;font-size:.88rem;border:1.5px solid;background:#fff}
+.hintbox b{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.5px}
+.hintbox.hb-hint{border-color:#3a86ff44;background:#f3f8ff}.hintbox.hb-hint b{color:#2456b3}
+.hintbox.hb-insight{border-color:#1e8e3e44;background:#f2faf4}.hintbox.hb-insight b{color:#166b30}
+.hintbox.hb-mistake{border-color:#c5221f44;background:#fdf3f3}.hintbox.hb-mistake b{color:#a01b18}
+.hintbox.hb-exam{border-color:#fca31166;background:#fdf6e8}.hintbox.hb-exam b{color:#9a6b00}
+.hintbox.hb-app{border-color:#6a1b9a44;background:#f8f3fc}.hintbox.hb-app b{color:#5a1585}
+.hintbox.hb-know{border-color:#00838f44;background:#f0fafb}.hintbox.hb-know b{color:#00676f}
+/* formulas */
+.formula{background:#f4f6fb;border:1.5px solid var(--line);border-radius:10px;padding:14px 18px;
+  font-family:Cambria,Georgia,"Times New Roman",serif;font-size:1.12rem;color:var(--navy);
+  text-align:center;margin:12px 0;overflow-x:auto}
+.formula .frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 4px}
+.formula .frac span{display:block;padding:1px 8px}
+.formula .frac span:first-child{border-bottom:1.6px solid var(--navy)}
+.formula sub,.formula sup{font-size:.72em}
+/* calculators */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.calc h4{color:var(--navy);display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.crow{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.crow label{font-size:.85rem;font-weight:600;color:var(--navy);min-width:180px}
+.crow input[type=range]{flex:1;min-width:150px;accent-color:var(--teal)}
+.crow input[type=number],.crow input[type=text]{width:130px;padding:8px 10px;border:2px solid var(--line);border-radius:9px;font:inherit}
+.crow .cval{font-weight:800;color:var(--teal2);min-width:105px;font-variant-numeric:tabular-nums}
+.result-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.res{flex:1 1 130px;background:#f7f8fb;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;text-align:center}
+.res .rv{font-size:1.22rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.res .rl{font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink2)}
+.res.good{border-color:var(--ok);background:#e9f7ee}
+.steps{background:#f8f9fc;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;
+  font-size:.92rem;margin-top:12px;font-variant-numeric:tabular-nums}
+.steps .st{margin:7px 0;padding-left:26px;position:relative}
+.steps .st::before{content:attr(data-n);position:absolute;left:0;top:2px;width:19px;height:19px;
+  border-radius:50%;background:var(--navy);color:#fff;font-size:.68rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center}
+/* picks/fb/steps */
+.sim-steps{display:flex;gap:6px;margin:14px 0 20px;flex-wrap:wrap}
+.sim-steps button{flex:1 1 90px;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:9px 5px;font-size:.74rem;font-weight:700;color:var(--ink2);position:relative}
+.sim-steps button[aria-selected="true"]{border-color:var(--gold);background:#fdf6e8;color:var(--navy)}
+.sim-steps button.done{border-color:var(--ok);color:var(--ok)}
+.sim-steps button.done::after{content:"✓";position:absolute;top:-8px;right:-4px;background:var(--ok);
+  color:#fff;width:19px;height:19px;border-radius:50%;font-size:.68rem;display:flex;align-items:center;justify-content:center}
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;
+  margin-bottom:11px;box-shadow:var(--shadow)}
+.qrow .qtext{font-weight:600;color:var(--navy);font-size:.95rem}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-weight:700;
+  font-size:.92rem;box-shadow:var(--shadow);transition:background .2s,transform .15s}
+.btn:hover{background:var(--navy2);transform:translateY(-2px)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.gold:hover{background:var(--amber2);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.ghost:hover{background:#eef1f8}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.pick{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:11px 14px;margin:7px 0;font-size:.88rem;color:var(--ink);transition:all .15s}
+.pick:hover{border-color:var(--teal)}
+.pick.right{border-color:var(--ok);background:#e9f7ee}
+.pick.wrong{border-color:var(--bad);background:#fdeeee}
+.fb{border-radius:10px;padding:13px 16px;margin-top:12px;font-size:.9rem;display:none}
+.fb.show{display:block;animation:fadeUp .3s ease}
+.fb.good{background:#e9f7ee;border:1px solid #b5dfc2;color:#155724}
+.fb.mid{background:#fff7e2;border:1px solid #f0dc9d;color:#7a5b00}
+.fb.poor{background:#fdeeee;border:1px solid #f0bdbd;color:#8c1a17}
+select.match{width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:8px;font:inherit;
+  font-size:.86rem;background:#fff;color:var(--ink);margin-top:6px}
+select.match.right{border-color:var(--ok);background:#e9f7ee}
+select.match.wrong{border-color:var(--bad);background:#fdeeee}
+/* flash cards */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:14px}
+.wall-card{position:relative;border:0;border-radius:12px;min-height:130px;cursor:pointer;perspective:800px;background:none;text-align:left}
+.wall-inner{position:relative;width:100%;height:100%;min-height:130px;transition:transform .5s;transform-style:preserve-3d}
+.wall-card.flip .wall-inner{transform:rotateY(180deg)}
+.wall-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:14px;
+  display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow)}
+.wall-front{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;font-weight:700;font-size:.92rem}
+.wall-front small{color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.wall-back{background:#fff;border:1.5px solid var(--gold);transform:rotateY(180deg);font-size:.79rem;color:var(--ink2)}
+/* tables */
+table.simple{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0}
+table.simple th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:.8rem}
+table.simple td{border:1px solid var(--line);padding:9px 12px;background:#fff;vertical-align:top;font-variant-numeric:tabular-nums}
+/* modal */
+.modal-veil{position:fixed;inset:0;background:rgba(11,18,38,.6);display:none;z-index:300;
+  align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
+.modal-veil.show{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:600px;width:100%;max-height:86vh;
+  overflow:auto;box-shadow:var(--shadow2);animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.modal-head{padding:20px 22px;color:#fff;display:flex;align-items:center;gap:14px;border-radius:16px 16px 0 0}
+.modal-head h4{font-size:1.15rem;line-height:1.3}
+.modal-body{padding:20px 22px}
+.modal-body h5{color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.7px;margin:14px 0 4px}
+.modal-body h5:first-child{margin-top:0}
+.modal-body p{font-size:.92rem;color:var(--ink2)}
+.modal-body ul{margin:4px 0 4px 20px;font-size:.9rem;color:var(--ink2)}
+.modal-close{margin-left:auto;background:rgba(255,255,255,.2);border:0;color:#fff;width:34px;height:34px;
+  border-radius:50%;font-size:1.05rem;font-weight:700;flex:0 0 auto}
+.modal-close:hover{background:rgba(255,255,255,.35)}
+/* quiz */
+.quiz-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-top .qcount{font-weight:700;color:var(--navy)}
+.quiz-top .qscore{margin-left:auto;font-weight:700;color:var(--teal2)}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow)}
+.qtype-tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+  background:var(--navy);color:#fff;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.quiz-card h3{color:var(--navy);font-size:1.08rem;margin-bottom:14px;line-height:1.45}
+.quiz-opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;
+  border-radius:10px;padding:12px 15px;margin:8px 0;font-size:.93rem;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--teal);background:#fbf5ec}
+.quiz-opt.right{border-color:var(--ok);background:#e9f7ee;font-weight:600}
+.quiz-opt.wrong{border-color:var(--bad);background:#fdeeee}
+.quiz-opt:disabled{cursor:default}
+.fib-input{width:100%;max-width:340px;padding:11px 14px;border:2px solid var(--line);border-radius:10px;
+  font:inherit;font-size:.95rem}
+.fib-input:focus{border-color:var(--teal);outline:none}
+.explain{border-radius:10px;padding:14px 16px;margin-top:14px;font-size:.9rem;display:none}
+.explain.show{display:block;animation:fadeUp .3s ease}
+.explain.good{background:#e9f7ee;border:1px solid #b5dfc2}
+.explain.poor{background:#fdeeee;border:1px solid #f0bdbd}
+.explain b{display:block;margin-bottom:4px}
+.quiz-result{text-align:center;padding:34px 20px}
+.grade-ring{width:150px;height:150px;margin:0 auto 14px}
+.quiz-result h3{font-size:1.5rem;color:var(--navy)}
+/* dashboard */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);text-align:center}
+.stat .val{font-size:2rem;font-weight:800;color:var(--teal2)}
+.stat .lbl{font-size:.8rem;color:var(--ink2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.topic-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:11px 15px;margin:7px 0;font-size:.9rem}
+.topic-row .tick{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;flex:0 0 auto;background:#eef1f6;color:var(--ink2)}
+.topic-row.done .tick{background:var(--ok);color:#fff}
+.reflect-box{width:100%;min-height:100px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;
+  font:inherit;font-size:.92rem;resize:vertical;background:#fff;margin-top:10px}
+.reflect-box:focus{border-color:var(--teal);outline:none}
+.small-note{font-size:.78rem;color:var(--ink2);margin-top:8px}
+footer{background:#0b1226;color:#c2cbdd;text-align:center;padding:22px 16px;font-size:.8rem;line-height:1.7}
+footer b{color:#fff}
+/* animations */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.mastery{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:.75rem;
+  font-weight:700;color:var(--ink2)}
+.mastery input{width:17px;height:17px;accent-color:var(--ok)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site">
+  <svg class="sun-bg" width="280" height="280" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="22" fill="#fff"/>
+    <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+      <line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/>
+      <line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/>
+      <line x1="20" y1="20" x2="28" y2="28"/><line x1="72" y1="72" x2="80" y2="80"/>
+      <line x1="80" y1="20" x2="72" y2="28"/><line x1="28" y1="72" x2="20" y2="80"/>
+    </g>
+  </svg>
+  <div class="badge-row">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge">AUST · Dept. of Mechanical and Production Engineering</span>
+    <button class="hc-btn" id="hcToggle" aria-pressed="false">◐ High contrast</button>
+  </div>
+  <h1>Solar Energy - Part 2 — <span class="accent">Resource Assessment: The Sun Path Diagram</span></h1>
+  <p class="sub">Interactive companion to the lecture by Professor Dr. Mazharul Islam, P.Eng. (Alberta, Canada) · Ahsanullah University of Science and Technology, Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Module progress</span><span id="hdrPct">0%</span></div>
+    <div class="pbar"><span id="hdrBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Module sections" id="tabbar"></nav>
+
+<main id="main">
+  <section class="tabpanel" id="panel-outcomes" role="tabpanel" aria-labelledby="tab-outcomes"></section>
+  <section class="tabpanel" id="panel-review" role="tabpanel" aria-labelledby="tab-review"></section>
+  <section class="tabpanel" id="panel-intro" role="tabpanel" aria-labelledby="tab-intro"></section>
+  <section class="tabpanel" id="panel-elev" role="tabpanel" aria-labelledby="tab-elev"></section>
+  <section class="tabpanel" id="panel-zen" role="tabpanel" aria-labelledby="tab-zen"></section>
+  <section class="tabpanel" id="panel-azi" role="tabpanel" aria-labelledby="tab-azi"></section>
+  <section class="tabpanel" id="panel-spd" role="tabpanel" aria-labelledby="tab-spd"></section>
+  <section class="tabpanel" id="panel-tilt" role="tabpanel" aria-labelledby="tab-tilt"></section>
+  <section class="tabpanel" id="panel-orient" role="tabpanel" aria-labelledby="tab-orient"></section>
+  <section class="tabpanel" id="panel-case" role="tabpanel" aria-labelledby="tab-case"></section>
+  <section class="tabpanel" id="panel-reflect" role="tabpanel" aria-labelledby="tab-reflect"></section>
+  <section class="tabpanel" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary"></section>
+  <section class="tabpanel" id="panel-biblio" role="tabpanel" aria-labelledby="tab-biblio"></section>
+  <section class="tabpanel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></section>
+  <section class="tabpanel" id="panel-dash" role="tabpanel" aria-labelledby="tab-dash"></section>
+</main>
+
+<div class="modal-veil" id="modalVeil" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head" id="modalHead">
+      <h4 id="modalTitle"></h4>
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <b>ME4011 Renewable Energy</b> — Interactive companion to
+  “Solar Energy - Part 2 — Resource Assessment: The Sun Path Diagram” by <b>Professor Dr. Mazharul Islam, P.Eng. (Alberta, Canada)</b><br>
+  Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh<br>
+  Lecture slides licensed under the Creative Commons Attribution-ShareAlike 4.0 International License
+</footer>
+
+<script>
+"use strict";
+/* ==========================================================================
+   1. SOLAR POSITION MATH (exact lecture formulas + compass conversion)
+   ========================================================================== */
+const D2R=Math.PI/180,R2D=180/Math.PI;
+const sinD=x=>Math.sin(x*D2R),cosD=x=>Math.cos(x*D2R),tanD=x=>Math.tan(x*D2R);
+const decl=N=>23.45*sinD(360/365*(284+N));               /* Part 1 */
+const hourAngle=ST=>15*(ST-12);                          /* Part 1 */
+function wss(d,phi){const x=-tanD(d)*tanD(phi);
+  if(x>1)return 0;if(x<-1)return 180;return Math.acos(x)*R2D;}
+const dayLength=(d,phi)=>2*wss(d,phi)/15;
+/* Elevation: sin α = sin δ sin ϕ + cos δ cos ϕ cos ω  (Heinemann, 2002, p. 14) */
+function elev(d,phi,om){
+  const s=sinD(d)*sinD(phi)+cosD(d)*cosD(phi)*cosD(om);
+  return Math.asin(Math.max(-1,Math.min(1,s)))*R2D;
+}
+/* Zenith: θz = 90° − α */
+const zenith=a=>90-a;
+/* Azimuth — lecture formula: cos ψ = (sin α sin ϕ − sin δ)/(cos α cos ϕ)  */
+function psiLecture(a,phi,d){
+  const c=(sinD(a)*sinD(phi)-sinD(d))/(cosD(a)*cosD(phi));
+  return Math.acos(Math.max(-1,Math.min(1,c)))*R2D;   /* angle from due south, 0..180 */
+}
+/* Compass azimuth from North (0..360, clockwise), robust for both hemispheres */
+function azCompass(d,phi,om){
+  const a=elev(d,phi,om);
+  const c=(sinD(d)*cosD(phi)-cosD(d)*sinD(phi)*cosD(om))/Math.max(1e-9,cosD(a));
+  let A=Math.acos(Math.max(-1,Math.min(1,c)))*R2D;      /* from North */
+  if(om>0)A=360-A;                                       /* afternoon: west side */
+  return A;
+}
+const fmt=(x,d=2)=>Number.isFinite(x)?x.toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:0}):"—";
+function hhmm(h){let H=Math.floor(h),M=Math.round((h-H)*60);if(M===60){H++;M=0;}
+  const ap=H<12?"AM":"PM";return `${((H+11)%12)+1}:${String(M).padStart(2,"0")} ${ap}`;}
+const MONTHS=[["Jan",31],["Feb",28],["Mar",31],["Apr",30],["May",31],["Jun",30],
+ ["Jul",31],["Aug",31],["Sep",30],["Oct",31],["Nov",30],["Dec",31]];
+function dateFromN(N){let n=N;for(const[m,d]of MONTHS){if(n<=d)return `${m} ${n}`;n-=d;}return "Dec 31";}
+function compass16(A){
+  const dirs=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+  return dirs[Math.round(A/22.5)%16];
+}
+/* Teaching model: annual capture for an equator-facing panel at tilt β */
+function annualCapture(phi,beta){
+  let sum=0;
+  for(let N=1;N<=365;N++){
+    const d=decl(N);
+    const noonZen=Math.abs(phi-d);
+    const inc=Math.abs(noonZen-beta);
+    sum+=Math.max(0,cosD(inc))*dayLength(d,phi)/12;
+  }
+  return sum;
+}
+
+/* ==========================================================================
+   2. DATA — exact lecture content
+   ========================================================================== */
+const OUTCOMES=[
+ {text:"determine the following solar geometry related parameters for any location for a particular day: 1. Elevation Angle (α); 2. Zenith Angle (θz); 3. Azimuthal Angle (ψ);",
+  sig:"These three angles pin the sun to a single point in the sky — the coordinates every solar design starts from.",
+  re:"PV yield, collector incidence, and shading all follow directly from α and ψ at each hour.",
+  app:"Solar position tables, shading masks, tracker control algorithms.",
+  pre:"Part 1's δ, ω, and φ are the inputs: sin α = sin δ sin ϕ + cos δ cos ϕ cos ω.",
+  future:"Radiation on tilted surfaces, and full PV system yield simulation.",
+  use:"An engineer checks α at winter solar noon to set PV row spacing without inter-row shading."},
+ {text:"apply the sun path diagram for solar energy related applications",
+  sig:"The sun path diagram compresses a year of solar positions into one chart — solar altitude and solar azimuth can be read directly for any date and hour.",
+  re:"“The relative position of the Sun is a major factor in the heat gain of buildings and in the performance of solar energy systems” (Wikipedia, nd).",
+  app:"Collector area sizing, orientation, landscaping, summer shading, and the cost-effective use of solar trackers.",
+  pre:"Elevation and azimuth angles (this lecture) plus Part 1's declination and hour angle.",
+  future:"Shading analysis with real obstruction profiles overlaid on the diagram.",
+  use:"An architect overlays a neighbouring building on the diagram to see exactly which winter hours are shaded."},
+ {text:"select optimum tilt angles for solar energy systems; and",
+  sig:"“For a fixed tilt angle, the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location” (PVEDUCATION.ORG, ndc).",
+  re:"Tilt is the single cheapest performance decision in a fixed PV system.",
+  app:"Rooftop PV (Dhaka ≈ 24°, Sydney ≈ 34°), solar water heaters, seasonal tilt schedules.",
+  pre:"Declination's ±23.45° swing explains why steeper tilts favour winter and lower tilts favour summer.",
+  future:"Economic optimization of tilt versus racking cost; single- and dual-axis tracking.",
+  use:"A design engineer sets 24° for a Dhaka rooftop, or steeper if the client's load peaks in winter."},
+ {text:"select optimum orientation for solar energy systems;",
+  sig:"“The optimum orientation for a solar collector in the northern hemisphere is true south” (SAVER, nd) — and true north in the southern hemisphere.",
+  re:"Orientation errors waste energy silently for 25 years; tolerance knowledge (±90° without significant loss) unlocks imperfect roofs.",
+  app:"Rooftop assessments, façade PV, solar hot water collector siting.",
+  pre:"The azimuth angle ψ — where the sunlight comes from — dictates where collectors should face.",
+  future:"Azimuth-aware yield simulation and bifacial module orientation studies.",
+  use:"A surveyor approves a SE-facing Dhaka roof because it lies within the Southeast-to-Southwest range."}
+];
+
+const REVIEW=[
+ {cat:"Part 1",front:"Declination Angle δ",back:"δ = 23.45° sin(360/365 (284 + N)) — the angle between Earth's equatorial plane and the Earth-Sun line. Range ±23.45°; equinoxes 0°; N = 1 on January 1."},
+ {cat:"Part 1",front:"Latitude φ",back:"How far north/south of the Equator; positive for Northern Hemisphere, negative for Southern. Dhaka: 23.7104° N; Sydney: 33.87° S."},
+ {cat:"Part 1",front:"Hour Angle ω",back:"ω = 15°(ST − 12): the sun's angular displacement from the local meridian. Morning ω < 0, solar noon ω = 0°, afternoon ω > 0; 15° per hour."},
+ {cat:"Part 1",front:"Solar Time ST",back:"Time referenced to the sun: solar noon is when the sun crosses the local meridian at its highest point — not the same as zone clock time."},
+ {cat:"Part 1",front:"Sunrise Hour Angle",back:"−ωss: the (negative, morning) hour angle when the sun crosses the horizon upward. From cos ωss = −tan δ tan φ."},
+ {cat:"Part 1",front:"Sunset Hour Angle",back:"+ωss: the positive hour angle at sunset. Dhaka, Jan 1: ωss = 79.25° → sunset ≈ 5.28 pm solar."},
+ {cat:"Part 1",front:"Day Length",back:"Lday = 2ωss/15 hours — the daily solar window. 12 h everywhere at equinox; longest in summer, shortest in winter."}
+];
+const REVIEW_HINTS=[
+ ["Memory aid","Part 1 answered WHEN the sun shines (sunrise, sunset, day length). Part 2 answers WHERE it is in the sky (α, θz, ψ) — same three inputs: N, φ, ST."],
+ ["Formula recognition","Every Part 2 formula recycles Part 1 symbols: spot δ, φ, ω inside sin α = sin δ sin ϕ + cos δ cos ϕ cos ω and you already know how to get them."],
+ ["Engineering intuition","At solar noon (ω = 0) the elevation formula collapses to α = 90° − |φ − δ| — the highest sun of the day, and the fastest sanity check you own."],
+ ["Examination tip","Compute in this order: N → δ → ω → α → θz → ψ. Never jump to azimuth before elevation — ψ's formula needs α."],
+ ["Common misconception","'The sun rises exactly in the east every day' — only at the equinoxes. The sunrise azimuth swings north/south with the seasons, which is exactly what the sun path diagram shows."],
+ ["Quick shortcut","θz = 90° − α costs one subtraction — if an exam asks for both, compute α once."],
+ ["Conceptual relationship","(N, φ, ST) → (δ, ω) → α → (θz, ψ) → sun path diagram → tilt & orientation decisions."],
+ ["Practical advice","Set the calculator to DEG mode and write the sign convention (φ negative in the Southern Hemisphere) before you substitute — Sydney problems fail on this line."]
+];
+
+const CASES={
+ dhaka:{name:"Dhaka, Bangladesh",lat:23.71,lon:90.41,latS:"23.71° N",lonS:"90.41° E",hemi:"Northern",
+  tilt:24,face:"true south",range:"Southeast to Southwest",
+  rec:["Use Sun Path tools to determine shading and sun hours",
+   "Set fixed tilt at 24° (latitude-based) or seasonally adjusted",
+   "Orient panels toward true south or within ±30° for simplicity",
+   "Consider tracking systems if economically viable"]},
+ sydney:{name:"Sydney, Australia",lat:-33.87,lon:151.21,latS:"33.87° S",lonS:"151.21° E",hemi:"Southern",
+  tilt:34,face:"true north",range:"Northeast and Northwest",
+  rec:["Use a sun path diagram to evaluate seasonal solar availability",
+   "Fix tilt angle at 34° or adjust seasonally as needed",
+   "Face modules toward true north for maximum yearly gain",
+   "Trackers optional—evaluate based on cost-benefit analysis"]}
+};
+
+const REFLECT=[
+ {q:"Why does the noon sun stand LOWER in Dhaka's sky in December than in June — and how is that visible on the sun path diagram?",
+  hint:"Use α_noon = 90° − |φ − δ| with δ = +23.45° (June) and −23.45° (December) for φ = 23.71° N.",
+  disc:"At solar noon, α = 90° − |φ − δ|. June: 90 − |23.71 − 23.45| = 89.7° — almost overhead. December: 90 − |23.71 + 23.45| = 42.8°. On the sun path diagram the December arc sits low and short while the June arc rises nearly to the zenith — the vertical spread between the solstice curves IS the declination swing.",
+  insight:"The envelope between the two solstice arcs bounds every solar position your system will ever see — design inside that envelope.",
+  practical:"Winter noon elevation (42.8° in Dhaka) sets PV row spacing and window-overhang depth.",
+  re:"A collector tilted at latitude (~24°) faces the annual average of this swing — the geometric root of Tilt ≈ Latitude.",
+  design:"For winter-heavy loads, tilt steeper than latitude to face the low December sun squarely.",
+  exam:"Memorize α_noon = 90° − |φ − δ| — it solves half of all sun-path exam questions in one line.",
+  miscon:"'The sun is always overhead at noon in the tropics' — only when δ = φ; in Dhaka that happens twice a year, not daily."},
+ {q:"Two panels in Dhaka face SE and SW, both tilted 24°. Which produces more energy — and what does the answer teach about orientation tolerance?",
+  hint:"Sketch both on the sun path diagram: which one sees the morning arc, which the afternoon? What does SAVER (nd) say about ±90°?",
+  disc:"Annually they are nearly identical — SE favours mornings, SW favours afternoons, and the sun path is symmetric about solar noon. This is why the lecture's Dhaka range is 'Southeast to Southwest': per SAVER (nd), a collector can face up to 90° east or west of true south without significantly decreasing its performance. Second-order effects (morning fog vs afternoon haze, or afternoon-peaking loads) break the tie in practice.",
+  insight:"Orientation loss grows with the cosine of the offset — flat near zero offset, which creates the wide tolerance band.",
+  practical:"Imperfect roofs are usually fine: certify SE-to-SW roofs in Dhaka instead of rejecting them.",
+  re:"This tolerance is why rooftop solar scales — few roofs face true south exactly.",
+  design:"If the tariff pays more for afternoon energy, prefer the SW roof deliberately.",
+  exam:"Quote the source rule: 'up to 90° east or west of true south without significantly decreasing its performance' (SAVER, nd).",
+  miscon:"'Any deviation from true south ruins performance' — the loss within ±30° is only a few percent."},
+ {q:"Why do Sydney's panels face true north while Dhaka's face true south, though both use the SAME formulas?",
+  hint:"Where is the sun's arc in the sky when φ is negative? Check the sign of (φ − δ) through the year.",
+  disc:"For Sydney (φ = −33.87°), φ − δ is negative all year: the noon sun is always on the NORTH side of the zenith. The formulas don't change — only φ's sign — and the sun path diagram mirrors north-south. Collectors face the equator in both cases: south in the Northern Hemisphere, north in the Southern.",
+  insight:"'Face the equator' is the hemisphere-free version of both rules.",
+  practical:"Global design firms run one code base; the hemisphere logic is just sign(φ).",
+  re:"Sydney's Step 3: prefer orientation between Northeast and Northwest — the mirrored tolerance band.",
+  design:"Never copy a northern-hemisphere layout drawing to a southern site without mirroring it.",
+  exam:"Write 'φ = −33.87° (Southern Hemisphere ⇒ negative)' as your first line for Sydney problems.",
+  miscon:"'True north orientation is about magnetic compasses' — it is TRUE (geographic) north; magnetic declination must be corrected in the field."},
+ {q:"When are solar trackers worth their cost, if a fixed tilt already captures the yearly maximum at Tilt = Latitude?",
+  hint:"A fixed panel is only perpendicular to the beam briefly each day. What does a tracker recover — and what does it add?",
+  disc:"Tilt = Latitude maximizes a FIXED panel's annual capture, but the sun still sweeps across the sky daily (hour angle) and seasonally (declination) — a fixed panel loses the cosine of every mismatch. Trackers recover 25–40% more energy but add cost, moving parts, and maintenance. Both case studies end identically: 'Consider tracking systems if economically viable' (Dhaka) and 'Trackers optional—evaluate based on cost-benefit analysis' (Sydney) — an economic decision, not a geometric one.",
+  insight:"The sun path diagram quantifies exactly what a tracker recovers: the cosine losses of the fixed panel across every plotted hour.",
+  practical:"High-value tariffs and cheap land favour trackers; rooftops almost never do.",
+  re:"Utility-scale farms increasingly use single-axis trackers following the hour angle at 15°/h.",
+  design:"Compare tracker capex against ~30% yield gain using LCOE (from the Economic pillar lecture).",
+  exam:"Link the lectures: geometric optimum (this lecture) vs economic viability (Profit lecture) — examiners reward the connection.",
+  miscon:"'Trackers double the output' — typical single-axis gains are 25–35%, not 100%."}
+];
+
+const BIBLIO=[
+ "CLEAR (n.d.). Sun Path Diagrams. https://www.new-learn.info/packages/clear/thermal/climate/sun/sunpath_diagrams.html",
+ "Heinemann, D. (2002). Energy Meteorology. https://uol.de/f/5/inst/physik/ag/ehf/enmet/download/lectures/Energy_Meteorology_Script.pdf",
+ "PVEDUCATION.ORG (n.d.a). Azimuth Angle. https://www.pveducation.org/pvcdrom/properties-of-sunlight/elevation-angle",
+ "PVEDUCATION.ORG (n.d.b). Elevation Angle. https://www.pveducation.org/pvcdrom/properties-of-sunlight/elevation-angle",
+ "PVEDUCATION.ORG (n.d.c). Solar Radiation on a Tilted Surface. https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface",
+ "SAVER, E. (n.d.). Siting Your Solar Water Heating System. https://www.energy.gov/energysaver/siting-your-solar-water-heating-system",
+ "Wikipedia (n.d.). Sun path. https://en.wikipedia.org/wiki/Sun_path"];
+
+/* ==========================================================================
+   3. QUIZ POOL — mc | tf | fib | num | diag | design | scen
+   ========================================================================== */
+const QUIZ_POOL=[
+ {type:"mc",topic:"elev",q:"The Elevation Angle (also known as 'Altitude Angle' or Sun's Altitude α) is:",
+  opts:["The angular height of the sun in the sky measured from the horizontal",
+        "The angle between the sun and the vertical","The compass direction of the sunlight","The tilt of the collector"],a:0,
+  ex:"PVEDUCATION.ORG (ndb): “the angular height of the sun in the sky measured from the horizontal”. It is 0° at sunrise and 90° when the sun is directly overhead."},
+ {type:"mc",topic:"elev",q:"The formula for the elevation angle for any particular time of the day is:",
+  opts:["sin α = sin δ sin ϕ + cos δ cos ϕ cos ω","sin α = tan δ tan ϕ","cos α = sin δ + cos ω","α = 15°(ST − 12)"],a:0,
+  ex:"Heinemann (2002, p. 14): sin α = sin δ sin ϕ + cos δ cos ϕ cos ω, where δ is the declination angle, ϕ the latitude, and ω the hour angle."},
+ {type:"mc",topic:"zen",q:"The Zenith Angle θz is:",
+  opts:["The angle between the sun and the vertical","The angle between the sun and the horizon",
+        "The angle of the collector tilt","The hour angle at noon"],a:0,
+  ex:"PVEDUCATION.ORG (ndb): “the angle between the sun and the vertical” — similar to the elevation angle but measured from the vertical rather than from the horizontal."},
+ {type:"mc",topic:"azi",q:"The Azimuth Angle ψ (Solar Azimuth) is defined as:",
+  opts:["The compass direction from which the sunlight is coming",
+        "The height of the sun above the horizon","The angle of Earth's tilt","The angle between two meridians"],a:0,
+  ex:"PVEDUCATION.ORG (nda): “the compass direction from which the sunlight is coming”."},
+ {type:"mc",topic:"azi",q:"The lecture's formula for the solar azimuth angle is:",
+  opts:["cos ψ = (sin α sin ϕ − sin δ) / (cos α cos ϕ)","cos ψ = −tan δ tan ϕ","sin ψ = 15(ST − 12)","tan ψ = δ/ϕ"],a:0,
+  ex:"Heinemann (2002, p. 14): cos ψ = (sin α sin ϕ − sin δ)/(cos α cos ϕ) — note it uses the elevation angle α, so compute α first."},
+ {type:"mc",topic:"spd",q:"The Sun Path Diagram (AKA 'day arc' or 'solar charts') refers to:",
+  opts:["The daily and seasonal arc-like path that the Sun appears to follow across the sky as the Earth rotates and orbits the Sun",
+        "The orbit of Earth around the Sun","A wiring diagram for PV systems","The path of solar cables on a roof"],a:0,
+  ex:"Wikipedia (nd) — the exact lecture definition."},
+ {type:"mc",topic:"spd",q:"Which two parameters can be read directly from a sun path diagram for any date and hour?",
+  opts:["The solar altitude and the solar azimuth","The declination and the hour angle",
+        "The tilt and the orientation","Sunrise time and air temperature"],a:0,
+  ex:"CLEAR (nd): “The solar altitude, and the solar azimuth, can be read directly for any date of the year and any hour of the day from the solar charts or sun path diagrams”."},
+ {type:"mc",topic:"tilt",q:"For a fixed tilt angle, the maximum power over the course of a year is obtained when:",
+  opts:["The tilt angle is equal to the latitude of the location","The panel is horizontal",
+        "The tilt equals 45° everywhere","The tilt equals the declination"],a:0,
+  ex:"PVEDUCATION.ORG (ndc) — and: steeper tilt angles are optimized for large winter loads, while lower tilt angles use a greater fraction of light in the summer."},
+ {type:"mc",topic:"orient",q:"According to SAVER (nd), the optimum orientation for a solar collector in the northern hemisphere is:",
+  opts:["True south","True north","Due east","Straight up"],a:0,
+  ex:"“The optimum orientation for a solar collector in the northern hemisphere is true south” — and depending on location and tilt, up to 90° east or west of true south without significantly decreasing performance."},
+ {type:"mc",topic:"case",q:"The lecture's recommended fixed tilt for Dhaka (Lat 23.71° N) is approximately:",
+  opts:["24°","34°","10°","45°"],a:0,
+  ex:"Step 2 of the Dhaka case study: Tilt = Latitude ⇒ ≈ 24° for Dhaka (or seasonally adjusted)."},
+ {type:"mc",topic:"case",q:"For Sydney, the case study recommends orienting modules toward:",
+  opts:["True north (preferably between Northeast and Northwest)","True south","Due west only","The magnetic pole"],a:0,
+  ex:"In the southern hemisphere panels should face true north; in Sydney, prefer orientation between Northeast and Northwest."},
+ {type:"mc",topic:"case",q:"The recommended fixed tilt for Sydney (Lat 33.87° S) is:",
+  opts:["34°","24°","12°","68°"],a:0,
+  ex:"Rule of thumb: Tilt = Latitude ⇒ 34° for Sydney; steeper = better winter performance, lower = more summer energy."},
+ {type:"tf",topic:"elev",q:"True or False: The elevation angle is 0° at sunrise.",a:true,
+  ex:"True — PVEDUCATION.ORG (ndb): 0° at sunrise, 90° when the sun is directly overhead (e.g., at the equator on the spring and fall equinoxes)."},
+ {type:"tf",topic:"zen",q:"True or False: θz = 90° − α, so a high sun (large α) means a small zenith angle.",a:true,
+  ex:"True — “the 90° complement of the zenith angle is the solar elevation angle α” (Heinemann, 2002, p. 15)."},
+ {type:"tf",topic:"orient",q:"True or False: A collector must face true south exactly, or performance collapses.",a:false,
+  ex:"False — SAVER (nd): depending on location and collector tilt, it can face up to 90° east or west of true south without significantly decreasing performance."},
+ {type:"tf",topic:"spd",q:"True or False: Accurate location-specific knowledge of sun path and climatic conditions is essential for economic decisions about solar collector area, orientation, landscaping, summer shading, and the cost-effective use of solar trackers.",a:true,
+  ex:"True — quoted directly from the lecture's Benefits slide (Wikipedia, nd)."},
+ {type:"tf",topic:"tilt",q:"True or False: Lower tilt angles use a greater fraction of light in the summer.",a:true,
+  ex:"True — PVEDUCATION.ORG (ndc); conversely, steeper tilt angles are optimized for large winter loads."},
+ {type:"fib",topic:"zen",q:"θz = ______° − α",a:["90"],
+  ex:"θz = 90° − α — the zenith angle is the 90° complement of the elevation angle."},
+ {type:"fib",topic:"orient",q:"In the southern hemisphere, panels should face true ______.",a:["north"],
+  ex:"Sydney case study, Step 3: in the southern hemisphere panels should face true north."},
+ {type:"fib",topic:"tilt",q:"Rule of thumb for fixed systems: Tilt = ______.",a:["latitude"],
+  ex:"Tilt = Latitude — ≈ 24° for Dhaka, 34° for Sydney."},
+ {type:"num",topic:"elev",q:"Dhaka (ϕ = 23.71° N), March 15 (δ = −2.82°), solar noon (ω = 0°). Compute the elevation angle α (degrees). (Hint: at noon, α = 90 − |ϕ − δ|.)",a:63.47,tol:0.4,unit:"degrees",
+  ex:"sin α = sin(−2.82)sin(23.71) + cos(−2.82)cos(23.71) ⇒ α = 90 − |23.71 + 2.82| = 63.47°."},
+ {type:"num",topic:"zen",q:"If α = 63.47°, compute the zenith angle θz (degrees).",a:26.53,tol:0.3,unit:"degrees",
+  ex:"θz = 90 − 63.47 = 26.53°."},
+ {type:"num",topic:"elev",q:"Dhaka (ϕ = 23.71°), June 21 (δ = +23.45°): compute the solar-noon elevation angle (degrees).",a:89.74,tol:0.4,unit:"degrees",
+  ex:"α_noon = 90 − |23.71 − 23.45| = 89.74° — the sun passes almost directly overhead."},
+ {type:"num",topic:"case",q:"Sydney (ϕ = 33.87° S), December 21 (δ = −23.45°): compute the solar-noon elevation angle (degrees).",a:79.58,tol:0.5,unit:"degrees",
+  ex:"α_noon = 90 − |−33.87 − (−23.45)| = 90 − 10.42 = 79.58° — Sydney's summer sun stands high in the NORTHERN sky."},
+ {type:"diag",topic:"spd",q:"On the sun path diagram sketch below, which labelled curve is the WINTER solstice path for a Northern-Hemisphere site?",
+  svg:`<svg viewBox="0 0 400 170" style="width:100%;max-width:400px" aria-label="Sun path diagram with three arcs labelled A, B, C from high to low">
+   <line x1="20" y1="140" x2="380" y2="140" stroke="#4e5a72"/>
+   <path d="M60 140 Q 200 10 340 140" fill="none" stroke="#c2611a" stroke-width="2"/>
+   <path d="M85 140 Q 200 55 315 140" fill="none" stroke="#3a86ff" stroke-width="2"/>
+   <path d="M115 140 Q 200 95 285 140" fill="none" stroke="#14213d" stroke-width="2"/>
+   <text x="200" y="24" text-anchor="middle" font-size="11" font-weight="800" fill="#c2611a">A</text>
+   <text x="200" y="66" text-anchor="middle" font-size="11" font-weight="800" fill="#3a86ff">B</text>
+   <text x="200" y="106" text-anchor="middle" font-size="11" font-weight="800" fill="#14213d">C</text>
+   <text x="26" y="156" font-size="10" fill="#4e5a72">E</text><text x="368" y="156" font-size="10" fill="#4e5a72">W</text></svg>`,
+  opts:["C — the lowest, shortest arc: low noon sun and a narrow sunrise-to-sunset span",
+        "A — the highest arc","B — the middle arc","They are all the same path"],a:0,
+  ex:"Winter solstice (δ = −23.45° for the NH) gives the lowest noon elevation and the shortest day — arc C. A is summer solstice, B the equinox."},
+ {type:"diag",topic:"azi",q:"The compass rose shows a sun symbol at bearing ≈ 135°. From which direction is the sunlight coming?",
+  svg:`<svg viewBox="0 0 200 200" style="width:60%;max-width:220px" aria-label="Compass rose with sun at southeast">
+   <circle cx="100" cy="100" r="80" fill="#f7f8fb" stroke="#4e5a72"/>
+   <text x="100" y="30" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">N</text>
+   <text x="100" y="182" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">S</text>
+   <text x="178" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">E</text>
+   <text x="22" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">W</text>
+   <circle cx="152" cy="152" r="11" fill="#fca311"/></svg>`,
+  opts:["Southeast — ψ is the compass direction from which the sunlight is coming",
+        "Northwest","Due south","Due east"],a:0,
+  ex:"Bearing 135° = SE. The azimuth angle is “the compass direction from which the sunlight is coming” (PVEDUCATION.ORG, nda) — a typical mid-morning sun position."},
+ {type:"design",topic:"tilt",q:"Engineering design: a Dhaka client's load is dominated by winter irrigation pumping. Relative to the latitude tilt of 24°, you should:",
+  opts:["Choose a steeper tilt — steeper tilt angles are optimized for large winter loads",
+        "Choose a lower tilt — to favour summer","Lay the panels horizontal","Double the panel count instead of changing tilt"],a:0,
+  ex:"PVEDUCATION.ORG (ndc): steeper tilt angles are optimized for large winter loads — the low winter sun (noon α ≈ 43°) rewards a steeper panel."},
+ {type:"design",topic:"orient",q:"Engineering design: a Sydney roof faces due west. The best engineering response is:",
+  opts:["Accept it with modest loss — deviations up to ±90° east/west of true north have minimal losses, though NE–NW is preferred",
+        "Reject the roof — west is impossible","Face the panels south instead","Install the panels vertically"],a:0,
+  ex:"Sydney Step 3: deviations up to ±90° east/west have minimal losses; prefer Northeast-to-Northwest, but west remains within the tolerance band."},
+ {type:"scen",topic:"spd",q:"Scenario: a neighbouring tower shades a Dhaka roof below 30° elevation toward the south-southwest. Which season and time suffer most?",
+  opts:["Winter afternoons — the winter arc is low (noon α ≈ 43°) and passes through the SSW at low elevation",
+        "Summer noons — the sun is near zenith","Equinox sunrises in the east","No effect at any time"],a:0,
+  ex:"The winter sun path is the lowest arc; afternoon positions lie toward the SSW at small α — exactly where the obstruction blocks. This is why the case study's Step 1 analyzes the sun path diagram for shading."},
+ {type:"scen",topic:"case",q:"Scenario: one PV design must serve twin offices in Dhaka and Sydney. Which pair of settings is correct?",
+  opts:["Dhaka: tilt 24°, face true south · Sydney: tilt 34°, face true north",
+        "Both: tilt 30°, face south","Dhaka: face north · Sydney: face south","Both horizontal, orientation irrelevant"],a:0,
+  ex:"Tilt = Latitude (24° / 34°) and equator-facing orientation (south in the Northern Hemisphere, north in the Southern) — the two case studies side by side."},
+ {type:"scen",topic:"azi",q:"Scenario: at Dhaka solar noon, the shadow of a vertical pole points which way (most of the year)?",
+  opts:["Due north — the noon sun is generally in the southern sky at φ = 23.71° N (except near the June solstice when δ ≈ φ)",
+        "Due south always","Due east","There is no shadow at noon"],a:0,
+  ex:"For φ > δ the noon sun is south of zenith, so shadows point north. Near June 21, δ ≈ φ and the sun passes nearly overhead — the shadow almost vanishes."}
+];
+
+/* ==========================================================================
+   4. CORE FRAMEWORK (tabs, state, modal, expanders, hint panels)
+   ========================================================================== */
+const IC={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M19.1 4.9l-2.1 2.1m-10 10l-2.1 2.1"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18-3-3.5-3-14.5 0-18z"/>',
+ grad:'<path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M19 19H6a2 2 0 0 0-2 2"/>',
+ check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ clip:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0M8.5 11l2.3 2.3L15.5 9M8.5 16.5h7"/>',
+ bulb:'<path d="M9 18h6m-5 3h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.4-1 2.5h-6c0-1.1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/>',
+ up:'<path d="M12 20V6M6 12l6-6 6 6"/>',
+ zen:'<path d="M12 21V3m0 0l-4 4m4-4l4 4"/><path d="M4 21h16"/>',
+ compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5z"/>',
+ path:'<path d="M3 18 Q 12 2 21 18"/><circle cx="12" cy="10" r="2.4"/><path d="M2 18h20"/>',
+ tilt:'<path d="M3 20h18M5 20L19 8m0 0v4m0-4h-4"/>',
+ chart:'<path d="M4 20V4m0 16h16"/><path d="M7 16l4-5 3 3 5-7"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ gear:'<path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1l1.7 1.3-1.7 3-2-.7a7 7 0 0 1-1.6 1l-.3 2.1h-3.4l-.3-2.1a7 7 0 0 1-1.6-1l-2 .7-1.7-3 1.7-1.3a7 7 0 0 1 0-1.9L6.5 10l1.7-3 2 .7a7 7 0 0 1 1.6-1l.3-2.1h3.4l.3 2.1a7 7 0 0 1 1.6 1l2-.7 1.7 3-1.7 1.3a7 7 0 0 1 0 1.9z"/>',
+ play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>',
+ calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 19h.01M12 19h.01M15.5 19h.01"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',
+ link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1.5 1.5M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1.5-1.5"/>'
+};
+function svg(n,s=20){return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||IC.gear}</svg>`;}
+function hintPanels(o){
+  const map=[["insight","hb-insight","⚙ Engineering Insight"],["hint","hb-hint","💡 Beneficial Hint"],
+   ["app","hb-app","🔧 Practical Application"],["mistake","hb-mistake","⚠ Common Mistake"],
+   ["exam","hb-exam","🎓 Examination Tip"],["design","hb-hint","📐 Design Recommendation"],
+   ["know","hb-know","★ Did You Know?"],["prev","hb-know","← Relationship with Previous Topics"],
+   ["future","hb-know","→ Relationship with Future Topics"]];
+  return `<div class="panelset">`+map.filter(m=>o[m[0]]).map(m=>
+   `<div class="hintbox ${m[1]}"><b>${m[2]}</b>${o[m[0]]}</div>`).join("")+`</div>`;
+}
+let STATE={visited:{},mastered:{},reflect:{},caseDone:{},quiz:{best:null,last:null,wrongTopics:{}},t0:Date.now(),mins:0};
+try{const s=localStorage.getItem("me4011_solar2");if(s)STATE=Object.assign(STATE,JSON.parse(s));}catch(e){}
+STATE.t0=Date.now();
+setInterval(()=>{STATE.mins=(STATE.mins||0)+1;save();},60000);
+function save(){try{localStorage.setItem("me4011_solar2",JSON.stringify(STATE));}catch(e){}updateProgress();}
+document.getElementById("hcToggle").addEventListener("click",function(){
+  const on=document.body.classList.toggle("hc");this.setAttribute("aria-pressed",on);});
+const TABS=[
+ {id:"outcomes",label:"Learning Outcomes",icon:"grad"},
+ {id:"review",label:"Review",icon:"bulb"},
+ {id:"intro",label:"Introduction",icon:"sun"},
+ {id:"elev",label:"Elevation Angle",icon:"up"},
+ {id:"zen",label:"Zenith Angle",icon:"zen"},
+ {id:"azi",label:"Azimuthal Angle",icon:"compass"},
+ {id:"spd",label:"Sun Path Diagram",icon:"path"},
+ {id:"tilt",label:"Optimal Tilt Angle",icon:"tilt"},
+ {id:"orient",label:"Optimal Orientation",icon:"compass"},
+ {id:"case",label:"Case Studies",icon:"pin"},
+ {id:"reflect",label:"Reflections",icon:"bulb"},
+ {id:"summary",label:"Summary",icon:"book"},
+ {id:"biblio",label:"Bibliography",icon:"link"},
+ {id:"quiz",label:"Quiz",icon:"check"},
+ {id:"dash",label:"Dashboard",icon:"chart"}
+];
+const tabbar=document.getElementById("tabbar");
+TABS.forEach((t,i)=>{
+  const b=document.createElement("button");
+  b.id="tab-"+t.id;b.setAttribute("role","tab");b.setAttribute("aria-controls","panel-"+t.id);
+  b.setAttribute("aria-selected",i===0?"true":"false");b.tabIndex=i===0?0:-1;
+  b.innerHTML=svg(t.icon,16)+`<span>${t.label}</span><span class="done-dot" aria-hidden="true"></span>`;
+  b.addEventListener("click",()=>selectTab(t.id));
+  tabbar.appendChild(b);
+});
+tabbar.addEventListener("keydown",e=>{
+  const btns=[...tabbar.querySelectorAll("button")],i=btns.indexOf(document.activeElement);
+  if(i<0)return;let j=null;
+  if(e.key==="ArrowRight")j=(i+1)%btns.length;else if(e.key==="ArrowLeft")j=(i-1+btns.length)%btns.length;
+  else if(e.key==="Home")j=0;else if(e.key==="End")j=btns.length-1;
+  if(j!==null){e.preventDefault();btns[j].focus();btns[j].click();}
+});
+function selectTab(id){
+  TABS.forEach(t=>{
+    const b=document.getElementById("tab-"+t.id),p=document.getElementById("panel-"+t.id);
+    const on=t.id===id;
+    b.setAttribute("aria-selected",on?"true":"false");b.tabIndex=on?0:-1;
+    p.classList.toggle("active",on);
+  });
+  if(!STATE.visited[id]){STATE.visited[id]=true;save();}
+  document.getElementById("tab-"+id).classList.add("visited");
+  if(id==="dash")renderDash();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+const TRACKED=TABS.map(t=>t.id).filter(t=>t!=="dash");
+function updateProgress(){
+  let done=TRACKED.filter(t=>STATE.visited[t]).length,extra=0;
+  if(Object.keys(STATE.mastered).length>=4)extra++;
+  if(STATE.quiz.best!==null)extra++;
+  const pct=Math.round(100*(done+extra)/(TRACKED.length+2));
+  document.getElementById("hdrPct").textContent=pct+"%";
+  document.getElementById("hdrBar").style.width=pct+"%";
+  TABS.forEach(t=>{if(STATE.visited[t.id])document.getElementById("tab-"+t.id).classList.add("visited");});
+  return pct;
+}
+const veil=document.getElementById("modalVeil");let lastFocus=null;
+function openInfo(title,bodyHTML,color){
+  lastFocus=document.activeElement;
+  document.getElementById("modalHead").style.background=color||"var(--navy)";
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=bodyHTML;
+  veil.classList.add("show");document.getElementById("modalClose").focus();
+}
+function closeModal(){veil.classList.remove("show");if(lastFocus)lastFocus.focus();}
+document.getElementById("modalClose").addEventListener("click",closeModal);
+veil.addEventListener("click",e=>{if(e.target===veil)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&veil.classList.contains("show"))closeModal();});
+function expander(head,bodyHTML){
+  return `<div class="expander">
+    <button class="exp-head" aria-expanded="false">${head}
+      <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </button>
+    <div class="exp-body"><div class="exp-inner">${bodyHTML}</div></div>
+  </div>`;
+}
+document.addEventListener("click",e=>{
+  const h=e.target.closest(".exp-head");if(!h)return;
+  const ex=h.parentElement,open=ex.classList.toggle("open");
+  h.setAttribute("aria-expanded",open?"true":"false");
+});
+function sliderRow(id,label,min,max,step,val,unit){
+ return `<div class="crow"><label for="${id}">${label}</label>
+  <input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}">
+  <span class="cval"><span id="${id}V">${val}</span> ${unit}</span></div>`;
+}
+function wireSliders(ids,fn){ids.forEach(id=>{const el=document.getElementById(id);
+  el.addEventListener("input",()=>{document.getElementById(id+"V").textContent=el.value;fn();});});fn();}
+const V=id=>+document.getElementById(id).value;
+
+/* ==========================================================================
+   5. LEARNING OUTCOMES
+   ========================================================================== */
+document.getElementById("panel-outcomes").innerHTML=`
+ <h2 class="sec">${svg("grad",24)} Learning Outcomes for the Class Session</h2>
+ <p class="lede">After the completion of this class, the students will be expected to —
+ <em>click each outcome to expand, and tick “Completed” when you can do it without notes.</em></p>
+ ${OUTCOMES.map((o,i)=>`
+  <div class="expander">
+   <button class="exp-head" aria-expanded="false">
+    <span class="icon-circle">${svg(["up","path","tilt","compass"][i],20)}</span>
+    <span><b>Outcome ${i+1}.</b> ${o.text}</span>
+    <span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+   </button>
+   <div class="exp-body"><div class="exp-inner">
+    <h5>Engineering significance</h5><p>${o.sig}</p>
+    <h5>Renewable energy relevance</h5><p>${o.re}</p>
+    <h5>Practical applications</h5><p>${o.app}</p>
+    <h5>Prerequisite concepts</h5><p>${o.pre}</p>
+    <h5>Related future topics</h5><p>${o.future}</p>
+    <h5>Typical engineering use case</h5><p>${o.use}</p>
+    <label class="mastery" style="margin-top:12px;justify-content:flex-start">
+      <input type="checkbox" data-master="${i}" ${STATE.mastered[i]?"checked":""}> Mark this outcome as completed
+    </label>
+   </div></div>
+  </div>`).join("")}`;
+document.getElementById("panel-outcomes").addEventListener("change",e=>{
+  const c=e.target.closest("[data-master]");
+  if(c){if(c.checked)STATE.mastered[c.dataset.master]=true;else delete STATE.mastered[c.dataset.master];save();}
+});
+
+/* ==========================================================================
+   6. REVIEW (BOPPPS: Pre-Assessment — checking the learner on Part 1)
+   ========================================================================== */
+document.getElementById("panel-review").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Review</h2>
+ <div class="callout navy"><h4>${svg("check",18)} BOPPPS — Pre-Assessment</h4>
+  <p>In the BOPPPS lesson model (Bridge-in · Objectives · <b>Pre-assessment</b> · Participatory learning ·
+  Post-assessment · Summary), this stage <b>checks what you, the learner, already know</b> before the
+  lecture begins. This lecture builds directly on <b>Solar Energy – Part 1</b> — answer the diagnostic
+  questions below, and the app measures your readiness, pinpoints your gaps, and directs you to the
+  exact remediation you need.</p></div>
+
+ <h3 class="subsec">${svg("check",20)} Pre-Assessment — Part 1 prerequisite check</h3>
+ <div class="quiz-card" id="preBox"></div>
+
+
+ <h3 class="subsec">${svg("path",20)} Concept map — Part 1 feeding Part 2</h3>
+ <div class="card">${mapSVG()}</div>
+
+ <h3 class="subsec">${svg("bulb",20)} Beneficial Hints</h3>
+ <div class="panelset">${REVIEW_HINTS.map(h=>`
+  <div class="hintbox ${["Memory aid","Quick shortcut","Practical advice"].includes(h[0])?"hb-hint":
+   h[0]==="Examination tip"?"hb-exam":h[0]==="Common misconception"?"hb-mistake":
+   h[0]==="Engineering intuition"?"hb-insight":"hb-know"}"><b>${h[0]}</b>${h[1]}</div>`).join("")}</div>`;
+function mapSVG(){return `
+<svg viewBox="0 0 760 250" role="img" style="width:100%;max-width:760px;display:block;margin:auto"
+ aria-label="Concept map: N, latitude and solar time feed declination and hour angle, which feed elevation, zenith and azimuth, which build the sun path diagram and the tilt and orientation decisions"
+ font-family="Segoe UI,system-ui,sans-serif">
+ <defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+  <path d="M0 0L10 5L0 10z" fill="#a04c0e"/></marker></defs>
+ ${[["Day N",20,20],["Latitude ϕ",20,90],["Solar Time ST",20,160]].map(x=>`
+  <rect x="${x[1]}" y="${x[2]}" width="130" height="38" rx="9" fill="#fdf6e8" stroke="#fca311" stroke-width="1.5"/>
+  <text x="${x[1]+65}" y="${x[2]+24}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">${x[0]}</text>`).join("")}
+ <rect x="205" y="55" width="120" height="38" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.5"/>
+ <text x="265" y="79" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">δ, ω (Part 1)</text>
+ <rect x="385" y="20" width="150" height="38" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.5"/>
+ <text x="460" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">Elevation α</text>
+ <rect x="385" y="75" width="150" height="38" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.5"/>
+ <text x="460" y="99" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">Zenith θz = 90 − α</text>
+ <rect x="385" y="130" width="150" height="38" rx="9" fill="#eef1f8" stroke="#14213d" stroke-width="1.5"/>
+ <text x="460" y="154" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14213d">Azimuth ψ</text>
+ <rect x="580" y="55" width="160" height="44" rx="9" fill="#14213d"/>
+ <text x="660" y="82" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fca311">Sun Path Diagram</text>
+ <rect x="580" y="140" width="160" height="56" rx="9" fill="#fdf6e8" stroke="#c2611a" stroke-width="1.6"/>
+ <text x="660" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#14213d">Optimal Tilt Angle</text>
+ <text x="660" y="182" text-anchor="middle" font-size="12" font-weight="700" fill="#14213d">Optimal Orientation</text>
+ <g stroke="#a04c0e" stroke-width="2" fill="none" marker-end="url(#m2)">
+  <line x1="150" y1="39" x2="200" y2="66"/><line x1="150" y1="109" x2="200" y2="82"/><line x1="150" y1="179" x2="200" y2="90"/>
+  <line x1="325" y1="66" x2="380" y2="42"/><line x1="325" y1="74" x2="380" y2="94"/><line x1="325" y1="86" x2="380" y2="146"/>
+  <line x1="535" y1="39" x2="575" y2="66"/><line x1="535" y1="149" x2="575" y2="90"/>
+  <line x1="660" y1="99" x2="660" y2="135"/>
+ </g>
+ <text x="380" y="238" text-anchor="middle" font-size="11.5" fill="#4e5a72">Part 1 gives δ and ω; Part 2 turns them into a sky position — and the sky position into design decisions.</text>
+</svg>`;}
+/* ---- Pre-Assessment engine (prerequisites = Part 1) ---- */
+const PREQ=[
+ {type:"num",q:"Part 1: what is the declination angle δ on June 21 (N = 172)? (degrees, sign included)",a:23.45,tol:0.1,unit:"°",
+  topic:"Declination Angle",fc:0,fix:"δ = 23.45° sin(360/365(284+N)); +23.45° at the June solstice."},
+ {type:"num",q:"Part 1: what is the hour angle ω at 3:00 PM solar time? (degrees, sign included)",a:45,tol:0.5,unit:"°",
+  topic:"Hour Angle",fc:2,fix:"ω = 15°(ST − 12); afternoon is positive."},
+ {type:"mc",q:"Part 1's sign convention for the hour angle is:",
+  opts:["Morning ω < 0 · solar noon ω = 0° · afternoon ω > 0","Morning ω > 0 · afternoon ω < 0","ω is always positive","ω is negative only in winter"],a:0,
+  topic:"Hour Angle",fc:2,fix:"morning negative, noon zero, afternoon positive."},
+ {type:"num",q:"Part 1: the day length at ANY latitude on an equinox (δ = 0) is how many hours?",a:12,tol:0.05,unit:"hours",
+  topic:"Day Length",fc:6,fix:"δ = 0 ⇒ ωss = 90° ⇒ Lday = 2(90)/15 = 12 h everywhere."},
+ {type:"mc",q:"In cos ωss = −tan δ · tan φ, the symbol φ is:",
+  opts:["The latitude — positive in the Northern Hemisphere, negative in the Southern","The longitude of the site","The tilt of the panel","The hour angle at sunset"],a:0,
+  topic:"Latitude & ωss",fc:1,fix:"φ carries a sign; Sydney is negative."},
+ {type:"mc",q:"On any given day, the declination angle δ is:",
+  opts:["The same for every location on Earth — it depends only on the day of the year N","Different for every city","Set by the local time zone","Zero everywhere except the tropics"],a:0,
+  topic:"Declination Angle",fc:0,fix:"δ is a property of the DAY; latitude φ is the property of the PLACE."},
+ {type:"mc",q:"Dhaka's coordinates (used throughout both lectures) are approximately:",
+  opts:["23.71° N, 90.41° E","33.87° S, 151.21° E","51.51° N, 0.13° W","0°, 90° E"],a:0,
+  topic:"Latitude & longitude",fc:1,fix:"Dhaka: 23.7104° N, 90.40744° E; Sydney: 33.87° S."},
+ {type:"tf",q:"True or False: Solar Time in the formulas is the same as the clock time on your phone.",a:false,
+  topic:"Solar Time",fc:3,fix:"solar noon is when the sun crosses the local meridian, not 12:00 on the zone clock."}
+];
+let preI=0,preScore=0,preGaps=[];
+function drawPre(){
+  const box=document.getElementById("preBox");
+  if(preI>=PREQ.length){
+    const pct=Math.round(100*preScore/PREQ.length);
+    const level=preScore>=7?["READY — proceed to the Introduction","good","Part 1 is fresh in your mind. Move straight into the sun path."]:
+      preScore>=5?["MOSTLY READY — patch the gaps first","mid","Close the flagged gaps with the flash cards below, then proceed."]:
+      ["REVIEW NEEDED — revisit Part 1 first","poor","Work through the Beneficial Hints below — every Part 2 formula assumes δ, ω, φ and solar time are second nature. Consider replaying the Part 1 app."];
+    STATE.preScore=pct;save();
+    box.innerHTML=`
+     <span class="qtype-tag">Pre-Assessment result</span>
+     <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:6px">
+      <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Readiness ${pct} percent">
+       <circle cx="55" cy="55" r="46" fill="none" stroke="#e8e8e2" stroke-width="11"/>
+       <circle cx="55" cy="55" r="46" fill="none" stroke="${preScore>=7?"var(--ok)":preScore>=5?"var(--warn)":"var(--bad)"}"
+        stroke-width="11" stroke-linecap="round" stroke-dasharray="${2*Math.PI*46}"
+        stroke-dashoffset="${2*Math.PI*46*(1-pct/100)}" transform="rotate(-90 55 55)"/>
+       <text x="55" y="62" text-anchor="middle" font-size="22" font-weight="800" fill="var(--navy)">${preScore}/${PREQ.length}</text>
+      </svg>
+      <div style="flex:1;min-width:220px">
+       <div class="fb ${level[1]} show" style="margin-top:0;font-weight:800">${level[0]}</div>
+       <p style="font-size:.9rem;color:var(--ink2);margin-top:8px">${level[2]}</p>
+      </div>
+     </div>
+     ${preGaps.length?`<h5 style="color:var(--teal2);font-size:.8rem;text-transform:uppercase;letter-spacing:.6px;margin:16px 0 6px">Your knowledge gaps — targeted remediation</h5>
+      ${preGaps.map(g=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+       <span><b>${g.topic}:</b> ${g.fix}</span></div>`).join("")}
+      <p class="small-note">Study the Beneficial Hints below and revisit the matching lecture tabs, then retake the pre-assessment.</p>`:
+      `<p class="small-note" style="margin-top:12px">No gaps detected — every Part 1 prerequisite checked out.</p>`}
+     <div style="margin-top:14px"><button class="btn gold" id="preRestart">↻ Retake Pre-Assessment</button></div>`;
+    box.querySelector("#preRestart").addEventListener("click",()=>{preI=0;preScore=0;preGaps=[];drawPre();});
+    return;
+  }
+  const q=PREQ[preI];
+  let inner="";
+  if(q.type==="mc")inner=q.opts.map((o,i)=>`<button class="quiz-opt" data-oi="${i}">${o}</button>`).join("");
+  else if(q.type==="tf")inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  else inner=`<div class="crow"><input class="fib-input" id="preIn" type="number" step="any" inputmode="decimal"
+    placeholder="Your answer" aria-label="Numerical answer" style="max-width:170px"><span style="font-weight:700;color:var(--ink2)">${q.unit}</span>
+    <button class="btn" id="preGo">Check</button></div>`;
+  box.innerHTML=`
+   <span class="qtype-tag">Pre-Assessment · ${preI+1} / ${PREQ.length} · ${q.topic}</span>
+   <div class="pbar" style="background:#e8e8e2;margin:8px 0 12px"><span style="width:${preI/PREQ.length*100}%"></span></div>
+   <h3 style="font-size:1.02rem">${q.q}</h3>${inner}
+   <div class="fb" id="preFb"></div>`;
+  const settle=right=>{
+    if(right)preScore++;else preGaps.push(q);
+    box.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const fb=document.getElementById("preFb");
+    fb.className="fb show "+(right?"good":"poor");
+    fb.innerHTML=(right?"✔ Correct — prerequisite in place.":"✖ Gap detected. <b>Remediation:</b> "+q.fix)+
+     `<div style="margin-top:10px"><button class="btn gold" id="preNext">${preI===PREQ.length-1?"See readiness report →":"Next →"}</button></div>`;
+    fb.querySelector("#preNext").addEventListener("click",()=>{preI++;drawPre();});
+    fb.querySelector("#preNext").focus();
+  };
+  box.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(q.type==="tf"){const right=(b.dataset.tf==="true")===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+    else{const right=+b.dataset.oi===q.a;
+      box.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});
+      if(!right)b.classList.add("wrong");settle(right);}
+  }));
+  const pg=box.querySelector("#preGo");
+  if(pg){
+    const go=()=>{const v=parseFloat(document.getElementById("preIn").value);
+      if(isNaN(v))return;
+      const right=Math.abs(v-q.a)<=q.tol;
+      document.getElementById("preIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      pg.disabled=true;settle(right);};
+    pg.addEventListener("click",go);
+    document.getElementById("preIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!pg.disabled)go();});
+    document.getElementById("preIn").focus();
+  }
+}
+drawPre();
+
+/* ==========================================================================
+   7. INTRODUCTION
+   ========================================================================== */
+document.getElementById("panel-intro").innerHTML=`
+ <h2 class="sec">${svg("sun",24)} Introduction</h2>
+ <p class="lede">Part 1 told us <b>when</b> the sun shines. To design a real system we must also know
+ <b>where</b> the sun is — its position in the sky, hour by hour, season by season. That position drives
+ heat gain, PV performance, shading, and every orientation decision.</p>
+ <div class="grid c2">
+  <div class="card"><h4><span class="icon-circle">${svg("path",18)}</span>Why sun path diagrams?</h4>
+   <p>“The relative position of the Sun is a major factor in the heat gain of buildings and in the
+   performance of solar energy systems” (Wikipedia, nd). Engineers read a whole year of sky positions
+   off a single chart.</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("gear",18)}</span>Why accurate positioning?</h4>
+   <p>“Accurate location-specific knowledge of sun path and climatic conditions is essential for economic
+   decisions about solar collector area, orientation, landscaping, summer shading, and the cost-effective
+   use of solar trackers” (Wikipedia, nd).</p></div>
+ </div>
+ <h3 class="subsec">${svg("play",20)} Animated Earth–Sun model — rotation, revolution, seasons, apparent motion</h3>
+ <div class="calc">
+  <div class="crow">
+   <button class="btn gold" id="esPlay">▶ Animate year</button>
+   ${sliderRow("esN","Day of year N",1,365,1,172,"")}
+  </div>
+  <div id="esViz"></div>
+  <p class="small-note">Earth <b>rotates</b> daily about its tilted axis (the sun's apparent daily arc) and
+  <b>revolves</b> yearly around the Sun (the seasonal shift of that arc). The observer on the ground sees
+  both combined: the Sun's apparent motion — the raw material of the sun path diagram.</p>
+ </div>`;
+let esTimer=null;
+document.getElementById("esPlay").addEventListener("click",function(){
+  if(esTimer){clearInterval(esTimer);esTimer=null;this.textContent="▶ Animate year";return;}
+  this.textContent="⏸ Pause";
+  esTimer=setInterval(()=>{const s=document.getElementById("esN");
+    s.value=(+s.value%365)+1;document.getElementById("esNV").textContent=s.value;drawES();},60);
+});
+function drawES(){
+  const N=V("esN"),d=decl(N);
+  const ang=(N-80)/365*2*Math.PI;
+  const ex=190+120*Math.cos(ang),ey=115+50*Math.sin(ang);
+  const phi=23.71,noonA=90-Math.abs(phi-d);
+  document.getElementById("esViz").innerHTML=`
+  <svg viewBox="0 0 760 230" style="width:100%;max-width:760px;display:block;margin:10px auto 0" role="img"
+   aria-label="Earth revolving around the Sun with tilted rotating axis, and the resulting apparent sun arc for Dhaka"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <ellipse cx="190" cy="115" rx="120" ry="50" fill="none" stroke="#9fb4d8" stroke-dasharray="5 4"/>
+   <circle cx="190" cy="115" r="23" fill="#fca311"/>
+   <g transform="translate(${ex},${ey}) rotate(23.45)">
+    <circle r="12" fill="#3a86ff"/>
+    <line x1="0" y1="-17" x2="0" y2="17" stroke="#c2611a" stroke-width="2"/>
+    <ellipse rx="12" ry="4" fill="none" stroke="#fff" stroke-width="1" opacity=".8"/>
+   </g>
+   <text x="190" y="196" text-anchor="middle" font-size="10.5" fill="#4e5a72">revolution (365 days) + rotation (24 h) about the 23.45°-tilted axis</text>
+   <g transform="translate(420,0)">
+    <rect x="0" y="20" width="320" height="180" rx="12" fill="#f7f8fb" stroke="#e2e4ea"/>
+    <text x="160" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">${dateFromN(N)} — apparent sun arc @ Dhaka</text>
+    <line x1="30" y1="170" x2="290" y2="170" stroke="#4e5a72"/>
+    <path d="M60 170 Q 160 ${170-noonA/90*120} 260 170" fill="none" stroke="#c2611a" stroke-width="2.2"/>
+    <circle cx="160" cy="${170-noonA/90*120}" r="9" fill="#fca311"/>
+    <text x="160" y="${162-noonA/90*120}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#a04c0e">noon α = ${fmt(noonA,1)}°</text>
+    <text x="42" y="186" font-size="10" fill="#4e5a72">E</text><text x="272" y="186" font-size="10" fill="#4e5a72">W</text>
+    <text x="160" y="196" text-anchor="middle" font-size="10" fill="#4e5a72">δ = ${(d>=0?"+":"")+fmt(d,2)}° · L<tspan font-size="7" dy="2">day</tspan><tspan dy="-2"> = ${fmt(dayLength(d,23.71),2)} h</tspan></text>
+   </g>
+  </svg>`;
+}
+wireSliders(["esN"],drawES);
+
+/* ==========================================================================
+   8. ELEVATION ANGLE (α)
+   ========================================================================== */
+document.getElementById("panel-elev").innerHTML=`
+ <h2 class="sec">${svg("up",24)} Elevation Angle</h2>
+ <p class="lede">AKA <b>“Altitude Angle”</b> (PVEDUCATION.ORG, ndb) or <b>“Sun's Altitude (α)”</b>
+ (Heinemann, 2002, p. 14).</p>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (exact)</h4>
+  <p>“the angular height of the sun in the sky measured from the horizontal” (PVEDUCATION.ORG, ndb)</p></div>
+ <div class="grid c2">
+  <div class="card"><h4><span class="icon-circle">${svg("up",18)}</span>Magnitudes of the Elevation Angle</h4>
+   <p>“0° at sunrise” · “90° when the sun is directly overhead (which occurs for example at the equator on
+   the spring and fall equinoxes)” (PVEDUCATION.ORG, ndb).</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("zen",18)}</span>Elevation Angle Diagram</h4>
+   <p>α is the angular height of the Sun above the horizon, while θz is the complementary angle measured
+   from the vertical (zenith).</p></div>
+ </div>
+ <h3 class="subsec">${svg("calc",20)} Formula for the Elevation Angle for any Particular Time of the Day</h3>
+ <p class="lede">According to (Heinemann, 2002, p. 14):</p>
+ <div class="formula">sin α = sin δ sin ϕ + cos δ cos ϕ cos ω</div>
+ <p class="small-note">where δ is the declination angle for the particular day of the year, ϕ is the latitude
+ of the location, and ω is the hour angle for the particular time of the day.</p>
+
+ <h3 class="subsec">${svg("play",20)} Live geometry — modify δ, ϕ, ω</h3>
+ <div class="calc">
+  ${sliderRow("elN","Day of year N (sets δ)",1,365,1,74,"")}
+  ${sliderRow("elLat","Latitude ϕ",-60,60,0.5,23.71,"°")}
+  ${sliderRow("elST","Solar Time (sets ω)",5,19,0.25,12,"h")}
+  <div id="elViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="elD">—</div><div class="rl">δ</div></div>
+   <div class="res"><div class="rv" id="elO">—</div><div class="rl">ω</div></div>
+   <div class="res good"><div class="rv" id="elA">—</div><div class="rl">Elevation α</div></div>
+   <div class="res"><div class="rv" id="elZ">—</div><div class="rl">θz = 90° − α</div></div>
+  </div>
+ </div>
+ <h3 class="subsec">${svg("calc",20)} Step-by-step calculator</h3>
+ <div class="calc">
+  <div class="crow">
+   <label for="ecN" style="min-width:auto">N:</label><input type="number" id="ecN" min="1" max="365" value="74" style="width:90px">
+   <label for="ecPhi" style="min-width:auto">ϕ (°):</label><input type="number" id="ecPhi" step="any" value="23.71" style="width:110px">
+   <label for="ecST" style="min-width:auto">Solar Time (h):</label><input type="number" id="ecST" step="0.25" value="9" style="width:100px">
+   <button class="btn" id="ecGo">Calculate α</button></div>
+  <div class="steps" id="ecSteps" style="display:none"></div>
+ </div>
+ ${hintPanels({
+  insight:"At solar noon (ω = 0, cos ω = 1) the formula collapses to sin α = cos(φ − δ), i.e. α = 90° − |φ − δ| — the day's maximum elevation in one subtraction.",
+  hint:"Compute the two products separately (sin δ sin ϕ, then cos δ cos ϕ cos ω), add, then arcsin. Writing the intermediate numbers prevents most slips.",
+  mistake:"Taking arcsin of a value computed in RAD mode, or forgetting that a negative result simply means the sun is below the horizon (night).",
+  exam:"If sin α comes out negative, say so: 'α < 0 ⇒ sun below horizon' earns the mark; a bare negative angle without comment loses it.",
+  app:"PV row-spacing: the winter-noon α fixes the shadow length of each rack — spacing = height / tan(α_winter noon).",
+  prev:"δ and ω come straight from Part 1: δ = 23.45 sin(360/365(284+N)); ω = 15(ST − 12).",
+  future:"α feeds the azimuth formula next, and radiation-on-tilted-surface models after that."})}`;
+function drawElev(){
+  const N=V("elN"),phi=V("elLat"),ST=V("elST");
+  const d=decl(N),om=hourAngle(ST),a=elev(d,phi,om);
+  document.getElementById("elD").textContent=(d>=0?"+":"")+fmt(d,2)+"°";
+  document.getElementById("elO").textContent=(om>0?"+":"")+fmt(om,1)+"°";
+  document.getElementById("elA").textContent=a>0?fmt(a,2)+"°":"below horizon";
+  document.getElementById("elZ").textContent=a>0?fmt(zenith(a),2)+"°":"—";
+  const W=700,H=210,cx=350,cy=H-36;
+  const aa=Math.max(0,a);
+  const sx=cx+180*cosD(aa)*(om<=0?-1:1),sy=cy-180*sinD(aa);
+  document.getElementById("elViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Observer with horizon; the sun's elevation angle drawn from the horizontal and zenith angle from the vertical"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <rect x="0" y="${cy}" width="${W}" height="36" fill="#3f7a3f"/>
+   <line x1="30" y1="${cy}" x2="${W-30}" y2="${cy}" stroke="#4e5a72" stroke-width="1.6"/>
+   <text x="40" y="${cy+22}" font-size="10.5" fill="#fff">Horizontal Plane</text>
+   <line x1="${cx}" y1="${cy}" x2="${cx}" y2="20" stroke="#14213d" stroke-width="1.5" stroke-dasharray="4 3"/>
+   <text x="${cx}" y="14" text-anchor="middle" font-size="10.5" font-weight="700" fill="#14213d">Zenith</text>
+   ${a>0?`
+   <line x1="${cx}" y1="${cy}" x2="${sx}" y2="${sy}" stroke="#fca311" stroke-width="2.2"/>
+   <circle cx="${sx}" cy="${sy}" r="13" fill="#fca311"><animate attributeName="r" values="13;15;13" dur="2.4s" repeatCount="indefinite"/></circle>
+   <path d="M ${cx+(om<=0?-46:46)} ${cy} A 46 46 0 0 ${om<=0?1:0} ${cx+46*cosD(aa)*(om<=0?-1:1)} ${cy-46*sinD(aa)}" fill="none" stroke="#c2611a" stroke-width="1.8"/>
+   <text x="${cx+(om<=0?-62:62)}" y="${cy-18}" text-anchor="middle" font-size="12.5" font-weight="800" fill="#c2611a">α = ${fmt(a,1)}°</text>
+   <path d="M ${cx} ${cy-70} A 70 70 0 0 ${om<=0?0:1} ${cx+70*cosD(aa)*(om<=0?-1:1)} ${cy-70*sinD(aa)}" fill="none" stroke="#3a86ff" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <text x="${cx+(om<=0?-30:30)}" y="${cy-92}" text-anchor="middle" font-size="12" font-weight="700" fill="#2456b3">θz = ${fmt(zenith(a),1)}°</text>`:
+   `<text x="${cx}" y="90" text-anchor="middle" font-size="13" font-weight="800" fill="#14213d">Sun below the horizon (sin α < 0) — night at this ω</text>`}
+   <circle cx="${cx}" cy="${cy}" r="5" fill="#14213d"/>
+   <text x="${cx}" y="${cy+22}" text-anchor="middle" font-size="10.5" fill="#fff">Observer</text>
+  </svg>`;
+}
+wireSliders(["elN","elLat","elST"],drawElev);
+document.getElementById("ecGo").addEventListener("click",()=>{
+  const N=Math.max(1,Math.min(365,Math.round(+document.getElementById("ecN").value||1)));
+  const phi=+document.getElementById("ecPhi").value||0,ST=+document.getElementById("ecST").value||12;
+  const d=decl(N),om=hourAngle(ST);
+  const t1=sinD(d)*sinD(phi),t2=cosD(d)*cosD(phi)*cosD(om),s=t1+t2,a=Math.asin(Math.max(-1,Math.min(1,s)))*R2D;
+  const box=document.getElementById("ecSteps");box.style.display="block";
+  box.innerHTML=`
+   <div class="st" data-n="1">δ = 23.45 sin(360/365 (284 + ${N})) = ${(d>=0?"+":"")+fmt(d,2)}°</div>
+   <div class="st" data-n="2">ω = 15(${fmt(ST,2)} − 12) = ${(om>0?"+":"")+fmt(om,1)}°</div>
+   <div class="st" data-n="3">sin δ sin ϕ = ${fmt(t1,4)}; &nbsp; cos δ cos ϕ cos ω = ${fmt(t2,4)}</div>
+   <div class="st" data-n="4">sin α = ${fmt(t1,4)} + ${fmt(t2,4)} = ${fmt(s,4)}</div>
+   <div class="st" data-n="5"><b>α = sin⁻¹(${fmt(s,4)}) = ${fmt(a,2)}°</b>${a<0?" — negative: the sun is below the horizon (night)":""}</div>
+   ${a>0?`<div class="st" data-n="6">θz = 90 − ${fmt(a,2)} = <b>${fmt(zenith(a),2)}°</b></div>`:""}`;
+});
+
+/* ==========================================================================
+   9. ZENITH ANGLE (θz)
+   ========================================================================== */
+document.getElementById("panel-zen").innerHTML=`
+ <h2 class="sec">${svg("zen",24)} Zenith Angle θ<sub>z</sub></h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (exact)</h4>
+  <p>“the angle between the sun and the vertical” (PVEDUCATION.ORG, ndb) —
+  “similar to the elevation angle but it is measured from the vertical rather than from the horizontal”.</p></div>
+ <h3 class="subsec">${svg("calc",20)} Relationship between the Zenith Angle (θz) and the Elevation Angle (α)</h3>
+ <p class="lede">“The 90° complement of the zenith angle is the solar elevation angle α (solar altitude)”
+ (Heinemann, 2002, p. 15):</p>
+ <div class="formula" style="font-size:1.5rem">θ<sub>z</sub> = 90° − α</div>
+ <h3 class="subsec">${svg("play",20)} Complementary angle animation</h3>
+ <div class="calc">
+  ${sliderRow("znA","Elevation angle α",0,90,0.5,63.5,"°")}
+  <div id="znViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="znAOut">—</div><div class="rl">Elevation α (from horizontal)</div></div>
+   <div class="res good"><div class="rv" id="znZOut">—</div><div class="rl">Zenith θz (from vertical)</div></div>
+   <div class="res"><div class="rv" id="znSum">90°</div><div class="rl">α + θz — always</div></div>
+  </div>
+  <p class="small-note"><b>Physical meaning:</b> θz measures how far the sun stands from directly overhead.
+  <b>Engineering applications:</b> the beam radiation on a horizontal surface scales with cos θz — the
+  air-mass of the atmosphere the beam must cross grows as 1/cos θz — and θz = 90° defines sunrise/sunset.</p>
+ </div>
+ ${hintPanels({
+  insight:"α and θz are two names for one direction: use α for horizon-referenced tasks (shading, sunrise) and θz for vertical-referenced physics (air mass, horizontal irradiance ∝ cos θz).",
+  hint:"When the sun is overhead: α = 90°, θz = 0°. When the sun sets: α = 0°, θz = 90°. If your pair doesn't sum to 90°, one of them is wrong.",
+  mistake:"Substituting α where a formula expects θz (or vice versa) — check which reference (horizontal or vertical) the source uses before plugging in.",
+  exam:"One-line marks: compute α once, then θz = 90 − α. Never re-derive θz from scratch.",
+  app:"Air mass AM ≈ 1/cos θz sets spectral conditions for PV rating (AM1.5 corresponds to θz ≈ 48.2°).",
+  know:"AM1.5 — the standard test condition for every commercial PV module datasheet — corresponds to a zenith angle of about 48°."})}`;
+function drawZen(){
+  const a=V("znA"),z=90-a;
+  document.getElementById("znAOut").textContent=fmt(a,1)+"°";
+  document.getElementById("znZOut").textContent=fmt(z,1)+"°";
+  const W=560,H=230,cx=280,cy=H-40;
+  const sx=cx+170*cosD(a),sy=cy-170*sinD(a);
+  document.getElementById("znViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Complementary angles: elevation from the horizontal and zenith from the vertical always sum to 90 degrees"
+   font-family="Segoe UI,system-ui,sans-serif">
+   <line x1="40" y1="${cy}" x2="${W-40}" y2="${cy}" stroke="#4e5a72" stroke-width="1.6"/>
+   <line x1="${cx}" y1="${cy}" x2="${cx}" y2="24" stroke="#14213d" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <text x="${cx}" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#14213d">Zenith (vertical)</text>
+   <line x1="${cx}" y1="${cy}" x2="${sx}" y2="${sy}" stroke="#fca311" stroke-width="2.4"/>
+   <circle cx="${sx}" cy="${sy}" r="12" fill="#fca311"/>
+   <path d="M ${cx+52} ${cy} A 52 52 0 0 0 ${cx+52*cosD(a)} ${cy-52*sinD(a)}" fill="none" stroke="#c2611a" stroke-width="2"/>
+   <text x="${cx+74}" y="${cy-16}" font-size="12.5" font-weight="800" fill="#c2611a">α</text>
+   <path d="M ${cx} ${cy-84} A 84 84 0 0 1 ${cx+84*cosD(a)} ${cy-84*sinD(a)}" fill="none" stroke="#3a86ff" stroke-width="2" stroke-dasharray="4 3"/>
+   <text x="${cx+30}" y="${cy-98}" font-size="12.5" font-weight="800" fill="#2456b3">θz</text>
+   <text x="${cx}" y="${cy+24}" text-anchor="middle" font-size="10.5" fill="#4e5a72">Observer · Horizontal Plane</text>
+  </svg>`;
+}
+wireSliders(["znA"],drawZen);
+
+/* ==========================================================================
+   10. AZIMUTHAL ANGLE (ψ)
+   ========================================================================== */
+document.getElementById("panel-azi").innerHTML=`
+ <h2 class="sec">${svg("compass",24)} Azimuth Angle (ψ)</h2>
+ <p class="lede">AKA <b>“Solar Azimuth (ψ)”</b> (Heinemann, 2002, p. 14).</p>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (exact)</h4>
+  <p>“the compass direction from which the sunlight is coming” (PVEDUCATION.ORG, nda)</p></div>
+ <h3 class="subsec">${svg("calc",20)} Formula for the Solar Azimuth Angle (ψ) for any Particular Time of the Day</h3>
+ <p class="lede">According to (Heinemann, 2002, p. 14):</p>
+ <div class="formula">cos ψ = <span class="frac"><span>sin α sin ϕ − sin δ</span><span>cos α cos ϕ</span></span></div>
+ <p class="small-note">where δ is the declination angle for the particular day of the year, α is the elevation
+ angle for the time of the day, ϕ is the latitude of the location, and ω is the hour angle for the particular
+ time of the day.</p>
+ <h3 class="subsec">${svg("play",20)} Interactive compass — rotating sun, animated observer</h3>
+ <div class="calc">
+  ${sliderRow("azN","Day of year N",1,365,1,74,"")}
+  ${sliderRow("azLat","Latitude ϕ",-60,60,0.5,23.71,"°")}
+  ${sliderRow("azST","Solar Time",5,19,0.25,9,"h")}
+  <div id="azViz"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="azA">—</div><div class="rl">Elevation α</div></div>
+   <div class="res"><div class="rv" id="azPsi">—</div><div class="rl">ψ (lecture formula)</div></div>
+   <div class="res good"><div class="rv" id="azC">—</div><div class="rl">Compass direction</div></div>
+  </div>
+  <div class="steps" id="azSteps"></div>
+ </div>
+ ${hintPanels({
+  insight:"ψ tells the panel where to look. Morning sun comes from the east side, afternoon from the west — the compass needle of solar design.",
+  hint:"Compute α FIRST (the formula contains sin α and cos α), then evaluate cos ψ, then arccos. The morning/afternoon side follows the sign of ω.",
+  design:"The daily average of the sunlight's compass direction is exactly why collectors face the equator: true south (NH) / true north (SH).",
+  mistake:"Using cos⁻¹ blindly: it returns 0–180°, so you must assign east side (morning, ω < 0) or west side (afternoon, ω > 0) yourself."})}`;
+function drawAz(){
+  const N=V("azN"),phi=V("azLat"),ST=V("azST");
+  const d=decl(N),om=hourAngle(ST),a=elev(d,phi,om);
+  const A=azCompass(d,phi,om);
+  const psi=a>0?psiLecture(a,phi,d):NaN;
+  document.getElementById("azA").textContent=a>0?fmt(a,2)+"°":"below horizon";
+  document.getElementById("azPsi").textContent=a>0?fmt(psi,1)+"° from south":"—";
+  document.getElementById("azC").textContent=a>0?fmt(A,1)+"° ("+compass16(A)+")":"night";
+  const W=520,H=300,cx=260,cy=150,R=110;
+  const sx=cx+R*sinD(A),sy=cy-R*cosD(A);
+  document.getElementById("azViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Compass rose seen from above with the sun's azimuth direction" font-family="Segoe UI,system-ui,sans-serif">
+   <circle cx="${cx}" cy="${cy}" r="${R+16}" fill="#f7f8fb" stroke="#4e5a72"/>
+   ${[["N",0],["E",90],["S",180],["W",270]].map(x=>`
+     <text x="${cx+(R+34)*sinD(x[1])}" y="${cy-(R+34)*cosD(x[1])+5}" text-anchor="middle" font-size="14" font-weight="800" fill="#14213d">${x[0]}</text>
+     <line x1="${cx+(R+8)*sinD(x[1])}" y1="${cy-(R+8)*cosD(x[1])}" x2="${cx+(R+22)*sinD(x[1])}" y2="${cy-(R+22)*cosD(x[1])}" stroke="#14213d" stroke-width="2"/>`).join("")}
+   ${[45,135,225,315].map(b=>`<line x1="${cx+(R+8)*sinD(b)}" y1="${cy-(R+8)*cosD(b)}" x2="${cx+(R+16)*sinD(b)}" y2="${cy-(R+16)*cosD(b)}" stroke="#9aa7bd" stroke-width="1.6"/>`).join("")}
+   ${a>0?`
+   <line x1="${cx}" y1="${cy}" x2="${sx}" y2="${sy}" stroke="#fca311" stroke-width="2.4"/>
+   <circle cx="${sx}" cy="${sy}" r="${9+7*sinD(Math.max(a,0))}" fill="#fca311">
+    <animate attributeName="opacity" values="1;.75;1" dur="2s" repeatCount="indefinite"/></circle>
+   <text x="${sx}" y="${sy-18}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#a04c0e">${compass16(A)} · α=${fmt(a,0)}°</text>`:
+   `<text x="${cx}" y="${cy-R-40}" text-anchor="middle" font-size="12" font-weight="700" fill="#14213d">Sun below horizon</text>`}
+   <g transform="translate(${cx},${cy})">
+    <circle r="9" fill="#14213d"/><rect x="-3" y="-24" width="6" height="15" rx="3" fill="#14213d"/>
+   </g>
+   <text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="10.5" fill="#4e5a72">observer (bird's-eye view) · sun marker size grows with elevation</text>
+  </svg>`;
+  const st=document.getElementById("azSteps");
+  if(a>0){
+    const c=(sinD(a)*sinD(phi)-sinD(d))/(cosD(a)*cosD(phi));
+    st.innerHTML=`
+     <div class="st" data-n="1">δ = ${(d>=0?"+":"")+fmt(d,2)}°, ω = ${(om>0?"+":"")+fmt(om,1)}° → α = ${fmt(a,2)}°</div>
+     <div class="st" data-n="2">cos ψ = (sin ${fmt(a,1)}° sin ${fmt(phi,1)}° − sin ${fmt(d,1)}°)/(cos ${fmt(a,1)}° cos ${fmt(phi,1)}°) = ${fmt(c,4)}</div>
+     <div class="st" data-n="3">ψ = cos⁻¹(${fmt(c,4)}) = <b>${fmt(psi,1)}°</b> from due ${phi>=0?"south":"south (reference)"} — on the <b>${om<=0?"east (morning)":"west (afternoon)"}</b> side ⇒ compass ${fmt(A,1)}° (${compass16(A)})</div>`;
+  }else st.innerHTML="";
+}
+wireSliders(["azN","azLat","azST"],drawAz);
+
+/* ==========================================================================
+   11. SUN PATH DIAGRAM — the central feature
+   ========================================================================== */
+document.getElementById("panel-spd").innerHTML=`
+ <h2 class="sec">${svg("path",24)} The Sun Path Diagram</h2>
+ <p class="lede">AKA <b>“day arc”</b> (Wikipedia, nd) or <b>“solar charts”</b> (CLEAR, nd).</p>
+ <div class="callout navy"><h4>${svg("bulb",18)} Definition (exact)</h4>
+  <p>“refers to the daily and seasonal arc-like path that the Sun appears to follow across the sky as the
+  Earth rotates and orbits the Sun” (Wikipedia, nd)</p></div>
+ <div class="grid c2">
+  <div class="card"><h4><span class="icon-circle">${svg("bulb",18)}</span>Benefits</h4>
+   <p>“The relative position of the Sun is a major factor in the heat gain of buildings and in the
+   performance of solar energy systems.” · “Accurate location-specific knowledge of sun path and climatic
+   conditions is essential for economic decisions about solar collector area, orientation, landscaping,
+   summer shading, and the cost-effective use of solar trackers.” (Wikipedia, nd)</p></div>
+  <div class="card"><h4><span class="icon-circle">${svg("search",18)}</span>The Two Parameters obtained from a Sun Path Diagram</h4>
+   <p>“The solar altitude, and the solar azimuth, can be read directly for any date of the year and any
+   hour of the day from the solar charts or sun path diagrams” (CLEAR, nd).</p></div>
+ </div>
+
+ <h3 class="subsec">${svg("play",20)} Sun Path Diagram Explorer — fully interactive</h3>
+ <p class="lede">Hover (or tap) anywhere on the chart to read solar altitude, solar azimuth, and local solar
+ time. Change the location, date, and time; press ▶ to watch the Sun travel its arc. The three reference
+ curves are the <b>Summer Solstice</b>, <b>Equinox</b>, and <b>Winter Solstice</b> paths.</p>
+ <div class="calc">
+  <div class="crow">
+   <label for="spSite">Location preset:</label>
+   <select id="spSite" class="match" style="max-width:250px;margin:0">
+    <option value="23.7104,90.40744">Dhaka — 23.7104° N, 90.40744° E</option>
+    <option value="-33.87,151.21">Sydney — 33.87° S, 151.21° E</option>
+    <option value="0,0">Equator — 0°, 0°</option>
+    <option value="51.51,-0.13">London — 51.51° N, 0.13° W</option>
+    <option value="64.15,-21.94">Reykjavik — 64.15° N</option>
+   </select>
+   <button class="btn gold" id="spPlay">▶ Animate day</button>
+  </div>
+  ${sliderRow("spLat","Latitude (hemisphere: negative = Southern)",-66,66,0.5,23.71,"°")}
+  ${sliderRow("spLon","Longitude (sets the local meridian)",-180,180,0.5,90.41,"°")}
+  ${sliderRow("spN","Date — day of year N",1,365,1,172,"")}
+  ${sliderRow("spST","Solar time",4,20,0.1,10,"h")}
+  <div id="spdChart"></div>
+  <div class="result-strip">
+   <div class="res"><div class="rv" id="spAlt">—</div><div class="rl">Solar Altitude α</div></div>
+   <div class="res"><div class="rv" id="spAz">—</div><div class="rl">Solar Azimuth</div></div>
+   <div class="res"><div class="rv" id="spRise">—</div><div class="rl">Sunrise (direction)</div></div>
+   <div class="res"><div class="rv" id="spSet">—</div><div class="rl">Sunset (direction)</div></div>
+   <div class="res"><div class="rv" id="spNoon">—</div><div class="rl">Solar Noon α</div></div>
+  </div>
+  <div class="fb mid show" id="spdHover" style="font-variant-numeric:tabular-nums">Hover over the diagram to read altitude, azimuth, and solar time…</div>
+ </div>
+
+ <h3 class="subsec">${svg("gear",20)} Engineering significance of Sun Path Diagrams</h3>
+ <div class="grid c3">
+  ${[["PV design","Position arrays and set row spacing so the low winter arc clears every obstruction."],
+     ["Solar thermal systems","Collector orientation and seasonal tilt schedules come straight off the solstice curves."],
+     ["Building orientation","Glazing that faces the winter arc gains free heat; avoiding the summer arc cuts cooling loads."],
+     ["Passive solar heating","Overhang depths are drawn on the diagram: block the high summer sun, admit the low winter sun."],
+     ["Shading studies","Overlay trees and buildings on the chart to see exactly which dates and hours lose direct sun."],
+     ["Architectural design","Daylighting, atria, and façade decisions all read sun positions from this one chart."]].map(x=>`
+   <div class="card"><h4><span class="icon-circle">${svg("gear",18)}</span>${x[0]}</h4><p>${x[1]}</p></div>`).join("")}
+ </div>
+ <div class="callout"><h4>${svg("search",18)} Exercise: Sunpath Diagram for Dhaka (“23.7104, 90.40744”)</h4>
+  <p>The lecture's exercise: generate the sun path diagram for Dhaka. Load the Dhaka preset above — then
+  compare with the online tool referenced in the lecture:
+  <b>andrewmarsh.com/apps/staging/sunpath3d.html</b>.</p></div>`;
+
+const SPD={W:740,H:330,padL:52,padR:22,padT:20,padB:44};
+function spdXY(A,alt){
+  const{W,H,padL,padR,padT,padB}=SPD;
+  const x=padL+(A-45)/(315-45)*(W-padL-padR);
+  const y=H-padB-(alt/90)*(H-padT-padB);
+  return[x,y];
+}
+function spdCurve(d,phi,step=0.2){
+  const w=wss(d,phi);if(w<=0)return "";
+  let path="",first=true;
+  for(let ST=12-w/15;ST<=12+w/15+1e-9;ST+=step){
+    const om=hourAngle(Math.min(ST,12+w/15));
+    const a=elev(d,phi,om);if(a<0)continue;
+    const A=azCompass(d,phi,om);
+    const[x,y]=spdXY(A,a);
+    path+=(first?"M":"L")+x.toFixed(1)+" "+y.toFixed(1);first=false;
+  }
+  return path;
+}
+function drawSPD(){
+  const phi=V("spLat"),N=V("spN"),ST=V("spST");
+  const d=decl(N),om=hourAngle(ST),a=elev(d,phi,om),w=wss(d,phi);
+  const{W,H,padL,padB}=SPD;
+  const dJun=23.45,dDec=-23.45,dEq=0;
+  let g=`<rect x="0" y="0" width="${W}" height="${H}" rx="12" fill="#eef4fb"/>`;
+  for(let alt=0;alt<=90;alt+=15){
+    const[,y]=spdXY(180,alt);
+    g+=`<line x1="${padL}" y1="${y}" x2="${W-22}" y2="${y}" stroke="#c9d6e6" stroke-width="${alt===0?1.8:0.8}"/>
+        <text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="10" fill="#4e5a72">${alt}°</text>`;
+  }
+  for(let A=45;A<=315;A+=45){
+    const[x]=spdXY(A,0);
+    g+=`<line x1="${x}" y1="${SPD.padT}" x2="${x}" y2="${H-padB}" stroke="#c9d6e6" stroke-width="0.8"/>
+        <text x="${x}" y="${H-padB+16}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#14213d">${compass16(A%360)}</text>
+        <text x="${x}" y="${H-padB+30}" text-anchor="middle" font-size="9" fill="#4e5a72">${A%360}°</text>`;
+  }
+  for(let hr=6;hr<=18;hr++){
+    let hp="",first=true;
+    for(let n=355;n>=172;n-=8){
+      const dd=decl(n),oo=hourAngle(hr),aa=elev(dd,phi,oo);
+      if(aa<0){first=true;continue;}
+      const[x,y]=spdXY(azCompass(dd,phi,oo),aa);
+      hp+=(first?"M":"L")+x.toFixed(1)+" "+y.toFixed(1);first=false;
+    }
+    g+=`<path d="${hp}" fill="none" stroke="#9fb4d8" stroke-width="1" stroke-dasharray="3 3"/>`;
+    const aNoonHr=elev(decl(172),phi,hourAngle(hr));
+    if(aNoonHr>2){const[x,y]=spdXY(azCompass(decl(172),phi,hourAngle(hr)),aNoonHr);
+      g+=`<text x="${x}" y="${y-6}" text-anchor="middle" font-size="8.5" fill="#4e5a72">${hr}</text>`;}
+  }
+  g+=`<path d="${spdCurve(dJun,phi)}" fill="none" stroke="#c2611a" stroke-width="2.4"/>
+      <path d="${spdCurve(dEq,phi)}" fill="none" stroke="#3a86ff" stroke-width="2"/>
+      <path d="${spdCurve(dDec,phi)}" fill="none" stroke="#14213d" stroke-width="2.4"/>
+      <path d="${spdCurve(d,phi)}" fill="none" stroke="#1e8e3e" stroke-width="1.8" stroke-dasharray="6 4"/>`;
+  g+=`<g font-size="10.5" font-weight="700">
+      <rect x="${padL+6}" y="${SPD.padT+2}" width="176" height="64" rx="8" fill="#ffffffcc"/>
+      <line x1="${padL+14}" y1="${SPD.padT+14}" x2="${padL+36}" y2="${SPD.padT+14}" stroke="#c2611a" stroke-width="2.4"/><text x="${padL+42}" y="${SPD.padT+18}" fill="#c2611a">Summer Solstice (Jun 21)</text>
+      <line x1="${padL+14}" y1="${SPD.padT+28}" x2="${padL+36}" y2="${SPD.padT+28}" stroke="#3a86ff" stroke-width="2"/><text x="${padL+42}" y="${SPD.padT+32}" fill="#2456b3">Equinox (Mar 21 / Sep 23)</text>
+      <line x1="${padL+14}" y1="${SPD.padT+42}" x2="${padL+36}" y2="${SPD.padT+42}" stroke="#14213d" stroke-width="2.4"/><text x="${padL+42}" y="${SPD.padT+46}" fill="#14213d">Winter Solstice (Dec 21)</text>
+      <line x1="${padL+14}" y1="${SPD.padT+56}" x2="${padL+36}" y2="${SPD.padT+56}" stroke="#1e8e3e" stroke-width="1.8" stroke-dasharray="6 4"/><text x="${padL+42}" y="${SPD.padT+60}" fill="#166b30">${dateFromN(N)} (selected)</text>
+      </g>`;
+  if(a>0){
+    const A=azCompass(d,phi,om);const[x,y]=spdXY(A,a);
+    g+=`<circle cx="${x}" cy="${y}" r="10" fill="#fca311" stroke="#a04c0e" stroke-width="2">
+        <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="${x}" y="${y-16}" text-anchor="middle" font-size="10.5" font-weight="800" fill="#a04c0e">${hhmm(ST)}</text>`;
+  }
+  if(w>0&&w<180){
+    const Ar=azCompass(d,phi,-w+0.4),As=azCompass(d,phi,w-0.4);
+    const[xr]=spdXY(Ar,0),[xs]=spdXY(As,0);
+    g+=`<circle cx="${xr}" cy="${H-padB}" r="5" fill="#fca311" stroke="#a04c0e"/><circle cx="${xs}" cy="${H-padB}" r="5" fill="#fca311" stroke="#a04c0e"/>`;
+  }
+  document.getElementById("spdChart").innerHTML=`
+  <svg id="spdSVG" viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0;cursor:crosshair"
+   role="img" aria-label="Interactive sun path diagram: altitude versus azimuth with solstice and equinox curves">${g}</svg>`;
+  document.getElementById("spAlt").textContent=a>0?fmt(a,1)+"°":"below horizon";
+  document.getElementById("spAz").textContent=a>0?fmt(azCompass(d,phi,om),1)+"° ("+compass16(azCompass(d,phi,om))+")":"—";
+  document.getElementById("spRise").textContent=w>0&&w<180?hhmm(12-w/15)+" · "+compass16(azCompass(d,phi,-w+0.4)):"—";
+  document.getElementById("spSet").textContent=w>0&&w<180?hhmm(12+w/15)+" · "+compass16(azCompass(d,phi,w-0.4)):"—";
+  document.getElementById("spNoon").textContent=fmt(90-Math.abs(phi-d),1)+"°";
+  const svgEl=document.getElementById("spdSVG");
+  const hover=e=>{
+    const r=svgEl.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width*W;
+    const A=45+(px-SPD.padL)/(W-SPD.padL-SPD.padR)*(315-45);
+    if(A<45||A>315)return;
+    let best=null,bd=1e9;
+    for(let ST2=12-w/15;ST2<=12+w/15;ST2+=0.05){
+      const aa=elev(d,phi,hourAngle(ST2));if(aa<0)continue;
+      const AA=azCompass(d,phi,hourAngle(ST2));
+      const dd2=Math.abs(AA-A);
+      if(dd2<bd){bd=dd2;best={ST2,aa,AA};}
+    }
+    if(best)document.getElementById("spdHover").innerHTML=
+     `☀ <b>${dateFromN(N)}</b> at azimuth ${fmt(best.AA,1)}° (${compass16(best.AA)}): solar altitude <b>${fmt(best.aa,1)}°</b>,
+      local solar time <b>${hhmm(best.ST2)}</b>. <i>Engineering interpretation:</i> ${best.aa>60?"high sun — near-normal incidence on low-tilt surfaces, minimal shading risk.":best.aa>25?"mid-height sun — the workhorse hours for energy collection.":"low sun — long shadows: check obstructions and row spacing at this hour."}`;
+  };
+  svgEl.addEventListener("mousemove",hover);
+  svgEl.addEventListener("click",hover);
+}
+document.getElementById("spSite").addEventListener("change",function(){
+  const[la,lo]=this.value.split(",").map(Number);
+  document.getElementById("spLat").value=la;document.getElementById("spLatV").textContent=la;
+  document.getElementById("spLon").value=lo;document.getElementById("spLonV").textContent=lo;
+  drawSPD();
+});
+let spTimer=null;
+document.getElementById("spPlay").addEventListener("click",function(){
+  if(spTimer){clearInterval(spTimer);spTimer=null;this.textContent="▶ Animate day";return;}
+  this.textContent="⏸ Pause";
+  spTimer=setInterval(()=>{
+    const s=document.getElementById("spST");
+    let v=+s.value+0.1;if(v>20)v=4;
+    s.value=v.toFixed(1);document.getElementById("spSTV").textContent=s.value;
+    drawSPD();
+  },70);
+});
+wireSliders(["spLat","spLon","spN","spST"],drawSPD);
+
+/* ==========================================================================
+   12. OPTIMAL TILT ANGLE
+   ========================================================================== */
+document.getElementById("panel-tilt").innerHTML=`
+ <h2 class="sec">${svg("tilt",24)} Optimal Tilt Angle for Solar Energy Systems</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} The lecture's rules (PVEDUCATION.ORG, ndc)</h4>
+  <p>“The tilt angle has a major impact on the solar radiation incident on a surface.” ·
+  “For a fixed tilt angle, the maximum power over the course of a year is obtained when
+  <b>the tilt angle is equal to the latitude of the location</b>.” ·
+  “However, <b>steeper tilt angles are optimized for large winter loads</b>” ·
+  “while <b>lower tilt angles use a greater fraction of light in the summer</b>.”</p></div>
+
+ <h3 class="subsec">${svg("gear",20)} Interactive Tilt Angle Designer</h3>
+ <div class="calc">
+  ${sliderRow("tdLat","Latitude",-60,60,0.5,23.71,"°")}
+  <div class="crow"><label>Design objective:</label>
+   <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <button class="btn ghost" data-obj="annual">Annual energy</button>
+    <button class="btn ghost" data-obj="winter">Winter optimization</button>
+    <button class="btn ghost" data-obj="summer">Summer optimization</button>
+   </div></div>
+  ${sliderRow("tdBeta","Your tilt angle β",0,80,1,24,"°")}
+  <div id="tdViz"></div>
+  <div class="result-strip">
+   <div class="res good"><div class="rv" id="tdRec">—</div><div class="rl">Recommended tilt</div></div>
+   <div class="res"><div class="rv" id="tdCap">—</div><div class="rl">Annual capture vs optimum</div></div>
+   <div class="res"><div class="rv" id="tdSeason">—</div><div class="rl">Seasonal bias</div></div>
+  </div>
+  <div class="fb mid show" id="tdNote"></div>
+ </div>
+
+ <h3 class="subsec">${svg("chart",20)} Animated comparison — horizontal · optimum · steep · shallow</h3>
+ <div class="card"><div id="tdCompare"></div>
+  <p class="small-note"><b>Why Tilt ≈ Latitude works:</b> the sun's noon zenith distance equals |φ − δ|,
+  and δ averages ~0° over the year — so a panel tilted at φ faces the annual-average noon sun
+  perpendicularly. Steeper favours the winter sun (δ &lt; 0), shallower favours summer (δ &gt; 0).</p></div>
+ ${hintPanels({
+  insight:"Tilting a panel is aiming its normal at the average sun. Tilt = Latitude points the normal at the celestial equator — the sun's average position.",
+  hint:"Quick numbers: Dhaka ≈ 24°, Sydney ≈ 34° — simply the site latitudes rounded.",
+  design:"Winter-heavy loads (heating, irrigation): tilt ≈ latitude + 10–15°. Summer-heavy loads (cooling): tilt ≈ latitude − 10–15°.",
+  mistake:"Copying a tilt from a different latitude, or optimizing summer when the critical load is in winter — the objective decides the tilt.",
+  exam:"State the rule with its source: 'maximum yearly power at tilt = latitude (PVEDUCATION.ORG, ndc)', then adjust for the stated load season.",
+  app:"Seasonally adjusted racks (changed 2–4 times a year) recapture most of the tracker benefit at near-zero cost."})}`;
+let tdObj="annual";
+document.querySelectorAll("[data-obj]").forEach(b=>b.addEventListener("click",()=>{
+  tdObj=b.dataset.obj;
+  const rec=tdRecommend();
+  const s=document.getElementById("tdBeta");
+  s.value=rec;document.getElementById("tdBetaV").textContent=rec;
+  drawTilt();
+}));
+function tdRecommend(){
+  const lat=Math.abs(V("tdLat"));
+  return Math.round(tdObj==="annual"?lat:tdObj==="winter"?Math.min(80,lat+15):Math.max(0,lat-15));
+}
+function drawTilt(){
+  const phi=V("tdLat"),beta=V("tdBeta"),rec=tdRecommend();
+  const capOpt=annualCapture(phi,Math.abs(phi));
+  const cap=annualCapture(phi,beta);
+  const relCap=cap/capOpt*100;
+  document.getElementById("tdRec").textContent=rec+"°";
+  document.getElementById("tdCap").textContent=fmt(relCap,1)+"%";
+  document.getElementById("tdSeason").textContent=
+    beta>Math.abs(phi)+5?"Winter-biased (steep)":beta<Math.abs(phi)-5?"Summer-biased (shallow)":"Balanced (≈ latitude)";
+  document.getElementById("tdNote").innerHTML=
+   `<b>Engineering recommendation:</b> objective “${tdObj==="annual"?"annual energy":tdObj+" optimization"}” at |φ| = ${fmt(Math.abs(phi),1)}° →
+    recommended tilt ${rec}°. Your β = ${beta}° captures ≈ ${fmt(relCap,1)}% of the optimum fixed-tilt annual energy
+    (teaching model). ${beta>Math.abs(phi)?"Steeper than latitude — optimized for large winter loads.":beta<Math.abs(phi)?"Lower than latitude — uses a greater fraction of light in the summer.":"Equal to latitude — the maximum power over the course of a year for a fixed tilt."}`;
+  const W=680,H=200,south=phi>=0;
+  document.getElementById("tdViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Panel tilted at beta with seasonal noon sun directions" font-family="Segoe UI,system-ui,sans-serif">
+   <rect x="0" y="${H-30}" width="${W}" height="30" fill="#3f7a3f"/>
+   <g transform="translate(${W/2},${H-30})">
+    <line x1="0" y1="0" x2="${-120*cosD(beta)*(south?1:-1)}" y2="${-120*sinD(beta)}" stroke="#14213d" stroke-width="7" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="${-120*cosD(beta)*(south?1:-1)}" y2="${-120*sinD(beta)}" stroke="#3a86ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 5"/>
+    <text x="${-64*(south?1:-1)}" y="${-64*sinD(beta)-12}" text-anchor="middle" font-size="12" font-weight="800" fill="#14213d">β = ${beta}°</text>
+   </g>
+   ${[["Winter noon",90-Math.abs(phi+(phi>=0?23.45:-23.45)),"#14213d"],
+      ["Equinox noon",90-Math.abs(phi),"#3a86ff"],
+      ["Summer noon",90-Math.abs(phi-(phi>=0?23.45:-23.45)),"#c2611a"]].map(s2=>{
+     const aN=Math.max(4,s2[1]);
+     const x2=W/2+230*cosD(aN)*(south?1:-1),y2=H-30-230*sinD(aN);
+     return `<line x1="${Math.max(20,Math.min(W-20,x2))}" y1="${Math.max(12,y2)}" x2="${W/2}" y2="${H-30}" stroke="${s2[2]}" stroke-width="2" stroke-dasharray="6 4" opacity=".85"/>
+      <text x="${Math.max(52,Math.min(W-60,x2))}" y="${Math.max(22,y2-4)}" text-anchor="middle" font-size="10" font-weight="700" fill="${s2[2]}">${s2[0]} α=${fmt(s2[1],0)}°</text>`;
+   }).join("")}
+   <text x="${south?W-46:46}" y="${H-8}" font-size="11" font-weight="700" fill="#fff">${south?"S":"N"} (equator side)</text>
+  </svg>`;
+  const opts=[["Horizontal (β = 0°)",0],["Shallow (β = |φ|−15°)",Math.max(0,Math.abs(phi)-15)],
+    ["Optimum (β = |φ|)",Math.abs(phi)],["Steep (β = |φ|+15°)",Math.min(80,Math.abs(phi)+15)]];
+  document.getElementById("tdCompare").innerHTML=opts.map(o=>{
+    const rc=annualCapture(phi,o[1])/capOpt*100;
+    return `<div style="margin:10px 0">
+     <div style="display:flex;justify-content:space-between;font-size:.85rem;font-weight:600;color:var(--navy)">
+      <span>${o[0]}</span><span>${fmt(rc,1)}% annual</span></div>
+     <div style="height:15px;background:#eef1f6;border-radius:99px;overflow:hidden">
+      <div style="height:100%;width:${rc}%;border-radius:99px;background:${rc>99?"var(--ok)":rc>93?"#3a86ff":"var(--warn)"};transition:width .7s"></div></div></div>`;
+  }).join("");
+}
+wireSliders(["tdLat","tdBeta"],drawTilt);
+
+/* ==========================================================================
+   13. OPTIMAL ORIENTATION (+ Engineering Design Studio)
+   ========================================================================== */
+document.getElementById("panel-orient").innerHTML=`
+ <h2 class="sec">${svg("compass",24)} Optimal Orientation for Solar Energy Systems</h2>
+ <div class="callout navy"><h4>${svg("bulb",18)} The lecture's rules (SAVER, nd)</h4>
+  <p>“Solar hot water collectors should be oriented geographically to maximize the amount of daily and
+  seasonal solar energy that they receive.” · “The optimum orientation for a solar collector in the
+  <b>northern hemisphere is true south</b>.” · “However, recent studies have shown that, depending on your
+  location and collector tilt, your collector can face up to <b>90º east or west of true south</b> without
+  significantly decreasing its performance.”</p></div>
+
+ <h3 class="subsec">${svg("play",20)} Interactive Orientation Optimizer</h3>
+ <div class="calc">
+  <div class="crow"><label>Hemisphere:</label>
+   <div style="display:flex;gap:6px">
+    <button class="btn ghost" data-hemi="N" id="hemiN">Northern Hemisphere</button>
+    <button class="btn ghost" data-hemi="S" id="hemiS">Southern Hemisphere</button>
+   </div></div>
+  ${sliderRow("orAz","Panel azimuth offset from optimum",-120,120,5,0,"°")}
+  <div id="orViz"></div>
+  <div class="result-strip">
+   <div class="res good"><div class="rv" id="orOpt">True South</div><div class="rl">Optimal orientation</div></div>
+   <div class="res"><div class="rv" id="orTol">±90°</div><div class="rl">Orientation tolerance</div></div>
+   <div class="res" id="orLossRes"><div class="rv" id="orLoss">—</div><div class="rl">Expected performance loss</div></div>
+  </div>
+  <div class="fb mid show" id="orNote"></div>
+ </div>
+ ${hintPanels({
+  insight:"Face the equator — the hemisphere-free statement of both rules. The sun's daily arc is centred on the equator side of the sky.",
+  hint:"Northern Hemisphere → True South; Southern Hemisphere → True North. If you remember one line, remember this pair.",
+  design:"Within ±30° of optimum, losses are only a few percent — accept good roofs rather than demanding perfect ones; beyond ±90°, redesign.",
+  mistake:"Confusing TRUE south/north with MAGNETIC compass readings — correct for magnetic declination on site.",
+  app:"East- or west-facing arrays are sometimes chosen deliberately to match morning or evening demand peaks — a tariff decision, not a geometry error."})}
+
+ <h3 class="subsec">${svg("gear",20)} Engineering Design Studio — rooftop PV designer</h3>
+ <p class="lede">Enter a real roof; the studio recommends tilt and orientation, estimates relative solar
+ exposure, and writes the engineering comments.</p>
+ <div class="calc">
+  <div class="crow">
+   <label for="dsLat" style="min-width:auto">Latitude (°, S negative):</label><input type="number" id="dsLat" step="any" value="23.71" style="width:110px">
+   <label for="dsLon" style="min-width:auto">Longitude (°):</label><input type="number" id="dsLon" step="any" value="90.41" style="width:110px">
+  </div>
+  <div class="crow">
+   <label for="dsAz" style="min-width:auto">Roof orientation (compass ° the roof faces):</label><input type="number" id="dsAz" min="0" max="359" value="180" style="width:100px">
+   <label for="dsSlope" style="min-width:auto">Roof slope (°):</label><input type="number" id="dsSlope" min="0" max="60" value="20" style="width:90px">
+   <label for="dsObj" style="min-width:auto">Objective:</label>
+   <select id="dsObj" class="match" style="max-width:190px;margin:0">
+    <option value="annual">Annual energy</option><option value="winter">Winter optimization</option>
+    <option value="summer">Summer optimization</option></select>
+   <button class="btn gold" id="dsGo">Analyze roof</button>
+  </div>
+  <div class="fb" id="dsOut" style="white-space:normal"></div>
+ </div>`;
+let orHemi="N";
+function setHemi(h){
+  orHemi=h;
+  document.getElementById("hemiN").style.background=h==="N"?"#fdf6e8":"";
+  document.getElementById("hemiN").style.fontWeight=h==="N"?"800":"600";
+  document.getElementById("hemiS").style.background=h==="S"?"#fdf6e8":"";
+  document.getElementById("hemiS").style.fontWeight=h==="S"?"800":"600";
+  drawOrient();
+}
+document.getElementById("hemiN").addEventListener("click",()=>setHemi("N"));
+document.getElementById("hemiS").addEventListener("click",()=>setHemi("S"));
+function orientLoss(off){
+  return Math.min(60,(1-cosD(Math.min(Math.abs(off),90)))*55+(Math.abs(off)>90?(Math.abs(off)-90)*0.5:0));
+}
+function drawOrient(){
+  const off=V("orAz");
+  const optName=orHemi==="N"?"True South":"True North";
+  const optAz=orHemi==="N"?180:0;
+  document.getElementById("orOpt").textContent=optName;
+  const loss=orientLoss(off);
+  document.getElementById("orLoss").textContent=fmt(loss,1)+"%";
+  document.getElementById("orNote").innerHTML=
+   `Panel faces <b>${fmt((optAz+off+360)%360,0)}° (${compass16((optAz+off+360)%360)})</b> — offset ${off>=0?"+":""}${off}° from ${optName}.
+    ${Math.abs(off)<=30?"Within ±30°: negligible loss — the lecture's 'or within ±30° for simplicity'.":
+      Math.abs(off)<=90?"Within the ±90° tolerance: 'without significantly decreasing its performance' (SAVER, nd).":
+      "Beyond ±90° east/west of optimum — outside the tolerance band; expect significant losses."}`;
+  const W=520,H=280,cx=260,cy=150,R=100;
+  const panelAz=(optAz+off+360)%360;
+  document.getElementById("orViz").innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:10px auto 0" role="img"
+   aria-label="Bird's-eye compass with the panel rotating toward the optimal orientation" font-family="Segoe UI,system-ui,sans-serif">
+   <circle cx="${cx}" cy="${cy}" r="${R+14}" fill="#f7f8fb" stroke="#4e5a72"/>
+   ${[["N",0],["E",90],["S",180],["W",270]].map(x=>`
+    <text x="${cx+(R+32)*sinD(x[1])}" y="${cy-(R+32)*cosD(x[1])+5}" text-anchor="middle" font-size="14" font-weight="800" fill="#14213d">${x[0]}</text>`).join("")}
+   <path d="M ${cx+(R+6)*sinD(optAz-90)} ${cy-(R+6)*cosD(optAz-90)} A ${R+6} ${R+6} 0 0 1 ${cx+(R+6)*sinD(optAz+90)} ${cy-(R+6)*cosD(optAz+90)}"
+     fill="none" stroke="#1e8e3e" stroke-width="7" opacity=".3"/>
+   <line x1="${cx}" y1="${cy}" x2="${cx+(R+2)*sinD(optAz)}" y2="${cy-(R+2)*cosD(optAz)}" stroke="#1e8e3e" stroke-width="2.4" stroke-dasharray="6 4"/>
+   <text x="${cx+(R-16)*sinD(optAz)}" y="${cy-(R-16)*cosD(optAz)}" text-anchor="middle" font-size="10" font-weight="800" fill="#166b30">${optName}</text>
+   <g transform="translate(${cx},${cy}) rotate(${panelAz})" style="transition:transform .5s ease">
+    <rect x="-34" y="-56" width="68" height="44" rx="5" fill="#173a6b" stroke="#0e2547" stroke-width="2"/>
+    <g stroke="#7fb2d8" stroke-width="1"><line x1="-34" y1="-42" x2="34" y2="-42"/><line x1="-34" y1="-28" x2="34" y2="-28"/>
+     <line x1="-12" y1="-56" x2="-12" y2="-12"/><line x1="11" y1="-56" x2="11" y2="-12"/></g>
+    <polygon points="0,-70 -8,-58 8,-58" fill="#c2611a"/>
+   </g>
+   <text x="${cx}" y="${cy+R+38}" text-anchor="middle" font-size="10.5" fill="#4e5a72">green band = ±90° orientation tolerance · arrow = panel normal</text>
+  </svg>`;
+}
+wireSliders(["orAz"],drawOrient);
+setHemi("N");
+document.getElementById("dsGo").addEventListener("click",()=>{
+  const lat=+document.getElementById("dsLat").value||0;
+  const az=((+document.getElementById("dsAz").value||0)+360)%360;
+  const slope=+document.getElementById("dsSlope").value||0;
+  const obj=document.getElementById("dsObj").value;
+  const hemi=lat>=0?"Northern":"Southern";
+  const optAz=lat>=0?180:0;
+  const optTilt=Math.round(obj==="annual"?Math.abs(lat):obj==="winter"?Math.abs(lat)+15:Math.max(0,Math.abs(lat)-15));
+  let off=az-optAz;while(off>180)off-=360;while(off<-180)off+=360;
+  const oLoss=orientLoss(off);
+  const tLoss=Math.max(0,(1-annualCapture(lat,slope)/annualCapture(lat,Math.abs(lat)))*100);
+  const expo=Math.max(0,100-oLoss-tLoss*0.7);
+  const out=document.getElementById("dsOut");
+  out.className="fb "+(expo>88?"good":expo>70?"mid":"poor")+" show";
+  out.innerHTML=`
+   <b>Design Studio report — ${hemi} Hemisphere site (φ = ${fmt(lat,2)}°, lon ${fmt(+document.getElementById("dsLon").value||0,2)}°)</b>
+   <table class="simple" style="margin-top:8px">
+    <tr><th>Optimum tilt (${obj})</th><td>${optTilt}° ${obj==="annual"?"(Tilt = Latitude)":obj==="winter"?"(latitude + 15° — steeper for winter loads)":"(latitude − 15° — lower for summer)"}</td></tr>
+    <tr><th>Optimum orientation</th><td>${lat>=0?"True South (180°)":"True North (0°)"} — tolerance ±90° east/west</td></tr>
+    <tr><th>Your roof</th><td>faces ${az}° (${compass16(az)}), slope ${slope}° → offset ${off>=0?"+":""}${fmt(off,0)}° from optimum</td></tr>
+    <tr><th>Expected relative solar exposure</th><td><b>≈ ${fmt(expo,0)}%</b> of the ideal fixed installation (teaching model)</td></tr>
+   </table>
+   <b>Engineering comments:</b>
+   ${Math.abs(off)<=30?"orientation is excellent (within ±30°).":Math.abs(off)<=90?"orientation is acceptable — within the ±90° tolerance band (SAVER, nd).":"orientation is OUTSIDE the tolerance band — consider racking that rotates the modules toward the equator."}
+   ${Math.abs(slope-optTilt)<=8?" Roof slope is close to the recommended tilt — mount flush to the roof for lowest cost.":slope<optTilt?" Roof is shallower than the recommended tilt — consider tilt-up frames to reach "+optTilt+"°.":" Roof is steeper than recommended — acceptable for winter-weighted loads; expect a summer deficit."}
+   <b>Practical recommendation:</b> ${expo>88?"proceed with flush mounting; a tracker is unnecessary here.":expo>70?"proceed, but quantify the losses against a small tilt-frame correction.":"redesign the array placement — this roof surface sacrifices too much energy."}`;
+});
+
+/* ==========================================================================
+   14. CASE STUDIES — Dhaka & Sydney (guided) + comparative dashboard
+   ========================================================================== */
+document.getElementById("panel-case").innerHTML=`
+ <h2 class="sec">${svg("pin",24)} Case Studies</h2>
+ <p class="lede">Two guided rooftop designs using exactly the lecture's three-step workflow:
+ <b>Step 1 — Analyze the Sun Path Diagram · Step 2 — Determine the Optimal Tilt Angle ·
+ Step 3 — Determine the Optimal Orientation.</b></p>
+ <div class="sim-steps" id="caseTabs" role="tablist" aria-label="Case study selector">
+  <button role="tab" aria-selected="true" data-case="dhaka">Case Study 1: Dhaka</button>
+  <button role="tab" aria-selected="false" data-case="sydney">Case Study 2: Sydney</button>
+  <button role="tab" aria-selected="false" data-case="compare">Comparative Dashboard</button>
+ </div>
+ <div id="caseBody"></div>`;
+let caseSel="dhaka";
+document.getElementById("caseTabs").addEventListener("click",e=>{
+  const b=e.target.closest("[data-case]");if(!b)return;
+  caseSel=b.dataset.case;
+  document.querySelectorAll("#caseTabs button").forEach(x=>x.setAttribute("aria-selected",x.dataset.case===caseSel));
+  drawCase();
+});
+function caseGuide(key){
+  const c=CASES[key];
+  const steps=[
+   {t:"Step 1: Analyzing the Sun Path for "+c.name.split(",")[0],icon:"path",
+    body:`<p style="font-size:.92rem">The Sun Path Diagram ${key==="dhaka"?"helps understand seasonal sun movement":"shows the sun's movement across the sky throughout the year"}.
+     Key ${key==="dhaka"?"outputs":"readings"}: <b>Solar Altitude</b> and <b>Solar Azimuth</b>. ${key==="dhaka"?"Use":"Try the"} online tool:
+     andrewmarsh.com/apps/staging/sunpath3d.html — or this app's Sun Path Diagram tab with the
+     ${c.name.split(",")[0]} preset. <i>(Source: Wikipedia, nd; CLEAR, nd)</i></p>
+     <div class="qrow"><div class="qtext">Quick check — at ${c.name.split(",")[0]}'s latitude (${c.latS}), the noon sun spends most of the year in which part of the sky?</div>
+      <button class="pick" data-ck="0" data-right="${key==="dhaka"?1:0}">The southern sky</button>
+      <button class="pick" data-ck="0" data-right="${key==="dhaka"?0:1}">The northern sky</button>
+      <div class="fb" id="cs0"></div></div>`},
+   {t:"Step 2: Determining the Optimal Tilt Angle",icon:"tilt",
+    body:`<p style="font-size:.92rem">Tilt angle ${key==="dhaka"?"affects total solar radiation received":"strongly influences solar capture"}.
+     ${key==="dhaka"?"For fixed systems: Tilt = Latitude.":"Rule of thumb: Tilt = Latitude."}
+     ${key==="dhaka"?"Winter-heavy loads: use steeper tilt angles; summer-focused systems: use lower tilt angles.":"Steeper angles = better winter performance; lower angles = more summer energy."}
+     <i>(Source: PVEDUCATION.ORG, ndc)</i></p>
+     <div class="qrow"><div class="qtext">Enter the recommended fixed tilt for ${c.name.split(",")[0]} (°):</div>
+      <div class="crow"><input type="number" class="fib-input" style="max-width:130px" id="csTilt" inputmode="numeric">
+      <button class="btn" id="csTiltGo">Check</button></div><div class="fb" id="cs1"></div></div>`},
+   {t:"Step 3: Selecting Optimal Orientation",icon:"compass",
+    body:`<p style="font-size:.92rem">${key==="dhaka"?
+      "Collectors should face true south in the northern hemisphere. Orientation tolerances: up to ±90° east/west without major loss. For Dhaka, orientation range: <b>Southeast to Southwest</b>.":
+      "In southern hemisphere: panels should face <b>true north</b>. Deviations up to ±90° east/west have minimal losses. In Sydney: prefer orientation between <b>Northeast and Northwest</b>."}
+     <i>(Source: SAVER, nd)</i></p>
+     <div class="qrow"><div class="qtext">Which direction should the ${c.name.split(",")[0]} panels face?</div>
+      <button class="pick" data-ck="2" data-right="${key==="dhaka"?1:0}">True south</button>
+      <button class="pick" data-ck="2" data-right="${key==="dhaka"?0:1}">True north</button>
+      <div class="fb" id="cs2"></div></div>`}
+  ];
+  return `
+   <div class="callout navy"><h4>${svg("pin",18)} Case Study: Designing a Rooftop Solar PV System in ${c.name.split(",")[0]}</h4>
+    <p><b>Location:</b> ${c.name} (Lat: ${c.latS}, Lon: ${c.lonS}) ·
+    <b>Objective:</b> Optimize ${key==="dhaka"?"the performance of a rooftop solar PV system":"rooftop solar PV performance"} ·
+    <b>${key==="dhaka"?"Tools":"Key Tools"}:</b> Sun Path Diagram, Optimal Tilt, and Orientation${key==="dhaka"?" Analysis":""}</p></div>
+   ${steps.map(s=>`<div class="calc"><h4>${svg(s.icon,18)} ${s.t}</h4>${s.body}</div>`).join("")}
+   <div class="callout"><h4>${svg("check",18)} Summary: Recommendations for ${c.name.split(",")[0]}</h4>
+    <p>${c.rec.join(" · ")}</p></div>`;
+}
+function drawCase(){
+  const body=document.getElementById("caseBody");
+  if(caseSel==="compare"){
+    const rows=[["Latitude",CASES.dhaka.latS,CASES.sydney.latS],
+     ["Hemisphere","Northern","Southern"],
+     ["Sun path","Arcs through the SOUTHERN sky; June arc nearly overhead","Arcs through the NORTHERN sky; December arc highest"],
+     ["Noon elevation range",`${fmt(90-Math.abs(23.71+23.45),1)}° (Dec) → ${fmt(90-Math.abs(23.71-23.45),1)}° (Jun)`,
+       `${fmt(90-Math.abs(-33.87+23.45),1)}° (Jun) → ${fmt(90-Math.abs(-33.87-23.45),1)}° (Dec)`],
+     ["Azimuth at noon","Due south (mostly)","Due north"],
+     ["Optimum tilt","24° (= latitude)","34° (= latitude)"],
+     ["Optimum orientation","True south · range Southeast to Southwest","True north · range Northeast and Northwest"],
+     ["Seasonal differences","Longest days & highest sun in June","Longest days & highest sun in December — seasons reversed"]];
+    body.innerHTML=`
+     <h3 class="subsec">${svg("chart",20)} Comparative Engineering Dashboard — Dhaka vs Sydney</h3>
+     <table class="simple"><tr><th></th><th>Dhaka</th><th>Sydney</th></tr>
+      ${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>
+     <div class="grid c2" style="margin-top:14px">
+      ${["dhaka","sydney"].map(k=>{
+        const c=CASES[k];
+        return `<div class="card"><h4>${svg("path",18)} ${c.name.split(",")[0]} — miniature sun path</h4>
+         <svg viewBox="0 0 340 170" style="width:100%" role="img" aria-label="Miniature sun path for ${c.name}">
+          <rect width="340" height="170" rx="10" fill="#eef4fb"/>
+          <line x1="20" y1="140" x2="320" y2="140" stroke="#4e5a72"/>
+          ${[[23.45,"#c2611a"],[0,"#3a86ff"],[-23.45,"#14213d"]].map(s=>{
+            const aN=90-Math.abs(c.lat-s[0]);const w=wss(s[0],c.lat);
+            const half=Math.min(140,w/180*140);
+            return `<path d="M ${170-half} 140 Q 170 ${140-aN/90*115} ${170+half} 140" fill="none" stroke="${s[1]}" stroke-width="2"/>`;
+          }).join("")}
+          <text x="26" y="156" font-size="10" fill="#4e5a72">E</text><text x="306" y="156" font-size="10" fill="#4e5a72">W</text>
+          <text x="170" y="162" text-anchor="middle" font-size="9.5" fill="#4e5a72">noon side: ${c.lat>=0?"SOUTH":"NORTH"} · tilt ${c.tilt}° · face ${c.face}</text>
+         </svg></div>`;}).join("")}
+     </div>
+     <div class="callout"><h4>${svg("bulb",18)} Engineering implications</h4>
+      <p>Same formulas, opposite hemispheres: the sign of φ mirrors the sun path north-south, reverses the
+      seasons, flips the optimal orientation (true south ↔ true north), and shifts the optimal tilt with
+      |latitude| (24° → 34°). One design method serves the whole planet — if the engineer respects the signs.</p></div>`;
+    return;
+  }
+  body.innerHTML=caseGuide(caseSel);
+  body.querySelectorAll(".pick[data-ck]").forEach(p=>p.addEventListener("click",()=>{
+    const i=p.dataset.ck,right=p.dataset.right==="1";
+    const fb=document.getElementById("cs"+i);
+    p.classList.add(right?"right":"wrong");
+    fb.className="fb show "+(right?"good":"poor");
+    const c=CASES[caseSel];
+    if(i==="0")fb.innerHTML=right?
+      `✔ Correct — at ${c.latS}, the noon sun is in the ${caseSel==="dhaka"?"southern":"northern"} sky ${caseSel==="dhaka"?"(φ > δ for most of the year)":"(φ negative: the sun arcs through the north)"} — which is why the panels face ${c.face}.`:
+      `✖ Check the hemisphere: for ${c.latS} the noon sun stands on the ${caseSel==="dhaka"?"southern":"northern"} side.`;
+    if(i==="2")fb.innerHTML=right?
+      `✔ Correct — ${c.face} (range: ${c.range}).`:
+      `✖ Remember: ${caseSel==="dhaka"?"northern hemisphere ⇒ true south":"southern hemisphere ⇒ true north"}.`;
+    if(right){STATE.caseDone[caseSel+i]=true;save();}
+  }));
+  const tg=body.querySelector("#csTiltGo");
+  if(tg)tg.addEventListener("click",()=>{
+    const v=+body.querySelector("#csTilt").value;
+    const c=CASES[caseSel],fb=document.getElementById("cs1");
+    if(Math.abs(v-c.tilt)<=1.5){
+      fb.className="fb good show";
+      fb.innerHTML=`✔ Correct — Tilt = Latitude ⇒ ${c.tilt}° for ${c.name.split(",")[0]}. Steeper for winter-heavy loads, lower for summer-focused systems.`;
+      STATE.caseDone[caseSel+"1"]=true;save();
+    }else{fb.className="fb poor show";fb.innerHTML="✖ Apply the rule of thumb: Tilt = Latitude. What is the site latitude?";}
+  });
+}
+drawCase();
+
+/* ==========================================================================
+   15. REFLECTIONS
+   ========================================================================== */
+document.getElementById("panel-reflect").innerHTML=`
+ <h2 class="sec">${svg("bulb",24)} Reflections</h2>
+ <p class="lede">Attempt each reflection yourself first — write your reasoning, use <b>Show Hint</b> if
+ stuck, then <b>Reveal Discussion</b> for the full engineering explanation.</p>
+ ${REFLECT.map((r,i)=>`
+  <div class="qrow">
+   <div class="qtext">${i+1}. ${r.q}</div>
+   <textarea class="reflect-box" data-ref="${i}" aria-label="Your reflection"
+    placeholder="Record your own reflection here…">${STATE.reflect[i]||""}</textarea>
+   <div class="crow" style="margin-top:10px">
+    <button class="btn ghost" data-hintbtn="${i}">💡 Show Hint</button>
+    <button class="btn gold" data-discbtn="${i}">Reveal Discussion</button>
+   </div>
+   <div class="fb" id="refHint${i}"></div>
+   <div class="fb" id="refDisc${i}"></div>
+  </div>`).join("")}
+ <p class="small-note">Your reflections are stored locally in your browser only.</p>`;
+document.getElementById("panel-reflect").addEventListener("input",e=>{
+  const t=e.target.closest("[data-ref]");if(t){STATE.reflect[t.dataset.ref]=t.value;save();}
+});
+document.getElementById("panel-reflect").addEventListener("click",e=>{
+  const hb=e.target.closest("[data-hintbtn]"),db=e.target.closest("[data-discbtn]");
+  if(hb){const i=+hb.dataset.hintbtn,el=document.getElementById("refHint"+i);
+    el.className="fb mid show";el.innerHTML="💡 <b>Beneficial Hint:</b> "+REFLECT[i].hint;}
+  if(db){const i=+db.dataset.discbtn,r=REFLECT[i],el=document.getElementById("refDisc"+i);
+    el.className="fb good show";
+    el.innerHTML=`<b>Engineering discussion</b><p style="margin-top:6px">${r.disc}</p>
+     <div class="panelset" style="margin-top:10px">
+      <div class="hintbox hb-insight"><b>⚙ Engineering Insight</b>${r.insight}</div>
+      <div class="hintbox hb-app"><b>🔧 Practical Engineering Interpretation</b>${r.practical}</div>
+      <div class="hintbox hb-know"><b>☀ Renewable Energy Application</b>${r.re}</div>
+      <div class="hintbox hb-hint"><b>📐 Design Recommendation</b>${r.design}</div>
+      <div class="hintbox hb-exam"><b>🎓 Examination Tip</b>${r.exam}</div>
+      <div class="hintbox hb-mistake"><b>⚠ Common Misconception</b>${r.miscon}</div>
+     </div>`;}
+});
+
+/* ==========================================================================
+   16. SUMMARY
+   ========================================================================== */
+document.getElementById("panel-summary").innerHTML=`
+ <h2 class="sec">${svg("book",24)} Summary</h2>
+ <div id="sumWrap">
+ ${[["Sun Path Diagram","The daily and seasonal arc-like path the Sun appears to follow across the sky. Solar altitude and solar azimuth can be read directly for any date and any hour — the master chart for PV design, solar thermal, building orientation, passive heating, shading studies, and tracker economics."],
+   ["The three sky angles","Elevation α: the angular height of the sun measured from the horizontal, sin α = sin δ sin ϕ + cos δ cos ϕ cos ω. Zenith θz = 90° − α, measured from the vertical. Azimuth ψ: the compass direction from which the sunlight is coming, cos ψ = (sin α sin ϕ − sin δ)/(cos α cos ϕ)."],
+   ["Optimal Tilt","Maximum yearly power at Tilt = Latitude; steeper tilt angles are optimized for large winter loads; lower tilt angles use a greater fraction of light in the summer."],
+   ["Optimal Orientation","Northern hemisphere: true south. Southern hemisphere: true north. Tolerance: up to 90° east or west without significantly decreasing performance."],
+   ["Tracking Systems","Both case studies close the same way: consider tracking systems if economically viable — a cost-benefit decision on top of the fixed-tilt geometry."],
+   ["Practical PV Design","The three-step workflow: 1) analyze the Sun Path Diagram, 2) determine the Optimal Tilt Angle, 3) determine the Optimal Orientation — demonstrated for Dhaka and Sydney."]].map((s,i)=>`
+  <div class="card sum-card" style="margin-bottom:12px;opacity:0;transform:translateY(14px);transition:opacity .5s ${i*.1}s,transform .5s ${i*.1}s">
+   <h4><span class="icon-circle" style="background:var(--navy);color:#fff;font-weight:800">${i+1}</span>${s[0]}</h4><p>${s[1]}</p></div>`).join("")}
+ </div>
+ <h3 class="subsec">${svg("path",20)} Concept map — knowledge graph</h3>
+ <div class="card">${mapSVG()}</div>
+ <h3 class="subsec">${svg("check",20)} Key design recommendations</h3>
+ <div class="grid c2">
+  <div class="card"><h4><span class="icon-circle">${svg("pin",18)}</span>Dhaka (23.71° N)</h4>
+   <ul style="margin:4px 0 4px 20px;font-size:.9rem;color:var(--ink2)">${CASES.dhaka.rec.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+  <div class="card"><h4><span class="icon-circle">${svg("pin",18)}</span>Sydney (33.87° S)</h4>
+   <ul style="margin:4px 0 4px 20px;font-size:.9rem;color:var(--ink2)">${CASES.sydney.rec.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+ </div>
+ <h3 class="subsec">${svg("check",20)} Engineering checklist — can you…</h3>
+ ${["compute α from δ, ϕ, ω — and θz from α?",
+    "compute ψ (after α) and assign the correct east/west side?",
+    "read solar altitude and azimuth off a sun path diagram for any date and hour?",
+    "choose the optimal tilt for annual, winter, or summer objectives?",
+    "choose the optimal orientation in either hemisphere with its tolerance band?",
+    "run the three-step rooftop design workflow for a new city?"].map((c,i)=>`
+  <div class="topic-row"><span class="tick">${i+1}</span><span>${c}</span></div>`).join("")}
+ <div class="keytake"><h4>Key takeaway</h4>
+  <p>Part 1 gave the clock and the calendar; Part 2 gives the sky. With α, θz, ψ and the sun path diagram,
+  the engineer aims a collector — tilt at latitude, face the equator — and reads a year of sunshine off one chart.</p></div>`;
+const sumWrap=document.getElementById("sumWrap");
+new MutationObserver(()=>{
+  if(document.getElementById("panel-summary").classList.contains("active"))
+    requestAnimationFrame(()=>sumWrap.querySelectorAll(".sum-card").forEach(c=>{c.style.opacity=1;c.style.transform="none";}));
+}).observe(document.getElementById("panel-summary"),{attributes:true,attributeFilter:["class"]});
+
+/* ==========================================================================
+   17. BIBLIOGRAPHY
+   ========================================================================== */
+document.getElementById("panel-biblio").innerHTML=`
+ <h2 class="sec">${svg("link",24)} Bibliography</h2>
+ <p class="lede">The lecture's references — the exact sources of every quoted definition and rule in this app.</p>
+ ${BIBLIO.map(r=>`<div class="topic-row"><span class="tick">📖</span><span style="word-break:break-word">${r}</span></div>`).join("")}
+ <div class="callout"><h4>${svg("search",18)} Online tool referenced in the lecture</h4>
+  <p>Sun path diagram generator: <b>http://andrewmarsh.com/apps/staging/sunpath3d.html</b> — used in the
+  Dhaka exercise (“23.7104, 90.40744”, via latitudelongitude.org/bd/dhaka) and both case studies.</p></div>`;
+
+/* ==========================================================================
+   18. FORMULA TOOLBOX + PRACTICE PROBLEMS (appended to Summary tab)
+   ========================================================================== */
+const TOOLBOX=[
+ {t:"Elevation Angle (α)",f:"sin α = sin δ sin ϕ + cos δ cos ϕ cos ω",
+  der:"Spherical trigonometry on the celestial sphere: project the sun's position (declination δ, hour angle ω) onto the observer's horizon system at latitude ϕ. The dot product of the sun vector and the local vertical gives sin α.",
+  vars:"α = elevation (altitude) angle; δ = declination angle for the day; ϕ = latitude; ω = hour angle for the time of day.",
+  ass:"Point sun, no atmospheric refraction; solar time used for ω.",
+  interp:"How high the sun stands above the horizon — 0° at sunrise, up to 90° overhead.",
+  mist:"RAD-mode calculators; not checking for negative sin α (sun below horizon).",
+  app:"Row spacing, shading masks, air mass, and the noon shortcut α = 90° − |ϕ − δ|.",
+  ex:"Dhaka, Mar 15, 9:00 AM: δ = −2.82°, ω = −45° → sin α = sin(−2.82)sin(23.71) + cos(−2.82)cos(23.71)cos(−45) = −0.0198 + 0.6467 = 0.6269 → α ≈ 38.8°."},
+ {t:"Zenith Angle (θz)",f:"θz = 90° − α",
+  der:"The zenith (vertical) and horizon are perpendicular: any direction's angles from each must sum to 90°.",
+  vars:"θz = zenith angle (from the vertical); α = elevation angle (from the horizontal).",
+  ass:"Same instant, same observer — the two angles describe one sun direction.",
+  interp:"How far the sun is from directly overhead — 0° overhead, 90° at the horizon.",
+  mist:"Substituting α where θz is expected (air-mass and irradiance formulas use θz).",
+  app:"Horizontal beam irradiance ∝ cos θz; air mass ≈ 1/cos θz; PV standard AM1.5 ⇔ θz ≈ 48.2°.",
+  ex:"If α = 38.8°, then θz = 90 − 38.8 = 51.2°."},
+ {t:"Azimuth Angle (ψ)",f:"cos ψ = (sin α sin ϕ − sin δ) / (cos α cos ϕ)",
+  der:"Second spherical-triangle relation of the same sun vector — resolving its horizontal component relative to the meridian after α is known.",
+  vars:"ψ = solar azimuth; α = elevation angle (compute first); ϕ = latitude; δ = declination.",
+  ass:"cos⁻¹ returns 0–180°: assign the east side for morning (ω < 0) and west side for afternoon (ω > 0) manually.",
+  interp:"The compass direction from which the sunlight is coming.",
+  mist:"Computing ψ before α; forgetting the morning/afternoon side assignment.",
+  app:"Panel orientation, shading azimuths, sunrise/sunset directions on the sun path diagram.",
+  ex:"Dhaka, Mar 15, 9:00 AM (α = 38.8°): cos ψ = (sin 38.8 sin 23.71 − sin(−2.82))/(cos 38.8 cos 23.71) = 0.4224 → ψ ≈ 65.0° from south, east side (morning) ⇒ compass ≈ 115° (ESE)."}
+];
+const PRAC=[
+ ["★ Conceptual","Why does the azimuth formula need α as an input, while the elevation formula does not need ψ?",
+  "The sun's direction has two coordinates. Elevation is computed directly from (δ, ϕ, ω). The azimuth relation then locates the horizontal component — it presupposes the vertical one. Order matters: α first, ψ second."],
+ ["★ Numerical","Dhaka (ϕ = 23.71°), equinox (δ = 0°), solar noon: find α, θz, and the azimuth direction.",
+  "α = 90 − |23.71 − 0| = 66.29°; θz = 23.71°; at noon the sun is due south (ψ = 0° from south) — shadows point true north."],
+ ["★★ Numerical","Sydney (ϕ = −33.87°), June 21 (δ = +23.45°), noon: find α and the compass side of the sun.",
+  "α = 90 − |−33.87 − 23.45| = 32.68° — a low winter sun in Sydney, standing due NORTH (equator side for a southern site)."],
+ ["★★ Sun path interpretation","On Dhaka's diagram, the June arc's sunrise sits north of east. Explain.",
+  "With δ = +23.45° > 0, the sunrise azimuth moves toward the northeast. Only at the equinoxes (δ = 0) does the sun rise due east."],
+ ["★★ Panel orientation","A Dhaka warehouse roof faces 210° (SSW). Approve or reject for PV?",
+  "Offset from true south = 30°. Within the ±30° 'for simplicity' band and far inside the ±90° tolerance — approve; expect only a few percent annual loss."],
+ ["★★★ Design scenario","A Sydney client wants maximum WINTER output. Recommend tilt and orientation.",
+  "Winter optimization ⇒ tilt ≈ latitude + 15° ≈ 49° (steeper catches the low June sun, noon α ≈ 32.7°); orientation true north (tolerance NE–NW). Verify no obstruction cuts the low winter arc on the sun path diagram."]
+];
+document.getElementById("panel-summary").insertAdjacentHTML("beforeend",`
+ <h3 class="subsec">${svg("calc",20)} Formula Toolbox</h3>
+ ${TOOLBOX.map(t=>expander(
+  `<span class="icon-circle">${svg("calc",18)}</span><span><b>${t.t}</b><br>
+   <span style="font-weight:400;font-family:Cambria,Georgia,serif;font-size:.95rem;color:var(--ink2)">${t.f}</span></span>`,
+  `<h5>Derivation</h5><p>${t.der}</p><h5>Variable definitions</h5><p>${t.vars}</p>
+   <h5>Assumptions</h5><p>${t.ass}</p><h5>Engineering interpretation</h5><p>${t.interp}</p>
+   <h5>Worked example</h5><p>${t.ex}</p><h5>Common mistakes</h5><p>${t.mist}</p>
+   <h5>Practical applications</h5><p>${t.app}</p>`)).join("")}
+ <h3 class="subsec">${svg("clip",20)} Practice Problems</h3>
+ ${PRAC.map(p=>expander(
+  `<span class="icon-circle">${svg("clip",18)}</span><span><b>${p[0]}</b> — ${p[1]}</span>`,
+  `<h5>Hints & intermediate steps → engineering discussion → final answer</h5><div class="steps"><p>${p[2]}</p></div>`)).join("")}`);
+
+/* ==========================================================================
+   19. QUIZ (20 randomized questions, 7 formats)
+   ========================================================================== */
+const TOPIC_NAMES={elev:"Elevation Angle",zen:"Zenith Angle",azi:"Azimuthal Angle",
+ spd:"Sun Path Diagram",tilt:"Optimal Tilt Angle",orient:"Optimal Orientation",case:"Case Studies"};
+const TYPE_NAMES={mc:"Multiple Choice",tf:"True / False",fib:"Fill in the Blank",
+ num:"Numerical Problem",diag:"Diagram Interpretation",design:"Engineering Design",scen:"Scenario"};
+let quiz={qs:[],i:0,score:0,answered:false};
+const quizPanel=document.getElementById("panel-quiz");
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function startQuiz(){
+  const pick=(t,n)=>shuffle(QUIZ_POOL.filter(q=>q.type===t)).slice(0,n);
+  quiz={qs:shuffle([...pick("mc",7),...pick("tf",3),...pick("fib",2),...pick("num",3),
+        ...pick("diag",2),...pick("design",1),...pick("scen",2)]),i:0,score:0,answered:false};
+  drawQuiz();
+}
+function drawQuiz(){
+  if(quiz.i>=quiz.qs.length)return quizResult();
+  const q=quiz.qs[quiz.i],pct=Math.round(100*quiz.i/quiz.qs.length);
+  let inner="";
+  if(["mc","diag","design","scen"].includes(q.type)){
+    inner=(q.svg||"")+shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="quiz-opt" data-oi="${i}">${q.opts[i]}</button>`).join("");
+  }else if(q.type==="tf"){
+    inner=`<button class="quiz-opt" data-tf="true">True</button><button class="quiz-opt" data-tf="false">False</button>`;
+  }else if(q.type==="fib"){
+    inner=`<input class="fib-input" id="fibIn" type="text" autocomplete="off" placeholder="Type your answer…" aria-label="Your answer">
+      <div style="margin-top:12px"><button class="btn" id="fibGo">Submit answer</button></div>`;
+  }else if(q.type==="num"){
+    inner=`<div class="crow"><input class="fib-input" id="numIn" type="number" step="any" inputmode="decimal"
+      placeholder="Your answer" aria-label="Numerical answer" style="max-width:180px"><span style="font-weight:700;color:var(--ink2)">${q.unit}</span></div>
+      <div style="margin-top:12px"><button class="btn" id="numGo">Submit answer</button></div>`;
+  }
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz — Resource Assessment: The Sun Path Diagram</h2>
+   <div class="quiz-top">
+     <span class="qcount">Question ${quiz.i+1} / ${quiz.qs.length}</span>
+     <div class="pbar" style="flex:1;min-width:120px;background:#e8e8e2"><span style="width:${pct}%"></span></div>
+     <span class="qscore">Score: ${quiz.score} / ${quiz.i}</span>
+   </div>
+   <div class="quiz-card">
+     <span class="qtype-tag">${TYPE_NAMES[q.type]} · ${TOPIC_NAMES[q.topic]}</span>
+     <h3>${q.q}</h3>${inner}
+     <div class="explain" id="qEx"></div>
+     <div style="margin-top:16px;display:none" id="nextWrap">
+       <button class="btn gold" id="qNext">${quiz.i===quiz.qs.length-1?"See results →":"Next question →"}</button>
+     </div>
+   </div>`;
+  quizPanel.querySelectorAll(".quiz-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(quiz.answered)return;
+    let right;
+    if(q.type==="tf"){right=(b.dataset.tf==="true")===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if((x.dataset.tf==="true")===q.a)x.classList.add("right");});
+    }else{right=+b.dataset.oi===q.a;
+      quizPanel.querySelectorAll(".quiz-opt").forEach(x=>{if(+x.dataset.oi===q.a)x.classList.add("right");});}
+    if(!right)b.classList.add("wrong");
+    settle(right);
+  }));
+  const fg=quizPanel.querySelector("#fibGo");
+  if(fg){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=(quizPanel.querySelector("#fibIn").value||"").trim().toLowerCase();
+      if(!v)return;
+      const right=q.a.some(ans=>v===ans.toLowerCase()||v.includes(ans.toLowerCase()));
+      quizPanel.querySelector("#fibIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    fg.addEventListener("click",go);
+    quizPanel.querySelector("#fibIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#fibIn").focus();
+  }
+  const ng=quizPanel.querySelector("#numGo");
+  if(ng){
+    const go=()=>{
+      if(quiz.answered)return;
+      const v=parseFloat(quizPanel.querySelector("#numIn").value);
+      if(isNaN(v))return;
+      const right=Math.abs(v-q.a)<=q.tol;
+      quizPanel.querySelector("#numIn").style.borderColor=right?"var(--ok)":"var(--bad)";
+      settle(right);
+    };
+    ng.addEventListener("click",go);
+    quizPanel.querySelector("#numIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+    quizPanel.querySelector("#numIn").focus();
+  }
+  function settle(right){
+    quiz.answered=true;
+    if(right)quiz.score++;
+    else{STATE.quiz.wrongTopics[q.topic]=(STATE.quiz.wrongTopics[q.topic]||0)+1;save();}
+    quizPanel.querySelectorAll(".quiz-opt").forEach(x=>x.disabled=true);
+    const ex=quizPanel.querySelector("#qEx");
+    ex.className="explain show "+(right?"good":"poor");
+    ex.innerHTML=`<b>${right?"✔ Correct!":"✖ Not quite."}</b>${q.ex}${(q.type==="num"||q.type==="fib")&&!right?`<br><b style="margin-top:6px">Answer:</b> ${q.type==="num"?q.a+" "+q.unit:q.a[0]}`:""}`;
+    quizPanel.querySelector(".qscore").textContent=`Score: ${quiz.score} / ${quiz.i+1}`;
+    const nw=quizPanel.querySelector("#nextWrap");nw.style.display="block";
+    nw.querySelector("#qNext").addEventListener("click",()=>{quiz.i++;quiz.answered=false;drawQuiz();});
+    nw.querySelector("#qNext").focus();
+  }
+}
+function quizResult(){
+  const pct=Math.round(100*quiz.score/quiz.qs.length);
+  const grade=pct>=90?"A+":pct>=80?"A":pct>=70?"B":pct>=60?"C":pct>=50?"D":"F";
+  const col=pct>=80?"var(--ok)":pct>=60?"var(--warn)":"var(--bad)";
+  STATE.quiz.last=pct;
+  if(STATE.quiz.best===null||pct>STATE.quiz.best)STATE.quiz.best=pct;
+  save();
+  const C=2*Math.PI*62;
+  quizPanel.innerHTML=`
+   <h2 class="sec">${svg("check",24)} Quiz Results</h2>
+   <div class="quiz-card quiz-result">
+     <svg class="grade-ring" viewBox="0 0 150 150" role="img" aria-label="Score ${pct} percent, grade ${grade}">
+       <circle cx="75" cy="75" r="62" fill="none" stroke="#e8e8e2" stroke-width="13"/>
+       <circle cx="75" cy="75" r="62" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round"
+         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}" transform="rotate(-90 75 75)"
+         style="transition:stroke-dashoffset 1.2s ease"/>
+       <text x="75" y="70" text-anchor="middle" font-size="30" font-weight="800" fill="var(--navy)">${pct}%</text>
+       <text x="75" y="97" text-anchor="middle" font-size="20" font-weight="700" fill="${col}">${grade}</text>
+     </svg>
+     <h3>${quiz.score} of ${quiz.qs.length} correct — Grade ${grade}</h3>
+     <p style="color:var(--ink2);max-width:54ch;margin:10px auto">${
+      pct>=80?"Excellent — you can place the sun in the sky and aim a collector anywhere on Earth.":
+      pct>=60?"Solid base — check the Dashboard's weak areas, replay the simulators, and retake the quiz.":
+      "Revisit the three angle tabs and the sun path explorer, rerun the case studies, then try again."}</p>
+     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+       <button class="btn gold" id="restartQuiz">↻ Restart Quiz</button>
+       <button class="btn ghost" id="toDash">View Dashboard</button>
+     </div>
+   </div>`;
+  quizPanel.querySelector("#restartQuiz").addEventListener("click",startQuiz);
+  quizPanel.querySelector("#toDash").addEventListener("click",()=>selectTab("dash"));
+}
+startQuiz();
+
+/* ==========================================================================
+   20. STUDENT DASHBOARD
+   ========================================================================== */
+function renderDash(){
+  const pct=updateProgress();
+  const topics=[["Learning Outcomes","outcomes"],["Review","review"],["Introduction","intro"],
+   ["Elevation Angle","elev"],["Zenith Angle","zen"],["Azimuthal Angle","azi"],
+   ["Sun Path Diagram","spd"],["Optimal Tilt Angle","tilt"],["Optimal Orientation","orient"],
+   ["Case Studies (Dhaka · Sydney)","case"],["Reflections","reflect"],["Summary","summary"],
+   ["Bibliography","biblio"],["Quiz","quiz"]];
+  const wrongs=Object.entries(STATE.quiz.wrongTopics||{}).sort((a,b)=>b[1]-a[1]);
+  const recs=[];
+  wrongs.forEach(([t])=>{
+    if(t==="elev")recs.push("Replay the <b>Elevation Angle</b> geometry — and memorize the noon shortcut α = 90° − |φ − δ|.");
+    if(t==="zen")recs.push("Revisit <b>Zenith Angle</b> — θz = 90° − α, measured from the vertical.");
+    if(t==="azi")recs.push("Practice the <b>Azimuth</b> workflow: α first, then cos ψ = (sin α sin ϕ − sin δ)/(cos α cos ϕ), then assign the east/west side.");
+    if(t==="spd")recs.push("Spend time hovering the <b>Sun Path Diagram Explorer</b> — read altitude, azimuth, and time until it feels automatic.");
+    if(t==="tilt")recs.push("Re-run the <b>Tilt Angle Designer</b> — Tilt = Latitude for annual maximum; steeper for winter, lower for summer.");
+    if(t==="orient")recs.push("Review <b>Optimal Orientation</b> — true south (NH) / true north (SH), tolerance ±90°.");
+    if(t==="case")recs.push("Redo the <b>Dhaka and Sydney case studies</b> — three steps, two hemispheres, and the comparative dashboard.");
+  });
+  const cd=Object.keys(STATE.caseDone).length;
+  if(cd<6)recs.push(`Finish the guided <b>case study checks</b> — ${6-cd} of 6 remaining across Dhaka and Sydney.`);
+  if(Object.keys(STATE.mastered).length<4)recs.push("Return to <b>Learning Outcomes</b> and honestly mark what you have completed.");
+  if(!Object.keys(STATE.reflect).length)recs.push("Write your <b>Reflections</b> — start with why Dhaka's December noon sun is low.");
+  if(!recs.length)recs.push("Nothing weak detected — one last pass of the Summary's design recommendations and you are exam-ready.");
+  document.getElementById("panel-dash").innerHTML=`
+   <h2 class="sec">${svg("chart",24)} Student Dashboard</h2>
+   <div class="stat-grid">
+     <div class="stat"><div class="val">${pct}%</div><div class="lbl">Completion</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.best!==null?STATE.quiz.best+"%":"—"}</div><div class="lbl">Best quiz score</div></div>
+     <div class="stat"><div class="val">${STATE.quiz.last!==null?STATE.quiz.last+"%":"—"}</div><div class="lbl">Last quiz score</div></div>
+     <div class="stat"><div class="val">${Object.keys(STATE.mastered).length}/4</div><div class="lbl">Outcomes completed</div></div>
+     <div class="stat"><div class="val">${cd}/6</div><div class="lbl">Case study checks</div></div>
+     <div class="stat"><div class="val">${fmt(STATE.mins||0,0)} min</div><div class="lbl">Time spent (this device)</div></div>
+   </div>
+   <h3 class="subsec">${svg("book",20)} Learning progress — topics mastered</h3>
+   ${topics.map(([n,id])=>`<div class="topic-row ${STATE.visited[id]?"done":""}">
+     <span class="tick">${STATE.visited[id]?"✓":"•"}</span>${n}
+     ${STATE.visited[id]?"":`<button class="btn ghost" style="margin-left:auto;padding:5px 12px;font-size:.75rem" onclick="selectTab('${id}')">Open</button>`}
+    </div>`).join("")}
+   <h3 class="subsec">${svg("search",20)} Weak areas (from quiz mistakes)</h3>
+   ${wrongs.length?wrongs.map(([t,n])=>`<div class="topic-row"><span class="tick" style="background:#fdeeee;color:var(--bad)">!</span>
+     ${TOPIC_NAMES[t]}<span style="margin-left:auto;font-size:.8rem;color:var(--ink2)">${n} incorrect answer${n>1?"s":""}</span></div>`).join(""):
+     `<p class="lede">No quiz mistakes recorded yet — take the Quiz to generate your weak-area analysis.</p>`}
+   <h3 class="subsec">${svg("bulb",20)} Suggested revision topics</h3>
+   ${recs.map(r=>`<div class="topic-row"><span class="tick" style="background:#fdf3dd;color:var(--amber2)">→</span><span>${r}</span></div>`).join("")}`;
+}
+
+/* ========================================================================== 21. INIT */
+selectTab("outcomes");
+updateProgress();
+
+</script>
+</body>
+</html>
+
