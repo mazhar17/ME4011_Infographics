@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Energy - Part 5 — Resource Assessment: Solar Irradiance on Tilted Planes | ME4011 Interactive Companion</title>
+<meta name="description" content="Interactive companion to the ME4011 Renewable Energy lecture 'Solar Energy - Part 5 — Resource Assessment: Solar Irradiance on Tilted Planes' by Professor Dr. Mazharul Islam, AUST.">
+<style>
+/* ME4011 Companion Series — Visual Identity (matches Parts 2–4) */
+:root{
+  --navy:#14213d; --gold:#fca311; --sky:#3a86ff; --bg:#f7f7f4; --card:#ffffff;
+  --ink:#1b2436; --ok:#1e8e3e; --warn:#e8a10c; --err:#c5221f; --muted:#5b6579;
+  --line:#e3e6ee; --radius:14px; --shadow:0 2px 10px rgba(20,33,61,.08);
+  --serif:Cambria,Georgia,'Times New Roman',serif;
+  --sans:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+}
+body.hc{ --bg:#000000; --card:#111418; --ink:#ffffff; --muted:#d5d9e4; --line:#4a5468; --navy:#0a0f1e; --shadow:0 0 0 1px #5a647a; }
+body.hc .quote{background:#1a2030;color:#fff}
+body.hc .hero{background:#000;border-bottom:2px solid var(--gold)}
+body.hc svg text{fill:#fff}
+body.hc .panel{border-width:2px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+h1,h2,h3,h4,.eq{font-family:var(--serif)}
+h2{color:var(--ink);font-size:1.5rem;margin:.2rem 0 1rem;border-bottom:3px solid var(--gold);display:inline-block;padding-bottom:4px}
+h3{font-size:1.15rem;margin:1.2rem 0 .5rem}
+p{margin:.5rem 0}
+a{color:var(--sky)}
+button{font-family:var(--sans)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:#14213d;padding:.6rem 1rem;z-index:99;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+.hero{background:linear-gradient(135deg,#14213d 0%,#1d2f57 60%,#233a6b 100%);color:#fff;padding:1.4rem 1.2rem 1.1rem;position:relative;overflow:hidden}
+.hero svg.sunmotif{position:absolute;right:-40px;top:-40px;opacity:.16;pointer-events:none}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.7rem}
+.badge{display:inline-block;padding:.22rem .7rem;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.02em}
+.badge.gold{background:var(--gold);color:#14213d}
+.badge.ghost{background:rgba(255,255,255,.12);color:#e8ecf7;border:1px solid rgba(255,255,255,.25)}
+#hcBtn{margin-left:auto;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.25rem .8rem;cursor:pointer;font-size:.8rem}
+#hcBtn:hover,#hcBtn:focus{background:var(--gold);color:#14213d}
+.hero h1{margin:.1rem 0 .2rem;font-size:1.7rem;line-height:1.25}
+.hero h1 .accent{color:var(--gold)}
+.hero .subtitle{color:#c8d2ea;font-size:.92rem;margin:0}
+.progress-wrap{margin-top:.9rem;max-width:520px}
+.progress-wrap label{font-size:.78rem;color:#c8d2ea;display:flex;justify-content:space-between}
+.pbar{height:10px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden;margin-top:3px}
+.pbar>span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#ffd166);border-radius:999px;transition:width .5s ease}
+.tabbar{position:sticky;top:0;z-index:20;background:var(--navy);display:flex;overflow-x:auto;scrollbar-width:thin;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.tabbar button{flex:0 0 auto;background:transparent;border:none;color:#c8d2ea;padding:.7rem .85rem;font-size:.83rem;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabbar button:hover{color:#fff;background:rgba(255,255,255,.07)}
+.tabbar button[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold);font-weight:700}
+.tabbar button .tick{color:var(--ok);font-weight:700}
+main{max-width:1080px;margin:0 auto;padding:1.2rem 1rem 3rem}
+section[role="tabpanel"]{display:none;animation:fadein .35s ease}
+section[role="tabpanel"].active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem 1.2rem;margin:.9rem 0;border:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+.quote{font-family:var(--serif);font-size:1.06rem;background:#f0f3fa;border-left:5px solid var(--gold);padding:.8rem 1rem;border-radius:0 10px 10px 0;margin:.7rem 0}
+.quote .cite{display:block;font-size:.85rem;color:var(--muted);margin-top:.3rem;font-family:var(--sans)}
+.eq{font-size:1.15rem;text-align:center;background:#f0f3fa;border-radius:10px;padding:.6rem;margin:.6rem 0}
+body.hc .eq{background:#1a2030}
+.panel{border-radius:10px;margin:.7rem 0;border:1px solid var(--line);overflow:hidden}
+.panel>button{width:100%;text-align:left;padding:.6rem .9rem;font-weight:700;font-size:.92rem;border:none;cursor:pointer;display:flex;gap:.5rem;align-items:center;background:#f4f6fb;color:var(--ink)}
+body.hc .panel>button{background:#1a2030;color:#fff}
+.panel>button::after{content:"▸";margin-left:auto;transition:transform .25s}
+.panel.open>button::after{transform:rotate(90deg)}
+.panel .pbody{display:none;padding:.7rem 1rem;font-size:.93rem;background:var(--card)}
+.panel.open .pbody{display:block;animation:fadein .3s}
+.panel.insight>button{background:#e8f0fe;color:#174ea6}
+.panel.hint>button{background:#fef7e0;color:#8a5a00}
+.panel.mistake>button{background:#fce8e6;color:#a50e0e}
+.panel.examtip>button{background:#e6f4ea;color:#0d652d}
+.panel.practical>button{background:#e4f7fb;color:#0b5d6e}
+.panel.didyou>button{background:#f3e8fd;color:#5b2c8d}
+body.hc .panel.insight>button{background:#0d2a52;color:#9ec3ff}
+body.hc .panel.hint>button{background:#4a3a00;color:#ffd97a}
+body.hc .panel.mistake>button{background:#4a0e0c;color:#ff9a93}
+body.hc .panel.examtip>button{background:#0c3a1e;color:#8fe0ac}
+body.hc .panel.practical>button{background:#083038;color:#8fdcec}
+body.hc .panel.didyou>button{background:#2d1745;color:#d3b3f7}
+.btn{background:var(--navy);color:#fff;border:none;border-radius:9px;padding:.55rem 1.1rem;font-size:.9rem;cursor:pointer;font-weight:600;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(20,33,61,.25)}
+.btn.gold{background:var(--gold);color:#14213d}
+.btn.ghostb{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+body.hc .btn.ghostb{color:#fff;border-color:#fff}
+.btn.small{padding:.3rem .7rem;font-size:.8rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.xcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin:.8rem 0;overflow:hidden}
+.xcard>.xhead{display:flex;align-items:flex-start;gap:.8rem;padding:1rem 1.1rem;cursor:pointer}
+.xcard>.xhead:hover{background:#f4f6fb}
+body.hc .xcard>.xhead:hover{background:#1a2030}
+.xcard .xnum{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--serif);font-size:1.1rem}
+.xcard .xtitle{font-weight:600;font-size:.98rem}
+.xcard .xbody{display:none;padding:0 1.1rem 1rem;border-top:1px dashed var(--line)}
+.xcard.open .xbody{display:block;animation:fadein .3s}
+.xcard .chev{margin-left:auto;align-self:center;transition:transform .25s}
+.xcard.open .chev{transform:rotate(90deg)}
+.mastery{display:flex;align-items:center;gap:.45rem;margin-top:.8rem;font-size:.88rem;font-weight:600;color:var(--ok)}
+.mastery input{width:18px;height:18px;accent-color:var(--ok)}
+dl.kv{margin:.4rem 0}
+dl.kv dt{font-weight:700;color:var(--navy);margin-top:.6rem;font-size:.9rem}
+body.hc dl.kv dt{color:var(--gold)}
+dl.kv dd{margin:0.15rem 0 0 0;font-size:.92rem}
+.opt{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .9rem;border:2px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:.93rem;color:var(--ink);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--sky)}
+.opt.correct{border-color:var(--ok);background:#e6f4ea;color:#0d652d;font-weight:600}
+.opt.wrong{border-color:var(--err);background:#fce8e6;color:#a50e0e}
+.opt:disabled{cursor:default}
+body.hc .opt.correct{background:#0c3a1e;color:#8fe0ac}
+body.hc .opt.wrong{background:#4a0e0c;color:#ff9a93}
+.feedback{border-radius:10px;padding:.6rem .9rem;margin:.5rem 0;font-size:.9rem;display:none}
+.feedback.show{display:block;animation:fadein .3s}
+.feedback.good{background:#e6f4ea;color:#0d652d;border:1px solid #a8dab5}
+.feedback.bad{background:#fce8e6;color:#a50e0e;border:1px solid #f5b5b1}
+.feedback.info{background:#e8f0fe;color:#174ea6;border:1px solid #b3cefb}
+body.hc .feedback.good{background:#0c3a1e;color:#8fe0ac}
+body.hc .feedback.bad{background:#4a0e0c;color:#ff9a93}
+body.hc .feedback.info{background:#0d2a52;color:#9ec3ff}
+input[type=number],input[type=text],select,textarea{font-family:var(--sans);font-size:.95rem;padding:.5rem .7rem;border:2px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);max-width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--sky);outline-offset:1px}
+textarea{width:100%;min-height:110px;resize:vertical}
+.ctlrow{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;margin:.6rem 0}
+.readout{background:var(--navy);color:#fff;border-radius:10px;padding:.5rem .9rem;text-align:center;min-width:120px}
+.readout .rv{font-size:1.25rem;font-weight:800;font-family:var(--serif);color:var(--gold)}
+.readout .rl{font-size:.72rem;color:#c8d2ea}
+input[type=range]{accent-color:var(--gold);width:220px;max-width:60vw}
+.toggle-chip{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.35rem .8rem;font-size:.83rem;cursor:pointer;font-weight:600}
+.toggle-chip.on{background:var(--sky);border-color:var(--sky);color:#fff}
+.toggle-chip.on.gold{background:var(--gold);border-color:var(--gold);color:#14213d}
+.fcard{perspective:1000px;width:100%;max-width:430px;height:190px;margin:.6rem auto;cursor:pointer}
+.fcard .inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fcard.flipped .inner{transform:rotateY(180deg)}
+.fcard .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;box-shadow:var(--shadow)}
+.fcard .front{background:var(--navy);color:#fff;font-family:var(--serif);font-size:1.1rem}
+.fcard .back{background:var(--gold);color:#14213d;transform:rotateY(180deg);font-size:.92rem}
+table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+th,td{border:1px solid var(--line);padding:.4rem .55rem;text-align:left}
+th{background:var(--navy);color:#fff;font-weight:600}
+tr:nth-child(even) td{background:#f4f6fb}
+body.hc tr:nth-child(even) td{background:#1a2030}
+#modal{position:fixed;inset:0;background:rgba(11,18,38,.6);display:none;align-items:center;justify-content:center;z-index:60;padding:1rem}
+#modal.open{display:flex}
+#modal .mbox{background:var(--card);color:var(--ink);border-radius:var(--radius);max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:1.3rem 1.4rem;box-shadow:0 10px 40px rgba(0,0,0,.4);animation:fadein .25s}
+#modal .mclose{float:right;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:.5rem 0}
+.tag{font-size:.72rem;background:#e8f0fe;color:#174ea6;border-radius:999px;padding:.15rem .6rem;font-weight:700}
+body.hc .tag{background:#0d2a52;color:#9ec3ff}
+.svgwrap{width:100%;overflow-x:auto;text-align:center;margin:.5rem 0}
+.svgwrap svg{max-width:100%;height:auto}
+.note{font-size:.85rem;color:var(--muted)}
+.checklist li{margin:.35rem 0}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem}
+.dash-tile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem;text-align:center}
+.dash-tile .big{font-size:2rem;font-weight:800;font-family:var(--serif);color:var(--navy)}
+body.hc .dash-tile .big{color:var(--gold)}
+.gauge{width:130px;height:130px;margin:0 auto}
+footer{background:#0b1226;color:#c8d2ea;text-align:center;padding:1.6rem 1rem;font-size:.85rem;line-height:1.7}
+footer .goldline{color:var(--gold);font-weight:700}
+.label-chip{border:2px solid var(--sky);background:#e8f0fe;color:#174ea6;border-radius:999px;padding:.3rem .8rem;cursor:grab;font-weight:700;font-size:.85rem}
+.label-chip.selected{background:var(--sky);color:#fff}
+.label-chip.used{opacity:.35;cursor:default}
+.matchrow{display:flex;gap:.6rem;align-items:center;margin:.4rem 0;flex-wrap:wrap}
+.qprog{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:.5rem 0}
+.qprog>span{display:block;height:100%;background:var(--sky);transition:width .4s}
+.result-badge{display:inline-block;font-family:var(--serif);font-size:2.4rem;font-weight:800;background:var(--navy);color:var(--gold);border-radius:16px;padding:.4rem 1.4rem;margin:.4rem 0}
+@media(max-width:640px){ .hero h1{font-size:1.3rem} main{padding:.8rem .7rem 2.5rem} .card{padding:.9rem} }
+@media(prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="hero">
+  <svg class="sunmotif" width="300" height="300" viewBox="0 0 300 300" aria-hidden="true">
+    <circle cx="150" cy="150" r="60" fill="#fca311"/>
+    <g stroke="#fca311" stroke-width="10" stroke-linecap="round">
+      <line x1="150" y1="20" x2="150" y2="60"/><line x1="150" y1="240" x2="150" y2="280"/>
+      <line x1="20" y1="150" x2="60" y2="150"/><line x1="240" y1="150" x2="280" y2="150"/>
+      <line x1="58" y1="58" x2="86" y2="86"/><line x1="214" y1="214" x2="242" y2="242"/>
+      <line x1="58" y1="242" x2="86" y2="214"/><line x1="214" y1="86" x2="242" y2="58"/>
+    </g>
+  </svg>
+  <div class="badges">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge ghost">AUST · Dept. of Mechanical and Production Engineering</span>
+    <button id="hcBtn" aria-pressed="false" title="Toggle high contrast mode">◐ High contrast</button>
+  </div>
+  <h1>Solar Energy - Part 5 — <span class="accent">Resource Assessment: Solar Irradiance on Tilted Planes</span></h1>
+  <p class="subtitle">Interactive companion to the lecture by Professor Dr. Mazharul Islam · Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <label>Module progress <span id="progPct">0%</span></label>
+    <div class="pbar"><span id="progBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabbar" role="tablist" aria-label="Lecture modules" id="tabbar">
+  <button role="tab" data-tab="outcomes"    aria-selected="true">1 · Learning Outcomes</button>
+  <button role="tab" data-tab="preassess"   aria-selected="false">Pre-Assessment</button>
+  <button role="tab" data-tab="review"      aria-selected="false">Review</button>
+  <button role="tab" data-tab="intro"       aria-selected="false">2 · Introduction</button>
+  <button role="tab" data-tab="tilt"        aria-selected="false">3 · Optimal Tilt Angle</button>
+  <button role="tab" data-tab="tilted"      aria-selected="false">4 · Solar Irradiance on a Tilted Plane</button>
+  <button role="tab" data-tab="datasets"    aria-selected="false">Dataset Explorer</button>
+  <button role="tab" data-tab="simulators"  aria-selected="false">Simulators</button>
+  <button role="tab" data-tab="problems"    aria-selected="false">5 · Problem Solving</button>
+  <button role="tab" data-tab="toolbox"     aria-selected="false">Concept Toolbox</button>
+  <button role="tab" data-tab="resources"   aria-selected="false">Useful Resources</button>
+  <button role="tab" data-tab="reflections" aria-selected="false">6 · Reflections</button>
+  <button role="tab" data-tab="summary"     aria-selected="false">7 · Summary</button>
+  <button role="tab" data-tab="acknowledgment" aria-selected="false">8 · Acknowledgment</button>
+  <button role="tab" data-tab="quiz"        aria-selected="false">Quiz</button>
+  <button role="tab" data-tab="dashboard"   aria-selected="false">Dashboard</button>
+</nav>
+
+<main id="main">
+<!-- ============ 1. LEARNING OUTCOMES ============ -->
+<section id="tab-outcomes" role="tabpanel" class="active" aria-label="Learning Outcomes">
+  <h2>Learning Outcomes for the Class Session</h2>
+  <p>After the completion of this class, the students will be expected to</p>
+  <div id="loCards"></div>
+  <div class="card">
+    <h3>How to use this companion</h3>
+    <p>This application is an <strong>interactive companion</strong> to the lecture "Solar Energy - Part 5 — Resource Assessment: Solar Irradiance on Tilted Planes" — not a replacement for the slides. Take the <strong>Pre-Assessment</strong>, refresh prerequisites in <strong>Review</strong>, then follow the lecture sequence (Introduction → Optimal Tilt Angle → Solar Irradiance on a Tilted Plane → Problem Solving → Reflections → Summary → Acknowledgment). Use <strong>Dataset Explorer</strong>, <strong>Simulators</strong> and the <strong>Quiz</strong> for exam preparation, and track everything on the <strong>Dashboard</strong>.</p>
+  </div>
+</section>
+
+<!-- ============ 2. PRE-ASSESSMENT ============ -->
+<section id="tab-preassess" role="tabpanel" aria-label="Pre-Assessment">
+  <h2>Pre-Assessment — What Do You Already Know?</h2>
+  <div class="card" style="border-left:5px solid var(--sky)">
+    <p><strong>Why this activity?</strong> This is the <em>Pre-assessment</em> stage of the <strong>BOPPPS</strong> lesson model (Bridge-in, Objectives, Pre-assessment, Participatory learning, Post-assessment, Summary). It surfaces your prior knowledge — Part 3 irradiance components, Part 4 measurement quantities, solar geometry, and everyday tilt intuition — before the new content begins.</p>
+    <p class="feedback info show" style="margin-top:.5rem">✔ This activity does <strong>not count toward any grade</strong>. Answer from intuition — wrong answers show you exactly what to review.</p>
+  </div>
+  <div id="paArea"></div>
+  <div id="paProfile"></div>
+</section>
+
+<!-- ============ 3. REVIEW ============ -->
+<section id="tab-review" role="tabpanel" aria-label="Review">
+  <h2>Review — Prerequisites From Earlier Lectures</h2>
+  <p>The lecture's own outline includes this Review. Refresh these foundations; each topic has quick recall questions and a <strong>Beneficial Hints</strong> panel.</p>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R1</div><div><div class="xtitle">Irradiance Components &amp; the Horizontal Closure (Parts 3–4)</div><div class="note">Beam · Diffuse · Global · GHI = DNI·cos θz + DHI</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>From Part 3: <strong>Global = Beam + Diffuse</strong>. From Part 4: on the horizontal plane the measured quantities close as <strong>GHI ≈ DNI·cos(θ<sub>z</sub>) + DHI</strong>. Today's lecture repeats this decomposition — but on a <em>tilted</em> plane, where a third player joins: ground-reflected (albedo) irradiance.</p>
+      <div class="eq">Horizontal: GHI = DNI·cos θ<sub>z</sub> + DHI &nbsp;&nbsp;→&nbsp;&nbsp; Tilted (today): G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub></div>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory aid:</strong> tilting the plane "unlocks" the ground — a horizontal plane never sees ground reflection, a tilted one does. That is why a third term appears today.</li>
+        <li><strong>Examination tip:</strong> subscripts tell the story: b = beam, d = diffuse, r = reflected, h = horizontal, t = tilted, n = normal (to the beam).</li>
+        <li><strong>Common mistake:</strong> forgetting the cos θz projection when moving DNI onto the horizontal.</li>
+        <li><strong>Conceptual relationship:</strong> every tilted-plane formula today starts from a horizontal quantity you already know how to measure (Part 4).</li>
+      </ul></div></div>
+      <div class="rq" data-rq="comp"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R2</div><div><div class="xtitle">Solar Geometry Essentials (Parts 1–2)</div><div class="note">Zenith angle θz · altitude · equinox noon rule</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <dl class="kv">
+        <dt>Solar zenith angle θ<sub>z</sub></dt><dd>Angle between the sun and the vertical (zenith). Solar altitude = 90° − θ<sub>z</sub>.</dd>
+        <dt>Latitude φ &amp; declination δ</dt><dd>Set where the sun stands. On the equinox (δ = 0), the noon solar elevation is exactly <strong>90° − latitude</strong> — the geometric seed of today's "tilt = latitude" rule.</dd>
+        <dt>Tilt angle β</dt><dd>The angle of the panel from the horizontal — today's main design variable.</dd>
+      </dl>
+      <div class="svgwrap"><svg id="rvGeoSvg" viewBox="0 0 560 210" role="img" aria-label="Zenith angle and tilt angle geometry"></svg></div>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory aid:</strong> θ<sub>z</sub> is measured from the <em>vertical</em>; altitude from the <em>horizon</em>; β from the <em>ground</em>. Three references, three angles.</li>
+        <li><strong>Frequently confused:</strong> θ (incidence on the panel), θ<sub>z</sub> (sun from vertical), β (panel from horizontal). Today's key link: θ = θ<sub>z</sub> − β.</li>
+        <li><strong>Quick reminder:</strong> equinox noon elevation = 90° − φ ⇒ tilting the panel by φ makes it face the sun square-on.</li>
+        <li><strong>Practical shortcut:</strong> Dhaka φ ≈ 23.7° N — keep this number ready; it becomes the recommended tilt.</li>
+      </ul></div></div>
+      <div class="rq" data-rq="geo"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R3</div><div><div class="xtitle">Cosine Behaviour — the Mathematical Heart of This Lecture</div><div class="note">cos 0° = 1 · cos 60° = 0.5 · cos 90° = 0</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>Every formula today multiplies an irradiance by a cosine (or a cosine-based factor). Drag the cursor on the curve and internalize the shape: flat near 0° (small misalignment costs little), steep near 90° (oblique angles are punishing).</p>
+      <div class="svgwrap"><svg id="rvCosSvg" viewBox="0 0 560 240" role="img" aria-label="Interactive cosine curve"></svg></div>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory anchors:</strong> cos 0° = 1, cos 25° ≈ 0.906, cos 45° ≈ 0.707, cos 60° = 0.5, cos 90° = 0.</li>
+        <li><strong>Engineering intuition:</strong> a 10° pointing error near normal incidence loses only ~1.5% — but the same 10° near grazing loses everything. Alignment tolerance depends on where you operate on the curve.</li>
+        <li><strong>Examination tip:</strong> when an answer looks wrong, first check whether you used degrees vs. radians in the cosine.</li>
+        <li><strong>Common mistake:</strong> applying cos to the wrong angle — always ask "angle between the ray and the surface NORMAL".</li>
+      </ul></div></div>
+      <div class="rq" data-rq="cos"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R4</div><div><div class="xtitle">NASA POWER (from Part 4) — About to Go Hands-On</div><div class="note">Satellite-derived datasets · 0.5° grid</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>Part 4 introduced NASA's POWER project: satellite observations inverted to surface insolation on a global 0.5° × 0.5° grid, served through the Data Access Viewer. Today's second learning outcome puts it to work — together with <strong>PVGIS</strong> — to collect tilted-plane datasets for real projects.</p>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Quick reminder:</strong> POWER values are model estimates over a ~55 km cell — prospecting data, validated later by ground measurement.</li>
+        <li><strong>Conceptual relationship:</strong> PVGIS applies exactly today's transposition formulas internally when it reports in-plane irradiation for a chosen tilt.</li>
+        <li><strong>Examination tip:</strong> learning outcome 2 names the two portals: (a) NASA's POWER Data Access Viewer, (b) PVGIS.</li>
+      </ul></div></div>
+      <div class="rq" data-rq="power"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ Rapid-Recall Flash Cards</h3>
+    <p class="note">Click a card to flip it. Use ◀ ▶ to move through the deck.</p>
+    <div class="fcard" id="fcard" tabindex="0" role="button" aria-label="Flash card, press Enter to flip">
+      <div class="inner"><div class="face front" id="fcFront"></div><div class="face back" id="fcBack"></div></div>
+    </div>
+    <div class="ctlrow" style="justify-content:center">
+      <button class="btn small ghostb" id="fcPrev">◀ Previous</button>
+      <span class="note" id="fcCount"></span>
+      <button class="btn small ghostb" id="fcNext">Next ▶</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🗺 Prerequisite Concept Map</h3>
+    <p class="note">Hover/tap a node to highlight its links.</p>
+    <div class="svgwrap"><svg id="rvMap" viewBox="0 0 640 300" role="img" aria-label="Concept map linking prerequisites to tilted plane irradiance"></svg></div>
+  </div>
+</section>
+
+<!-- ============ 4. INTRODUCTION ============ -->
+<section id="tab-intro" role="tabpanel" aria-label="Introduction">
+  <h2>The Main Focus of Today's Class Session</h2>
+  <div class="card" style="text-align:center">
+    <p class="eq" style="font-size:1.35rem">Finding Datasets for the Solar<br>Irradiances on Tilted Surfaces</p>
+  </div>
+  <div class="card">
+    <h3>🔗 From Horizontal Measurements to a Tilted Roof</h3>
+    <p class="note">The engineering chain this lecture completes — watch the animated flow.</p>
+    <div class="svgwrap"><svg id="inChainSvg" viewBox="0 0 680 240" role="img" aria-label="Chain from horizontal measurement to transposition to tilted-plane dataset"></svg></div>
+  </div>
+  <div class="card">
+    <h3>🧠 Think First</h3>
+    <div id="inPrompts"></div>
+  </div>
+</section>
+
+<!-- ============ 5. OPTIMAL TILT ANGLE ============ -->
+<section id="tab-tilt" role="tabpanel" aria-label="Optimal Tilt Angle">
+  <h2>Optimal Tilt Angle for Solar Energy Systems</h2>
+  <div class="card">
+    <div class="quote">"The tilt angle has a major impact on the solar radiation incident on a surface"<span class="cite">(PVEDUCATION.ORG, nd)</span></div>
+    <div class="quote">"For a fixed tilt angle, the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location"<span class="cite">(PVEDUCATION.ORG, nd)</span></div>
+    <div class="quote">"However, steeper tilt angles are optimized for large winter loads"<span class="cite">(PVEDUCATION.ORG, nd)</span></div>
+    <div class="quote">"while lower tilt angles use a greater fraction of light in the summer"<span class="cite">(PVEDUCATION.ORG, nd)</span></div>
+  </div>
+
+  <h2>Hand's On: Simulation of Module Power</h2>
+  <div class="card">
+    <p><strong>URL:</strong> <a href="https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface">pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface</a></p>
+    <dl class="kv">
+      <dt>Incident Power</dt><dd>"the solar radiation perpendicular to the sun's rays and is what would be received by a module that perfectly tracks the sun" (PVEDUCATION.ORG, nd)</dd>
+      <dt>Power on the Horizontal</dt><dd>"the solar radiation striking the ground and is what would be received for a module lying flat one the ground" (PVEDUCATION.ORG, nd)</dd>
+      <dt>Module Power</dt><dd>"the solar radiation striking a tilted module" (PVEDUCATION.ORG, nd)</dd>
+    </dl>
+  </div>
+
+  <div class="card">
+    <h3>📈 Module Power Simulator — Tilt Angle Optimizer (offline recreation of the Hand's On)</h3>
+    <p class="note">Sliders set latitude and tilt β. Curves show noon Incident, Horizontal and Module power across the year; readouts integrate annual and seasonal energy. South-facing (North Hemisphere) and North-facing (South Hemisphere) assumed, as in the lecture figure.</p>
+    <div class="ctlrow">
+      <label>Latitude <input type="range" id="toLat" min="0" max="60" value="23.7" step="0.1"></label>
+      <span class="note" id="toLatLbl">23.7° N</span>
+      <button class="btn small gold" id="toDhaka">Dhaka preset (23.7° N)</button>
+    </div>
+    <div class="ctlrow">
+      <label>Tilt angle β <input type="range" id="toTilt" min="0" max="90" value="23.7" step="0.1"></label>
+      <span class="note" id="toTiltLbl">23.7°</span>
+      <button class="btn small ghostb" id="toEq">Set β = latitude</button>
+    </div>
+    <div class="svgwrap"><svg id="toSvg" viewBox="0 0 680 340" role="img" aria-label="Yearly curves of incident, horizontal and module power"></svg></div>
+    <div class="ctlrow">
+      <div class="readout"><div class="rv" id="toYear">—</div><div class="rl">Annual module energy (rel.)</div></div>
+      <div class="readout"><div class="rv" id="toWin">—</div><div class="rl">Winter share (Nov–Feb)</div></div>
+      <div class="readout"><div class="rv" id="toSum">—</div><div class="rl">Summer share (May–Aug)</div></div>
+      <div class="readout"><div class="rv" id="toBest">—</div><div class="rl">Best annual β found</div></div>
+    </div>
+    <p class="feedback info show" id="toNote"></p>
+  </div>
+
+  <div class="card">
+    <h3>Effect of Tilt Angle and Latitude on Solar Radiation</h3>
+    <p class="note">Interpretation points of the lecture figure (Source: <a href="https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface">pveducation.org — solar-radiation-on-a-tilted-surface</a>):</p>
+    <ul class="checklist">
+      <li>Solar radiation on a tilted surface is strongly influenced by latitude and module tilt.</li>
+      <li>Maximum annual radiation is typically achieved when: <strong>Tilt angle ≈ latitude</strong>.</li>
+      <li>Steeper tilt: optimized for winter loads.</li>
+      <li>Lower tilt: captures more radiation in summer.</li>
+      <li>Incident Power: ideal (perpendicular to sun).</li>
+      <li>Module Power: actual radiation received by tilted panel.</li>
+      <li>Horizontal Power: for flat-mounted modules.</li>
+      <li>South-facing (North Hemisphere) and North-facing (South Hemisphere) assumed.</li>
+    </ul>
+  </div>
+
+  <h2>RELATED ONLINE RESOURCE</h2>
+  <div class="card">
+    <h3>▶ Video: "Solar Irradiance on a Tilted Plane"</h3>
+    <p>Please visit <a href="https://www.youtube.com/watch?v=dTUkLuviuPA&amp;t=1423s">youtube.com/watch?v=dTUkLuviuPA&amp;t=1423s</a> for watching the video covering the contents in <strong>"Solar Irradiance on a Tilted Plane"</strong>.</p>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>The tilt ≈ latitude rule is a <em>geometry-only</em> optimum: it maximizes the annual beam capture for a fixed, equator-facing panel under a clear sky. Real optimizers (PVGIS, PVsyst) nudge it: monsoon climates with heavy diffuse shares favour slightly lower tilts (a flatter panel sees more sky dome), while soiling-prone sites favour slightly steeper tilts for rain self-cleaning. The rule is the anchor; the climate supplies the correction.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>Compress the slide into one sentence: <strong>"β = φ for the year; steeper for winter; lower for summer."</strong> Attach Dhaka: φ ≈ 23.7° ⇒ recommended fixed tilt ≈ 24°.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Reading "steeper tilt for winter loads" backwards. In winter the sun rides LOW, so the panel must stand UP (steeper) to face it. Lower summer sun-height logic is the mirror image. If in doubt, sketch the noon sun and the panel normal.</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Quote-ready: "For a fixed tilt angle, the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location" (PVEDUCATION.ORG, nd) — then add the two seasonal corollaries (steeper ↔ winter loads, lower ↔ summer).</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>Rooftop solar in Bangladesh is commonly installed at 20–25° facing south — the latitude rule in action. Off-grid telecom sites with critical winter loads deliberately exceed it (30–35°) to harden December–January output.</p>
+  </div></div>
+  <div class="panel didyou"><button type="button">✨ Did You Know?</button><div class="pbody">
+    <p>Seasonally adjusted mounting (changing β twice a year) recovers roughly half the gain of full tracking at a fraction of the cost — many small systems worldwide still use a summer/winter bolt-hole pair on the mounting frame.</p>
+  </div></div>
+</section>
+<!-- ============ 6. SOLAR IRRADIANCE ON A TILTED PLANE ============ -->
+<section id="tab-tilted" role="tabpanel" aria-label="Solar Irradiance on a Tilted Plane">
+  <h2>Overview (Heinemann, 2019, Slide 3)</h2>
+  <div class="card">
+    <p>According to (Heinemann, 2019),</p>
+    <div class="eq">G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub></div>
+    <p>where,</p>
+    <ul class="checklist">
+      <li>G<sub>t</sub> is the total solar irradiance on a tilted plane</li>
+      <li>G<sub>t,b</sub> is beam irradiance on a tilted plane</li>
+      <li>G<sub>t,d</sub> is diffuse irradiance on a tilted plane</li>
+      <li>G<sub>t,r</sub> is reflected irradiance on a tilted plane</li>
+      <li>β is the tilt angle</li>
+    </ul>
+    <p class="note">Figure attribution: Adapted from (Heinemann, 2019).</p>
+    <div class="svgwrap"><svg id="ovSvg" viewBox="0 0 680 340" role="img" aria-label="Master diagram: beam, sky diffuse and ground reflected rays onto a tilted panel"></svg></div>
+    <p class="note">Click a ray family in the diagram to jump to its component.</p>
+  </div>
+
+  <h2 id="sec-cosine">Cosine Law in Solar Radiation</h2>
+  <div class="card">
+    <p><strong>Lambert's Cosine Law explains how the effective irradiance on a surface varies with the angle of incidence (θ).</strong></p>
+    <p>The mathematical expression is:</p>
+    <div class="eq">I = I<sub>0</sub> cos θ</div>
+    <p>where:</p>
+    <ul class="checklist">
+      <li>I = Received irradiance on the surface</li>
+      <li>I<sub>0</sub> = Irradiance perpendicular to the surface</li>
+      <li>θ = Angle between the incoming rays and the surface normal</li>
+    </ul>
+    <p>As θ increases (i.e., rays become more oblique), the same energy is distributed over a larger area, reducing irradiance per unit area.</p>
+    <p>This principle is critical in solar energy calculations, particularly for tilted or tracking surfaces.</p>
+    <div class="quote">From the slide "Cosine Law (Heinemann, 2019, Slide 4)" — boxed law: <strong>"Lamber's Cosine Law: I = IO cos θ"</strong> — "Same amount of incoming radiant energy covers different surface areas"<span class="cite">Attribution: Adapted from (Heinemann, 2019)</span></div>
+    <h3>🔦 Interactive Cosine Law Demonstrator</h3>
+    <p class="note">Drag θ and watch the same ray bundle spread over a growing footprint while the gauge tracks I = I₀·cos θ.</p>
+    <div class="ctlrow">
+      <label>Angle of incidence θ <input type="range" id="clAng" min="0" max="89" value="30" step="1"></label>
+      <div class="readout"><div class="rv" id="clTheta">30°</div><div class="rl">θ</div></div>
+      <div class="readout"><div class="rv" id="clCos">0.87</div><div class="rl">cos θ</div></div>
+      <div class="readout"><div class="rv" id="clI">866</div><div class="rl">I (W/m²) for I₀=1000</div></div>
+    </div>
+    <div class="svgwrap"><svg id="clSvg" viewBox="0 0 680 300" role="img" aria-label="Cosine law demonstrator with spreading ray footprint and gauge"></svg></div>
+  </div>
+
+  <h2>An IMPORTANT FIGURE</h2>
+  <div class="card">
+    <p class="note">Stylized recreation of the lecture's world insolation figure (original attribution: CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=1770816">commons.wikimedia.org/w/index.php?curid=1770816</a>). Hover the latitude bands for readouts.</p>
+    <div class="svgwrap"><svg id="wmSvg" viewBox="0 0 680 330" role="img" aria-label="Stylized world map of annual solar insolation by latitude band"></svg></div>
+    <div class="quote"><strong>What is the most important message this figure conveys for anyone designing solar energy systems around the world?</strong></div>
+    <textarea id="wmAnswer" placeholder="Write your interpretation before revealing..."></textarea>
+    <div class="ctlrow"><button class="btn gold" id="wmReveal">Reveal discussion</button></div>
+    <div class="feedback info" id="wmBox">The figure's core message: <strong>the solar resource is latitude-structured</strong>. Insolation is highest in the subtropical belts (clear deserts near ±20–30°) and falls toward the poles as rays grow oblique (Lambert's cosine law acting on a planetary scale) and traverse more atmosphere. For a designer this means: (1) the available annual energy — and hence system size for a given demand — depends strongly on where you build; (2) the optimal fixed tilt tracks latitude, because tilting the panel "undoes" the local ray obliquity; (3) the same PV module yields very different energy in Dhaka (≈24° N, ~4–5 kWh/m²/day) than in northern Europe — solar design is always site-specific, never copy-paste.</div>
+  </div>
+
+  <div class="card">
+    <h3>Tilt Angle = Latitude: Explained with Geometry</h3>
+    <ul class="checklist">
+      <li>Solar rays strike the Earth at different angles depending on latitude.</li>
+      <li>Higher latitudes (region "a"): longer atmospheric path; larger surface area, hence less irradiance per unit area.</li>
+      <li>Near the equator (region "b"): rays are more perpendicular to the surface; higher energy density.</li>
+      <li>For fixed solar panels: maximum annual energy gain occurs when tilt angle equals local latitude.</li>
+      <li>On equinox: solar elevation at noon = 90° − latitude.</li>
+    </ul>
+    <p class="note">Figure attribution: CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=1770816">commons.wikimedia.org/w/index.php?curid=1770816</a></p>
+    <h3>🌍 Interactive Earth Geometry</h3>
+    <p class="note">Slide the site latitude (equinox conditions). Watch the ray obliquity grow, the footprint stretch, and the panel tilt that restores perpendicularity — always equal to the latitude.</p>
+    <div class="ctlrow">
+      <label>Site latitude φ <input type="range" id="egLat" min="0" max="66" value="23.7" step="0.1"></label>
+      <div class="readout"><div class="rv" id="egLatV">23.7°</div><div class="rl">Latitude φ</div></div>
+      <div class="readout"><div class="rv" id="egElev">66.3°</div><div class="rl">Equinox noon elevation (90°−φ)</div></div>
+      <div class="readout"><div class="rv" id="egTilt">23.7°</div><div class="rl">Tilt for perpendicular hit (=φ)</div></div>
+    </div>
+    <div class="svgwrap"><svg id="egSvg" viewBox="0 0 680 300" role="img" aria-label="Earth geometry showing ray obliquity versus latitude"></svg></div>
+  </div>
+
+  <div class="card">
+    <h3>Application of Cosine Law in Solar Energy Systems</h3>
+    <dl class="kv">
+      <dt>Optimal Panel Orientation</dt><dd>To maximize received irradiance (I), solar panels are oriented to minimize θ — i.e., face the Sun directly.</dd>
+      <dt>Tilt Angle Design</dt><dd>The Cosine Law guides the selection of fixed or seasonally adjustable tilt angles for maximizing annual solar gain.</dd>
+      <dt>Tracking Systems</dt><dd>Solar trackers continuously adjust panel orientation to maintain θ ≈ 0°, thereby ensuring I ≈ I₀ throughout the day.</dd>
+      <dt>Shading and Performance Losses</dt><dd>Even partial obliquity reduces irradiance due to cos θ behavior, emphasizing the need for shading analysis and optimal array spacing.</dd>
+      <dt>Simulation Tools</dt><dd>Solar simulation software (e.g., PVsyst, SAM) uses Cosine Law in modeling incident radiation and energy yield.</dd>
+    </dl>
+  </div>
+
+  <h2 id="sec-direct">Direct Component of Solar Irradiance (Heinemann, 2019, Slide 5)</h2>
+  <div class="card">
+    <p>According to (Heinemann, 2019, Slide 5), direct component over a horizontal plane,</p>
+    <div class="eq">G<sub>b,h</sub> = G<sub>b,n</sub> × cos θ<sub>z</sub> &nbsp;&nbsp;(1)</div>
+    <p>Direct component over a tilted plane,</p>
+    <div class="eq">G<sub>b,t</sub> = G<sub>b,n</sub> × cos θ &nbsp;&nbsp;(2)</div>
+    <p>Substituting (1) in (2), we get</p>
+    <div class="eq">G<sub>b,t</sub> = G<sub>b,h</sub> × <sup>cos θ</sup>⁄<sub>cos θ<sub>z</sub></sub> &nbsp;&nbsp;(3)</div>
+    <div class="eq" style="font-size:1rem">Angle of Incidence: θ = θ<sub>z</sub> − β</div>
+    <p class="note">Figure attribution: Adapted from (Heinemann, 2019).</p>
+    <h3>📐 Interactive Beam Transposition</h3>
+    <p class="note">Set the sun (θz) and the panel (β). The angle triangle θ = θz − β is drawn live; the ratio cos θ / cos θz shows the tilt gain.</p>
+    <div class="ctlrow">
+      <label>Zenith angle θz <input type="range" id="btZen" min="5" max="85" value="40" step="1"></label>
+      <label>Tilt β <input type="range" id="btTilt" min="0" max="80" value="25" step="1"></label>
+    </div>
+    <div class="ctlrow">
+      <div class="readout"><div class="rv" id="btTheta">—</div><div class="rl">θ = θz − β</div></div>
+      <div class="readout"><div class="rv" id="btRatio">—</div><div class="rl">cos θ / cos θz</div></div>
+      <div class="readout"><div class="rv" id="btGbt">—</div><div class="rl">G<sub>b,t</sub> (G<sub>b,h</sub>=500 W/m²)</div></div>
+    </div>
+    <div class="svgwrap"><svg id="btSvg" viewBox="0 0 680 300" role="img" aria-label="Beam transposition geometry with sun, horizontal and tilted planes"></svg></div>
+    <p class="feedback info show">Ratio &gt; 1 means the tilted plane sees the beam more squarely than the horizontal — the geometric payoff of tilting toward the sun.</p>
+  </div>
+
+  <h2 id="sec-diffuse">Diffuse Component of Solar Irradiance (Heinemann, 2019, Slide 5)</h2>
+  <div class="card">
+    <div class="quote">Assumption: "Isotropoic sky radiance (this approach is usually too simple)"<span class="cite">(ibid)</span></div>
+    <p>Diffuse component over a tilted plane (ibid),</p>
+    <div class="eq">G<sub>d,t</sub> = G<sub>d,h</sub> × <sup>(1 + cos β)</sup>⁄<sub>2</sub></div>
+    <p class="note">Angle of Incidence: θ = θ<sub>z</sub> − β · Figure attribution: Adapted from (Heinemann, 2019).</p>
+    <h3>🌫 Sky-View Factor Visualizer</h3>
+    <p class="note">As β grows, the panel "sees" less of the sky dome — the visible slice shrinks and the factor (1 + cos β)/2 falls from 1 (flat) to 0.5 (vertical).</p>
+    <div class="ctlrow">
+      <label>Tilt β <input type="range" id="svTilt" min="0" max="90" value="25" step="1"></label>
+      <div class="readout"><div class="rv" id="svF">—</div><div class="rl">(1 + cos β)/2</div></div>
+      <div class="readout"><div class="rv" id="svGdt">—</div><div class="rl">G<sub>d,t</sub> (G<sub>d,h</sub>=200 W/m²)</div></div>
+    </div>
+    <div class="svgwrap"><svg id="svSvg" viewBox="0 0 680 280" role="img" aria-label="Sky view factor shrinking as tilt grows"></svg></div>
+    <div class="panel insight"><button type="button">🌐 What does "isotropic sky" assume — and why is it "usually too simple"?</button><div class="pbody">
+      <p>Isotropic means the sky dome is assumed equally bright in every direction, so the diffuse reaching the panel depends only on how much dome it sees — the factor (1 + cos β)/2. Real skies are anisotropic: brighter around the sun (circumsolar diffuse) and along the horizon. That is why the lecture flags the approach as "usually too simple"; advanced models (e.g., Perez) add those terms, but the isotropic formula remains the standard first estimate and exam workhorse.</p>
+    </div></div>
+  </div>
+
+  <h2 id="sec-albedo">Albedo Component of Solar Irradiance (Heinemann, 2019, Slide 5)</h2>
+  <div class="card">
+    <div class="quote">Assumption: "Ground reflection is isotropic!"<span class="cite">(ibid)</span></div>
+    <p>Ground reflected component over a tilted plane (ibid),</p>
+    <div class="eq">G<sub>r,t</sub> = G<sub>h</sub> × ρ × <sup>(1 − cos β)</sup>⁄<sub>2</sub></div>
+    <p>where, ρ is surface reflectivity or albedo.</p>
+    <p class="note">Figure attribution: Adapted from (Heinemann, 2019).</p>
+    <h3>🏔 Ground-Reflection Visualizer</h3>
+    <p class="note">Pick the ground surface and tilt the panel: reflected rays strengthen with albedo ρ, and the ground-view factor (1 − cos β)/2 grows with tilt. Note β = 0 ⇒ the panel sees no ground at all.</p>
+    <div class="chips" id="alChips"></div>
+    <div class="ctlrow">
+      <label>Tilt β <input type="range" id="alTilt" min="0" max="90" value="25" step="1"></label>
+      <div class="readout"><div class="rv" id="alRho">—</div><div class="rl">albedo ρ</div></div>
+      <div class="readout"><div class="rv" id="alF">—</div><div class="rl">(1 − cos β)/2</div></div>
+      <div class="readout"><div class="rv" id="alGrt">—</div><div class="rl">G<sub>r,t</sub> (G<sub>h</sub>=700 W/m²)</div></div>
+    </div>
+    <div class="svgwrap"><svg id="alSvg" viewBox="0 0 680 280" role="img" aria-label="Ground reflection onto a tilted panel"></svg></div>
+  </div>
+
+  <div class="card">
+    <h3>"Typical Albedo Values" (Heinemann, 2019, Slide 6)</h3>
+    <p class="note">Interactive rendering of the lecture's albedo table (Attribution: Adapted from (Heinemann, 2019) — "Source: Sen: Solar Energy Fundamentals and Modeling Techniques (2008)" (ibid)). Click a row to load its ρ into the visualizer above.</p>
+    <div id="alTable"></div>
+  </div>
+
+  <div class="card">
+    <h3>🧮 Total on the Tilted Plane — Live Transposition Calculator</h3>
+    <p class="note">All three lecture formulas chained: enter horizontal data and geometry, read the tilted-plane components and total.</p>
+    <div class="ctlrow">
+      <label>G<sub>b,h</sub> <input type="number" id="tcGbh" value="560" min="0" max="1100" step="10" style="width:100px"> W/m²</label>
+      <label>G<sub>d,h</sub> <input type="number" id="tcGdh" value="190" min="0" max="600" step="10" style="width:100px"> W/m²</label>
+      <label>G<sub>h</sub> <input type="number" id="tcGh" value="750" min="0" max="1400" step="10" style="width:100px"> W/m²</label>
+    </div>
+    <div class="ctlrow">
+      <label>θ<sub>z</sub> <input type="number" id="tcZen" value="35" min="1" max="89" step="1" style="width:80px">°</label>
+      <label>β <input type="number" id="tcTilt" value="25" min="0" max="90" step="1" style="width:80px">°</label>
+      <label>ρ <input type="number" id="tcRho" value="0.20" min="0" max="0.95" step="0.01" style="width:90px"></label>
+    </div>
+    <div class="ctlrow">
+      <div class="readout"><div class="rv" id="tcBt">—</div><div class="rl">G<sub>b,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tcDt">—</div><div class="rl">G<sub>d,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tcRt">—</div><div class="rl">G<sub>r,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tcTot">—</div><div class="rl">G<sub>t</sub> = sum W/m²</div></div>
+    </div>
+    <div class="svgwrap"><svg id="tcSvg" viewBox="0 0 640 180" role="img" aria-label="Stacked bar of tilted plane components"></svg></div>
+    <p class="feedback info" id="tcInterp"></p>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>The three factors of this lecture are the DNA of every transposition model in professional software: cos θ/cos θz (beam geometry), (1 + cos β)/2 (sky view), ρ(1 − cos β)/2 (ground view). PVGIS and PVsyst refine the diffuse term with anisotropic models, but structure and limits are identical — master these three and you can sanity-check any simulator's output by hand.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>Learn the two view factors as a pair that always sums to 1: sky share (1 + cos β)/2 + ground share (1 − cos β)/2 = 1. Flat panel: all sky, no ground. Vertical panel: half sky, half ground. Everything between interpolates smoothly.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Three classics: (1) mixing up θ, θz and β — θ is measured from the PANEL normal, θz from the VERTICAL, β from the HORIZONTAL; (2) using θ = θz − β blindly — it holds for an equator-facing panel with the sun in the same vertical plane (e.g., solar noon), not for arbitrary sun azimuths; (3) forgetting that at β = 0 the albedo term vanishes exactly — a horizontal panel cannot see the ground.</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Write the four formulas as a block before solving anything: (1) G<sub>b,h</sub> = G<sub>b,n</sub> cos θz; (2) G<sub>b,t</sub> = G<sub>b,n</sub> cos θ; (3) G<sub>b,t</sub> = G<sub>b,h</sub>·cos θ/cos θz with θ = θz − β; diffuse G<sub>d,t</sub> = G<sub>d,h</sub>(1+cos β)/2; albedo G<sub>r,t</sub> = G<sub>h</sub>ρ(1−cos β)/2; total G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub>. Most marks are for the correct factor applied to the correct component.</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>A Dhaka rooftop study: take GHI/DHI from a dataset (POWER/PVGIS), split out G<sub>b,h</sub> = GHI − DHI, transpose all three components to β ≈ 24°, and you have the plane-of-array irradiance that a PV yield estimate multiplies by module efficiency. This hand calculation is exactly what the Dataset Explorer and Problem Solving tabs rehearse.</p>
+  </div></div>
+  <div class="panel didyou"><button type="button">✨ Did You Know?</button><div class="pbody">
+    <p>Vertical bifacial fences in snowy countries exploit the albedo term twice: fresh snow (ρ up to ~0.9) plus β = 90° maximizes ρ(1−cos β)/2 = ρ/2 on each face — winter output can rival a conventional tilted array's.</p>
+  </div></div>
+</section>
+<!-- ============ DATASET EXPLORER ============ -->
+<section id="tab-datasets" role="tabpanel" aria-label="Dataset Explorer">
+  <h2>Dataset Explorer — NASA POWER &amp; PVGIS</h2>
+  <p>Learning Outcome 2: collect required solar resource related datasets for solar energy projects from <strong>(a) NASA's POWER Data Access Viewer</strong>, and <strong>(b) PVGIS</strong>. Both walkthroughs below are offline mock-ups with clearly generated, illustrative data.</p>
+
+  <div class="card">
+    <h3>🛰 (a) NASA POWER Data Access Viewer — Guided Mock Walkthrough</h3>
+    <p class="note">Real portal: <a href="https://power.larc.nasa.gov/data-access-viewer/">power.larc.nasa.gov/data-access-viewer/</a></p>
+    <div class="ctlrow">
+      <label>1 · Location <select id="npLoc"><option value="dhaka">Dhaka (23.7° N, 90.4° E)</option><option value="rajshahi">Rajshahi (24.4° N, 88.6° E)</option><option value="coxs">Cox's Bazar (21.4° N, 92.0° E)</option></select></label>
+      <label>2 · Parameter <select id="npPar"><option value="ghi">All-sky insolation on horizontal (kWh/m²/day)</option><option value="tilt">Insolation on latitude-tilt surface (kWh/m²/day)</option></select></label>
+      <button class="btn small gold" id="npGo">3 · Fetch (mock)</button>
+    </div>
+    <div id="npResult"></div>
+  </div>
+
+  <div class="card">
+    <h3>🇪🇺 (b) PVGIS — Guided Mock Walkthrough</h3>
+    <p class="note">PVGIS performs this lecture's transposition internally when you ask for in-plane irradiation at a chosen tilt.</p>
+    <div class="ctlrow">
+      <label>1 · Location <select id="pgLoc"><option value="dhaka">Dhaka</option><option value="khulna">Khulna</option></select></label>
+      <label>2 · Mounting slope <select id="pgTilt"><option value="0">0° (horizontal)</option><option value="24" selected>24° (≈ latitude)</option><option value="35">35° (winter-biased)</option><option value="opt">Optimize slope (let PVGIS choose)</option></select></label>
+      <button class="btn small gold" id="pgGo">3 · Compute (mock)</button>
+    </div>
+    <div id="pgResult"></div>
+  </div>
+
+  <div class="card">
+    <h3>⚖ POWER vs. PVGIS for a Bangladesh Project</h3>
+    <div style="overflow-x:auto"><table aria-label="POWER versus PVGIS comparison">
+      <thead><tr><th></th><th>NASA POWER</th><th>PVGIS</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Coverage</strong></td><td>Global, 0.5° × 0.5° grid</td><td>Europe, Africa, most of Asia (satellite databases)</td></tr>
+        <tr><td><strong>Tilted-plane support</strong></td><td>Selected tilt-related parameters</td><td>Native: in-plane irradiation at any slope + "optimize slope"</td></tr>
+        <tr><td><strong>Outputs</strong></td><td>Daily/monthly parameter tables, long archives</td><td>Monthly in-plane irradiation, PV yield estimate, TMY files</td></tr>
+        <tr><td><strong>Best use (BD project)</strong></td><td>Long-term climate context, parameter breadth</td><td>Quick tilted-plane numbers and tilt optimization</td></tr>
+        <tr><td><strong>Caveat</strong></td><td>~55 km cell smooths microclimate</td><td>Model-based; validate for bankable work</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Data-Collection Checklist</h3>
+    <ul class="checklist" id="dcCheck"></ul>
+  </div>
+</section>
+
+<!-- ============ SIMULATORS ============ -->
+<section id="tab-simulators" role="tabpanel" aria-label="Simulators">
+  <h2>Interactive Simulators</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>📈 Tilt Angle Optimizer</h3>
+      <p class="note">Latitude &amp; tilt sliders, year-round Incident / Horizontal / Module power curves, annual &amp; seasonal energy, Dhaka preset.</p>
+      <button class="btn gold" data-goto="tilt">Open in Optimal Tilt Angle →</button>
+    </div>
+    <div class="card">
+      <h3>🔦 Cosine Law Explorer</h3>
+      <p class="note">Drag θ, watch the footprint spread and I = I₀cos θ fall — with gauge and live readouts.</p>
+      <button class="btn gold" data-goto="tilted">Open in the Tilted Plane tab →</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🏗 Tilted-Plane Transposition Simulator — Full Chain</h3>
+    <p class="note">All three components animated onto one panel. Presets expose the limiting behaviours.</p>
+    <div class="ctlrow">
+      <button class="btn small ghostb" id="tsFlat">Preset: flat panel (β = 0°)</button>
+      <button class="btn small ghostb" id="tsLat">Preset: Dhaka tilt (β = 24°)</button>
+      <button class="btn small ghostb" id="tsVert">Preset: vertical facade (β = 90°)</button>
+    </div>
+    <div class="ctlrow">
+      <label>θ<sub>z</sub> <input type="range" id="tsZen" min="5" max="85" value="35" step="1"></label>
+      <label>β <input type="range" id="tsTilt" min="0" max="90" value="24" step="1"></label>
+      <label>Ground <select id="tsGround"></select></label>
+    </div>
+    <div class="svgwrap"><svg id="tsSvg" viewBox="0 0 680 340" role="img" aria-label="Animated transposition simulator with three ray families"></svg></div>
+    <div class="ctlrow">
+      <div class="readout"><div class="rv" id="tsBt">—</div><div class="rl">G<sub>b,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tsDt">—</div><div class="rl">G<sub>d,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tsRt">—</div><div class="rl">G<sub>r,t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tsTot">—</div><div class="rl">G<sub>t</sub> W/m²</div></div>
+      <div class="readout"><div class="rv" id="tsFacts">—</div><div class="rl">factors (beam·sky·ground)</div></div>
+    </div>
+    <p class="note">Fixed horizontal inputs for comparability: G<sub>b,h</sub> = 560, G<sub>d,h</sub> = 190, G<sub>h</sub> = 750 W/m².</p>
+  </div>
+</section>
+
+<!-- ============ PROBLEM SOLVING ============ -->
+<section id="tab-problems" role="tabpanel" aria-label="Problem Solving">
+  <h2>Problem Solving — Step-by-Step Solver</h2>
+  <p>Original practice problems using <em>only</em> this lecture's concepts, notation and formulas. Work each step; use hints freely.</p>
+  <div id="probArea"></div>
+</section>
+
+<!-- ============ CONCEPT TOOLBOX ============ -->
+<section id="tab-toolbox" role="tabpanel" aria-label="Concept Toolbox">
+  <h2>Concept Toolbox</h2>
+  <p>Click any entry for the exact lecture definition/equation (with citation), physical interpretation, units, common mistakes, applications, and relationships.</p>
+  <div class="grid3" id="tbGrid"></div>
+</section>
+
+<!-- ============ USEFUL RESOURCES ============ -->
+<section id="tab-resources" role="tabpanel" aria-label="Useful Resources">
+  <h2>Useful Resources — Lecture References</h2>
+  <div id="refCards"></div>
+  <h2>Linked Resources From the Lecture</h2>
+  <div id="linkCards" class="grid2"></div>
+</section>
+
+<!-- ============ REFLECTIONS ============ -->
+<section id="tab-reflections" role="tabpanel" aria-label="Reflections">
+  <h2>Reflections — Thinking Like a Solar Designer</h2>
+  <p>Attempt each reflection yourself first (write in the box). Then use <em>Show Hint</em>, and only afterwards <em>Reveal Discussion</em>.</p>
+  <div id="reflArea"></div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="tab-summary" role="tabpanel" aria-label="Summary">
+  <h2>Summary — Understanding Solar Irradiance on Tilted Surfaces</h2>
+  <p>The lecture's closing infographic in interactive form. Click a pillar card to expand it.</p>
+  <div class="grid3" id="sumPillars"></div>
+  <div class="card">
+    <h3>🕸 Knowledge Graph — Concept Relationships</h3>
+    <p class="note">Hover/tap a node to highlight its relationships.</p>
+    <div class="svgwrap"><svg id="sumMap" viewBox="0 0 680 360" role="img" aria-label="Knowledge graph of tilted plane concepts"></svg></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>⭐ Key Takeaways</h3>
+      <ul class="checklist">
+        <li>A tilted plane receives three components: direct (beam), diffuse (sky), and reflected (albedo) — G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub> (Heinemann, 2019).</li>
+        <li>Lambert's Cosine Law, I = I₀ cos θ: maximum energy is absorbed when sunlight strikes the panel perpendicularly (θ ≈ 0°) — "Same amount of incoming radiant energy covers different surface areas."</li>
+        <li>Beam transposes by geometry: G<sub>b,t</sub> = G<sub>b,h</sub>·cos θ/cos θz with θ = θz − β.</li>
+        <li>Diffuse follows the sky view: G<sub>d,t</sub> = G<sub>d,h</sub>(1 + cos β)/2 — under the isotropic-sky assumption the lecture flags as "usually too simple".</li>
+        <li>Ground reflection follows the ground view and the albedo: G<sub>r,t</sub> = G<sub>h</sub>·ρ·(1 − cos β)/2 — fresh snow reflects far more than grass.</li>
+        <li>Optimal annual tilt ≈ local latitude; steeper tilts favour winter, lower tilts favour summer (PVEDUCATION.ORG, nd).</li>
+        <li>Tilted-plane datasets come from NASA's POWER Data Access Viewer and PVGIS.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔗 Most Important Relationships</h3>
+      <div class="eq">G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub></div>
+      <div class="eq">I = I₀ cos θ &nbsp;·&nbsp; θ = θ<sub>z</sub> − β</div>
+      <div class="eq">G<sub>b,t</sub> = G<sub>b,h</sub>·<sup>cos θ</sup>⁄<sub>cos θz</sub> · G<sub>d,t</sub> = G<sub>d,h</sub>·<sup>(1+cos β)</sup>⁄<sub>2</sub> · G<sub>r,t</sub> = G<sub>h</sub>ρ·<sup>(1−cos β)</sup>⁄<sub>2</sub></div>
+      <div class="eq">Optimal annual tilt ≈ latitude</div>
+      <h3>🛠 Engineering Applications</h3>
+      <ul class="checklist">
+        <li>Fixed-tilt PV design (β ≈ φ, Dhaka ≈ 24°).</li>
+        <li>Winter-critical systems → steeper β; summer-heavy loads → lower β.</li>
+        <li>Trackers hold θ ≈ 0° to keep I ≈ I₀.</li>
+        <li>Snowy/bright surroundings → albedo term earns real energy (bifacial designs).</li>
+        <li>POWER &amp; PVGIS supply the datasets; the formulas here sanity-check them.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>✅ Engineering Checklist — can you…?</h3>
+    <ul class="checklist" id="sumChecklist"></ul>
+    <p class="note">Tick items honestly — they feed the Dashboard's completion tracking.</p>
+  </div>
+</section>
+
+<!-- ============ ACKNOWLEDGMENT ============ -->
+<section id="tab-acknowledgment" role="tabpanel" aria-label="Acknowledgment">
+  <h2>Acknowledgment</h2>
+  <div class="card" style="text-align:center;border-left:5px solid var(--gold)">
+    <p class="eq" style="font-size:1.25rem">Several images are adopted from the lecture slides of Dr. Detlev Heinemann from University of Oldenburg, Germany. Thanks to him for his kind permission.</p>
+    <p class="note">This companion app recreates those figures as original SVG illustrations, each labelled "Adapted from (Heinemann, 2019)".</p>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="tab-quiz" role="tabpanel" aria-label="Quiz">
+  <h2>Quiz — 20 Randomized Questions</h2>
+  <p class="note">Multiple choice, true/false, fill-in-the-blank, numerical, matching, and diagram interpretation. Shuffled on every restart. Instant feedback with worked solutions.</p>
+  <div class="qprog"><span id="quizProg"></span></div>
+  <div class="ctlrow">
+    <span class="note" id="quizCount"></span>
+    <span class="note" id="quizScoreLive" style="margin-left:auto"></span>
+  </div>
+  <div id="quizArea"></div>
+  <div id="quizResult"></div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section id="tab-dashboard" role="tabpanel" aria-label="Student Dashboard">
+  <h2>Student Dashboard</h2>
+  <div class="dash-grid" id="dashTiles"></div>
+  <div class="grid2">
+    <div class="card"><h3>📉 Weak Areas</h3><div id="dashWeak"><p class="note">Complete the Pre-Assessment and Quiz to populate this panel.</p></div></div>
+    <div class="card"><h3>📚 Suggested Revision Topics</h3><div id="dashSuggest"><p class="note">Suggestions appear here based on your results.</p></div></div>
+  </div>
+  <div class="card"><h3>🧭 Progress Tracker</h3><div id="dashTrack"></div></div>
+</section>
+
+</main>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="mbox">
+    <button class="mclose" aria-label="Close dialog" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer>
+  <div>ME4011 Renewable Energy — Interactive companion to <span class="goldline">"Solar Energy - Part 5 — Resource Assessment: Solar Irradiance on Tilted Planes"</span> by Professor Dr. Mazharul Islam, Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh</div>
+  <div>Lecture slides licensed under the Creative Commons Attribution (CC-BY) 4.0 International License</div>
+</footer>
+
+<script>
+'use strict';
+/* ============================================================
+   CORE FRAMEWORK — ME4011 companion series engine (Part 5)
+   ============================================================ */
+const $  = (s,c)=> (c||document).querySelector(s);
+const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+const SVGNS='http://www.w3.org/2000/svg';
+function el(tag,attrs,text){ const e=document.createElementNS(SVGNS,tag); for(const k in (attrs||{})) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; return e; }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function fmt(v,d){ return Number(v).toFixed(d==null?0:d); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const D2R=Math.PI/180;
+const cosd=a=>Math.cos(a*D2R), sind=a=>Math.sin(a*D2R);
+
+const state = (function(){
+  const KEY='me4011_part5_state';
+  let mem={};
+  try{ mem=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ mem={}; }
+  const defaults={ visited:{}, mastered:{}, paDone:false, paTags:{}, quizBest:null, quizLast:null, weakTags:{}, checklist:{}, hc:false, reflections:{}, intro:{}, dc:{} };
+  const st=Object.assign({},defaults,mem);
+  st.save=function(){ try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){} };
+  return st;
+})();
+
+const TAB_ORDER=['outcomes','preassess','review','intro','tilt','tilted','datasets','simulators','problems','toolbox','resources','reflections','summary','acknowledgment','quiz','dashboard'];
+const TAB_NAMES={outcomes:'Learning Outcomes',preassess:'Pre-Assessment',review:'Review',intro:'Introduction',tilt:'Optimal Tilt Angle',tilted:'Solar Irradiance on a Tilted Plane',datasets:'Dataset Explorer',simulators:'Simulators',problems:'Problem Solving',toolbox:'Concept Toolbox',resources:'Useful Resources',reflections:'Reflections',summary:'Summary',acknowledgment:'Acknowledgment',quiz:'Quiz',dashboard:'Dashboard'};
+function showTab(id){
+  $$('#tabbar [role=tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===id ? 'true':'false'));
+  $$('section[role=tabpanel]').forEach(s=>s.classList.toggle('active', s.id==='tab-'+id));
+  state.visited[id]=true; state.save(); updateProgress();
+  if(id==='dashboard') renderDashboard();
+  const btn=$('#tabbar [data-tab="'+id+'"]'); if(btn) btn.scrollIntoView({block:'nearest',inline:'nearest'});
+  window.scrollTo({top:0});
+}
+$('#tabbar').addEventListener('click',e=>{ const b=e.target.closest('[role=tab]'); if(b) showTab(b.dataset.tab); });
+$('#tabbar').addEventListener('keydown',e=>{
+  const tabs=$$('#tabbar [role=tab]'); const i=tabs.indexOf(document.activeElement);
+  if(i<0) return;
+  if(e.key==='ArrowRight'){ e.preventDefault(); const n=tabs[(i+1)%tabs.length]; n.focus(); showTab(n.dataset.tab); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); const n=tabs[(i-1+tabs.length)%tabs.length]; n.focus(); showTab(n.dataset.tab); }
+});
+document.addEventListener('click',e=>{ const g=e.target.closest('[data-goto]'); if(g) showTab(g.dataset.goto); });
+function updateProgress(){
+  const visited=TAB_ORDER.filter(t=>state.visited[t]).length;
+  const mastered=Object.values(state.mastered).filter(Boolean).length;
+  const pct=Math.round( (visited/TAB_ORDER.length)*70 + (mastered/2)*20 + (state.quizBest!=null?10:0) );
+  $('#progPct').textContent=pct+'%';
+  $('#progBar').style.width=pct+'%';
+  $$('#tabbar [role=tab]').forEach(b=>{
+    const t=b.dataset.tab;
+    if(state.visited[t] && !b.querySelector('.tick')){ const s=document.createElement('span'); s.className='tick'; s.textContent=' ✓'; b.appendChild(s); }
+  });
+}
+const hcBtn=$('#hcBtn');
+function applyHC(){ document.body.classList.toggle('hc',!!state.hc); hcBtn.setAttribute('aria-pressed',state.hc?'true':'false'); }
+hcBtn.addEventListener('click',()=>{ state.hc=!state.hc; state.save(); applyHC(); });
+applyHC();
+document.addEventListener('click',e=>{ const b=e.target.closest('.panel>button'); if(b) b.parentElement.classList.toggle('open'); });
+document.addEventListener('click',e=>{
+  const h=e.target.closest('.xcard>.xhead');
+  if(h && !e.target.closest('input,button,a')){ const c=h.parentElement; c.classList.toggle('open'); h.setAttribute('aria-expanded',c.classList.contains('open')?'true':'false'); }
+});
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('xhead')){ e.preventDefault(); e.target.click(); }
+});
+function openModal(html){ $('#modalContent').innerHTML=html; $('#modal').classList.add('open'); $('#modal .mclose').focus(); }
+function closeModal(){ $('#modal').classList.remove('open'); }
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ---------- Lecture formula engine ---------- */
+function transpose(Gbh,Gdh,Gh,thz,beta,rho){
+  const th=thz-beta;                       // angle of incidence θ = θz − β (lecture)
+  const bt = cosd(thz)>1e-6 ? Gbh*Math.max(0,cosd(th))/cosd(thz) : 0;   // eq (3)
+  const dt = Gdh*(1+cosd(beta))/2;         // isotropic sky
+  const rt = Gh*rho*(1-cosd(beta))/2;      // albedo
+  return {th, bt:Math.round(bt), dt:Math.round(dt), rt:Math.round(rt*10)/10, tot:Math.round(bt+dt+rt)};
+}
+const ALBEDO=[['Fresh snow',0.85],['Old snow',0.55],['Desert sand',0.40],['Concrete',0.30],['Dry grass',0.30],['Grass',0.25],['Soil',0.17],['Asphalt',0.15],['Water (high sun)',0.07]];
+
+/* ============================================================
+   1. LEARNING OUTCOMES
+   ============================================================ */
+const LO=[
+ { text:'determine solar irradiance on a tilted plane using formulas; and',
+   rel:'Collectors and PV modules live on tilted roofs and racks, but measurements and datasets arrive on the horizontal — the transposition formulas are the bridge every design crosses.',
+   why:'Without them you cannot convert GHI/DHI data into the plane-of-array irradiance that determines energy yield, system sizing and economics.',
+   apps:'Fixed-tilt PV design, solar thermal collector sizing, facade/bifacial studies, tracker benefit analysis.',
+   real:'A Dhaka rooftop study transposes POWER/PVGIS horizontal data to β ≈ 24° before any yield or payback number can be quoted to the client.',
+   future:'Feeds directly into PV system simulation, performance-ratio analysis and collector performance modelling later in ME4011.'},
+ { text:'collect required solar resource related datasets for solar energy projects from (a) NASA’s POWER Data Access Viewer, and (b) PVGIS.',
+   rel:'Modern solar engineering starts at a data portal: free satellite-derived datasets replace months of on-site measurement at the prospecting stage.',
+   why:'Choosing the right portal, parameters and tilt options — and knowing the data’s limits — separates a credible resource assessment from a copy-paste guess.',
+   apps:'Pre-feasibility studies, tilt optimization (PVGIS "optimize slope"), long-term climate context (POWER archives), TMY generation.',
+   real:'Bangladeshi developers routinely open both portals in the first hour of a new project: POWER for the long record, PVGIS for in-plane irradiation at the planned tilt.',
+   future:'Connects back to Part 3’s TMY/database material and forward to full system simulation workflows.'}
+];
+(function renderLO(){
+  const wrap=$('#loCards');
+  LO.forEach((o,i)=>{
+    const d=document.createElement('div'); d.className='xcard'; d.innerHTML=
+      '<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+(i+1)+'</div>'+
+      '<div><div class="xtitle">'+o.text+'</div><div class="note">Click to reveal engineering relevance, applications and examples</div></div><div class="chev">▸</div></div>'+
+      '<div class="xbody"><dl class="kv">'+
+      '<dt>Engineering relevance</dt><dd>'+o.rel+'</dd>'+
+      '<dt>Why it matters</dt><dd>'+o.why+'</dd>'+
+      '<dt>Renewable energy applications</dt><dd>'+o.apps+'</dd>'+
+      '<dt>Real-world example</dt><dd>'+o.real+'</dd>'+
+      '<dt>Related future topics</dt><dd>'+o.future+'</dd></dl>'+
+      '<label class="mastery"><input type="checkbox" data-lo="'+i+'" '+(state.mastered['lo'+i]?'checked':'')+'> Mark this outcome as mastered</label></div>';
+    wrap.appendChild(d);
+  });
+  wrap.addEventListener('change',e=>{
+    if(e.target.dataset.lo!=null){ state.mastered['lo'+e.target.dataset.lo]=e.target.checked; state.save(); updateProgress(); }
+  });
+})();
+
+/* ============================================================
+   2. PRE-ASSESSMENT
+   ============================================================ */
+const PA_ITEMS=[
+ {type:'mc',tag:'part3',q:'From Part 3: global radiation on a horizontal surface equals…',
+  opts:['Beam − Diffuse','Beam + Diffuse','Beam × Diffuse','Diffuse only'],ans:1,
+  fb:'Global = Beam + Diffuse. Today a third term — ground-reflected — joins them on tilted planes.'},
+ {type:'mc',tag:'part4',q:'From Part 4: which instrument measures GHI?',
+  opts:['Pyrheliometer','Pyranometer','Campbell-Stokes recorder','Anemometer'],ans:1,
+  fb:'The pyranometer, with its hemispherical 180° view. Its horizontal data are the raw material of today’s formulas.'},
+ {type:'tf',tag:'geo',q:'True or False: Solar altitude = 90° − θz (the solar zenith angle).',ans:true,
+  fb:'True — altitude and zenith angle are complements. θz stars in today’s beam formula.'},
+ {type:'mc',tag:'cos',q:'cos 60° equals:',
+  opts:['0.87','0.71','0.50','0.25'],ans:2,
+  fb:'0.5 — a 60° incidence angle halves the received irradiance. Cosines rule this lecture.'},
+ {type:'match',tag:'geo',q:'Match each symbol to its meaning (before the formal definitions arrive):',
+  pairs:[['θz','Solar zenith angle (sun from vertical)'],['β','Tilt angle of the panel'],['ρ','Surface reflectivity or albedo'],['Gh','Global irradiance on the horizontal']],
+  fb:'θz, β, ρ and Gh — the four levers of today’s transposition formulas.'},
+ {type:'tilt',tag:'intuition',q:'Tilt the panel: the sun stands at 60° elevation (θz = 30°). Drag the tilt slider and CLICK "Lock my answer" at the tilt you believe maximizes the received irradiance.',
+  fb:'Maximum capture occurs when the panel faces the sun square-on: β = θz = 30° makes the incidence angle θ = 0. You just discovered θ = θz − β!'},
+ {type:'predict',tag:'prediction',q:'Predict before you learn: for a fixed panel in Dhaka (latitude ≈ 23.7° N), which tilt angle maximizes ANNUAL energy?',
+  opts:['≈ 0° (flat)','≈ 24° (≈ latitude)','≈ 45°','≈ 66°'],best:1,
+  fb:'≈ 24° — "the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location" (PVEDUCATION.ORG, nd). Revisited in Optimal Tilt Angle.'},
+ {type:'predict',tag:'prediction',q:'Predict before you learn: which ground surface reflects the MOST sunlight onto a tilted panel?',
+  opts:['Grass','Concrete','Fresh snow','Asphalt'],best:2,
+  fb:'Fresh snow (albedo up to ~0.85–0.90) — the star of today’s albedo component. Revisited in the Albedo section.'},
+ {type:'tf',tag:'intuition',q:'True or False: A surface directly facing the sun receives more irradiance than the same surface at an oblique angle.',ans:true,
+  fb:'True — your skin already knows Lambert’s Cosine Law; today you get its equation: I = I₀ cos θ.'},
+ {type:'mc',tag:'part4',q:'From Part 4: NASA POWER provides data on a global grid of…',
+  opts:['5° × 5°','0.5° × 0.5°','0.05° × 0.05°','1 km × 1 km'],ans:1,
+  fb:'0.5° × 0.5° (≈ 55 km). Today you use the Data Access Viewer hands-on.'},
+ {type:'tf',tag:'units',q:'True or False: kWh/m²/day is a daily-integrated energy quantity, not an instantaneous rate.',ans:true,
+  fb:'True — it is irradiance integrated over each day. Dataset tables in this lecture use exactly this unit.'}
+];
+const PA_TAGNAMES={part3:'Part 3 components',part4:'Part 4 measurements & POWER',geo:'Solar geometry symbols',cos:'Cosine behaviour',intuition:'Physical intuition',prediction:'Predictions (no right/wrong)',units:'Units'};
+const paResult={}; let paAnswered=0;
+function paRender(){
+  const area=$('#paArea'); area.innerHTML='';
+  PA_ITEMS.forEach((it,idx)=>{
+    const c=document.createElement('div'); c.className='card'; c.id='pa'+idx;
+    let inner='<p><strong>Q'+(idx+1)+' <span class="tag">'+PA_TAGNAMES[it.tag]+'</span></strong><br>'+it.q+'</p>';
+    if(it.type==='mc'||it.type==='predict'){
+      inner+=it.opts.map((o,i)=>'<button class="opt" data-pa="'+idx+'" data-i="'+i+'">'+o+'</button>').join('');
+    }else if(it.type==='tf'){
+      inner+='<button class="opt" data-pa="'+idx+'" data-i="true">True</button><button class="opt" data-pa="'+idx+'" data-i="false">False</button>';
+    }else if(it.type==='match'){
+      const rights=shuffle(it.pairs.map(p=>p[1]));
+      inner+=it.pairs.map((p,i)=>'<div class="matchrow"><strong style="min-width:60px">'+p[0]+'</strong><select data-pm="'+i+'"><option value="">— choose —</option>'+rights.map(r=>'<option>'+r+'</option>').join('')+'</select></div>').join('');
+      inner+='<div class="ctlrow"><button class="btn small gold" data-pamatch="'+idx+'">Check matches</button></div>';
+    }else if(it.type==='tilt'){
+      inner+='<div class="svgwrap"><svg id="paTiltSvg" viewBox="0 0 520 240" role="img" aria-label="Tilt the panel exercise"></svg></div>'+
+        '<div class="ctlrow"><label>Tilt β <input type="range" id="paTiltSl" min="0" max="80" value="0" step="1"></label>'+
+        '<span class="note" id="paTiltV">β = 0°</span>'+
+        '<button class="btn small gold" id="paTiltLock">Lock my answer</button></div>';
+    }
+    inner+='<div class="feedback" id="paFb'+idx+'"></div>';
+    c.innerHTML=inner; area.appendChild(c);
+  });
+  area.addEventListener('click',e=>{
+    const mbtn=e.target.closest('[data-pamatch]');
+    if(mbtn){
+      const idx=+mbtn.dataset.pamatch, it=PA_ITEMS[idx];
+      if(paResult['q'+idx]!=null) return;
+      const card=$('#pa'+idx);
+      const sels=$$('select[data-pm]',card);
+      if(sels.some(s2=>!s2.value)){ alert('Choose an option for every row'); return; }
+      const oks=sels.filter((s2,i)=>s2.value===it.pairs[i][1]).length;
+      sels.forEach(s2=>s2.disabled=true); mbtn.disabled=true;
+      paResult['q'+idx]={tag:it.tag,ok:oks===it.pairs.length};
+      const fb=$('#paFb'+idx);
+      fb.className='feedback show '+(oks===it.pairs.length?'good':'info');
+      fb.innerHTML=(oks===it.pairs.length?'✅ All matched! ':'💪 You matched '+oks+'/'+it.pairs.length+'. ')+it.fb;
+      paTick(); return;
+    }
+    const b=e.target.closest('.opt'); if(!b) return;
+    const idx=+b.dataset.pa, it=PA_ITEMS[idx];
+    if(paResult['q'+idx]!=null) return;
+    let good;
+    if(it.type==='predict'){ good=null; paResult['q'+idx]={tag:it.tag,ok:true,predict:true}; }
+    else if(it.type==='tf'){ good=(b.dataset.i==='true')===it.ans; paResult['q'+idx]={tag:it.tag,ok:good}; }
+    else { good=+b.dataset.i===it.ans; paResult['q'+idx]={tag:it.tag,ok:good}; }
+    $$('.opt[data-pa="'+idx+'"]').forEach(o=>{
+      o.disabled=true;
+      const isBest= it.type==='tf' ? (o.dataset.i===String(it.ans)) : (+o.dataset.i===(it.type==='predict'?it.best:it.ans));
+      if(isBest) o.classList.add('correct');
+    });
+    if(good===false) b.classList.add('wrong');
+    const fb=$('#paFb'+idx);
+    fb.className='feedback show '+(it.type==='predict'?'info':(good?'good':'bad'));
+    fb.innerHTML=(it.type==='predict'?'🔮 Prediction logged! ':(good?'✅ Nice — you remembered this! ':'💪 Good try — now you know what to brush up. '))+it.fb;
+    paTick();
+  });
+  paTiltInit();
+}
+function paTick(){ paAnswered=Object.keys(paResult).length; if(paAnswered===PA_ITEMS.length) paProfile(); }
+/* tilt exercise (item index 5) */
+function paTiltInit(){
+  const svg=$('#paTiltSvg'); if(!svg) return;
+  svg.appendChild(el('rect',{x:0,y:0,width:520,height:240,fill:'#dcebff',rx:10}));
+  svg.appendChild(el('rect',{x:0,y:210,width:520,height:30,fill:'#8a9b6e'}));
+  svg.appendChild(el('circle',{cx:430,cy:55,r:22,fill:'#fca311'}));
+  const ray=el('line',{x1:414,y1:68,x2:262,y2:196,stroke:'#fca311','stroke-width':4,'stroke-dasharray':'9 8'});
+  ray.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:34,to:0,dur:'1.1s',repeatCount:'indefinite'}));
+  svg.appendChild(ray);
+  svg.appendChild(el('text',{x:430,y:22,'text-anchor':'middle','font-size':11,fill:'#5b6579'},'sun at 60° elevation (θz = 30°)'));
+  const panel=el('rect',{x:-55,y:-6,width:110,height:9,rx:4,fill:'#14213d'});
+  const pg=el('g',{transform:'translate(260 200)'}); pg.appendChild(panel); svg.appendChild(pg);
+  const gauge=el('text',{x:120,y:40,'font-size':13,'font-weight':'bold',fill:'#14213d'},''); svg.appendChild(gauge);
+  function upd(){
+    const b=+$('#paTiltSl').value;
+    $('#paTiltV').textContent='β = '+b+'°';
+    panel.setAttribute('transform','rotate('+(-b)+')');
+    const th=Math.abs(30-b);
+    gauge.textContent='received ∝ cos(θ) = '+fmt(cosd(th),2);
+  }
+  $('#paTiltSl').addEventListener('input',upd);
+  $('#paTiltLock').addEventListener('click',()=>{
+    if(paResult.q5!=null) return;
+    const b=+$('#paTiltSl').value;
+    const ok=Math.abs(b-30)<=5;
+    paResult.q5={tag:'intuition',ok};
+    $('#paTiltLock').disabled=true; $('#paTiltSl').disabled=true;
+    const fb=$('#paFb5'); fb.className='feedback show '+(ok?'good':'info');
+    fb.innerHTML=(ok?'✅ β = '+b+'° — spot on! ':'💪 You locked β = '+b+'°; the optimum is β = 30°. ')+PA_ITEMS[5].fb;
+    paTick();
+  });
+  upd();
+}
+function paProfile(){
+  const tags={};
+  Object.values(paResult).forEach(r=>{ if(r.predict) return; tags[r.tag]=tags[r.tag]||{ok:0,n:0}; tags[r.tag].n++; if(r.ok) tags[r.tag].ok++; });
+  state.paDone=true; state.paTags=tags; state.save();
+  const strong=[],weak=[];
+  for(const t in tags){ (tags[t].ok===tags[t].n?strong:weak).push(t); }
+  const SUGGEST={part3:'Revisit <strong>R1 Irradiance Components</strong> in the Review tab.',part4:'Revisit <strong>R1/R4</strong> in the Review tab (closure &amp; NASA POWER).',geo:'Revisit <strong>R2 Solar Geometry Essentials</strong> before the Cosine Law.',cos:'Revisit <strong>R3 Cosine Behaviour</strong> — it powers every formula today.',intuition:'The Cosine Law Demonstrator in the Tilted Plane tab will make this physical.',units:'Revisit units in the Part 3/4 companions; dataset tables use kWh/m²/day.'};
+  let html='<div class="card" style="border-left:5px solid var(--gold)"><h3>🧭 Your Prior-Knowledge Profile</h3>';
+  html+='<p><strong>Strengths:</strong> '+(strong.length?strong.map(t=>PA_TAGNAMES[t]).join(' · '):'Keep practising — everything is learnable!')+'</p>';
+  html+='<p><strong>Gaps to close:</strong> '+(weak.length? weak.map(t=>PA_TAGNAMES[t]).join(' · ') : 'None — excellent preparation!')+'</p>';
+  if(weak.length) html+='<ul>'+weak.map(t=>'<li>'+(SUGGEST[t]||'')+'</li>').join('')+'</ul>';
+  html+='<p class="feedback info show">Remember: this diagnostic does <strong>not</strong> count toward any grade — it exists purely to aim your revision.</p>';
+  html+='<div class="quote">🌉 <strong>Bridge to today’s lecture:</strong> Parts 3–4 gave you the irradiance components and their horizontal measurements. Today you TRANSPOSE them onto the tilted planes where collectors actually live — with three cosine-based formulas — and learn to download tilted-plane datasets from NASA POWER and PVGIS.</div>';
+  html+='<button class="btn gold" data-goto="intro">Start the lecture: Introduction →</button></div>';
+  $('#paProfile').innerHTML=html;
+  $('#paProfile').scrollIntoView({behavior:'smooth'});
+}
+paRender();
+
+/* ============================================================
+   3. REVIEW
+   ============================================================ */
+const RQ={
+ comp:[{q:'GHI = 800 W/m², DHI = 200 W/m². The beam contribution on the horizontal (Gb,h) is:',opts:['1,000 W/m²','600 W/m²','160 W/m²','Cannot be found'],ans:1,fb:'Gb,h = GHI − DHI = 600 W/m² — the split you’ll transpose today.'}],
+ geo:[{q:'If the solar altitude is 65°, the zenith angle θz is:',opts:['65°','35°','25°','115°'],ans:2,fb:'θz = 90° − 65° = 25°.'}],
+ cos:[{q:'Which misalignment loses more irradiance?',opts:['0°→10° near normal incidence','60°→70° near grazing','Both equal','Neither loses anything'],ans:1,fb:'cos 60°−cos 70° ≈ 0.16 but cos 0°−cos 10° ≈ 0.015 — the curve is steep near grazing.'}],
+ power:[{q:'PVGIS’s "optimize slope" option effectively finds:',opts:['The cheapest module','The tilt maximizing in-plane irradiation','The local albedo','The wind load'],ans:1,fb:'It searches tilt space with transposition models — the automated version of today’s lecture.'}]
+};
+$$('.rq').forEach(div=>{
+  const set=RQ[div.dataset.rq]||[];
+  set.forEach(item=>{
+    const w=document.createElement('div');
+    w.innerHTML='<p style="margin-top:.8rem"><strong>Quick recall:</strong> '+item.q+'</p>'+
+      item.opts.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('')+'<div class="feedback"></div>';
+    w.addEventListener('click',e=>{
+      const b=e.target.closest('.opt'); if(!b||b.disabled) return;
+      const good=+b.dataset.i===item.ans;
+      $$('.opt',w).forEach(o=>{o.disabled=true; if(+o.dataset.i===item.ans)o.classList.add('correct');});
+      if(!good)b.classList.add('wrong');
+      const fb=$('.feedback',w); fb.className='feedback show '+(good?'good':'bad'); fb.textContent=(good?'✅ ':'✏ ')+item.fb;
+    });
+    div.appendChild(w);
+  });
+});
+/* R2 geometry sketch */
+(function(){
+  const svg=$('#rvGeoSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:560,height:210,fill:'#eaf1ff',rx:10}));
+  svg.appendChild(el('rect',{x:0,y:180,width:560,height:30,fill:'#8a9b6e'}));
+  svg.appendChild(el('circle',{cx:430,cy:45,r:20,fill:'#fca311'}));
+  svg.appendChild(el('line',{x1:280,y1:180,x2:280,y2:40,stroke:'#5b6579','stroke-width':1.5,'stroke-dasharray':'5 4'}));
+  svg.appendChild(el('text',{x:280,y:32,'text-anchor':'middle','font-size':10,fill:'#5b6579'},'zenith (vertical)'));
+  svg.appendChild(el('line',{x1:280,y1:180,x2:416,y2:58,stroke:'#fca311','stroke-width':3}));
+  svg.appendChild(el('path',{d:'M 280 105 A 75 75 0 0 1 330 128',fill:'none',stroke:'#c5221f','stroke-width':2}));
+  svg.appendChild(el('text',{x:318,y:100,'font-size':13,fill:'#c5221f','font-weight':'bold'},'θz'));
+  const panel=el('rect',{x:-60,y:-6,width:120,height:9,rx:4,fill:'#14213d',transform:'rotate(-24)'});
+  const pg=el('g',{transform:'translate(150 176)'}); pg.appendChild(panel); svg.appendChild(pg);
+  svg.appendChild(el('path',{d:'M 205 176 A 55 55 0 0 0 200 154',fill:'none',stroke:'#1e8e3e','stroke-width':2}));
+  svg.appendChild(el('text',{x:215,y:160,'font-size':13,fill:'#1e8e3e','font-weight':'bold'},'β'));
+  svg.appendChild(el('text',{x:120,y:200,'font-size':10.5,fill:'#fff'},'tilted panel, tilt β from horizontal'));
+})();
+/* R3 interactive cosine curve */
+(function(){
+  const svg=$('#rvCosSvg'); const W=560,H=240,L=50,R=20,T0=16,B=42;
+  const x=a=> L+a/90*(W-L-R), y=v=> H-B-v*(H-T0-B);
+  svg.appendChild(el('rect',{x:L,y:T0,width:W-L-R,height:H-T0-B,fill:'#fbfcff',stroke:'#e3e6ee'}));
+  [0,30,60,90].forEach(a=>svg.appendChild(el('text',{x:x(a),y:H-B+16,'text-anchor':'middle','font-size':10,fill:'#5b6579'},a+'°')));
+  [0,0.5,1].forEach(v=>svg.appendChild(el('text',{x:L-6,y:y(v)+4,'text-anchor':'end','font-size':10,fill:'#5b6579'},v)));
+  let d='M '; for(let a=0;a<=90;a+=1.5) d+=fmt(x(a),1)+' '+fmt(y(cosd(a)),1)+' L ';
+  svg.appendChild(el('path',{d:d.slice(0,-3),fill:'none',stroke:'#14213d','stroke-width':2.5}));
+  const dot=el('circle',{r:7,fill:'#c5221f'}); svg.appendChild(dot);
+  const lbl=el('text',{'font-size':12.5,'font-weight':'bold',fill:'#c5221f'},''); svg.appendChild(lbl);
+  svg.appendChild(el('text',{x:(L+W-R)/2,y:H-6,'text-anchor':'middle','font-size':11,fill:'#5b6579'},'θ — drag along the curve'));
+  function setA(a){
+    a=clamp(a,0,90);
+    dot.setAttribute('cx',x(a)); dot.setAttribute('cy',y(cosd(a)));
+    lbl.setAttribute('x',clamp(x(a)+10,L,W-140)); lbl.setAttribute('y',y(cosd(a))-10);
+    lbl.textContent='cos '+Math.round(a)+'° = '+fmt(cosd(a),3);
+  }
+  svg.addEventListener('pointermove',e=>{
+    if(e.buttons||e.type==='pointermove'){ const r=svg.getBoundingClientRect(); setA(((e.clientX-r.left)/r.width*W-L)/(W-L-R)*90); }
+  });
+  setA(30);
+})();
+/* Flashcards */
+const FC=[
+ ['Gt = Gt,b + Gt,d + Gt,r','Total tilted-plane irradiance = beam + diffuse + reflected components (Heinemann, 2019).'],
+ ['Lambert’s Cosine Law','I = I₀ cos θ — received irradiance falls with the cosine of the incidence angle θ (from the surface normal).'],
+ ['θ = θz − β','Angle of incidence on an equator-facing tilted plane: zenith angle minus tilt (lecture convention).'],
+ ['Beam transposition','Gb,t = Gb,h × cos θ / cos θz — derived by substituting (1) in (2).'],
+ ['Isotropic sky diffuse','Gd,t = Gd,h × (1 + cos β)/2 — "usually too simple", but the standard first estimate.'],
+ ['Albedo component','Gr,t = Gh × ρ × (1 − cos β)/2 — zero for a flat panel; grows with tilt and albedo ρ.'],
+ ['Tilt ≈ latitude rule','Maximum annual energy for a fixed panel when β equals the local latitude (PVEDUCATION.ORG, nd).'],
+ ['POWER & PVGIS','The two dataset portals of Learning Outcome 2 — global 0.5° grid archives, and in-plane irradiation with tilt optimization.']
+];
+let fcI=0;
+function fcShow(){ $('#fcFront').textContent=FC[fcI][0]; $('#fcBack').textContent=FC[fcI][1]; $('#fcCount').textContent=(fcI+1)+' / '+FC.length; $('#fcard').classList.remove('flipped'); }
+$('#fcard').addEventListener('click',()=>$('#fcard').classList.toggle('flipped'));
+$('#fcard').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#fcard').classList.toggle('flipped');} });
+$('#fcPrev').addEventListener('click',()=>{fcI=(fcI-1+FC.length)%FC.length;fcShow();});
+$('#fcNext').addEventListener('click',()=>{fcI=(fcI+1)%FC.length;fcShow();});
+fcShow();
+/* concept map renderer (shared) */
+function drawMap(svg,nodes,edges){
+  edges.forEach(e2=>{
+    const a=nodes[e2[0]],b=nodes[e2[1]];
+    svg.appendChild(el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#b9c3d8','stroke-width':2,'data-e':e2[0]+'|'+e2[1]}));
+    if(e2[2]) svg.appendChild(el('text',{x:(a.x+b.x)/2,y:(a.y+b.y)/2-5,'text-anchor':'middle','font-size':9.5,fill:'#5b6579'},e2[2]));
+  });
+  for(const id in nodes){
+    const n=nodes[id];
+    const g=el('g',{cursor:'pointer',tabindex:0});
+    g.appendChild(el('ellipse',{cx:n.x,cy:n.y,rx:n.rx||58,ry:20,fill:n.c||'#14213d'}));
+    g.appendChild(el('text',{x:n.x,y:n.y+4,'text-anchor':'middle','font-size':10.5,fill:'#fff','font-weight':'bold'},n.t));
+    function hl(on){
+      $$('line',svg).forEach(l=>{
+        const parts=(l.getAttribute('data-e')||'').split('|');
+        l.setAttribute('stroke', on&&(parts[0]===id||parts[1]===id) ? '#fca311':'#b9c3d8');
+        l.setAttribute('stroke-width', on&&(parts[0]===id||parts[1]===id) ? 3.5:2);
+      });
+    }
+    g.addEventListener('mouseenter',()=>hl(true)); g.addEventListener('mouseleave',()=>hl(false));
+    g.addEventListener('focus',()=>hl(true)); g.addEventListener('blur',()=>hl(false));
+    svg.appendChild(g);
+  }
+}
+drawMap($('#rvMap'),
+ { p3:{x:100,y:55,t:'Part 3: components',rx:80,c:'#3a86ff'},
+   p4:{x:100,y:145,t:'Part 4: GHI/DNI/DHI',rx:84,c:'#3a86ff'},
+   geo:{x:100,y:235,t:'Geometry: θz, φ, β',rx:78,c:'#3a86ff'},
+   cos:{x:320,y:235,t:'cos θ behaviour',rx:72,c:'#3a86ff'},
+   tp:{x:320,y:110,t:'TILTED PLANE (today)',rx:98,c:'#14213d'},
+   b:{x:545,y:45,t:'Gb,t beam',rx:52,c:'#fca311'},
+   d:{x:545,y:115,t:'Gd,t diffuse',rx:56,c:'#fca311'},
+   r:{x:545,y:185,t:'Gr,t albedo',rx:56,c:'#fca311'},
+   ds:{x:545,y:260,t:'POWER · PVGIS',rx:70,c:'#1e8e3e'} },
+ [['p3','tp','what arrives'],['p4','tp','horizontal data'],['geo','tp','angles'],['cos','tp','the law'],
+  ['tp','b',''],['tp','d',''],['tp','r',''],['tp','ds','datasets'],['b','d','+'],['d','r','+']]);
+/* ============================================================
+   4. INTRODUCTION — chain animation + prompts
+   ============================================================ */
+(function(){
+  const svg=$('#inChainSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:240,fill:'#f4f6fb',rx:12}));
+  const boxes=[[30,'📡 Part 4','Horizontal data|GHI · DHI (measured)'],[250,'📐 Today','Transposition|3 cosine formulas'],[470,'📊 Deliverable','Tilted-plane dataset|G_t for the design tilt β']];
+  boxes.forEach(([bx,t1,t2])=>{
+    svg.appendChild(el('rect',{x:bx,y:70,width:180,height:100,rx:12,fill:'#14213d'}));
+    svg.appendChild(el('text',{x:bx+90,y:100,'text-anchor':'middle','font-size':14,fill:'#fca311','font-weight':'bold'},t1));
+    const parts=t2.split('|');
+    svg.appendChild(el('text',{x:bx+90,y:124,'text-anchor':'middle','font-size':11.5,fill:'#fff'},parts[0]));
+    svg.appendChild(el('text',{x:bx+90,y:142,'text-anchor':'middle','font-size':11,fill:'#c8d2ea'},parts[1]));
+  });
+  [215,435].forEach(ax=>{
+    const l=el('line',{x1:ax,y1:120,x2:ax+30,y2:120,stroke:'#fca311','stroke-width':5,'stroke-dasharray':'8 6'});
+    l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:28,to:0,dur:'1s',repeatCount:'indefinite'}));
+    svg.appendChild(l);
+    svg.appendChild(el('path',{d:'M '+(ax+30)+' 112 L '+(ax+42)+' 120 L '+(ax+30)+' 128 Z',fill:'#fca311'}));
+  });
+  svg.appendChild(el('text',{x:340,y:36,'text-anchor':'middle','font-size':12.5,fill:'#1b2436','font-weight':'bold'},'Measurements are horizontal — collectors are tilted. Today builds the bridge.'));
+  svg.appendChild(el('text',{x:340,y:210,'text-anchor':'middle','font-size':11,fill:'#5b6579'},'…and NASA POWER / PVGIS can deliver the tilted-plane numbers directly (Learning Outcome 2).'));
+})();
+const IN_PROMPTS=[
+ {q:'Your pyranometer data are horizontal, but your roof is tilted 24° — what now?',
+  reveal:'You transpose. Split the horizontal global into beam and diffuse (Gb,h = GHI − DHI), then apply today’s three formulas: beam scales by cos θ/cos θz, diffuse by the sky-view factor (1 + cos β)/2, and a new ground-reflected term ρ(1 − cos β)/2·Gh appears. Their sum is the plane-of-array irradiance your 24° roof actually receives — the number the whole design rests on.'},
+ {q:'Could you skip the mathematics and just download the tilted-plane numbers?',
+  reveal:'Often yes — that is exactly Learning Outcome 2. PVGIS reports in-plane irradiation for any slope (even optimizing the slope for you), and NASA’s POWER Data Access Viewer serves tilt-related parameters globally. But the portals run the same physics internally — you still need today’s formulas to sanity-check outputs, understand why tilt changes yield, and handle cases the portals don’t cover.'}
+];
+(function(){
+  const wrap=$('#inPrompts');
+  IN_PROMPTS.forEach((p,i)=>{
+    const d=document.createElement('div'); d.className='xcard open';
+    d.innerHTML='<div class="xbody" style="display:block;padding-top:1rem"><p><strong>💭 '+p.q+'</strong></p>'+
+      '<textarea placeholder="Think it through here first...">'+(state.intro[i]||'')+'</textarea>'+
+      '<div class="ctlrow"><button class="btn small gold inRev">Reveal engineering connections</button></div>'+
+      '<div class="feedback info inBox">'+p.reveal+'</div></div>';
+    $('.inRev',d).addEventListener('click',()=>$('.inBox',d).classList.add('show'));
+    $('textarea',d).addEventListener('input',e=>{ state.intro[i]=e.target.value; state.save(); });
+    wrap.appendChild(d);
+  });
+})();
+
+/* ============================================================
+   5. OPTIMAL TILT — Module Power Simulator / Tilt Optimizer
+   ============================================================ */
+(function(){
+  const svg=$('#toSvg'); const W=680,H=340,L=56,R=16,T0=18,B=64;
+  const x=n=> L+(n-1)/364*(W-L-R), y=v=> H-B-clamp(v,0,1.05)/1.05*(H-T0-B);
+  function decl(n){ return 23.45*sind(360*(284+n)/365); }
+  // noon power model (relative to incident): elevation α = 90 − φ + δ
+  function powers(n,phi,beta){
+    const a=90-phi+decl(n);                       // noon elevation
+    const inc=1;                                   // incident (tracking) normalized
+    const hor=Math.max(0,sind(a));                 // horizontal: sin α
+    const mod=Math.max(0,sind(a+beta));            // module: sin(α+β)
+    return {inc,hor,mod};
+  }
+  function annual(phi,beta){ let E=0; for(let n=1;n<=365;n+=2) E+=powers(n,phi,beta).mod; return E; }
+  const grid=el('g'); svg.appendChild(grid);
+  grid.appendChild(el('rect',{x:L,y:T0,width:W-L-R,height:H-T0-B,fill:'#fbfcff',stroke:'#e3e6ee'}));
+  const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  months.forEach((m,i)=>grid.appendChild(el('text',{x:x(15+i*30.4),y:H-B+16,'text-anchor':'middle','font-size':10,fill:'#5b6579'},m)));
+  [0.25,0.5,0.75,1].forEach(v=>{ grid.appendChild(el('line',{x1:L,y1:y(v),x2:W-R,y2:y(v),stroke:'#eef1f7'})); grid.appendChild(el('text',{x:L-6,y:y(v)+4,'text-anchor':'end','font-size':10,fill:'#5b6579'},v)); });
+  grid.appendChild(el('text',{x:(L+W-R)/2,y:H-B+34,'text-anchor':'middle','font-size':11,fill:'#5b6579'},'Month of year — noon power relative to Incident (=1)'));
+  const pInc=el('path',{fill:'none',stroke:'#5b6579','stroke-width':2,'stroke-dasharray':'6 5'});
+  const pHor=el('path',{fill:'none',stroke:'#3a86ff','stroke-width':2.5});
+  const pMod=el('path',{fill:'none',stroke:'#c5221f','stroke-width':2.5});
+  [pInc,pHor,pMod].forEach(p=>svg.appendChild(p));
+  // legend
+  const LG=[['Incident Power','#5b6579'],['Power on the Horizontal','#3a86ff'],['Module Power','#c5221f']];
+  let lx=L+8; LG.forEach(([t,c])=>{ svg.appendChild(el('rect',{x:lx,y:H-16,width:10,height:10,fill:c,rx:2})); svg.appendChild(el('text',{x:lx+14,y:H-7,'font-size':10.5,fill:c,'font-weight':'bold'},t)); lx+=t.length*6.2+34; });
+  function draw(){
+    const phi=+$('#toLat').value, beta=+$('#toTilt').value;
+    $('#toLatLbl').textContent=fmt(phi,1)+'° N';
+    $('#toTiltLbl').textContent=fmt(beta,1)+'°';
+    let dI='M ',dH='M ',dM='M ';
+    let E=0,Ew=0,Es=0;
+    for(let n=1;n<=365;n+=2){
+      const p=powers(n,phi,beta);
+      dI+=fmt(x(n),1)+' '+fmt(y(p.inc),1)+' L ';
+      dH+=fmt(x(n),1)+' '+fmt(y(p.hor),1)+' L ';
+      dM+=fmt(x(n),1)+' '+fmt(y(p.mod),1)+' L ';
+      E+=p.mod;
+      const mo=Math.floor((n-1)/30.42);
+      if(mo>=10||mo<=1) Ew+=p.mod;
+      if(mo>=4&&mo<=7) Es+=p.mod;
+    }
+    pInc.setAttribute('d',dI.slice(0,-3)); pHor.setAttribute('d',dH.slice(0,-3)); pMod.setAttribute('d',dM.slice(0,-3));
+    // best beta search
+    let best=0,bestE=0;
+    for(let b2=0;b2<=70;b2+=1){ const e2=annual(phi,b2); if(e2>bestE){bestE=e2;best=b2;} }
+    $('#toYear').textContent=fmt(E/183,3);
+    $('#toWin').textContent=Math.round(Ew/E*100)+'%';
+    $('#toSum').textContent=Math.round(Es/E*100)+'%';
+    $('#toBest').textContent=best+'° (φ='+fmt(phi,1)+'°)';
+    $('#toNote').innerHTML= Math.abs(beta-best)<=3
+      ? '✅ Your β = '+fmt(beta,1)+'° sits at the annual optimum — matching the rule: "the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location" (PVEDUCATION.ORG, nd).'
+      : (beta>best ? '↑ Steeper than the annual optimum ('+best+'°): winter share rises — "steeper tilt angles are optimized for large winter loads."'
+                   : '↓ Lower than the annual optimum ('+best+'°): summer share rises — "lower tilt angles use a greater fraction of light in the summer."');
+  }
+  ['toLat','toTilt'].forEach(id=>$('#'+id).addEventListener('input',draw));
+  $('#toDhaka').addEventListener('click',()=>{ $('#toLat').value=23.7; draw(); });
+  $('#toEq').addEventListener('click',()=>{ $('#toTilt').value=$('#toLat').value; draw(); });
+  draw();
+})();
+
+/* ============================================================
+   6. TILTED PLANE — all interactives
+   ============================================================ */
+/* Overview master diagram */
+(function(){
+  const svg=$('#ovSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:290,fill:'#dcebff',rx:12}));
+  svg.appendChild(el('rect',{x:0,y:290,width:680,height:50,fill:'#8a9b6e'}));
+  svg.appendChild(el('circle',{cx:90,cy:55,r:26,fill:'#fca311'}));
+  // tilted panel
+  const panel=el('g',{transform:'translate(400 270)'});
+  panel.appendChild(el('rect',{x:-80,y:-10,width:160,height:12,rx:5,fill:'#14213d',transform:'rotate(-25)'}));
+  svg.appendChild(panel);
+  svg.appendChild(el('path',{d:'M 400 270 L 480 270 A 80 80 0 0 0 472.5 236',fill:'none',stroke:'#1e8e3e','stroke-width':2}));
+  svg.appendChild(el('text',{x:492,y:258,'font-size':13,fill:'#1e8e3e','font-weight':'bold'},'β'));
+  function ray(x1,y1,x2,y2,col,w){
+    const l=el('line',{x1,y1,x2,y2,stroke:col,'stroke-width':w,'stroke-dasharray':'8 7'});
+    l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:30,to:0,dur:'1.2s',repeatCount:'indefinite'}));
+    return l;
+  }
+  const gB=el('g',{cursor:'pointer',tabindex:0,role:'button','aria-label':'Beam component'});
+  gB.appendChild(ray(112,70,368,238,'#fca311',5));
+  gB.appendChild(el('text',{x:200,y:130,'font-size':13,fill:'#8a5a00','font-weight':'bold',transform:'rotate(33 200 130)'},'G t,b — beam'));
+  svg.appendChild(gB);
+  const gD=el('g',{cursor:'pointer',tabindex:0,role:'button','aria-label':'Diffuse component'});
+  [[300,40],[520,50],[610,120]].forEach(p=>gD.appendChild(ray(p[0],p[1],405,240,'#3a86ff',3)));
+  gD.appendChild(el('text',{x:520,y:96,'font-size':13,fill:'#174ea6','font-weight':'bold'},'G t,d — sky diffuse'));
+  svg.appendChild(gD);
+  const gR=el('g',{cursor:'pointer',tabindex:0,role:'button','aria-label':'Reflected component'});
+  gR.appendChild(ray(150,120,220,288,'#e8a10c',3));
+  gR.appendChild(ray(225,290,375,262,'#7b2cbf',3.5));
+  gR.appendChild(el('text',{x:250,y:315,'font-size':13,fill:'#4a2a78','font-weight':'bold'},'G t,r — ground reflected (albedo ρ)'));
+  svg.appendChild(gR);
+  const targets=[[gB,'sec-direct'],[gD,'sec-diffuse'],[gR,'sec-albedo']];
+  targets.forEach(([g,id])=>{
+    g.addEventListener('click',()=>{ const t=document.getElementById(id); if(t) t.scrollIntoView({behavior:'smooth'}); });
+    g.addEventListener('keydown',e=>{ if(e.key==='Enter') g.dispatchEvent(new Event('click')); });
+  });
+  svg.appendChild(el('text',{x:340,y:22,'text-anchor':'middle','font-size':12.5,'font-weight':'bold',fill:'#14213d'},'G t  =  G t,b  +  G t,d  +  G t,r   (adapted from Heinemann, 2019)'));
+})();
+/* Cosine Law demonstrator */
+(function(){
+  const svg=$('#clSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:300,fill:'#f4f6fb',rx:12}));
+  const rays=el('g'); svg.appendChild(rays);
+  const surf=el('line',{stroke:'#14213d','stroke-width':8,'stroke-linecap':'round'}); svg.appendChild(surf);
+  const norm=el('line',{stroke:'#1e8e3e','stroke-width':2,'stroke-dasharray':'5 4'}); svg.appendChild(norm);
+  const foot=el('text',{'font-size':12,'font-weight':'bold',fill:'#c5221f','text-anchor':'middle'},''); svg.appendChild(foot);
+  // gauge
+  const gx=580,gy=70,gr=40;
+  svg.appendChild(el('path',{d:'M '+(gx-gr)+' '+gy+' A '+gr+' '+gr+' 0 0 1 '+(gx+gr)+' '+gy,fill:'none',stroke:'#e3e6ee','stroke-width':9}));
+  const gArc=el('path',{fill:'none',stroke:'#fca311','stroke-width':9,'stroke-linecap':'round'}); svg.appendChild(gArc);
+  const gTxt=el('text',{x:gx,y:gy-8,'text-anchor':'middle','font-size':13,'font-weight':'bold',fill:'#14213d'},''); svg.appendChild(gTxt);
+  svg.appendChild(el('text',{x:gx,y:gy+14,'text-anchor':'middle','font-size':9.5,fill:'#5b6579'},'I = I₀ cos θ'));
+  function draw(){
+    const th=+$('#clAng').value;
+    $('#clTheta').textContent=th+'°';
+    $('#clCos').textContent=fmt(cosd(th),2);
+    $('#clI').textContent=Math.round(1000*cosd(th));
+    // surface rotated by θ from perpendicular; rays vertical downward
+    const cx=280,cy=190,halfW=70/Math.max(0.12,cosd(th));
+    const dx=halfW*cosd(th)*sind(th), dy=halfW*cosd(th)*cosd(th);
+    // surface line perpendicular tilted: draw at angle th from horizontal
+    const sx=halfW*cosd(th), sy=halfW*sind(th);
+    surf.setAttribute('x1',cx-sx); surf.setAttribute('y1',cy+sy);
+    surf.setAttribute('x2',cx+sx); surf.setAttribute('y2',cy-sy);
+    norm.setAttribute('x1',cx); norm.setAttribute('y1',cy);
+    norm.setAttribute('x2',cx+70*sind(th)); norm.setAttribute('y2',cy-70*cosd(th)+ -20*0);
+    rays.innerHTML='';
+    for(let i=-3;i<=3;i++){
+      const rx=cx+i*22;
+      const l=el('line',{x1:rx,y1:26,x2:rx,y2:cy - (rx-cx)*Math.tan(th*D2R)*0 + ( (rx-cx)*sind(th)/Math.max(0.12,cosd(th)) )*0 + (cy-26)*0 + 0,stroke:'#fca311','stroke-width':3.5,'stroke-dasharray':'9 8'});
+      // intersection of vertical ray x=rx with the tilted line through (cx,cy) slope -tan(th):
+      const yy=cy-(rx-cx)*Math.tan(th*D2R);
+      l.setAttribute('y2',fmt(yy,1));
+      l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:34,to:0,dur:'1.1s',repeatCount:'indefinite'}));
+      rays.appendChild(l);
+    }
+    foot.setAttribute('x',cx); foot.setAttribute('y',268);
+    foot.textContent='footprint length ∝ 1/cos θ = '+fmt(1/Math.max(0.02,cosd(th)),2)+'× — same energy, larger area';
+    const frac=cosd(th), ang=Math.PI*(1-frac);
+    gArc.setAttribute('d','M '+(gx-gr)+' '+gy+' A '+gr+' '+gr+' 0 0 1 '+fmt(gx+gr*Math.cos(ang),1)+' '+fmt(gy-gr*Math.sin(ang),1));
+    gTxt.textContent=Math.round(1000*frac)+' W/m²';
+  }
+  $('#clAng').addEventListener('input',draw); draw();
+})();
+/* World insolation map (stylized) */
+(function(){
+  const svg=$('#wmSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:330,fill:'#0b1226',rx:12}));
+  const bands=[
+   [-90,-66,'#3a5a86','< 2'],[-66,-45,'#4a7ab0','2–3'],[-45,-30,'#7fae6e','3–4.5'],[-30,-15,'#e8a10c','5–6.5'],
+   [-15,15,'#d97f27','4.5–6'],[15,30,'#c5221f','5.5–7 (desert belt)'],[30,45,'#e8a10c','4–5.5'],[45,66,'#7fae6e','2.5–4'],[66,90,'#4a7ab0','< 2.5']];
+  const y=lat=> 165-lat*1.55;
+  bands.forEach(([a,b,c,v])=>{
+    const r=el('rect',{x:40,y:y(b),width:600,height:y(a)-y(b),fill:c,opacity:.85,cursor:'pointer'});
+    const tip=el('title'); tip.textContent='Latitudes '+a+'° to '+b+'°: typical annual insolation '+v+' kWh/m²/day';
+    r.appendChild(tip);
+    svg.appendChild(r);
+  });
+  svg.appendChild(el('line',{x1:40,y1:y(0),x2:640,y2:y(0),stroke:'#fff','stroke-width':1.5,'stroke-dasharray':'6 5'}));
+  svg.appendChild(el('text',{x:648,y:y(0)+4,'font-size':10,fill:'#fff'},'0°'));
+  [[23.7,'Dhaka 23.7° N']].forEach(([la,t])=>{
+    svg.appendChild(el('circle',{cx:520,cy:y(la),r:6,fill:'#fff',stroke:'#14213d','stroke-width':2}));
+    svg.appendChild(el('text',{x:532,y:y(la)+4,'font-size':10.5,fill:'#fff','font-weight':'bold'},t));
+  });
+  svg.appendChild(el('text',{x:340,y:22,'text-anchor':'middle','font-size':12,fill:'#c8d2ea'},'Stylized annual insolation by latitude band (hover bands for values) — after the Wikimedia figure (CC BY-SA 3.0, curid=1770816)'));
+  svg.appendChild(el('text',{x:340,y:318,'text-anchor':'middle','font-size':10.5,fill:'#c8d2ea'},'Reds/oranges = subtropical maxima · greens/blues = high-latitude minima'));
+})();
+$('#wmReveal').addEventListener('click',()=>$('#wmBox').classList.add('show'));
+/* Earth geometry interactive */
+(function(){
+  const svg=$('#egSvg'); const cx=200,cy=150,Rr=110;
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:300,fill:'#eaf1ff',rx:12}));
+  svg.appendChild(el('circle',{cx,cy,r:Rr,fill:'#3a86ff',opacity:.85}));
+  svg.appendChild(el('line',{x1:cx,y1:cy-Rr-10,x2:cx,y2:cy+Rr+10,stroke:'#14213d','stroke-width':1.5}));
+  svg.appendChild(el('line',{x1:cx-Rr-10,y1:cy,x2:cx+Rr+10,y2:cy,stroke:'#fff','stroke-width':2,'stroke-dasharray':'5 4'}));
+  svg.appendChild(el('text',{x:cx+Rr+16,y:cy+4,'font-size':11,fill:'#1b2436'},'Equator'));
+  // parallel sun rays from right
+  for(let i=0;i<5;i++){
+    const yy=42+i*54;
+    const l=el('line',{x1:660,y1:yy,x2:cx+Rr*0.62,y2:yy,stroke:'#fca311','stroke-width':3,'stroke-dasharray':'9 8'});
+    l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:34,to:0,dur:'1.2s',repeatCount:'indefinite'}));
+    svg.appendChild(l);
+  }
+  svg.appendChild(el('text',{x:600,y:24,'font-size':11,fill:'#8a5a00','font-weight':'bold'},'equinox sun rays (parallel)'));
+  const site=el('circle',{r:7,fill:'#fca311',stroke:'#14213d','stroke-width':2}); svg.appendChild(site);
+  const panel=el('rect',{x:-26,y:-5,width:52,height:7,rx:3,fill:'#14213d'});
+  const pg=el('g'); pg.appendChild(panel); svg.appendChild(pg);
+  const foot=el('line',{stroke:'#c5221f','stroke-width':4}); svg.appendChild(foot);
+  const lblA=el('text',{'font-size':11,fill:'#1b2436','font-weight':'bold'},''); svg.appendChild(lblA);
+  function draw(){
+    const phi=+$('#egLat').value;
+    $('#egLatV').textContent=fmt(phi,1)+'°';
+    $('#egElev').textContent=fmt(90-phi,1)+'°';
+    $('#egTilt').textContent=fmt(phi,1)+'°';
+    const px=cx+Rr*cosd(phi), py=cy-Rr*sind(phi);
+    site.setAttribute('cx',px); site.setAttribute('cy',py);
+    // ground tangent at latitude φ has slope; panel tilted by φ from local horizontal = faces rays
+    pg.setAttribute('transform','translate('+fmt(px+26,1)+' '+fmt(py-14,1)+') rotate(0)');
+    // footprint stretch on ground: 1/cos(phi)
+    const st=1/Math.max(0.2,cosd(phi));
+    foot.setAttribute('x1',px-14*st); foot.setAttribute('y1',py+16);
+    foot.setAttribute('x2',px+14*st); foot.setAttribute('y2',py+16-28*st*sind(phi)*0);
+    lblA.setAttribute('x',clamp(px+34,60,520)); lblA.setAttribute('y',py-24);
+    lblA.textContent='φ='+fmt(phi,0)+'° → rays hit ground at '+fmt(90-phi,0)+'°; tilt panel by '+fmt(phi,0)+'° to face them';
+  }
+  $('#egLat').addEventListener('input',draw); draw();
+})();
+/* Beam transposition interactive */
+(function(){
+  const svg=$('#btSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:300,fill:'#f4f6fb',rx:12}));
+  svg.appendChild(el('rect',{x:0,y:250,width:680,height:50,fill:'#8a9b6e'}));
+  const sun=el('circle',{r:20,fill:'#fca311'}); svg.appendChild(sun);
+  const ray=el('line',{stroke:'#fca311','stroke-width':4,'stroke-dasharray':'9 8'});
+  ray.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:34,to:0,dur:'1.1s',repeatCount:'indefinite'}));
+  svg.appendChild(ray);
+  svg.appendChild(el('line',{x1:180,y1:250,x2:520,y2:250,stroke:'#5b6579','stroke-width':3}));
+  svg.appendChild(el('text',{x:545,y:254,'font-size':10.5,fill:'#1b2436'},'horizontal'));
+  const vert=el('line',{x1:350,y1:250,x2:350,y2:60,stroke:'#5b6579','stroke-width':1.5,'stroke-dasharray':'5 4'}); svg.appendChild(vert);
+  svg.appendChild(el('text',{x:350,y:50,'text-anchor':'middle','font-size':10,fill:'#5b6579'},'zenith'));
+  const panel=el('rect',{x:-85,y:-6,width:170,height:10,rx:4,fill:'#14213d'});
+  const pg=el('g',{transform:'translate(350 250)'}); pg.appendChild(panel); svg.appendChild(pg);
+  const normal=el('line',{stroke:'#1e8e3e','stroke-width':2,'stroke-dasharray':'5 4'}); svg.appendChild(normal);
+  const arcZ=el('path',{fill:'none',stroke:'#c5221f','stroke-width':2}); svg.appendChild(arcZ);
+  const arcT=el('path',{fill:'none',stroke:'#7b2cbf','stroke-width':2}); svg.appendChild(arcT);
+  const tz=el('text',{'font-size':13,fill:'#c5221f','font-weight':'bold'},'θz'); svg.appendChild(tz);
+  const tt=el('text',{'font-size':13,fill:'#7b2cbf','font-weight':'bold'},'θ'); svg.appendChild(tt);
+  const tb=el('text',{'font-size':13,fill:'#1e8e3e','font-weight':'bold'},'β'); svg.appendChild(tb);
+  function draw(){
+    const thz=+$('#btZen').value, beta=+$('#btTilt').value;
+    const r=transpose(500,0,0,thz,beta,0);
+    $('#btTheta').textContent=fmt(r.th,0)+'°';
+    $('#btRatio').textContent= fmt(cosd(r.th)/cosd(thz),2);
+    $('#btGbt').textContent=r.bt+' W/m²';
+    const sx=350+230*sind(thz), sy=250-230*cosd(thz);
+    sun.setAttribute('cx',clamp(sx,30,650)); sun.setAttribute('cy',Math.max(30,sy));
+    ray.setAttribute('x1',clamp(sx,30,650)); ray.setAttribute('y1',Math.max(30,sy));
+    ray.setAttribute('x2',350); ray.setAttribute('y2',250);
+    pg.setAttribute('transform','translate(350 250) rotate('+(-beta)+')');
+    normal.setAttribute('x1',350); normal.setAttribute('y1',250);
+    normal.setAttribute('x2',350+110*sind(beta)); normal.setAttribute('y2',250-110*cosd(beta));
+    arcZ.setAttribute('d','M 350 '+(250-80)+' A 80 80 0 0 1 '+fmt(350+80*sind(thz),1)+' '+fmt(250-80*cosd(thz),1));
+    tz.setAttribute('x',350+92*sind(thz/2)); tz.setAttribute('y',250-92*cosd(thz/2));
+    arcT.setAttribute('d','M '+fmt(350+55*sind(beta),1)+' '+fmt(250-55*cosd(beta),1)+' A 55 55 0 0 1 '+fmt(350+55*sind(thz),1)+' '+fmt(250-55*cosd(thz),1));
+    tt.setAttribute('x',350+66*sind((beta+thz)/2)); tt.setAttribute('y',250-66*cosd((beta+thz)/2));
+    tb.setAttribute('x',350-40); tb.setAttribute('y',250-14);
+  }
+  ['btZen','btTilt'].forEach(id=>$('#'+id).addEventListener('input',draw)); draw();
+})();
+/* Sky-view factor visualizer */
+(function(){
+  const svg=$('#svSvg'); const cx=340,cy=240,Rr=170;
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:280,fill:'#f4f6fb',rx:12}));
+  const domeAll=el('path',{d:'M '+(cx-Rr)+' '+cy+' A '+Rr+' '+Rr+' 0 0 1 '+(cx+Rr)+' '+cy,fill:'#c3dcff',opacity:.5}); svg.appendChild(domeAll);
+  const seen=el('path',{fill:'#3a86ff',opacity:.45}); svg.appendChild(seen);
+  svg.appendChild(el('line',{x1:cx-Rr-20,y1:cy,x2:cx+Rr+20,y2:cy,stroke:'#5b6579','stroke-width':3}));
+  const panel=el('rect',{x:-60,y:-5,width:120,height:8,rx:4,fill:'#14213d'});
+  const pg=el('g',{transform:'translate('+cx+' '+cy+')'}); pg.appendChild(panel); svg.appendChild(pg);
+  const lbl=el('text',{x:cx,y:60,'text-anchor':'middle','font-size':12.5,'font-weight':'bold',fill:'#174ea6'},''); svg.appendChild(lbl);
+  function draw(){
+    const b=+$('#svTilt').value, f=(1+cosd(b))/2;
+    $('#svF').textContent=fmt(f,3);
+    $('#svGdt').textContent=Math.round(200*f)+' W/m²';
+    pg.setAttribute('transform','translate('+cx+' '+cy+') rotate('+(-b)+')');
+    // panel sees sky from its tilted plane up: arc from angle b (behind) to 180
+    const a1=180-0, a0=b; // visible sky arc from β to 180° measured from +x axis
+    const x0=cx+Rr*cosd(a0), y0=cy-Rr*sind(a0);
+    seen.setAttribute('d','M '+cx+' '+cy+' L '+fmt(x0,1)+' '+fmt(y0,1)+' A '+Rr+' '+Rr+' 0 0 1 '+(cx-Rr)+' '+cy+' Z');
+    lbl.textContent='sky seen by the panel: (1 + cos '+b+'°)/2 = '+fmt(f,2)+' of the full dome';
+  }
+  $('#svTilt').addEventListener('input',draw); draw();
+})();
+/* Albedo visualizer + table */
+(function(){
+  let rho=0.25, name='Grass';
+  const chips=$('#alChips');
+  ALBEDO.forEach(([n,v],i)=>{
+    const b=document.createElement('button');
+    b.className='toggle-chip'+(n==='Grass'?' on gold':''); b.textContent=n+' ('+fmt(v,2)+')';
+    b.addEventListener('click',()=>{ rho=v;name=n; $$('.toggle-chip',chips).forEach(x=>x.classList.remove('on','gold')); b.classList.add('on','gold'); draw(); });
+    chips.appendChild(b);
+  });
+  const svg=$('#alSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:280,fill:'#dcebff',rx:12}));
+  const ground=el('rect',{x:0,y:230,width:680,height:50,fill:'#7fae6e'}); svg.appendChild(ground);
+  svg.appendChild(el('circle',{cx:100,cy:50,r:24,fill:'#fca311'}));
+  const down=el('line',{x1:118,y1:64,x2:300,y2:228,stroke:'#fca311','stroke-width':4,'stroke-dasharray':'9 8'});
+  down.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:34,to:0,dur:'1.2s',repeatCount:'indefinite'}));
+  svg.appendChild(down);
+  const refl=el('g'); svg.appendChild(refl);
+  const panel=el('rect',{x:-70,y:-6,width:140,height:10,rx:4,fill:'#14213d'});
+  const pg=el('g',{transform:'translate(470 226)'}); pg.appendChild(panel); svg.appendChild(pg);
+  const gname=el('text',{x:340,y:266,'text-anchor':'middle','font-size':11.5,fill:'#fff','font-weight':'bold'},''); svg.appendChild(gname);
+  function draw(){
+    const b=+$('#alTilt').value, f=(1-cosd(b))/2;
+    $('#alRho').textContent=fmt(rho,2);
+    $('#alF').textContent=fmt(f,3);
+    $('#alGrt').textContent=fmt(700*rho*f,1)+' W/m²';
+    pg.setAttribute('transform','translate(470 226) rotate('+(-b)+')');
+    ground.setAttribute('fill', name==='Fresh snow'||name==='Old snow' ? '#eef4fb' : name==='Water (high sun)' ? '#28414f' : name==='Asphalt' ? '#3b3b3b' : name==='Concrete' ? '#b9b9b1' : name==='Desert sand' ? '#dfc27d' : name==='Soil' ? '#8a6a4a' : '#7fae6e');
+    gname.setAttribute('fill', (name==='Fresh snow'||name==='Old snow'||name==='Concrete'||name==='Desert sand')?'#1b2436':'#fff');
+    gname.textContent=name+' — ρ = '+fmt(rho,2);
+    refl.innerHTML='';
+    const n=Math.round(1+rho*8*(f>0?1:0));
+    if(b>2) for(let i=0;i<n;i++){
+      const sx2=300+i*14, sy2=228;
+      const l=el('line',{x1:sx2,y1:sy2,x2:430-i*6,y2:200-i*8,stroke:'#7b2cbf','stroke-width':2.5,'stroke-dasharray':'6 6',opacity:clamp(.3+rho,.35,1)});
+      l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:24,to:0,dur:(1.2+i*.15)+'s',repeatCount:'indefinite'}));
+      refl.appendChild(l);
+    }
+  }
+  $('#alTilt').addEventListener('input',draw);
+  window.alSetRho=(n,v)=>{ rho=v;name=n; $$('.toggle-chip',chips).forEach(x=>x.classList.toggle('on',x.textContent.indexOf(n)===0)); $$('.toggle-chip',chips).forEach(x=>x.classList.toggle('gold',x.textContent.indexOf(n)===0)); draw(); };
+  draw();
+  // table
+  const tw=$('#alTable');
+  let html='<table aria-label="Typical albedo values"><thead><tr><th>Surface</th><th>Typical albedo ρ</th><th></th></tr></thead><tbody>';
+  ALBEDO.forEach(([n,v])=>{
+    html+='<tr style="cursor:pointer" data-alb="'+n+'|'+v+'"><td>'+n+'</td><td>'+fmt(v,2)+'</td><td><div style="background:var(--gold);height:10px;border-radius:5px;width:'+Math.round(v*100)+'%"></div></td></tr>';
+  });
+  html+='</tbody></table>';
+  tw.innerHTML=html;
+  tw.addEventListener('click',e=>{
+    const tr=e.target.closest('tr[data-alb]'); if(!tr) return;
+    const [n,v]=tr.dataset.alb.split('|');
+    window.alSetRho(n,+v);
+    tr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+})();
+/* Total transposition calculator */
+(function(){
+  const svg=$('#tcSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:640,height:180,fill:'#fbfcff',rx:12,stroke:'#e3e6ee'}));
+  const segB=el('rect',{y:70,height:44,fill:'#fca311'}), segD=el('rect',{y:70,height:44,fill:'#3a86ff'}), segR=el('rect',{y:70,height:44,fill:'#7b2cbf'});
+  [segB,segD,segR].forEach(s=>svg.appendChild(s));
+  const lB=el('text',{y:62,'font-size':11,'text-anchor':'middle',fill:'#8a5a00','font-weight':'bold'},''),
+        lD=el('text',{y:62,'font-size':11,'text-anchor':'middle',fill:'#174ea6','font-weight':'bold'},''),
+        lR=el('text',{y:62,'font-size':11,'text-anchor':'middle',fill:'#4a2a78','font-weight':'bold'},''),
+        lT=el('text',{y:140,'font-size':13,'text-anchor':'middle',fill:'#14213d','font-weight':'bold'},'');
+  [lB,lD,lR,lT].forEach(t=>svg.appendChild(t));
+  function upd(){
+    const Gbh=+$('#tcGbh').value||0, Gdh=+$('#tcGdh').value||0, Gh=+$('#tcGh').value||0;
+    const thz=clamp(+$('#tcZen').value||0,0.1,89.9), beta=clamp(+$('#tcTilt').value||0,0,90), rho=clamp(+$('#tcRho').value||0,0,0.95);
+    const r=transpose(Gbh,Gdh,Gh,thz,beta,rho);
+    $('#tcBt').textContent=r.bt; $('#tcDt').textContent=r.dt; $('#tcRt').textContent=r.rt; $('#tcTot').textContent=r.tot;
+    const sc=560/Math.max(400,r.tot);
+    let x0=40;
+    [[segB,r.bt,lB,'beam'],[segD,r.dt,lD,'diffuse'],[segR,Math.max(2,r.rt),lR,'reflected']].forEach(([s,v,t,nm])=>{
+      const w=Math.max(1,v*sc);
+      s.setAttribute('x',x0); s.setAttribute('width',w);
+      t.setAttribute('x',x0+w/2); t.textContent=nm+' '+v;
+      x0+=w;
+    });
+    lT.setAttribute('x',340); lT.textContent='G t = '+r.tot+' W/m² on the tilted plane (θ = '+fmt(r.th,0)+'°)';
+    const gain= Gh>0 ? Math.round((r.tot/Gh-1)*100) : 0;
+    $('#tcInterp').className='feedback info show';
+    $('#tcInterp').innerHTML='Interpretation: transposing to β = '+beta+'° changes the received irradiance by <strong>'+(gain>=0?'+':'')+gain+'%</strong> versus the horizontal G<sub>h</sub> = '+Gh+' W/m². Beam gained ×'+fmt(cosd(r.th)/cosd(thz),2)+' geometrically; diffuse kept '+fmt((1+cosd(beta))/2*100,0)+'% of its sky view; the ground contributed '+r.rt+' W/m² through albedo ρ = '+fmt(rho,2)+'.';
+  }
+  ['tcGbh','tcGdh','tcGh','tcZen','tcTilt','tcRho'].forEach(id=>$('#'+id).addEventListener('input',upd));
+  upd();
+})();
+/* ============================================================
+   DATASET EXPLORER — POWER & PVGIS mocks
+   ============================================================ */
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const SITES={dhaka:{ghi:[4.3,5.0,5.6,5.7,5.2,4.1,3.9,4.1,4.0,4.5,4.4,4.1],name:'Dhaka (23.7° N, 90.4° E)'},
+             rajshahi:{ghi:[4.5,5.2,5.9,6.1,5.6,4.4,4.1,4.3,4.2,4.7,4.6,4.3],name:'Rajshahi (24.4° N, 88.6° E)'},
+             coxs:{ghi:[4.6,5.3,5.7,5.6,4.9,3.7,3.5,3.8,4.0,4.6,4.6,4.4],name:"Cox's Bazar (21.4° N, 92.0° E)"},
+             khulna:{ghi:[4.4,5.1,5.7,5.8,5.3,4.2,4.0,4.2,4.1,4.6,4.5,4.2],name:'Khulna (22.8° N, 89.5° E)'}};
+function tiltBoost(m,beta){ // simple seasonal transposition gain for latitude-belt sites
+  const dec=23.45*sind(360*(284+(m*30+15))/365);
+  const th=Math.abs(24-dec-beta); const thz=Math.abs(24-dec);
+  return clamp(cosd(th)/Math.max(0.3,cosd(thz))*0.92+0.08,0.85,1.25);
+}
+function dsTable(vals,unit){
+  return '<div style="overflow-x:auto"><table><thead><tr>'+MONTHS.map(m=>'<th>'+m+'</th>').join('')+'<th>Year</th></tr></thead><tbody><tr>'+
+    vals.map(v=>'<td>'+fmt(v,2)+'</td>').join('')+'<td><strong>'+fmt(vals.reduce((a,b)=>a+b,0)/12,2)+'</strong></td></tr></tbody></table></div>'+
+    '<p class="note">'+unit+' — illustrative generated teaching data (not live portal values).</p>';
+}
+$('#npGo').addEventListener('click',()=>{
+  const s=SITES[$('#npLoc').value], par=$('#npPar').value;
+  const vals= par==='ghi' ? s.ghi : s.ghi.map((v,i)=>v*tiltBoost(i,24));
+  $('#npResult').innerHTML='<div class="feedback good show">✅ Mock query complete for <strong>'+s.name+'</strong> — parameter: '+($('#npPar').selectedOptions[0].text)+'</div>'+
+    dsTable(vals,'kWh/m²/day, monthly means')+
+    '<p class="feedback info show">Reading: note the monsoon dip (Jun–Sep) — Bangladesh’s signature. POWER serves such tables for any 0.5° cell on Earth; a real query adds 20+ year archives. Cross-check the tilted values with the lecture formulas!</p>';
+});
+$('#pgGo').addEventListener('click',()=>{
+  const s=SITES[$('#pgLoc').value]; let beta=$('#pgTilt').value;
+  let note='';
+  if(beta==='opt'){ beta=24; note=' PVGIS chose <strong>β = 24°</strong> — almost exactly the site latitude, confirming the lecture’s rule.'; }
+  beta=+beta;
+  const vals=s.ghi.map((v,i)=>v*tiltBoost(i,beta));
+  $('#pgResult').innerHTML='<div class="feedback good show">✅ Mock PVGIS computation for <strong>'+s.name+'</strong>, slope β = '+beta+'°.'+note+'</div>'+
+    dsTable(vals,'kWh/m²/day in-plane (plane-of-array), monthly means')+
+    '<p class="feedback info show">PVGIS applied beam transposition + a diffuse sky model + an albedo term internally — the very structure of (Heinemann, 2019): G<sub>t</sub> = G<sub>t,b</sub> + G<sub>t,d</sub> + G<sub>t,r</sub>.</p>';
+});
+(function(){
+  const items=['Locate the site (coordinates or map click)','Choose parameters: horizontal GHI/DHI and in-plane/tilted insolation','Set tilt = latitude as the first guess (Dhaka ≈ 24°) — or use PVGIS "optimize slope"','Download monthly/daily tables (kWh/m²/day)','Sanity-check one month by hand with the lecture’s transposition formulas'];
+  const ul=$('#dcCheck');
+  items.forEach((c,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML='<label style="display:flex;gap:.5rem;align-items:flex-start"><input type="checkbox" data-dc="'+i+'" '+(state.dc[i]?'checked':'')+' style="margin-top:.2rem;accent-color:var(--ok)"> <span>'+c+'</span></label>';
+    ul.appendChild(li);
+  });
+  ul.addEventListener('change',e=>{ if(e.target.dataset.dc!=null){ state.dc[e.target.dataset.dc]=e.target.checked; state.save(); } });
+})();
+
+/* ============================================================
+   SIMULATORS — full transposition simulator
+   ============================================================ */
+(function(){
+  const sel=$('#tsGround');
+  ALBEDO.forEach(([n,v])=>{ const o=document.createElement('option'); o.value=v; o.textContent=n+' (ρ='+fmt(v,2)+')'; if(n==='Grass')o.selected=true; sel.appendChild(o); });
+  const svg=$('#tsSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:290,fill:'#dcebff',rx:12}));
+  const ground=el('rect',{x:0,y:290,width:680,height:50,fill:'#7fae6e'}); svg.appendChild(ground);
+  const sun=el('circle',{r:20,fill:'#fca311'}); svg.appendChild(sun);
+  const rays=el('g'); svg.appendChild(rays);
+  const panel=el('rect',{x:-80,y:-7,width:160,height:11,rx:5,fill:'#14213d'});
+  const pg=el('g',{transform:'translate(400 286)'}); pg.appendChild(panel); svg.appendChild(pg);
+  const cap=el('text',{x:340,y:24,'text-anchor':'middle','font-size':12,'font-weight':'bold',fill:'#14213d'},''); svg.appendChild(cap);
+  function draw(){
+    const thz=+$('#tsZen').value, beta=+$('#tsTilt').value, rho=+sel.value;
+    const r=transpose(560,190,750,thz,beta,rho);
+    $('#tsBt').textContent=r.bt; $('#tsDt').textContent=r.dt; $('#tsRt').textContent=r.rt; $('#tsTot').textContent=r.tot;
+    $('#tsFacts').textContent=fmt(cosd(r.th)/cosd(thz),2)+' · '+fmt((1+cosd(beta))/2,2)+' · '+fmt(rho*(1-cosd(beta))/2,3);
+    const sx=400+250*sind(thz), sy=286-250*cosd(thz);
+    sun.setAttribute('cx',clamp(sx,30,655)); sun.setAttribute('cy',Math.max(32,sy));
+    pg.setAttribute('transform','translate(400 286) rotate('+(-beta)+')');
+    rays.innerHTML='';
+    function ray(x1,y1,x2,y2,col,w,op){
+      const l=el('line',{x1,y1,x2,y2,stroke:col,'stroke-width':w,'stroke-dasharray':'8 7',opacity:op});
+      l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:30,to:0,dur:'1.2s',repeatCount:'indefinite'}));
+      rays.appendChild(l);
+    }
+    ray(clamp(sx,30,655),Math.max(32,sy),405,280,'#fca311',clamp(r.bt/150,1,6),1);                             // beam
+    [[240,50],[560,40],[640,120]].forEach(p=>ray(p[0],p[1],408,278,'#3a86ff',clamp(r.dt/80,1,4),.9));          // diffuse
+    if(beta>2&&r.rt>0.5){ ray(180,120,250,288,'#e8a10c',2.5,.8); ray(255,290,352,270,'#7b2cbf',clamp(r.rt/8,1.5,5),.95);} // reflected
+    cap.textContent='G t = '+r.bt+' + '+r.dt+' + '+r.rt+' = '+r.tot+' W/m²   (θ = θz − β = '+fmt(r.th,0)+'°)';
+    ground.setAttribute('fill', rho>0.5?'#eef4fb': rho>0.35?'#dfc27d': rho<0.1?'#28414f':'#7fae6e');
+  }
+  ['tsZen','tsTilt'].forEach(id=>$('#'+id).addEventListener('input',draw));
+  sel.addEventListener('change',draw);
+  $('#tsFlat').addEventListener('click',()=>{ $('#tsTilt').value=0; draw(); });
+  $('#tsLat').addEventListener('click',()=>{ $('#tsTilt').value=24; draw(); });
+  $('#tsVert').addEventListener('click',()=>{ $('#tsTilt').value=90; draw(); });
+  draw();
+})();
+
+/* ============================================================
+   PROBLEM SOLVING
+   ============================================================ */
+const PROBLEMS=[
+ {title:'Problem 1 — Lambert’s Cosine Law, straight up',diff:'★☆☆ Basic',
+  intro:'A surface receives I₀ = 1,000 W/m² at normal incidence. The sun then moves so that the angle of incidence becomes θ = 60°.',
+  steps:[
+   {q:'Step 1: Which lecture law governs this situation?',type:'mc',opts:['Global = Beam + Diffuse','I = I₀ cos θ (Lambert’s Cosine Law)','GHI = DNI·cosθz + DHI','Gr,t = Gh·ρ(1−cosβ)/2'],ans:1,
+    hint:'"...explains how the effective irradiance on a surface varies with the angle of incidence (θ)."',fb:'Lambert’s Cosine Law: I = I₀ cos θ.'},
+   {q:'Step 2: Compute the received irradiance I (W/m²).',type:'num',ans:500,tol:2,hint:'cos 60° = 0.5.',fb:'I = 1,000 × cos 60° = 500 W/m² — the same energy now covers a larger area.'}],
+  interp:'Engineering interpretation: a 60° incidence halves the resource. This is why trackers hold θ ≈ 0° and why array-row shading analysis obsesses over oblique morning/evening angles.'},
+ {title:'Problem 2 — Beam onto a tilted plane (equations 1–3)',diff:'★★☆ Intermediate',
+  intro:'At solar noon: Gb,n = 800 W/m², solar zenith angle θz = 40°, panel tilt β = 20° (equator-facing).',
+  steps:[
+   {q:'Step 1: Compute the angle of incidence θ = θz − β (degrees).',type:'num',ans:20,tol:0.5,hint:'Straight subtraction, per the lecture.',fb:'θ = 40° − 20° = 20°.'},
+   {q:'Step 2: Compute Gb,t = Gb,n × cos θ (W/m²) — equation (2).',type:'num',ans:752,tol:6,hint:'cos 20° ≈ 0.940.',fb:'Gb,t = 800 × 0.940 ≈ 752 W/m².'},
+   {q:'Step 3: The horizontal receives Gb,h = Gb,n × cos θz ≈ 613 W/m². What is the tilt gain ratio Gb,t/Gb,h?',type:'num',ans:1.23,tol:0.03,hint:'Ratio = cos θ / cos θz = 0.940/0.766.',fb:'≈ 1.23 — tilting by 20° won 23% more beam than the horizontal, exactly equation (3) at work.'}],
+  interp:'Engineering interpretation: equation (3) is the transposition engine — the ratio cos θ/cos θz quantifies precisely how much geometry pays. It exceeds 1 whenever the tilt swings the panel toward the sun.'},
+ {title:'Problem 3 — Diffuse with the isotropic sky',diff:'★★☆ Intermediate',
+  intro:'Measured diffuse on the horizontal: Gd,h = 180 W/m². The panel is tilted at β = 30°.',
+  steps:[
+   {q:'Step 1: Compute the sky-view factor (1 + cos β)/2.',type:'num',ans:0.933,tol:0.006,hint:'cos 30° ≈ 0.866.',fb:'(1 + 0.866)/2 = 0.933.'},
+   {q:'Step 2: Compute Gd,t (W/m²).',type:'num',ans:168,tol:2,hint:'Multiply Gd,h by the factor.',fb:'Gd,t = 180 × 0.933 ≈ 168 W/m².'},
+   {q:'Step 3: Why does the lecture caution that this approach "is usually too simple"?',type:'mc',opts:['Because cos β is hard to compute','Because real skies are anisotropic — brighter near the sun and horizon — while the formula assumes uniform sky radiance','Because diffuse light cannot reach tilted panels','Because the factor exceeds 1'],ans:1,
+    hint:'What does "Isotropoic sky radiance" assume about the sky dome?',fb:'The isotropic assumption ignores circumsolar and horizon brightening; advanced models (e.g., Perez) add them. Still, this formula is the standard first estimate.'}],
+  interp:'Engineering interpretation: at modest tilts the diffuse penalty is small (7% here) — one reason low-tilt designs suit diffuse-rich monsoon climates.'},
+ {title:'Problem 4 — Albedo: grass vs. fresh snow',diff:'★★☆ Intermediate',
+  intro:'Global horizontal Gh = 700 W/m², panel tilt β = 30°. Compare grass (ρ = 0.25) with fresh snow (ρ = 0.85).',
+  steps:[
+   {q:'Step 1: Compute the ground-view factor (1 − cos β)/2.',type:'num',ans:0.067,tol:0.004,hint:'cos 30° ≈ 0.866.',fb:'(1 − 0.866)/2 = 0.067.'},
+   {q:'Step 2: Compute Gr,t over grass (W/m²).',type:'num',ans:11.7,tol:0.8,hint:'Gh × ρ × factor.',fb:'700 × 0.25 × 0.067 ≈ 11.7 W/m² — nearly negligible.'},
+   {q:'Step 3: Compute Gr,t over fresh snow (W/m²).',type:'num',ans:39.9,tol:2,hint:'Swap ρ = 0.85.',fb:'700 × 0.85 × 0.067 ≈ 39.9 W/m² — 3.4× the grass case.'}],
+  interp:'Engineering interpretation: over ordinary ground the albedo term is a garnish; over snow (or white membrane roofs) it becomes a real course — the physics behind bifacial modules and vertical winter arrays.'},
+ {title:'Problem 5 — Full transposition for a Dhaka rooftop',diff:'★★★ Design',
+  intro:'Dhaka rooftop, equator-facing, β = 25°. At the design moment: θz = 35°, Gb,h = 560 W/m², Gd,h = 190 W/m², Gh = 750 W/m², ground ρ = 0.20. (cos 35° ≈ 0.819, cos 10° ≈ 0.985, cos 25° ≈ 0.906.)',
+  steps:[
+   {q:'Step 1: Compute Gb,t = Gb,h × cos θ / cos θz with θ = θz − β (W/m²).',type:'num',ans:673,tol:8,hint:'θ = 10°; ratio = 0.985/0.819.',fb:'Gb,t = 560 × 0.985/0.819 ≈ 673 W/m².'},
+   {q:'Step 2: Compute Gd,t = Gd,h × (1 + cos β)/2 (W/m²).',type:'num',ans:181,tol:3,hint:'(1 + 0.906)/2 = 0.953.',fb:'Gd,t = 190 × 0.953 ≈ 181 W/m².'},
+   {q:'Step 3: Compute Gr,t = Gh × ρ × (1 − cos β)/2 (W/m²).',type:'num',ans:7,tol:1,hint:'(1 − 0.906)/2 = 0.047.',fb:'Gr,t = 750 × 0.20 × 0.047 ≈ 7 W/m².'},
+   {q:'Step 4: Assemble the total Gt = Gt,b + Gt,d + Gt,r (W/m²).',type:'num',ans:861,tol:10,hint:'Sum the three components.',fb:'Gt ≈ 673 + 181 + 7 ≈ 861 W/m² — 15% above the horizontal’s 750 W/m².'}],
+  interp:'Engineering interpretation: this is a complete plane-of-array calculation — the number a PV yield model multiplies by module area and efficiency. Note the hierarchy: beam dominates, diffuse matters, albedo garnishes (ordinary ground).'},
+ {title:'Problem 6 — Choosing a tilt for the load profile',diff:'★★★ Design',
+  intro:'A solar water-pumping system in Rangpur (latitude ≈ 25.7° N) runs mainly for winter irrigation (Nov–Feb).',
+  steps:[
+   {q:'Step 1: The annual-maximum rule suggests β ≈ ?',type:'mc',opts:['≈ 0°','≈ 26° (the latitude)','≈ 52°','≈ 90°'],ans:1,
+    hint:'"...the tilt angle is equal to the latitude of the location."',fb:'β ≈ latitude ≈ 26° for maximum ANNUAL energy.'},
+   {q:'Step 2: But this load is winter-dominant. Should the design tilt be steeper or lower than 26°?',type:'mc',opts:['Steeper','Lower','Exactly 26° regardless','Zero'],ans:0,
+    hint:'"...steeper tilt angles are optimized for large winter loads."',fb:'Steeper — the low winter sun rewards a more upright panel.'},
+   {q:'Step 3: Which free tool could confirm the chosen slope with monthly in-plane tables?',type:'mc',opts:['A spirit level','PVGIS (with slope options / optimize slope)','A pyrheliometer alone','A wind atlas'],ans:1,
+    hint:'Learning Outcome 2, portal (b).',fb:'PVGIS — request in-plane irradiation for candidate slopes and compare the Nov–Feb rows directly.'}],
+  interp:'Engineering interpretation: rules give the anchor (β ≈ φ), the load profile gives the correction (steeper for winter), and the dataset portal quantifies the trade — the complete design loop of this lecture.'}
+];
+(function(){
+  const area=$('#probArea');
+  PROBLEMS.forEach((p,pi)=>{
+    const c=document.createElement('div'); c.className='xcard';
+    let body='<p>'+p.intro+'</p>';
+    p.steps.forEach((s,si)=>{
+      body+='<div class="pstep" data-p="'+pi+'" data-s="'+si+'" style="'+(si>0?'display:none':'')+'">';
+      body+='<p style="margin-top:.8rem"><strong>'+s.q+'</strong></p>';
+      if(s.type==='mc') body+=s.opts.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('');
+      else body+='<div class="ctlrow"><input type="number" step="any" style="width:150px" aria-label="numeric answer"><button class="btn small gold pchk">Check</button></div>';
+      body+='<div class="ctlrow"><button class="btn small ghostb phint">💡 Hint</button></div><div class="feedback phfb"></div><div class="feedback pfb"></div></div>';
+    });
+    body+='<div class="feedback info pinterp" style="display:none"></div>';
+    c.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+(pi+1)+'</div><div><div class="xtitle">'+p.title+'</div><div class="note">'+p.diff+'</div></div><div class="chev">▸</div></div><div class="xbody">'+body+'</div>';
+    area.appendChild(c);
+  });
+  area.addEventListener('click',e=>{
+    const step=e.target.closest('.pstep'); if(!step) return;
+    const p=PROBLEMS[+step.dataset.p], s=p.steps[+step.dataset.s];
+    if(e.target.classList.contains('phint')){
+      const hf=$('.phfb',step); hf.className='feedback info phfb show'; hf.textContent='💡 '+s.hint; return;
+    }
+    let good=null;
+    if(e.target.classList.contains('opt')&&!e.target.disabled&&s.type==='mc'){
+      good=+e.target.dataset.i===s.ans;
+      if(good){ $$('.opt',step).forEach(o=>{o.disabled=true; if(+o.dataset.i===s.ans)o.classList.add('correct');}); }
+      else { e.target.classList.add('wrong'); e.target.disabled=true; }
+    }
+    if(e.target.classList.contains('pchk')&&s.type==='num'){
+      const v=parseFloat($('input',step).value);
+      if(isNaN(v)){ const f=$('.pfb',step); f.className='feedback bad pfb show'; f.textContent='Enter a number first.'; return; }
+      good=Math.abs(v-s.ans)<=s.tol;
+    }
+    if(good==null) return;
+    const f=$('.pfb',step);
+    if(good){
+      f.className='feedback good pfb show'; f.innerHTML='✅ '+s.fb;
+      const nxt=$('.pstep[data-p="'+step.dataset.p+'"][data-s="'+(+step.dataset.s+1)+'"]',area);
+      if(nxt) nxt.style.display='';
+      else { const it=$('.pinterp',step.closest('.xbody')); it.style.display='block'; it.classList.add('show'); it.innerHTML='🏁 <strong>Final answer reached.</strong> '+p.interp; }
+    }else{
+      f.className='feedback bad pfb show'; f.textContent='Not quite — try again or use the hint.';
+      state.weakTags.problems=true; state.save();
+    }
+  });
+})();
+
+/* ============================================================
+   CONCEPT TOOLBOX
+   ============================================================ */
+const TOOLBOX=[
+ {t:'Tilt angle β & the tilt ≈ latitude rule',icon:'📐',
+  def:'"For a fixed tilt angle, the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude of the location" (PVEDUCATION.ORG, nd); "steeper tilt angles are optimized for large winter loads", "lower tilt angles use a greater fraction of light in the summer".',
+  phys:'Tilting by φ cancels the average ray obliquity of the site — the panel faces the equinox noon sun square-on.',
+  units:'Degrees from the horizontal.',
+  mist:'Applying the rule blindly: winter-heavy loads and diffuse-rich climates justify deviations.',
+  apps:'Fixed-rack PV design; Dhaka ≈ 24°.',rel:'Enters every formula through β; optimized live in PVGIS.'},
+ {t:'Lambert’s Cosine Law',icon:'🔦',
+  def:'I = I₀ cos θ — "explains how the effective irradiance on a surface varies with the angle of incidence (θ)"; "Same amount of incoming radiant energy covers different surface areas" (Heinemann, 2019, Slide 4: "Lamber’s Cosine Law: I = IO cos θ").',
+  phys:'Oblique rays smear the same power over a larger footprint — irradiance per unit area falls as cos θ.',
+  units:'I, I₀ in W/m²; θ from the surface normal.',
+  mist:'Measuring θ from the surface instead of its normal.',
+  apps:'Panel orientation, tracking, shading and row-spacing analysis, PVsyst/SAM engines.',rel:'The physical core of all three transposition formulas.'},
+ {t:'Angle of incidence θ = θz − β',icon:'∠',
+  def:'The lecture’s geometric link: with solar zenith angle θz and panel tilt β (equator-facing), the angle of incidence on the panel is θ = θz − β (Heinemann, 2019, Slide 5).',
+  phys:'Tilting the panel "rotates the horizon": the panel normal chases the sun by β degrees.',
+  units:'Degrees.',
+  mist:'Using it for arbitrary sun azimuths — it holds when the sun lies in the panel’s vertical plane (e.g., solar noon, equator-facing).',
+  apps:'Quick noon transposition estimates; exam problems.',rel:'Feeds cos θ into the beam formula.'},
+ {t:'Incident / Horizontal / Module Power',icon:'⚡',
+  def:'Incident Power — "the solar radiation perpendicular to the sun’s rays and is what would be received by a module that perfectly tracks the sun"; Power on the Horizontal — "the solar radiation striking the ground and is what would be received for a module lying flat one the ground"; Module Power — "the solar radiation striking a tilted module" (PVEDUCATION.ORG, nd).',
+  phys:'Three reference surfaces: tracking (ceiling), flat (floor), tilted (your design).',
+  units:'W/m² (or kW/m²).',
+  mist:'Comparing module output against Incident Power and calling the gap a "loss" — no fixed panel can reach the tracking ceiling.',
+  apps:'The pveducation.org Hand’s On simulation; tracker benefit estimates.',rel:'Module Power = what the transposition formulas compute.'},
+ {t:'Gt = Gt,b + Gt,d + Gt,r',icon:'Σ',
+  def:'According to (Heinemann, 2019): total solar irradiance on a tilted plane = beam + diffuse + reflected components on that plane.',
+  phys:'Three light paths to one panel: straight from the sun, scattered from the sky dome, bounced off the ground.',
+  units:'All terms W/m².',
+  mist:'Forgetting the third term exists only for tilted planes (β > 0).',
+  apps:'Plane-of-array irradiance for PV/thermal yield models.',rel:'The tilted twin of Part 3’s Global = Beam + Diffuse.'},
+ {t:'Beam transposition Gb,t = Gb,h·cosθ/cosθz',icon:'➡',
+  def:'From (Heinemann, 2019, Slide 5): Gb,h = Gb,n×cosθz (1); Gb,t = Gb,n×cosθ (2); substituting (1) in (2): Gb,t = Gb,h×cosθ/cosθz (3).',
+  phys:'Two projections of the same normal beam — their ratio converts horizontal beam data to the tilted plane.',
+  units:'W/m².',
+  mist:'Dividing by cos θ instead of cos θz; using GHI instead of the beam part Gb,h.',
+  apps:'Core of every transposition model; sanity-checks PVGIS outputs.',rel:'Uses θ = θz − β; ratio > 1 when tilting toward the sun.'},
+ {t:'Isotropic sky diffuse Gd,t = Gd,h·(1+cosβ)/2',icon:'🌫',
+  def:'Assumption: "Isotropoic sky radiance (this approach is usually too simple)" (ibid). Diffuse component over a tilted plane: Gd,t = Gd,h × (1 + cos β)/2.',
+  phys:'The factor is the fraction of sky dome the tilted panel still sees: 1 flat, 0.5 vertical.',
+  units:'W/m².',
+  mist:'Believing tilting increases diffuse capture — it always reduces the sky view.',
+  apps:'First-estimate diffuse transposition; monsoon-climate design.',rel:'Sky share + ground share = 1; refined by anisotropic (Perez-type) models.'},
+ {t:'Albedo component Gr,t = Gh·ρ·(1−cosβ)/2',icon:'🏔',
+  def:'Assumption: "Ground reflection is isotropic!" (ibid). Gr,t = Gh × ρ × (1 − cos β)/2, where ρ is surface reflectivity or albedo. Typical values tabulated in (Heinemann, 2019, Slide 6) — "Source: Sen: Solar Energy Fundamentals and Modeling Techniques (2008)" (ibid).',
+  phys:'The tilted panel sees a slice of ground glowing with reflected global radiation.',
+  units:'W/m²; ρ dimensionless (0–1).',
+  mist:'Using beam instead of global Gh in the formula; forgetting Gr,t = 0 at β = 0.',
+  apps:'Snowy-climate and bifacial design; white-roof commercial PV.',rel:'Grows exactly as the diffuse sky-view factor shrinks.'},
+ {t:'NASA POWER & PVGIS',icon:'🛰',
+  def:'Learning Outcome 2: collect required solar resource related datasets for solar energy projects from (a) NASA’s POWER Data Access Viewer, and (b) PVGIS.',
+  phys:'Satellite-derived archives serving horizontal and tilted-plane insolation for any location.',
+  units:'Typically kWh/m²/day.',
+  mist:'Treating portal outputs as site measurements — they are model estimates on coarse grids.',
+  apps:'Prospecting, tilt optimization, TMY files, long-term climate context.',rel:'The portals run this lecture’s formulas (plus refinements) internally.'}
+];
+(function(){
+  const grid=$('#tbGrid');
+  TOOLBOX.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='card'; b.style.cursor='pointer'; b.style.textAlign='center'; b.style.border='2px solid var(--line)';
+    b.innerHTML='<div style="font-size:1.9rem">'+k.icon+'</div><strong>'+k.t+'</strong><div class="note">Click for full entry</div>';
+    b.addEventListener('click',()=>openModal(
+      '<h3 id="modalTitle" style="margin-top:0">'+k.icon+' '+k.t+'</h3><dl class="kv">'+
+      '<dt>Exact lecture definition</dt><dd class="quote" style="margin:.3rem 0">'+k.def+'</dd>'+
+      '<dt>Physical interpretation</dt><dd>'+k.phys+'</dd>'+
+      '<dt>Units</dt><dd>'+k.units+'</dd>'+
+      '<dt>Common mistakes</dt><dd>'+k.mist+'</dd>'+
+      '<dt>Engineering applications</dt><dd>'+k.apps+'</dd>'+
+      '<dt>Relationship with other concepts</dt><dd>'+k.rel+'</dd></dl>'));
+    grid.appendChild(b);
+  });
+})();
+
+/* ============================================================
+   USEFUL RESOURCES
+   ============================================================ */
+const REFS=[
+ {n:'📘',t:'Heinemann, D. (2019). Solar Radiation Modeling. Lecture Slides (Lecture 5 & 6), ’Energy Meteorology’ Course, Institute of Physics, University of Oldenburg, Germany, 2019.',u:null,
+  desc:'Source of this lecture’s core content: the overview Gt = Gt,b + Gt,d + Gt,r, the cosine-law figure, the direct/diffuse/albedo transposition formulas, and the typical albedo values table.',
+  obj:'Master the isotropic transposition model and its assumptions.',
+  use:'The equations here are exam canon; revisit alongside the Tilted Plane tab.',lvl:'★★★ Graduate lecture notes',
+  rel:'The same structure underlies PVGIS, PVsyst and SAM transposition engines.'},
+ {n:'🌐',t:'PVEDUCATION.ORG (n.d.). Solar Radiation on a Tilted Surface.',u:'https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface',
+  desc:'Source of the optimal-tilt quotations and the Incident/Horizontal/Module Power definitions, with the interactive Hand’s On simulation the lecture points to.',
+  obj:'Internalize the tilt ≈ latitude rule and its seasonal corollaries by playing with the live tool.',
+  use:'Run the online simulation after using this app’s offline recreation; compare curves.',lvl:'★★☆ Interactive tutorial',
+  rel:'The standard free reference for PV fundamentals worldwide.'}
+];
+(function(){
+  const wrap=$('#refCards');
+  REFS.forEach(r=>{
+    const d=document.createElement('div'); d.className='xcard';
+    d.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+r.n+'</div><div><div class="xtitle">'+r.t+'</div>'+(r.u?'<div class="note">'+r.u+'</div>':'')+'</div><div class="chev">▸</div></div>'+
+     '<div class="xbody"><dl class="kv"><dt>Short description</dt><dd>'+r.desc+'</dd><dt>Learning objectives</dt><dd>'+r.obj+'</dd><dt>Recommended usage</dt><dd>'+r.use+'</dd><dt>Difficulty level</dt><dd>'+r.lvl+'</dd><dt>Engineering relevance</dt><dd>'+r.rel+'</dd></dl>'+(r.u?'<a href="'+r.u+'">'+r.u+'</a>':'')+'</div>';
+    wrap.appendChild(d);
+  });
+  const LINKS=[
+   ['▶ Video','RELATED ONLINE RESOURCE — "Solar Irradiance on a Tilted Plane"','https://www.youtube.com/watch?v=dTUkLuviuPA&t=1423s'],
+   ['🖼 Figure','World insolation map (An IMPORTANT FIGURE) — CC BY-SA 3.0','https://commons.wikimedia.org/w/index.php?curid=1770816'],
+   ['📗 Source','Sen: Solar Energy Fundamentals and Modeling Techniques (2008) — cited for the Typical Albedo Values',''],
+   ['🛰 Portal','NASA POWER Data Access Viewer (Learning Outcome 2a)','https://power.larc.nasa.gov/data-access-viewer/'],
+   ['🇪🇺 Portal','PVGIS — Photovoltaic Geographical Information System (Learning Outcome 2b)','https://re.jrc.ec.europa.eu/pvg_tools/en/']
+  ];
+  const lc=$('#linkCards');
+  LINKS.forEach(([kind,t,u])=>{
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML='<h3 style="margin-top:0">'+kind+'</h3><p><strong>'+t+'</strong></p>'+(u?'<a href="'+u+'">'+u.replace(/^https?:\/\//,'')+'</a>':'<span class="note">Book reference — consult the library.</span>');
+    lc.appendChild(d);
+  });
+})();
+
+/* ============================================================
+   REFLECTIONS
+   ============================================================ */
+const REFLECTIONS=[
+ {q:'Why does the tilt ≈ latitude rule emerge from pure geometry — and when should an engineer deliberately deviate from it?',
+  hint:'Start from the equinox noon elevation (90° − φ) and ask which β makes θ = 0. Then list what the rule ignores: seasonal load shape, diffuse fraction, soiling, wind, snow.',
+  disc:'On the equinox the noon sun stands at elevation 90° − φ, so a panel tilted by exactly φ faces it perpendicularly (θ = 0); since the declination swings symmetrically ±23.45° around that mean, β = φ balances the summer and winter halves of the year — the geometric heart of "the maximum power over the course of a year is obtained when the tilt angle is equal to the latitude" (PVEDUCATION.ORG, nd). Deviations are engineering, not error: winter-dominant loads (irrigation pumps, heating support) justify steeper tilts because "steeper tilt angles are optimized for large winter loads"; summer-peaking loads (cooling) favour lower tilts; diffuse-rich monsoon climates push the optimum a few degrees flatter because a flatter panel keeps more of the sky view (1 + cos β)/2 that dominates when beam is scarce; dusty sites prefer steeper tilts for rain self-cleaning; and cyclonic wind loads may cap β structurally. The rule is the anchor point of a design conversation, not its conclusion.',
+  ins:'Optimal tilt is a compromise between geometry (annual beam), climate (diffuse share) and purpose (load calendar).',
+  take:'β = φ maximizes annual beam capture; everything else in the design nudges β away from φ.',
+  prac:'Quote β = φ as the baseline in reports, then justify the final tilt with monthly in-plane tables (PVGIS) against the load profile.',
+  app:'Dhaka rooftops at 20–25°; winter-irrigation pumps in Rangpur at 30–35°; monsoon-optimized designs a few degrees under latitude.',
+  des:'Fix the rack angle only after overlaying the monthly resource on the monthly load — the two curves, not the rule, sign the drawing.',
+  exam:'Derive the rule from the equinox geometry (90° − φ), then name the two quoted seasonal corollaries.'},
+ {q:'The lecture flags the isotropic-sky assumption as "usually too simple." What does the assumption hide, and when does the error matter most?',
+  hint:'Picture a real sky: where is it brightest? Compare a clear day (circumsolar glow) with an overcast one (uniform grey).',
+  disc:'"Isotropoic sky radiance" (ibid) assumes every patch of sky is equally bright, reducing diffuse transposition to pure solid-angle bookkeeping: (1 + cos β)/2. Real skies concentrate diffuse radiance in a circumsolar halo around the sun and in a bright band near the horizon. On clear days the circumsolar part behaves almost like beam — it follows the sun and rewards sun-facing tilts — so the isotropic formula UNDERESTIMATES the diffuse on a well-aimed tilted panel. Under uniform overcast the assumption is nearly exact. The error therefore matters most for clear-sky-dominant sites and steep tilts, and least for grey monsoon skies — conveniently, the very Bangladeshi conditions where diffuse dominates are the conditions where the simple formula works best. Professional tools replace it with anisotropic models (Perez, Hay-Davies), but every one of them reduces to the isotropic form as the sky greys over.',
+  ins:'Model error is climate-dependent: the same formula can be crude in Spain and excellent in Sylhet.',
+  take:'Isotropic = uniform sky; real skies add circumsolar + horizon brightening; the formula is a lower-bound workhorse.',
+  prac:'For quick monsoon-season estimates, use the isotropic formula with confidence; for annual bankable yields, let the software apply an anisotropic model and note which one in the report.',
+  app:'PVGIS and PVsyst default to anisotropic diffuse models — their outputs will slightly exceed your hand calculation on clear days.',
+  des:'When validating software against hand calculations, expect the diffuse term — not the beam — to explain the discrepancy.',
+  exam:'Quote the assumption verbatim with its warning, and name circumsolar + horizon brightening as what it neglects.'},
+ {q:'When does the albedo component earn real energy, and when is it negligible? What design opportunities follow?',
+  hint:'Look at the two multipliers: ρ (surface) and (1 − cos β)/2 (tilt). What maximizes each? Recall the fresh-snow row of the albedo table.',
+  disc:'Gr,t = Gh·ρ·(1 − cos β)/2 is a product of two small numbers in ordinary conditions: grass ρ ≈ 0.25 and, at Dhaka’s β ≈ 24°, a ground-view factor of only 0.043 — a percent-level garnish. It becomes a main course when BOTH multipliers grow: fresh snow (ρ up to ~0.85–0.90, per the lecture table sourced from Sen, 2008) and steep tilts. At β = 90° the factor reaches its maximum 0.5, so a vertical panel over snow can collect Gh·0.85·0.5 ≈ 0.42·Gh from reflection alone — comparable to its direct catch in low winter sun. Design opportunities follow directly: bifacial modules over white gravel or membrane roofs, vertical bifacial "solar fences" in snowy latitudes, and deliberate ground-surface engineering (white stones under trackers) — all monetizing a term that Bangladeshi grass-roof designs rightly ignore.',
+  ins:'A formula’s negligible term in one climate is another climate’s business model.',
+  take:'Albedo term ∝ ρ × (1 − cos β)/2: both must be large to matter; β = 0 kills it exactly.',
+  prac:'In Bangladesh, spend no design effort on albedo for standard rooftops; consider it only for bifacial utility arrays over light soils.',
+  app:'Nordic vertical bifacial fences; agrivoltaic snow-country arrays; white-roof commercial PV in hot climates.',
+  des:'If bifacial modules are specified, the ground surface becomes a design variable — document ρ in the yield model.',
+  exam:'Show the grass-vs-snow numerical contrast (Problem 4) and state the β = 0 ⇒ Gr,t = 0 limit.'},
+ {q:'What does the world insolation map ("An IMPORTANT FIGURE") imply for solar design across latitudes — and specifically for Bangladesh?',
+  hint:'Combine three lecture ideas: cosine law at planetary scale, atmospheric path length, and the tilt ≈ latitude rule. Then place Dhaka on the map.',
+  disc:'The map encodes Lambert’s cosine law applied to a sphere: near the equator rays arrive nearly perpendicular (high energy density, short atmospheric path — region "b"), while high latitudes take oblique rays smeared over larger areas through more atmosphere (region "a"). The subtropical desert belts (~±20–30°) peak because they add cloudlessness to good geometry. Three design implications: (1) system sizing scales with latitude — the same load needs more collector area in Hamburg than in Dhaka; (2) fixed-panel tilt must mirror latitude to "un-tilt" the local ray obliquity; (3) resource quality is only half the story — cloud climate modulates the geometric ceiling, which is why Bangladesh (≈4–5 kWh/m²/day) sits below the Sahara despite similar latitude. For Bangladesh specifically: geometry is excellent (low latitude, modest tilts, easy racking), the monsoon diffuse season is the main resource risk, and the tilt decision (≈24°, slightly lower if monsoon yield dominates) follows directly from the map’s logic.',
+  ins:'A resource map is a geometry theorem painted onto climate: read latitude first, clouds second.',
+  take:'Latitude sets the ceiling; atmosphere discounts it; tilt recovers what geometry allows.',
+  prac:'Begin every international feasibility with the site’s latitude band, then correct with satellite data (POWER/PVGIS) for the local cloud regime.',
+  app:'The global PV build-out pattern — subtropical utility farms, temperate rooftop markets — traces this map almost exactly.',
+  des:'For Bangladesh: modest tilts, monsoon-aware yield models, and no CSP (beam-poor) — all readable from one figure.',
+  exam:'The lecture asks this question verbatim — prepare a three-sentence answer: cosine law on a sphere, atmospheric path, tilt ≈ latitude as the designer’s response.'}
+];
+(function(){
+  const area=$('#reflArea');
+  REFLECTIONS.forEach((r,i)=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML='<h3 style="margin-top:0">💭 Reflection '+(i+1)+'</h3><p><strong>'+r.q+'</strong></p>'+
+     '<label class="note" for="rtx'+i+'">Your reflection (kept on this device):</label>'+
+     '<textarea id="rtx'+i+'" placeholder="Write your engineering reasoning here before revealing the discussion...">'+(state.reflections[i]||'')+'</textarea>'+
+     '<div class="ctlrow"><button class="btn ghostb rhint">💡 Show Hint</button><button class="btn gold rdisc">📖 Reveal Discussion</button></div>'+
+     '<div class="feedback info rhintbox">'+r.hint+'</div>'+
+     '<div class="rdiscbox" style="display:none"><div class="quote">'+r.disc+'</div><dl class="kv">'+
+     '<dt>⚙ Engineering Insight</dt><dd>'+r.ins+'</dd><dt>🧠 Conceptual Takeaway</dt><dd>'+r.take+'</dd>'+
+     '<dt>🔧 Practical Engineering Interpretation</dt><dd>'+r.prac+'</dd><dt>🌍 Real-world Renewable Energy Application</dt><dd>'+r.app+'</dd>'+
+     '<dt>📐 Design Implication</dt><dd>'+r.des+'</dd><dt>🎯 Examination Tip</dt><dd>'+r.exam+'</dd></dl></div>';
+    $('.rhint',c).addEventListener('click',()=>$('.rhintbox',c).classList.toggle('show'));
+    $('.rdisc',c).addEventListener('click',()=>{ $('.rdiscbox',c).style.display='block'; });
+    $('textarea',c).addEventListener('input',e=>{ state.reflections[i]=e.target.value; state.save(); });
+    area.appendChild(c);
+  });
+})();
+
+/* ============================================================
+   SUMMARY — pillars, knowledge graph, checklist
+   ============================================================ */
+const PILLARS=[
+ {n:'1',t:'The Three Irradiance Components on a Tilted Surface',c:'#fca311',items:[
+   'Direct (Beam) Irradiance — undisturbed sunlight traveling in a straight line from the sun to the panel.',
+   'Diffuse Irradiance — sunlight scattered by clouds and atmospheric particles, arriving from all directions.',
+   'Reflected (Albedo) Irradiance — sunlight that reflects off the ground and other surfaces onto the panel.',
+   'Together: Gt = Gt,b + Gt,d + Gt,r (Heinemann, 2019).']},
+ {n:'2',t:'Surface Reflected Light (Albedo)',c:'#3a86ff',items:[
+   'The reflected share depends on the ground’s albedo ρ — fresh snow (ρ up to ~0.85–0.90) reflects far more than grass (ρ ≈ 0.25).',
+   'Gr,t = Gh × ρ × (1 − cos β)/2 — zero for a flat panel, half the ground glow for a vertical one.',
+   'Typical Albedo Values tabulated in (Heinemann, 2019, Slide 6), "Source: Sen: Solar Energy Fundamentals and Modeling Techniques (2008)" (ibid).']},
+ {n:'3',t:'Principles for Optimizing Panel Tilt',c:'#1e8e3e',items:[
+   'Cosine Law: Angle of Incidence is Key — maximum energy is absorbed when sunlight strikes the panel perpendicularly (θ ≈ 0°); I = I₀ cos θ.',
+   'Optimal Annual Tilt ≈ Local Latitude — for fixed panels, setting the tilt angle equal to the location’s latitude maximizes year-round energy.',
+   'Seasonal Adjustments Boost Performance — steeper tilt angles in winter and lower angles in summer capture more energy.']}
+];
+(function(){
+  const wrap=$('#sumPillars');
+  PILLARS.forEach(p=>{
+    const d=document.createElement('div'); d.className='xcard'; d.style.borderTop='5px solid '+p.c;
+    d.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum" style="background:'+p.c+';color:#fff">'+p.n+'</div><div><div class="xtitle">'+p.t+'</div><div class="note">Pillar '+p.n+' of "Understanding Solar Irradiance on Tilted Surfaces"</div></div><div class="chev">▸</div></div>'+
+      '<div class="xbody"><ul class="checklist">'+p.items.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>';
+    wrap.appendChild(d);
+  });
+})();
+drawMap($('#sumMap'),
+ { cos:{x:100,y:60,t:'I = I₀ cos θ',rx:66,c:'#8a5a00'},
+   th:{x:100,y:150,t:'θ = θz − β',rx:58,c:'#8a5a00'},
+   gt:{x:330,y:105,t:'Gt = Gt,b + Gt,d + Gt,r',rx:104,c:'#14213d'},
+   b:{x:330,y:200,t:'Gb,t = Gb,h·cosθ/cosθz',rx:100,c:'#fca311'},
+   d:{x:330,y:270,t:'Gd,t = Gd,h·(1+cosβ)/2',rx:100,c:'#3a86ff'},
+   r:{x:330,y:335,t:'Gr,t = Gh·ρ·(1−cosβ)/2',rx:100,c:'#7b2cbf'},
+   tilt:{x:565,y:60,t:'β ≈ latitude',rx:62,c:'#1e8e3e'},
+   sea:{x:565,y:140,t:'steeper winter · lower summer',rx:104,c:'#1e8e3e'},
+   ds:{x:565,y:230,t:'POWER · PVGIS',rx:70,c:'#14213d'},
+   alb:{x:100,y:260,t:'albedo ρ (snow≫grass)',rx:88,c:'#7b2cbf'} },
+ [['cos','gt','the law'],['th','b','angle'],['gt','b',''],['gt','d',''],['gt','r',''],['alb','r','ρ'],
+  ['tilt','gt','design β'],['sea','tilt','loads'],['gt','ds','datasets'],['cos','tilt','geometry']]);
+const CHECK=[
+ 'state and use Lambert’s Cosine Law, I = I₀ cos θ, with θ from the surface normal?',
+ 'explain "Same amount of incoming radiant energy covers different surface areas" with a sketch?',
+ 'quote the tilt ≈ latitude rule and both seasonal corollaries (PVEDUCATION.ORG, nd)?',
+ 'define Incident, Horizontal and Module Power exactly?',
+ 'write Gt = Gt,b + Gt,d + Gt,r and name each term (Heinemann, 2019)?',
+ 'derive Gb,t = Gb,h·cos θ/cos θz from equations (1) and (2), with θ = θz − β?',
+ 'apply the isotropic diffuse formula Gd,t = Gd,h·(1+cos β)/2 — and state why it is "usually too simple"?',
+ 'apply the albedo formula Gr,t = Gh·ρ·(1−cos β)/2 with a typical ρ from the lecture table?',
+ 'explain why maximum annual energy needs tilt ≈ latitude via the equinox geometry (90° − φ)?',
+ 'collect tilted-plane datasets from NASA’s POWER Data Access Viewer and PVGIS?',
+ 'answer the IMPORTANT FIGURE question about worldwide solar design?'];
+(function(){
+  const ul=$('#sumChecklist');
+  CHECK.forEach((c,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML='<label style="display:flex;gap:.5rem;align-items:flex-start"><input type="checkbox" data-chk="'+i+'" '+(state.checklist[i]?'checked':'')+' style="margin-top:.2rem;accent-color:var(--ok)"> <span>…'+c+'</span></label>';
+    ul.appendChild(li);
+  });
+  ul.addEventListener('change',e=>{ if(e.target.dataset.chk!=null){ state.checklist[e.target.dataset.chk]=e.target.checked; state.save(); } });
+})();
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const QPOOL=[
+ {t:'mc',tag:'cos',q:'Lambert’s Cosine Law states that the received irradiance equals:',o:['I₀ / cos θ','I₀ cos θ','I₀ tan θ','I₀ (1 − cos θ)'],a:1,s:'I = I₀ cos θ — irradiance falls with the cosine of the incidence angle.'},
+ {t:'mc',tag:'cos',q:'In I = I₀ cos θ, the angle θ is measured between the incoming rays and:',o:['the horizon','the surface itself','the surface normal','true north'],a:2,s:'θ = angle between the incoming rays and the surface normal.'},
+ {t:'num',tag:'cos',q:'I₀ = 900 W/m², θ = 45°. Compute I (W/m²).',a:636,tol:6,s:'900 × cos 45° = 900 × 0.707 ≈ 636 W/m².'},
+ {t:'tf',tag:'cos',q:'As θ increases, the same energy is distributed over a larger area, reducing irradiance per unit area.',a:true,s:'Verbatim from the lecture — the geometric meaning of the cosine law.'},
+ {t:'fib',tag:'cos',q:'From the Heinemann slide: "Same amount of incoming radiant energy covers different surface ________".',a:['areas'],s:'"...covers different surface areas."'},
+ {t:'mc',tag:'tilt',q:'For a fixed tilt angle, maximum power over the course of a year is obtained when the tilt angle equals:',o:['0°','the latitude of the location','the declination','90°'],a:1,s:'The tilt ≈ latitude rule (PVEDUCATION.ORG, nd).'},
+ {t:'mc',tag:'tilt',q:'Steeper tilt angles are optimized for:',o:['large winter loads','summer cooling loads','equinox loads only','night loads'],a:0,s:'"However, steeper tilt angles are optimized for large winter loads" (PVEDUCATION.ORG, nd).'},
+ {t:'mc',tag:'tilt',q:'"Module Power" is defined as:',o:['the solar radiation perpendicular to the sun’s rays','the solar radiation striking the ground','the solar radiation striking a tilted module','the module’s electrical output'],a:2,s:'Module Power - "the solar radiation striking a tilted module" (PVEDUCATION.ORG, nd).'},
+ {t:'tf',tag:'tilt',q:'Lower tilt angles use a greater fraction of light in the summer.',a:true,s:'Verbatim from the lecture (PVEDUCATION.ORG, nd).'},
+ {t:'mc',tag:'geo',q:'On the equinox, the solar elevation at noon equals:',o:['latitude','90° − latitude','declination','23.45°'],a:1,s:'From the "Tilt Angle = Latitude: Explained with Geometry" slide.'},
+ {t:'mc',tag:'geo',q:'Per the lecture, the angle of incidence on an equator-facing tilted plane is:',o:['θ = θz + β','θ = β − 90°','θ = θz − β','θ = 90° − θz'],a:2,s:'θ = θz − β — zenith angle minus tilt.'},
+ {t:'num',tag:'geo',q:'θz = 50°, β = 24°. Compute θ (degrees).',a:26,tol:0.5,s:'θ = 50 − 24 = 26°.'},
+ {t:'mc',tag:'direct',q:'The beam transposition formula (equation 3) reads Gb,t =',o:['Gb,h × cos θz / cos θ','Gb,h × cos θ / cos θz','Gb,h × (1 + cos β)/2','Gb,h × ρ'],a:1,s:'Substituting (1) into (2): Gb,t = Gb,h × cos θ / cos θz.'},
+ {t:'num',tag:'direct',q:'Gb,n = 750 W/m² and θ = 15°. Compute Gb,t = Gb,n cos θ (W/m²).',a:724,tol:6,s:'750 × cos 15° = 750 × 0.966 ≈ 724 W/m² (equation 2).'},
+ {t:'tf',tag:'direct',q:'The ratio cos θ / cos θz can exceed 1, meaning the tilted plane receives more beam than the horizontal.',a:true,s:'True — tilting toward the sun reduces θ below θz, the geometric payoff of tilting.'},
+ {t:'mc',tag:'diffuse',q:'The lecture’s diffuse transposition assumes:',o:['a perfectly black sky','"Isotropoic sky radiance (this approach is usually too simple)"','only circumsolar radiation','zero diffuse light'],a:1,s:'The isotropic sky assumption, flagged as usually too simple (ibid).'},
+ {t:'mc',tag:'diffuse',q:'The diffuse component over a tilted plane is Gd,t = Gd,h ×',o:['(1 − cos β)/2','(1 + cos β)/2','cos θz','ρ/2'],a:1,s:'The sky-view factor (1 + cos β)/2 — from 1 (flat) to 0.5 (vertical).'},
+ {t:'num',tag:'diffuse',q:'Gd,h = 220 W/m², β = 60°. Compute Gd,t (W/m²).',a:165,tol:3,s:'(1 + cos 60°)/2 = 0.75; Gd,t = 220 × 0.75 = 165 W/m².'},
+ {t:'tf',tag:'diffuse',q:'Tilting a panel increases the diffuse irradiance it receives from the sky.',a:false,s:'False — tilting always shrinks the sky view: (1 + cos β)/2 ≤ 1.'},
+ {t:'mc',tag:'albedo',q:'The ground-reflected component is Gr,t = Gh × ρ ×',o:['(1 + cos β)/2','cos θ/cos θz','(1 − cos β)/2','sin β'],a:2,s:'The ground-view factor (1 − cos β)/2, under "Ground reflection is isotropic!" (ibid).'},
+ {t:'mc',tag:'albedo',q:'In the albedo formula, ρ stands for:',o:['air density','surface reflectivity or albedo','panel efficiency','ground temperature'],a:1,s:'ρ is surface reflectivity or albedo — tabulated in (Heinemann, 2019, Slide 6) from Sen (2008).'},
+ {t:'num',tag:'albedo',q:'Gh = 600 W/m², ρ = 0.85 (fresh snow), β = 90°. Compute Gr,t (W/m²).',a:255,tol:4,s:'(1 − cos 90°)/2 = 0.5; Gr,t = 600 × 0.85 × 0.5 = 255 W/m² — the vertical-panel-over-snow case.'},
+ {t:'tf',tag:'albedo',q:'A horizontal panel (β = 0°) receives zero ground-reflected irradiance.',a:true,s:'True — (1 − cos 0°)/2 = 0: a flat panel cannot see the ground.'},
+ {t:'mc',tag:'total',q:'According to (Heinemann, 2019), the total solar irradiance on a tilted plane is:',o:['Gt = Gt,b − Gt,d + Gt,r','Gt = Gt,b + Gt,d + Gt,r','Gt = Gt,b × Gt,d × Gt,r','Gt = Gt,d only'],a:1,s:'Beam + diffuse + reflected — the lecture’s overview equation.'},
+ {t:'num',tag:'total',q:'Gt,b = 640, Gt,d = 170, Gt,r = 12 (all W/m²). Compute Gt.',a:822,tol:2,s:'Gt = 640 + 170 + 12 = 822 W/m².'},
+ {t:'mc',tag:'data',q:'Learning Outcome 2 names which two dataset sources?',o:['NSRDB and Global Solar Atlas','NASA’s POWER Data Access Viewer and PVGIS','Google Maps and Wikipedia','WMO and ISO'],a:1,s:'(a) NASA’s POWER Data Access Viewer, and (b) PVGIS.'},
+ {t:'mc',tag:'data',q:'PVGIS’s "optimize slope" option for a Bangladeshi site would return a tilt closest to:',o:['0°','24°','55°','90°'],a:1,s:'≈ the site latitude — the automated version of the lecture rule.'},
+ {t:'match',tag:'total',q:'Match each component to its transposition factor:',pairs:[['Beam Gb,t','cos θ / cos θz'],['Diffuse Gd,t','(1 + cos β)/2'],['Reflected Gr,t','ρ (1 − cos β)/2']],s:'The three factors of (Heinemann, 2019, Slide 5).'},
+ {t:'match',tag:'tilt',q:'Match each power definition (PVEDUCATION.ORG, nd):',pairs:[['Incident Power','perpendicular to the sun’s rays (perfect tracking)'],['Power on the Horizontal','striking the ground (module lying flat)'],['Module Power','striking a tilted module']],s:'The three reference quantities of the Hand’s On simulation.'},
+ {t:'diag',tag:'total',q:'In the diagram, ray family P goes straight from the sun to the panel; family Q arrives from all over the sky; family R bounces off the ground. Which lecture terms are P, Q, R?',o:['P=Gt,d, Q=Gt,b, R=Gt,r','P=Gt,b, Q=Gt,d, R=Gt,r','P=Gt,r, Q=Gt,d, R=Gt,b','All three are Gt,b'],a:1,s:'P = beam (Gt,b), Q = sky diffuse (Gt,d), R = ground reflected (Gt,r).',diag:true}
+];
+const QTAG_NAMES={cos:'Cosine Law',tilt:'Optimal tilt & power definitions',geo:'Angles & geometry',direct:'Direct component',diffuse:'Diffuse component',albedo:'Albedo component',total:'Total transposition',data:'POWER & PVGIS'};
+let quiz={qs:[],i:0,score:0,done:false};
+function quizStart(){
+  quiz={qs:shuffle(QPOOL).slice(0,20),i:0,score:0,done:false,tagWrong:{}};
+  $('#quizResult').innerHTML='';
+  quizRender();
+}
+function quizDiagram(){
+  return '<div class="svgwrap"><svg viewBox="0 0 460 210" role="img" aria-label="Diagram with three ray families P Q R onto a tilted panel">'+
+   '<rect x="0" y="0" width="460" height="180" fill="#dcebff"/><rect x="0" y="180" width="460" height="30" fill="#8a9b6e"/>'+
+   '<circle cx="60" cy="40" r="18" fill="#fca311"/>'+
+   '<g transform="translate(300 176)"><rect x="-60" y="-8" width="120" height="10" rx="4" fill="#14213d" transform="rotate(-25)"/></g>'+
+   '<line x1="75" y1="52" x2="278" y2="150" stroke="#fca311" stroke-width="4" stroke-dasharray="8 7"/>'+
+   '<text x="150" y="90" font-size="15" font-weight="bold" fill="#8a5a00">P</text>'+
+   '<line x1="240" y1="30" x2="300" y2="148" stroke="#3a86ff" stroke-width="3" stroke-dasharray="6 6"/>'+
+   '<line x1="420" y1="45" x2="318" y2="152" stroke="#3a86ff" stroke-width="3" stroke-dasharray="6 6"/>'+
+   '<text x="330" y="70" font-size="15" font-weight="bold" fill="#174ea6">Q</text>'+
+   '<line x1="150" y1="182" x2="262" y2="168" stroke="#7b2cbf" stroke-width="3" stroke-dasharray="6 6"/>'+
+   '<text x="185" y="165" font-size="15" font-weight="bold" fill="#4a2a78">R</text></svg></div>';
+}
+function quizRender(){
+  const area=$('#quizArea');
+  if(quiz.i>=quiz.qs.length){ quizFinish(); return; }
+  const q=quiz.qs[quiz.i];
+  $('#quizProg').style.width=(quiz.i/quiz.qs.length*100)+'%';
+  $('#quizCount').textContent='Question '+(quiz.i+1)+' of '+quiz.qs.length+' · '+QTAG_NAMES[q.tag];
+  $('#quizScoreLive').textContent='Score: '+quiz.score+'/'+quiz.i;
+  let html='<div class="card"><p><strong>'+q.q+'</strong></p>';
+  if(q.diag) html+=quizDiagram();
+  if(q.t==='mc'||q.t==='diag'){
+    const idx=shuffle(q.o.map((_,i)=>i));
+    html+=idx.map(i=>'<button class="opt" data-i="'+i+'">'+q.o[i]+'</button>').join('');
+  }else if(q.t==='tf'){
+    html+='<button class="opt" data-i="true">True</button><button class="opt" data-i="false">False</button>';
+  }else if(q.t==='num'){
+    html+='<div class="ctlrow"><input type="number" step="any" id="qnum" style="width:160px" aria-label="numeric answer"><button class="btn gold" id="qchk">Check</button></div>';
+  }else if(q.t==='fib'){
+    html+='<div class="ctlrow"><input type="text" id="qfib" style="width:240px" aria-label="fill in the blank"><button class="btn gold" id="qchk">Check</button></div>';
+  }else if(q.t==='match'){
+    const rights=shuffle(q.pairs.map(p=>p[1]));
+    html+=q.pairs.map((p,i)=>'<div class="matchrow"><strong style="min-width:150px">'+p[0]+'</strong><select data-m="'+i+'"><option value="">— choose —</option>'+rights.map(r=>'<option>'+r+'</option>').join('')+'</select></div>').join('');
+    html+='<div class="ctlrow"><button class="btn gold" id="qchk">Check matches</button></div>';
+  }
+  html+='<div class="feedback" id="qfb"></div><div class="ctlrow"><button class="btn" id="qnext" style="display:none">Next question →</button></div></div>';
+  area.innerHTML=html;
+  function grade(ok){
+    if(ok) quiz.score++;
+    else { quiz.tagWrong[q.tag]=(quiz.tagWrong[q.tag]||0)+1; }
+    const fb=$('#qfb'); fb.className='feedback show '+(ok?'good':'bad');
+    fb.innerHTML=(ok?'✅ Correct! ':'❌ Not quite. ')+'<strong>Worked solution:</strong> '+q.s;
+    $('#qnext').style.display='';
+    $('#quizScoreLive').textContent='Score: '+quiz.score+'/'+(quiz.i+1);
+  }
+  area.onclick=e=>{
+    if(e.target.id==='qnext'){ quiz.i++; quizRender(); return; }
+    if(e.target.classList.contains('opt')&&!e.target.disabled&&(q.t==='mc'||q.t==='diag'||q.t==='tf')){
+      let ok;
+      if(q.t==='tf') ok=(e.target.dataset.i==='true')===q.a;
+      else ok=+e.target.dataset.i===q.a;
+      $$('.opt',area).forEach(o=>{o.disabled=true;
+        const best= q.t==='tf'? o.dataset.i===String(q.a) : +o.dataset.i===q.a;
+        if(best)o.classList.add('correct');});
+      if(!ok)e.target.classList.add('wrong');
+      grade(ok);
+    }
+    if(e.target.id==='qchk'){
+      if(q.t==='num'){ const v=parseFloat($('#qnum').value); if(isNaN(v)){alert('Enter a number');return;} $('#qnum').disabled=true; e.target.disabled=true; grade(Math.abs(v-q.a)<=q.tol); }
+      if(q.t==='fib'){ const v=($('#qfib').value||'').trim().toLowerCase().replace(/[.\s²]/g,''); $('#qfib').disabled=true; e.target.disabled=true; grade(q.a.some(a=>v===a.replace(/[\s-]/g,'').toLowerCase()||v===a.toLowerCase())); }
+      if(q.t==='match'){
+        const sels=$$('select[data-m]',area);
+        if(sels.some(s2=>!s2.value)){alert('Choose an option for every row');return;}
+        const ok=sels.every((s2,i)=>s2.value===q.pairs[i][1]);
+        sels.forEach(s2=>s2.disabled=true); e.target.disabled=true; grade(ok);
+      }
+    }
+  };
+}
+function quizFinish(){
+  quiz.done=true;
+  $('#quizProg').style.width='100%';
+  const pct=Math.round(quiz.score/quiz.qs.length*100);
+  const grade= pct>=90?'A+':pct>=80?'A':pct>=70?'B':pct>=60?'C':pct>=50?'D':'F';
+  state.quizLast=pct; state.quizBest=Math.max(state.quizBest||0,pct);
+  state.weakTags=quiz.tagWrong; state.save(); updateProgress();
+  const weak=Object.keys(quiz.tagWrong).sort((a,b)=>quiz.tagWrong[b]-quiz.tagWrong[a]);
+  $('#quizArea').innerHTML='';
+  $('#quizCount').textContent='Quiz complete';
+  $('#quizResult').innerHTML='<div class="card" style="text-align:center">'+
+   '<h3>Quiz Result</h3><div class="result-badge">'+grade+'</div>'+
+   '<p style="font-size:1.2rem"><strong>'+quiz.score+' / '+quiz.qs.length+'</strong> correct — <strong>'+pct+'%</strong></p>'+
+   (weak.length?'<p><strong>Focus areas:</strong> '+weak.map(t=>QTAG_NAMES[t]).join(' · ')+'</p>':'<p>Flawless across all concept areas — outstanding! 🌟</p>')+
+   '<div class="ctlrow" style="justify-content:center"><button class="btn gold" onclick="quizStart()">↻ Restart quiz (new random set)</button>'+
+   '<button class="btn ghostb" data-goto="dashboard">View Dashboard</button></div></div>';
+}
+quizStart();
+
+/* ============================================================
+   STUDENT DASHBOARD
+   ============================================================ */
+function gaugeSVG(pct,color){
+  const r=48,c=2*Math.PI*r;
+  return '<svg class="gauge" viewBox="0 0 120 120" role="img" aria-label="'+pct+' percent"><circle cx="60" cy="60" r="'+r+'" fill="none" stroke="#e3e6ee" stroke-width="12"/>'+
+   '<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+fmt(c*pct/100,1)+' '+fmt(c,1)+'" transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1s"/>'+
+   '<text x="60" y="68" text-anchor="middle" font-size="24" font-weight="bold" fill="'+color+'">'+pct+'%</text></svg>';
+}
+function renderDashboard(){
+  const visited=TAB_ORDER.filter(t=>state.visited[t]).length;
+  const completion=Math.round(visited/TAB_ORDER.length*100);
+  const mastered=['lo0','lo1'].filter(k=>state.mastered[k]).length;
+  const checks=CHECK.filter((_,i)=>state.checklist[i]).length;
+  $('#dashTiles').innerHTML=
+   '<div class="dash-tile"><h3>Completion</h3>'+gaugeSVG(completion,'#3a86ff')+'<div class="note">'+visited+' of '+TAB_ORDER.length+' modules visited</div></div>'+
+   '<div class="dash-tile"><h3>Quiz Score</h3>'+(state.quizBest!=null?gaugeSVG(state.quizBest,'#1e8e3e')+'<div class="note">best '+state.quizBest+'% · last '+state.quizLast+'%</div>':'<div class="big">—</div><div class="note">take the Quiz to record a score</div>')+'</div>'+
+   '<div class="dash-tile"><h3>Outcomes Mastered</h3><div class="big">'+mastered+' / 2</div><div class="note">mark them in Learning Outcomes</div></div>'+
+   '<div class="dash-tile"><h3>Checklist</h3><div class="big">'+checks+' / '+CHECK.length+'</div><div class="note">Summary tab engineering checklist</div></div>';
+  const weak=[];
+  if(state.paDone) for(const t in state.paTags){ const x=state.paTags[t]; if(x.ok<x.n) weak.push('Pre-assessment: '+PA_TAGNAMES[t]+' ('+x.ok+'/'+x.n+')'); }
+  for(const t in (state.weakTags||{})){ if(t!=='problems'&&QTAG_NAMES[t]) weak.push('Quiz: '+QTAG_NAMES[t]+' ('+state.weakTags[t]+' missed)'); }
+  if(state.weakTags&&state.weakTags.problems) weak.push('Problem Solving: at least one step needed retries');
+  $('#dashWeak').innerHTML= weak.length? '<ul>'+weak.map(w=>'<li>'+w+'</li>').join('')+'</ul>' : '<p class="note">'+(state.paDone||state.quizBest!=null?'No weak areas detected — excellent!':'Complete the Pre-Assessment and Quiz to populate this panel.')+'</p>';
+  const SUG={cos:['Tilted Plane tab — Cosine Law Demonstrator','tilted'],tilt:['Optimal Tilt Angle tab — Module Power Simulator','tilt'],geo:['Review R2 + the beam transposition geometry','review'],direct:['Tilted Plane tab — Beam Transposition interactive','tilted'],diffuse:['Tilted Plane tab — Sky-View Factor Visualizer','tilted'],albedo:['Tilted Plane tab — Ground-Reflection Visualizer + albedo table','tilted'],total:['Simulators tab — full Transposition Simulator','simulators'],data:['Dataset Explorer — POWER & PVGIS walkthroughs','datasets']};
+  const sugs=[];
+  for(const t in (state.weakTags||{})) if(SUG[t]) sugs.push(SUG[t]);
+  if(state.paDone) for(const t in state.paTags){ const x=state.paTags[t];
+    if(x.ok<x.n){ if(t==='part3'||t==='part4')sugs.push(['Review R1 — components & closure','review']); if(t==='geo')sugs.push(['Review R2 — geometry essentials','review']); if(t==='cos')sugs.push(['Review R3 — cosine behaviour','review']); if(t==='units')sugs.push(['Part 3/4 companion apps — units','review']); if(t==='intuition')sugs.push(['Tilted Plane tab — Cosine Law Demonstrator','tilted']); }
+  }
+  const seen={}; const uniq=sugs.filter(s=>{ if(seen[s[0]])return false; seen[s[0]]=1; return true; });
+  $('#dashSuggest').innerHTML= uniq.length? '<ul>'+uniq.map(s=>'<li><a href="#" data-goto="'+s[1]+'">'+s[0]+'</a></li>').join('')+'</ul>' : '<p class="note">Suggestions appear here based on your Pre-Assessment and Quiz results.</p>';
+  $('#dashTrack').innerHTML=TAB_ORDER.map(t=>'<span class="toggle-chip '+(state.visited[t]?'on':'')+'" style="margin:.15rem;cursor:pointer" data-goto="'+t+'">'+(state.visited[t]?'✓ ':'')+TAB_NAMES[t]+'</span>').join(' ');
+}
+/* ---------- init ---------- */
+state.visited.outcomes=true; state.save(); updateProgress();
+/* end of ME4011 Part 5 companion script */
+
+</script>
+</body>
+</html>
