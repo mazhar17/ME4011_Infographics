@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Energy - Part 6 — Selected Useful Resources for Solar Datasets | ME4011 Interactive Companion</title>
+<meta name="description" content="Interactive companion to the ME4011 Renewable Energy lecture 'Solar Energy - Part 6 — Selected Useful Resources for Solar Datasets' by Professor Dr. Mazharul Islam, AUST.">
+<style>
+/* ME4011 Companion Series — Visual Identity (matches Parts 2–5) */
+:root{
+  --navy:#14213d; --gold:#fca311; --sky:#3a86ff; --bg:#f7f7f4; --card:#ffffff;
+  --ink:#1b2436; --ok:#1e8e3e; --warn:#e8a10c; --err:#c5221f; --muted:#5b6579;
+  --line:#e3e6ee; --radius:14px; --shadow:0 2px 10px rgba(20,33,61,.08);
+  --serif:Cambria,Georgia,'Times New Roman',serif;
+  --sans:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+}
+body.hc{ --bg:#000000; --card:#111418; --ink:#ffffff; --muted:#d5d9e4; --line:#4a5468; --navy:#0a0f1e; --shadow:0 0 0 1px #5a647a; }
+body.hc .quote{background:#1a2030;color:#fff}
+body.hc .hero{background:#000;border-bottom:2px solid var(--gold)}
+body.hc svg text{fill:#fff}
+body.hc .panel{border-width:2px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+h1,h2,h3,h4,.eq{font-family:var(--serif)}
+h2{color:var(--ink);font-size:1.5rem;margin:.2rem 0 1rem;border-bottom:3px solid var(--gold);display:inline-block;padding-bottom:4px}
+h3{font-size:1.15rem;margin:1.2rem 0 .5rem}
+p{margin:.5rem 0}
+a{color:var(--sky)}
+button{font-family:var(--sans)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:#14213d;padding:.6rem 1rem;z-index:99;font-weight:700;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+.hero{background:linear-gradient(135deg,#14213d 0%,#1d2f57 60%,#233a6b 100%);color:#fff;padding:1.4rem 1.2rem 1.1rem;position:relative;overflow:hidden}
+.hero svg.sunmotif{position:absolute;right:-40px;top:-40px;opacity:.16;pointer-events:none}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.7rem}
+.badge{display:inline-block;padding:.22rem .7rem;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.02em}
+.badge.gold{background:var(--gold);color:#14213d}
+.badge.ghost{background:rgba(255,255,255,.12);color:#e8ecf7;border:1px solid rgba(255,255,255,.25)}
+#hcBtn{margin-left:auto;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.25rem .8rem;cursor:pointer;font-size:.8rem}
+#hcBtn:hover,#hcBtn:focus{background:var(--gold);color:#14213d}
+.hero h1{margin:.1rem 0 .2rem;font-size:1.7rem;line-height:1.25}
+.hero h1 .accent{color:var(--gold)}
+.hero .subtitle{color:#c8d2ea;font-size:.92rem;margin:0}
+.progress-wrap{margin-top:.9rem;max-width:520px}
+.progress-wrap label{font-size:.78rem;color:#c8d2ea;display:flex;justify-content:space-between}
+.pbar{height:10px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden;margin-top:3px}
+.pbar>span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#ffd166);border-radius:999px;transition:width .5s ease}
+.tabbar{position:sticky;top:0;z-index:20;background:var(--navy);display:flex;overflow-x:auto;scrollbar-width:thin;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.tabbar button{flex:0 0 auto;background:transparent;border:none;color:#c8d2ea;padding:.7rem .85rem;font-size:.83rem;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabbar button:hover{color:#fff;background:rgba(255,255,255,.07)}
+.tabbar button[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold);font-weight:700}
+.tabbar button .tick{color:var(--ok);font-weight:700}
+main{max-width:1080px;margin:0 auto;padding:1.2rem 1rem 3rem}
+section[role="tabpanel"]{display:none;animation:fadein .35s ease}
+section[role="tabpanel"].active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem 1.2rem;margin:.9rem 0;border:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+.quote{font-family:var(--serif);font-size:1.06rem;background:#f0f3fa;border-left:5px solid var(--gold);padding:.8rem 1rem;border-radius:0 10px 10px 0;margin:.7rem 0}
+.quote .cite{display:block;font-size:.85rem;color:var(--muted);margin-top:.3rem;font-family:var(--sans)}
+.eq{font-size:1.15rem;text-align:center;background:#f0f3fa;border-radius:10px;padding:.6rem;margin:.6rem 0}
+body.hc .eq{background:#1a2030}
+.panel{border-radius:10px;margin:.7rem 0;border:1px solid var(--line);overflow:hidden}
+.panel>button{width:100%;text-align:left;padding:.6rem .9rem;font-weight:700;font-size:.92rem;border:none;cursor:pointer;display:flex;gap:.5rem;align-items:center;background:#f4f6fb;color:var(--ink)}
+body.hc .panel>button{background:#1a2030;color:#fff}
+.panel>button::after{content:"▸";margin-left:auto;transition:transform .25s}
+.panel.open>button::after{transform:rotate(90deg)}
+.panel .pbody{display:none;padding:.7rem 1rem;font-size:.93rem;background:var(--card)}
+.panel.open .pbody{display:block;animation:fadein .3s}
+.panel.insight>button{background:#e8f0fe;color:#174ea6}
+.panel.hint>button{background:#fef7e0;color:#8a5a00}
+.panel.mistake>button{background:#fce8e6;color:#a50e0e}
+.panel.examtip>button{background:#e6f4ea;color:#0d652d}
+.panel.practical>button{background:#e4f7fb;color:#0b5d6e}
+.panel.didyou>button{background:#f3e8fd;color:#5b2c8d}
+body.hc .panel.insight>button{background:#0d2a52;color:#9ec3ff}
+body.hc .panel.hint>button{background:#4a3a00;color:#ffd97a}
+body.hc .panel.mistake>button{background:#4a0e0c;color:#ff9a93}
+body.hc .panel.examtip>button{background:#0c3a1e;color:#8fe0ac}
+body.hc .panel.practical>button{background:#083038;color:#8fdcec}
+body.hc .panel.didyou>button{background:#2d1745;color:#d3b3f7}
+.btn{background:var(--navy);color:#fff;border:none;border-radius:9px;padding:.55rem 1.1rem;font-size:.9rem;cursor:pointer;font-weight:600;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(20,33,61,.25)}
+.btn.gold{background:var(--gold);color:#14213d}
+.btn.ghostb{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+body.hc .btn.ghostb{color:#fff;border-color:#fff}
+.btn.small{padding:.3rem .7rem;font-size:.8rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.xcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin:.8rem 0;overflow:hidden}
+.xcard>.xhead{display:flex;align-items:flex-start;gap:.8rem;padding:1rem 1.1rem;cursor:pointer}
+.xcard>.xhead:hover{background:#f4f6fb}
+body.hc .xcard>.xhead:hover{background:#1a2030}
+.xcard .xnum{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--serif);font-size:1.1rem}
+.xcard .xtitle{font-weight:600;font-size:.98rem}
+.xcard .xbody{display:none;padding:0 1.1rem 1rem;border-top:1px dashed var(--line)}
+.xcard.open .xbody{display:block;animation:fadein .3s}
+.xcard .chev{margin-left:auto;align-self:center;transition:transform .25s}
+.xcard.open .chev{transform:rotate(90deg)}
+.mastery{display:flex;align-items:center;gap:.45rem;margin-top:.8rem;font-size:.88rem;font-weight:600;color:var(--ok)}
+.mastery input{width:18px;height:18px;accent-color:var(--ok)}
+dl.kv{margin:.4rem 0}
+dl.kv dt{font-weight:700;color:var(--navy);margin-top:.6rem;font-size:.9rem}
+body.hc dl.kv dt{color:var(--gold)}
+dl.kv dd{margin:0.15rem 0 0 0;font-size:.92rem}
+.opt{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .9rem;border:2px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:.93rem;color:var(--ink);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--sky)}
+.opt.correct{border-color:var(--ok);background:#e6f4ea;color:#0d652d;font-weight:600}
+.opt.wrong{border-color:var(--err);background:#fce8e6;color:#a50e0e}
+.opt:disabled{cursor:default}
+body.hc .opt.correct{background:#0c3a1e;color:#8fe0ac}
+body.hc .opt.wrong{background:#4a0e0c;color:#ff9a93}
+.feedback{border-radius:10px;padding:.6rem .9rem;margin:.5rem 0;font-size:.9rem;display:none}
+.feedback.show{display:block;animation:fadein .3s}
+.feedback.good{background:#e6f4ea;color:#0d652d;border:1px solid #a8dab5}
+.feedback.bad{background:#fce8e6;color:#a50e0e;border:1px solid #f5b5b1}
+.feedback.info{background:#e8f0fe;color:#174ea6;border:1px solid #b3cefb}
+body.hc .feedback.good{background:#0c3a1e;color:#8fe0ac}
+body.hc .feedback.bad{background:#4a0e0c;color:#ff9a93}
+body.hc .feedback.info{background:#0d2a52;color:#9ec3ff}
+input[type=number],input[type=text],select,textarea{font-family:var(--sans);font-size:.95rem;padding:.5rem .7rem;border:2px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);max-width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--sky);outline-offset:1px}
+textarea{width:100%;min-height:110px;resize:vertical}
+.ctlrow{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;margin:.6rem 0}
+.readout{background:var(--navy);color:#fff;border-radius:10px;padding:.5rem .9rem;text-align:center;min-width:120px}
+.readout .rv{font-size:1.25rem;font-weight:800;font-family:var(--serif);color:var(--gold)}
+.readout .rl{font-size:.72rem;color:#c8d2ea}
+input[type=range]{accent-color:var(--gold);width:220px;max-width:60vw}
+.toggle-chip{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.35rem .8rem;font-size:.83rem;cursor:pointer;font-weight:600}
+.toggle-chip.on{background:var(--sky);border-color:var(--sky);color:#fff}
+.toggle-chip.on.gold{background:var(--gold);border-color:var(--gold);color:#14213d}
+.fcard{perspective:1000px;width:100%;max-width:430px;height:190px;margin:.6rem auto;cursor:pointer}
+.fcard .inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fcard.flipped .inner{transform:rotateY(180deg)}
+.fcard .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;box-shadow:var(--shadow)}
+.fcard .front{background:var(--navy);color:#fff;font-family:var(--serif);font-size:1.1rem}
+.fcard .back{background:var(--gold);color:#14213d;transform:rotateY(180deg);font-size:.92rem}
+table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+th,td{border:1px solid var(--line);padding:.4rem .55rem;text-align:left}
+th{background:var(--navy);color:#fff;font-weight:600}
+tr:nth-child(even) td{background:#f4f6fb}
+body.hc tr:nth-child(even) td{background:#1a2030}
+#modal{position:fixed;inset:0;background:rgba(11,18,38,.6);display:none;align-items:center;justify-content:center;z-index:60;padding:1rem}
+#modal.open{display:flex}
+#modal .mbox{background:var(--card);color:var(--ink);border-radius:var(--radius);max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:1.3rem 1.4rem;box-shadow:0 10px 40px rgba(0,0,0,.4);animation:fadein .25s}
+#modal .mclose{float:right;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:.5rem 0}
+.tag{font-size:.72rem;background:#e8f0fe;color:#174ea6;border-radius:999px;padding:.15rem .6rem;font-weight:700}
+body.hc .tag{background:#0d2a52;color:#9ec3ff}
+.svgwrap{width:100%;overflow-x:auto;text-align:center;margin:.5rem 0}
+.svgwrap svg{max-width:100%;height:auto}
+.note{font-size:.85rem;color:var(--muted)}
+.checklist li{margin:.35rem 0}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem}
+.dash-tile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem;text-align:center}
+.dash-tile .big{font-size:2rem;font-weight:800;font-family:var(--serif);color:var(--navy)}
+body.hc .dash-tile .big{color:var(--gold)}
+.gauge{width:130px;height:130px;margin:0 auto}
+footer{background:#0b1226;color:#c8d2ea;text-align:center;padding:1.6rem 1rem;font-size:.85rem;line-height:1.7}
+footer .goldline{color:var(--gold);font-weight:700}
+.matchrow{display:flex;gap:.6rem;align-items:center;margin:.4rem 0;flex-wrap:wrap}
+.qprog{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:.5rem 0}
+.qprog>span{display:block;height:100%;background:var(--sky);transition:width .4s}
+.result-badge{display:inline-block;font-family:var(--serif);font-size:2.4rem;font-weight:800;background:var(--navy);color:var(--gold);border-radius:16px;padding:.4rem 1.4rem;margin:.4rem 0}
+/* TMY inspector styles */
+.tmyline{font-family:Consolas,Menlo,monospace;font-size:.8rem;background:#0b1226;color:#c8d2ea;border-radius:10px;padding:.7rem .8rem;overflow-x:auto;white-space:nowrap}
+.tmyline span{cursor:pointer;padding:.05rem .22rem;border-radius:5px}
+.tmyline span:hover,.tmyline span.sel{background:var(--gold);color:#14213d;font-weight:700}
+@media(max-width:640px){ .hero h1{font-size:1.3rem} main{padding:.8rem .7rem 2.5rem} .card{padding:.9rem} }
+@media(prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="hero">
+  <svg class="sunmotif" width="300" height="300" viewBox="0 0 300 300" aria-hidden="true">
+    <circle cx="150" cy="150" r="60" fill="#fca311"/>
+    <g stroke="#fca311" stroke-width="10" stroke-linecap="round">
+      <line x1="150" y1="20" x2="150" y2="60"/><line x1="150" y1="240" x2="150" y2="280"/>
+      <line x1="20" y1="150" x2="60" y2="150"/><line x1="240" y1="150" x2="280" y2="150"/>
+      <line x1="58" y1="58" x2="86" y2="86"/><line x1="214" y1="214" x2="242" y2="242"/>
+      <line x1="58" y1="242" x2="86" y2="214"/><line x1="214" y1="86" x2="242" y2="58"/>
+    </g>
+  </svg>
+  <div class="badges">
+    <span class="badge gold">ME4011 · Renewable Energy</span>
+    <span class="badge ghost">AUST · Dept. of Mechanical and Production Engineering</span>
+    <button id="hcBtn" aria-pressed="false" title="Toggle high contrast mode">◐ High contrast</button>
+  </div>
+  <h1>Solar Energy - Part 6 — <span class="accent">Selected Useful Resources for Solar Datasets</span></h1>
+  <p class="subtitle">Interactive companion to the lecture by Professor Dr. Mazharul Islam · Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh</p>
+  <div class="progress-wrap">
+    <label>Module progress <span id="progPct">0%</span></label>
+    <div class="pbar"><span id="progBar"></span></div>
+  </div>
+</header>
+
+<nav class="tabbar" role="tablist" aria-label="Lecture modules" id="tabbar">
+  <button role="tab" data-tab="outcomes"    aria-selected="true">1 · Learning Outcomes</button>
+  <button role="tab" data-tab="preassess"   aria-selected="false">Pre-Assessment</button>
+  <button role="tab" data-tab="review"      aria-selected="false">Review</button>
+  <button role="tab" data-tab="brainstorm"  aria-selected="false">2 · Brain Storming</button>
+  <button role="tab" data-tab="intro"       aria-selected="false">3 · Introduction</button>
+  <button role="tab" data-tab="resources"   aria-selected="false">4 · Selected Resources for Solar Datasets</button>
+  <button role="tab" data-tab="tmy"         aria-selected="false">5 · TMY</button>
+  <button role="tab" data-tab="handson"     aria-selected="false">6 · Hands-On</button>
+  <button role="tab" data-tab="selector"    aria-selected="false">Dataset Selector</button>
+  <button role="tab" data-tab="problems"    aria-selected="false">Problem Solving</button>
+  <button role="tab" data-tab="toolbox"     aria-selected="false">Concept Toolbox</button>
+  <button role="tab" data-tab="usefulres"   aria-selected="false">Useful Resources</button>
+  <button role="tab" data-tab="reflections" aria-selected="false">7 · Reflections</button>
+  <button role="tab" data-tab="summary"     aria-selected="false">8 · Summary</button>
+  <button role="tab" data-tab="quiz"        aria-selected="false">Quiz</button>
+  <button role="tab" data-tab="dashboard"   aria-selected="false">Dashboard</button>
+</nav>
+
+<main id="main">
+<!-- ============ 1. LEARNING OUTCOMES ============ -->
+<section id="tab-outcomes" role="tabpanel" class="active" aria-label="Learning Outcomes">
+  <h2>Learning Outcomes for the Class Session</h2>
+  <p>After duly participating in this class session and studying the related contents in the accompanying online course site, the students will be expected to:</p>
+  <div id="loCards"></div>
+  <div class="card">
+    <h3>How to use this companion</h3>
+    <p>This application is an <strong>interactive companion</strong> to the lecture "Solar Energy - Part 6 — Selected Useful Resources for Solar Datasets" — not a replacement for the slides. Take the <strong>Pre-Assessment</strong>, refresh prerequisites in <strong>Review</strong>, then follow the lecture sequence (Brain Storming → Introduction → Selected Resources for Solar Datasets → TMY → Hands-On → Reflections → Summary). Use the <strong>Dataset Selector</strong>, <strong>Problem Solving</strong> and the <strong>Quiz</strong> for exam preparation, and track everything on the <strong>Dashboard</strong>.</p>
+  </div>
+</section>
+
+<!-- ============ 2. PRE-ASSESSMENT ============ -->
+<section id="tab-preassess" role="tabpanel" aria-label="Pre-Assessment">
+  <h2>Pre-Assessment — What Do You Already Know?</h2>
+  <div class="card" style="border-left:5px solid var(--sky)">
+    <p><strong>Why this activity?</strong> This is the <em>Pre-assessment</em> stage of the <strong>BOPPPS</strong> lesson model (Bridge-in, Objectives, Pre-assessment, Participatory learning, Post-assessment, Summary). It surfaces your prior knowledge — irradiance components from Parts 3–5, TMY basics, portal familiarity, and monsoon intuition — before the new content begins.</p>
+    <p class="feedback info show" style="margin-top:.5rem">✔ This activity does <strong>not count toward any grade</strong>. Answer from intuition — wrong answers show you exactly what to review.</p>
+  </div>
+  <div id="paArea"></div>
+  <div id="paProfile"></div>
+</section>
+
+<!-- ============ 3. REVIEW ============ -->
+<section id="tab-review" role="tabpanel" aria-label="Review">
+  <h2>Review — Prerequisites From Earlier Lectures</h2>
+  <p>Refresh these foundations; each topic has quick recall questions and a <strong>Beneficial Hints</strong> panel.</p>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R1</div><div><div class="xtitle">GHI, DNI, DHI and Their Closure (Parts 3–5)</div><div class="note">GHI = DNI cos θ + DHI — the columns every dataset serves</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>The three irradiance quantities you will meet in every dataset table: <strong>GHI</strong> on the horizontal (direct + diffuse together), <strong>DNI</strong> normal to the sun's rays (the beam), and <strong>DHI</strong> scattered from the whole sky dome. They close as:</p>
+      <div class="eq">GHI = DNI cos θ + DHI</div>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory aid:</strong> "G for the Ground total, N for a tube aimed at the suN, D for the Dome." Today's portals serve these three as their core columns.</li>
+        <li><strong>Examination tip:</strong> the θ in the closure is the solar zenith angle — the projection factor that puts DNI onto the horizontal.</li>
+        <li><strong>Common mistake:</strong> summing DNI + DHI directly and calling it GHI — the cos θ projection is not optional.</li>
+        <li><strong>Conceptual relationship:</strong> Part 4 measured these; Part 5 transposed them; today you download them.</li>
+      </ul></div></div>
+      <div class="rq" data-rq="comp"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R2</div><div><div class="xtitle">Units in Dataset Tables</div><div class="note">W/m² (rate) vs. kWh/m²/day (energy) vs. kWh/kWp (specific yield)</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <dl class="kv">
+        <dt>W/m²</dt><dd>Instantaneous irradiance — the unit of hourly TMY records (GHI, DNI, DHI columns).</dd>
+        <dt>kWh/m²/day</dt><dd>Daily-integrated radiation — the unit of monthly-average dataset tables (POWER, PVGIS outputs).</dd>
+        <dt>kWh/kWp</dt><dd>Specific yield — energy produced per installed kilowatt-peak; the Global Solar Atlas serves it as <strong>PVOUT</strong>.</dd>
+      </dl>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory aid:</strong> "per m² = resource; per kWp = product." PVOUT already includes typical system behaviour.</li>
+        <li><strong>Practical shortcut:</strong> annual PVOUT ≈ 1,400–1,500 kWh/kWp is a typical Bangladeshi figure — good for sanity-checking downloads.</li>
+        <li><strong>Common mistake:</strong> comparing a kWh/m² resource number against a kWh/kWp yield number as if they were the same quantity.</li>
+        <li><strong>Quick reminder:</strong> hourly file ⇒ W/m²; monthly table ⇒ kWh/m²/day; investor map ⇒ kWh/kWp.</li>
+      </ul></div></div>
+      <div class="rq" data-rq="units"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R3</div><div><div class="xtitle">TMY from Part 3 — About to Go Deep</div><div class="note">Typical year · simulation input · not for extremes</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>Part 3 introduced the Typical Meteorological Year: one year of hourly data assembled from a multiyear record to represent typical conditions, used as the standard weather input for computer simulation of solar energy conversion and building systems — and never for worst-case design. Today's TMY section descends into the file itself: formats, header fields, and how to actually download one.</p>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Memory aid:</strong> TMY = "Twelve Median-months, Yearly" — 12 most-typical months stitched into one synthetic year.</li>
+        <li><strong>Examination tip:</strong> the two ever-green TMY questions are its primary application (simulation) and its design limitation (not extremes).</li>
+        <li><strong>Conceptual relationship:</strong> the NSRDB Viewer introduced today is the machine that generates and serves these files.</li>
+      </ul></div></div>
+      <div class="rq" data-rq="tmy"></div>
+    </div>
+  </div>
+
+  <div class="xcard">
+    <div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">R4</div><div><div class="xtitle">Tilt &amp; Monsoon (Part 5 + Parts 3–4)</div><div class="note">Why portals ask for an angle · what monsoon does to the beam</div></div><div class="chev">▸</div></div>
+    <div class="xbody">
+      <p>Part 5 taught the transposition to tilted planes — which is why PVGIS asks for a slope and reports <em>"Global irradiation at angle:"</em>. And from Parts 3–4: under Dhaka's monsoon the direct beam collapses while diffuse light persists — the seasonal behaviour today's Hands-On quantifies with the diffuse fraction DHI/GHI.</p>
+      <div class="panel hint"><button type="button">💡 Beneficial Hints</button><div class="pbody"><ul>
+        <li><strong>Quick reminder:</strong> in-plane/tilted values from a portal already contain Part 5's three-component transposition.</li>
+        <li><strong>Engineering intuition:</strong> a high diffuse fraction means "the sky glows everywhere" — pointing hardware (trackers) has little to point at.</li>
+        <li><strong>Frequently confused:</strong> diffuse fraction is DHI/GHI (a ratio, 0–1), not DHI itself (W/m²).</li>
+      </ul></div></div>
+      <div class="rq" data-rq="monsoon"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ Rapid-Recall Flash Cards</h3>
+    <p class="note">Click a card to flip it. Use ◀ ▶ to move through the deck.</p>
+    <div class="fcard" id="fcard" tabindex="0" role="button" aria-label="Flash card, press Enter to flip">
+      <div class="inner"><div class="face front" id="fcFront"></div><div class="face back" id="fcBack"></div></div>
+    </div>
+    <div class="ctlrow" style="justify-content:center">
+      <button class="btn small ghostb" id="fcPrev">◀ Previous</button>
+      <span class="note" id="fcCount"></span>
+      <button class="btn small ghostb" id="fcNext">Next ▶</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🗺 Prerequisite Concept Map</h3>
+    <p class="note">Hover/tap a node to highlight its links.</p>
+    <div class="svgwrap"><svg id="rvMap" viewBox="0 0 640 300" role="img" aria-label="Concept map linking prerequisites to solar datasets"></svg></div>
+  </div>
+</section>
+
+<!-- ============ 4. BRAIN STORMING ============ -->
+<section id="tab-brainstorm" role="tabpanel" aria-label="Brain Storming">
+  <h2>Brain Storming</h2>
+  <div class="card">
+    <h3>🛰 The Data Landscape</h3>
+    <p class="note">Where do solar numbers come from? Satellites image the sky, atmospheric models fill the gaps, ground stations anchor the truth — and six portals serve the result to your browser. Watch the flow.</p>
+    <div class="svgwrap"><svg id="bsSvg" viewBox="0 0 680 340" role="img" aria-label="Animated data landscape from satellites and models to portals"></svg></div>
+  </div>
+  <div class="card">
+    <h3>🧠 Brainstorm Before We Begin</h3>
+    <p>Think first, then reveal. No grades — just engineering imagination.</p>
+    <div id="bsPrompts"></div>
+  </div>
+</section>
+
+<!-- ============ 5. INTRODUCTION ============ -->
+<section id="tab-intro" role="tabpanel" aria-label="Introduction">
+  <h2>Introduction</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li><strong>Accurate solar resource assessment is the foundation of PV system design.</strong></li>
+      <li>Long-term meteorological datasets reduce uncertainty in energy yield estimation.</li>
+      <li>Dataset choice directly affects: Feasibility studies · Financial modeling · System sizing and performance prediction</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Understanding GHI, DNI, and DHI in Solar Energy</h3>
+    <dl class="kv">
+      <dt>Global Horizontal Irradiance (GHI)</dt><dd>Total solar radiation received on a horizontal surface · Comprises both direct and diffuse components · Mathematically expressed as:</dd>
+    </dl>
+    <div class="eq">GHI = DNI cos θ + DHI &nbsp;&nbsp;(1)</div>
+    <dl class="kv">
+      <dt>Direct Normal Irradiance (DNI)</dt><dd>Solar radiation received directly from the sun · Measured on a surface normal to the sun's rays · Strongly reduced by clouds, dust, and haze</dd>
+      <dt>Diffuse Horizontal Irradiance (DHI)</dt><dd>Solar radiation scattered by the atmosphere · Reaches the surface from all directions · Dominant during cloudy and monsoon conditions</dd>
+    </dl>
+    <h3>🔢 Interactive Equation (1) Explorer</h3>
+    <div class="ctlrow">
+      <label>DNI <input type="range" id="ghDNI" min="0" max="1000" value="600" step="10"></label>
+      <label>θ <input type="range" id="ghTheta" min="0" max="89" value="30" step="1"></label>
+      <label>DHI <input type="range" id="ghDHI" min="0" max="500" value="180" step="10"></label>
+    </div>
+    <div class="ctlrow">
+      <div class="readout"><div class="rv" id="ghDNIv">—</div><div class="rl">DNI W/m²</div></div>
+      <div class="readout"><div class="rv" id="ghCos">—</div><div class="rl">cos θ</div></div>
+      <div class="readout"><div class="rv" id="ghDHIv">—</div><div class="rl">DHI W/m²</div></div>
+      <div class="readout"><div class="rv" id="ghGHI">—</div><div class="rl">GHI W/m²</div></div>
+      <div class="readout"><div class="rv" id="ghFrac">—</div><div class="rl">Diffuse fraction DHI/GHI</div></div>
+    </div>
+    <div class="svgwrap"><svg id="ghSvg" viewBox="0 0 640 130" role="img" aria-label="Stacked bar of beam projection plus diffuse composing GHI"></svg></div>
+  </div>
+
+  <div class="card">
+    <h3>Why Solar Datasets Matter?</h3>
+    <ul class="checklist">
+      <li>Solar radiation varies with: Location · Season · Atmospheric conditions</li>
+      <li>Engineering decisions require: Reliable historical data · Adequate spatial and temporal resolution</li>
+      <li>Poor data selection can lead to: Oversized systems · Financial losses · Performance shortfall</li>
+    </ul>
+    <h3>⚠ The Cost of Bad Data — Pick a Shortcut, See the Consequence</h3>
+    <p class="note">Choose a tempting data shortcut for a 50 MW plant and watch what happens.</p>
+    <div class="chips" id="bdChips"></div>
+    <div class="feedback" id="bdOut"></div>
+  </div>
+
+  <div class="card">
+    <h3>Types of Solar Datasets</h3>
+    <dl class="kv">
+      <dt>Satellite-Based Datasets</dt><dd>Large spatial coverage · Useful for preliminary assessments</dd>
+      <dt>Model-Assimilated Datasets</dt><dd>Combine satellite data with atmospheric models · Improved temporal continuity</dd>
+      <dt>Bankable / Commercial-Grade Datasets</dt><dd>Used for investment-grade studies · Lower uncertainty margins</dd>
+    </dl>
+    <h3>📊 Uncertainty Narrows Up the Hierarchy</h3>
+    <div class="svgwrap"><svg id="tierSvg" viewBox="0 0 660 240" role="img" aria-label="Three dataset tiers with narrowing uncertainty bars"></svg></div>
+  </div>
+
+  <div class="card">
+    <h3>Engineering Perspective</h3>
+    <ul class="checklist">
+      <li>Dataset selection depends on the stage of the project: Conceptual design · Detailed engineering · Bankability assessment</li>
+      <li>Trade-off between: Accuracy · Resolution · Accessibility and cost</li>
+      <li>Engineers must understand: Strengths · Limitations · Appropriate use cases</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Scope of This Section</h3>
+    <ul class="checklist">
+      <li>Introduce widely used global solar datasets.</li>
+      <li>Focus on datasets relevant for: Bangladesh · South Asia · Academic and professional use</li>
+      <li>Emphasize: Engineering applicability · Data resolution · Practical limitations</li>
+    </ul>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>Resource uncertainty propagates straight into money: a ±5% GHI uncertainty becomes roughly ±5% energy, which at typical debt ratios can swing a project's equity return by several percentage points. That is why lenders price data quality — a "bankable" dataset literally lowers the cost of capital.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>Tie the three dataset classes to the three project stages as a single ladder: satellite-based ↔ conceptual design, model-assimilated ↔ detailed engineering, bankable-grade ↔ bankability assessment. Most exam answers about "which dataset?" are climbs up or down this ladder.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Treating "free" as "low quality" and "commercial" as "always necessary." The lecture's six portals are all freely accessible, and one of them (Global Solar Atlas) serves bankable-grade data — the ladder is about validation and uncertainty, not price alone.</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Memorize the three consequences of poor data selection exactly as listed: oversized systems, financial losses, performance shortfall — and the trade-off triple: accuracy, resolution, accessibility and cost.</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>A Bangladeshi IPP typically walks the full ladder on one project: POWER for the first spreadsheet, Global Solar Atlas maps for the investor deck, NSRDB/PVGIS TMY files for PVsyst simulation, and finally a ground campaign to close bankability.</p>
+  </div></div>
+  <div class="panel didyou"><button type="button">✨ Did You Know?</button><div class="pbody">
+    <p>MERRA-2 — the reanalysis behind NASA POWER — re-simulates the entire global atmosphere from 1980 onward, assimilating millions of observations per day. When you download a POWER time series, you are reading the output of one of the largest continuous physics simulations ever run.</p>
+  </div></div>
+</section>
+<!-- ============ 6. SELECTED RESOURCES ============ -->
+<section id="tab-resources" role="tabpanel" aria-label="Selected Resources for Solar Datasets">
+  <h2>Selected Resources for Solar Datasets</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li><strong>Widely used global solar and meteorological databases</strong></li>
+      <li>Suitable for: Academic studies · Preliminary and detailed PV system design · Policy and planning studies</li>
+      <li>Focus on <strong>freely accessible and engineering-grade datasets</strong></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>URLs of the Selected Resources for Solar Datasets</h3>
+    <ul class="checklist">
+      <li>POWER, NASA – <a href="https://power.larc.nasa.gov/data-access-viewer/">power.larc.nasa.gov/data-access-viewer/</a></li>
+      <li>Global Solar Atlas – <a href="https://globalsolaratlas.info/download/bangladesh">globalsolaratlas.info/download/bangladesh</a></li>
+      <li>Global Atlas for Renewable Energy (IRENA) – <a href="https://globalatlas.irena.org/workspace">globalatlas.irena.org/workspace</a></li>
+      <li>NSRDB Viewer, NREL (USA) – <a href="https://maps.nrel.gov/nsrdb-viewer/">maps.nrel.gov/nsrdb-viewer/</a></li>
+      <li>PVGIS, EU – <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/">re.jrc.ec.europa.eu/pvg_tools/en/</a></li>
+      <li>RE Data Explorer, NREL (USA) – <a href="https://www.re-explorer.org">www.re-explorer.org</a></li>
+    </ul>
+  </div>
+  <div id="platCards"></div>
+  <div class="card">
+    <h3>⚖ Platform Comparison Matrix</h3>
+    <p class="note">All six platforms at a glance — assembled from the lecture's facts.</p>
+    <div style="overflow-x:auto"><table aria-label="Platform comparison matrix">
+      <thead><tr><th>Platform</th><th>Provider</th><th>Resolution / detail</th><th>Data class</th><th>Killer feature</th><th>Watch out</th></tr></thead>
+      <tbody>
+        <tr><td><strong>POWER</strong></td><td>NASA</td><td>≈ 0.5° × 0.5° (about 50 km × 50 km)</td><td>Satellite + MERRA-2 reanalysis (model-assimilated)</td><td>Long-term global solar + wind + weather in one query</td><td>Coarse resolution — no micro-siting, urban shading, complex terrain</td></tr>
+        <tr><td><strong>Global Solar Atlas</strong></td><td>World Bank Group (ESMAP) + Solargis</td><td>≈ 1 km</td><td>Bankable-grade</td><td>PVOUT specific yield (kWh/kWp); terrain-aware</td><td>Maps and long-term averages, not hourly series</td></tr>
+        <tr><td><strong>Global Atlas (IRENA)</strong></td><td>IRENA</td><td>Global GIS layers</td><td>Strategic map platform</td><td>Multi-resource comparison + land-use overlays</td><td>"Best used for strategic planning, not detailed PV yield prediction"</td></tr>
+        <tr><td><strong>NSRDB Viewer</strong></td><td>NREL (USA)</td><td>30–60 min temporal</td><td>Physical Solar Model (PSM v3)</td><td>TMY files (.csv, .epw) for SAM, PVsyst, RETScreen; spectral data</td><td>Registration required for full time series</td></tr>
+        <tr><td><strong>PVGIS</strong></td><td>JRC, European Commission</td><td>Global incl. South Asia</td><td>PV performance simulation</td><td>Horizon shading (DEM), loss modeling, off-grid sizing</td><td>Simulation-focused rather than raw data alone</td></tr>
+        <tr><td><strong>RE Data Explorer</strong></td><td>NREL (USA)</td><td>National / regional GIS</td><td>Decision-support platform</td><td>Zones, land suitability, grid proximity; shapefiles + supply curves</td><td>Planning tool, not a site time-series source</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>🎯 Which Platform Would You Open?</h3>
+    <p class="note">A task appears — pick the platform. Instant feedback justified from the lecture's facts.</p>
+    <div id="wpGame"></div>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>The six portals are not competitors but stations on one workflow: IRENA/RE Explorer answer "where in the country?", Global Solar Atlas answers "which site, and what will investors see?", POWER answers "what has the climate done for 40 years?", NSRDB/PVGIS answer "what exact hourly file do I feed my simulation?". Professionals open several in the same afternoon.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>Anchor each platform to one keyword: POWER = <em>reanalysis</em>; Global Solar Atlas = <em>PVOUT/bankable</em>; IRENA = <em>strategic maps</em>; NSRDB = <em>TMY factory</em>; PVGIS = <em>simulation</em>; RE Explorer = <em>zones &amp; supply curves</em>. Six words carry the whole section.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Two classics, both flagged by the lecture itself: using POWER's ~50 km cells for micro-siting, urban shading, or complex terrain; and using IRENA's resource maps for detailed PV yield prediction — they are "best used for strategic planning."</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Learn the provider + resolution pairs cold: NASA/0.5° (~50 km), World Bank-ESMAP-Solargis/~1 km, NREL/30–60 min + PSM v3, JRC-EU/PV simulation. "Which organization develops X?" is a near-certain quiz item.</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>For a Bangladeshi rooftop feasibility this week: pull monthly GHI from POWER, check the site's PVOUT on the Global Solar Atlas Bangladesh page, and run PVGIS for in-plane irradiation at the roof tilt — three free portals, one coherent first report.</p>
+  </div></div>
+  <div class="panel didyou"><button type="button">✨ Did You Know?</button><div class="pbody">
+    <p>The Global Solar Atlas began as a World Bank effort to give developing countries the same quality of solar prospecting data that commercial developers buy — which is why its Bangladesh page offers free GIS downloads that would otherwise cost thousands of dollars.</p>
+  </div></div>
+</section>
+
+<!-- ============ 7. TMY ============ -->
+<section id="tab-tmy" role="tabpanel" aria-label="Typical Meteorological Year">
+  <h2>Typical Meteorological Year (TMY)</h2>
+  <div class="card">
+    <div class="quote">"TMYs contain one year of hourly data that best represents median weather conditions over a multiyear period"<span class="cite">(NREL, nd)</span></div>
+  </div>
+  <div class="card">
+    <h3>"What Is TMY?" (NREL, nd)</h3>
+    <div class="quote">"... the entirety of the original solar radiation and meteorological data is condensed into one year's worth of the most usual conditions"<span class="cite">(NREL, nd)</span></div>
+    <div class="quote">"To calculate a TMY, a multiyear data set is analyzed and 12 months are chosen from that time frame that best represent the median conditions"<span class="cite">(NREL, nd)</span></div>
+    <h3>🧩 Animated: 12 Median Months Assemble a TMY</h3>
+    <p class="note">Press Assemble: from a grid of years × months, the most typical month of each column lights up and drops into the synthetic year.</p>
+    <div class="ctlrow"><button class="btn small gold" id="tmyAsm">▶ Assemble TMY</button><button class="btn small ghostb" id="tmyAsmR">↻ Reset</button></div>
+    <div class="svgwrap"><svg id="tmyAsmSvg" viewBox="0 0 680 300" role="img" aria-label="Animation of twelve median months assembling a TMY"></svg></div>
+  </div>
+  <div class="card">
+    <h3>"What Is TMY Data Used For?" (NREL, nd)</h3>
+    <div class="quote">"intended to be used in computer simulations of solar energy conversion systems and building systems"<span class="cite">(NREL, nd)</span></div>
+    <div class="quote">"Because TMYs represent typical rather than extreme conditions, they are not suited for designing systems to meet the worst-case conditions occurring at a location"<span class="cite">(NREL, nd)</span></div>
+    <h3>🌗 Typical vs. Extreme — Toggle the Question</h3>
+    <div class="ctlrow">
+      <button class="toggle-chip on gold" id="teTyp">Question: expected annual energy?</button>
+      <button class="toggle-chip" id="teExt">Question: survive a 50-year cyclone?</button>
+    </div>
+    <div class="feedback info show" id="teOut"></div>
+  </div>
+  <div class="card">
+    <h3>"Format of TMY Data" (NREL, nd)</h3>
+    <div class="chips">
+      <span class="tag" style="font-size:.9rem">TMY1</span><span class="tag" style="font-size:.9rem">TMY2</span><span class="tag" style="font-size:.9rem">TMY3</span><span class="tag" style="font-size:.9rem">SAM CSV</span>
+    </div>
+    <h3>🔬 TMY File Inspector — Every Field Explained</h3>
+    <p class="note">A mock gridded TMY file for a Dhaka-like site (clearly generated teaching data). <strong>Click any value</strong> to identify its field — the lecture's exact header element lists drive the explanations.</p>
+    <p><strong>Gridded TMY data header (line 1)</strong> — 10 elements (NREL, nd):</p>
+    <div class="tmyline" id="tmyL1"></div>
+    <p><strong>Gridded TMY data header (line 2) fields + example records</strong> — 14 elements (NREL, nd):</p>
+    <div class="tmyline" id="tmyL2"></div>
+    <div class="tmyline" id="tmyRows"></div>
+    <div class="feedback info show" id="tmyFieldOut">👆 Click any value above to see which of the lecture's header elements it is.</div>
+  </div>
+  <div class="card">
+    <h3>How to Get TMY Datasets?</h3>
+    <p>"NSRDB Viewer", NREL, USA — <a href="https://maps.nrel.gov/nsrdb-viewer/">maps.nrel.gov/nsrdb-viewer/</a></p>
+    <ol>
+      <li>direct download</li>
+      <li>using an API</li>
+      <li>using Globus (<a href="https://www.globus.org">globus.org</a>)</li>
+    </ol>
+    <div class="svgwrap"><svg id="tmyGetSvg" viewBox="0 0 660 220" role="img" aria-label="Three access routes to NSRDB TMY data"></svg></div>
+  </div>
+  <div class="card">
+    <h3>🗂 TMY at a Glance (after the lecture's infographic)</h3>
+    <div class="grid2">
+      <div>
+        <h3 style="margin-top:0">Understanding TMY Data — a composite year of median weather</h3>
+        <ul class="checklist">
+          <li><strong>Definition:</strong> a one-year, hourly dataset representing typical, not extreme, conditions.</li>
+          <li><strong>Constructed from multi-year analysis:</strong> twelve individual months are selected from a long-term period that best represent median conditions.</li>
+          <li><strong>Primary application — system simulation:</strong> the standard input for computer simulations of solar energy conversion and building systems.</li>
+          <li><strong>Unsuitable for extreme-case design:</strong> not for designing systems to withstand worst-case weather scenarios.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Composition of TMY Datasets — key data parameters</h3>
+        <ul class="checklist">
+          <li><strong>Solar irradiance:</strong> Global Horizontal (GHI), Direct Normal (DNI), Diffuse Horizontal (DHI) — all in W/m².</li>
+          <li><strong>Location:</strong> latitude and longitude in decimal degrees; elevation in meters.</li>
+          <li><strong>Meteorological:</strong> temperature (°C), wind speed (m/s), atmospheric pressure (millibar).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>The TMY is a brilliant compression: decades of weather squeezed into 8,760 rows that preserve the <em>statistics</em> that matter for energy (medians, daily patterns, seasonality) while discarding what doesn't (specific storms, record heat waves). Simulation software exploits exactly this: one fast year-run approximates the long-term average yield.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>For the header lists, memorize the shape rather than reciting: line 1 = "who/where" (source, IDs, place names, coordinates, zones, elevation); line 2 = "when + weather" (5 time fields, then dew point, the three irradiances DHI–DNI–GHI, then temperature, pressure, wind direction/speed, surface albedo). Note the irradiances arrive in alphabetical order: DHI, DNI, GHI.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Using a TMY to size structures or drainage — "TMYs represent typical rather than extreme conditions." A second trap: assuming all TMY files look alike; TMY1, TMY2, TMY3 and SAM CSV differ in layout, so simulation software must be told which format it is reading.</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Three near-certain items: the definition quote ("one year of hourly data that best represents median weather conditions over a multiyear period"), the use-and-limitation pair, and naming the four formats (TMY1, TMY2, TMY3, SAM CSV) plus the three NSRDB access routes (direct download, API, Globus).</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>Download a TMY for Dhaka from the NSRDB Viewer as SAM CSV, drop it into SAM or PVsyst, and the software immediately produces monthly and annual yield estimates — the exact workflow this lecture equips you to perform, and the standard first deliverable of any PV design internship.</p>
+  </div></div>
+  <div class="panel didyou"><button type="button">✨ Did You Know?</button><div class="pbody">
+    <p>The .epw format the NSRDB can emit stands for "EnergyPlus Weather" — the same TMY files that size solar farms also drive building energy simulations of offices and hospitals, one file serving two industries.</p>
+  </div></div>
+</section>
+
+<!-- ============ 8. HANDS-ON ============ -->
+<section id="tab-handson" role="tabpanel" aria-label="Hands-On PVGIS TMY">
+  <h2>Hands-On — PVGIS: TMY</h2>
+  <div class="card">
+    <h3>Solar Resource for the AUST Campus (Latitude=23.7637, Longitude=90.4069)</h3>
+    <p><strong>PVGIS from EU</strong> — <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/">re.jrc.ec.europa.eu/pvg_tools/en/</a></p>
+    <p>MONTHLY IRRADIATION DATA · MONTHLY DATA ==&gt; <strong>"Global irradiation at angle:"</strong></p>
+    <h3>🖥 Offline Mock Walkthrough</h3>
+    <div class="ctlrow">
+      <label>Latitude <input type="number" id="hoLat" value="23.7637" step="0.0001" style="width:120px"></label>
+      <label>Longitude <input type="number" id="hoLon" value="90.4069" step="0.0001" style="width:120px"></label>
+      <label>Angle <select id="hoAng"><option value="0">0°</option><option value="24" selected>24° (≈ latitude)</option><option value="35">35°</option></select></label>
+      <button class="btn small gold" id="hoGo">Get monthly irradiation (mock)</button>
+    </div>
+    <div id="hoOut"></div>
+  </div>
+
+  <div class="card">
+    <h3>Diffuse Radiation Dominance During Monsoon in Dhaka</h3>
+    <p class="note">Interactive recreation of the lecture figure — "Diffuse fraction (DHI/GHI) for Dhaka based on typical monsoon climate behavior". Hover the bars; toggle the tracker overlay.</p>
+    <div class="ctlrow"><button class="toggle-chip" id="dfTrack">Overlay: what this means for trackers</button></div>
+    <div class="svgwrap"><svg id="dfSvg" viewBox="0 0 680 340" role="img" aria-label="Monthly diffuse fraction chart for Dhaka"></svg></div>
+    <ul class="checklist">
+      <li>Diffuse radiation fraction varies strongly with season</li>
+      <li><strong>Jan–Feb: Clearer skies</strong> — Diffuse fraction ≈ 0.30–0.40</li>
+      <li><strong>Mar–May: Pre-monsoon transition</strong> — Increasing cloud cover · Diffuse fraction ≈ 0.40–0.50</li>
+      <li><strong>Jun–Sep: Monsoon period</strong> — Persistent cloud cover · Diffuse fraction ≈ 0.60–0.70</li>
+      <li><strong>Oct–Nov: Retreating monsoon</strong> — Gradual recovery of direct radiation</li>
+    </ul>
+    <div class="quote"><strong>Key Insight:</strong> In monsoon-dominated climates like Bangladesh, a large fraction of GHI consists of diffuse radiation, reducing the contribution of DNI.</div>
+    <div class="quote"><strong>Engineering Implication:</strong> High diffuse radiation during monsoon months significantly reduces the effectiveness of solar tracking systems and limits performance gains from tilt optimization.</div>
+  </div>
+
+  <div class="card">
+    <h3>🧮 Tracker Worth It? — Month Picker</h3>
+    <p class="note">Pick a month; the app compares fixed-tilt vs tracking gain qualitatively from the diffuse fraction.</p>
+    <div class="ctlrow">
+      <label>Month <select id="twMonth"></select></label>
+      <div class="readout"><div class="rv" id="twDf">—</div><div class="rl">Diffuse fraction</div></div>
+      <div class="readout"><div class="rv" id="twGain">—</div><div class="rl">Indicative tracking gain</div></div>
+    </div>
+    <div class="feedback info show" id="twOut"></div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Replicate-It-Online Checklist</h3>
+    <ul class="checklist" id="hoCheck"></ul>
+  </div>
+
+  <div class="panel insight"><button type="button">⚙ Engineering Insight</button><div class="pbody">
+    <p>The Hands-On teaches a professional habit: always convert a portal's monthly table into the <em>diffuse fraction</em> before making technology decisions. Two sites with identical annual GHI can hide opposite beam/diffuse structures — and opposite answers on trackers, concentrators and tilt sensitivity.</p>
+  </div></div>
+  <div class="panel hint"><button type="button">💡 Beneficial Hint</button><div class="pbody">
+    <p>Memorize Dhaka's diffuse-fraction staircase as four steps: 0.3–0.4 (Jan–Feb) → 0.4–0.5 (Mar–May) → 0.6–0.7 (Jun–Sep) → recovery (Oct–Nov). The monsoon step is the exam favourite.</p>
+  </div></div>
+  <div class="panel mistake"><button type="button">⚠ Common Mistake</button><div class="pbody">
+    <p>Averaging the year and concluding "trackers gain ~25% in Bangladesh." Tracking gain collapses precisely in the months (Jun–Sep) when the diffuse fraction hits 0.60–0.70 — the annual average hides the seasonal failure the lecture's Engineering Implication warns about.</p>
+  </div></div>
+  <div class="panel examtip"><button type="button">🎯 Examination Tip</button><div class="pbody">
+    <p>Be ready to reproduce the Key Insight and Engineering Implication in your own words, quote the AUST coordinates (23.7637, 90.4069), and name the PVGIS output used: MONTHLY DATA ⇒ "Global irradiation at angle:".</p>
+  </div></div>
+  <div class="panel practical"><button type="button">🔧 Practical Application</button><div class="pbody">
+    <p>Repeat this exact hands-on online: open PVGIS, enter the AUST coordinates, request monthly irradiation at 24°, export the CSV — you will have produced the same table this mock generates, but with live JRC data. Attach it to your next lab report.</p>
+  </div></div>
+</section>
+<!-- ============ DATASET SELECTOR ============ -->
+<section id="tab-selector" role="tabpanel" aria-label="Dataset Selector Simulator">
+  <h2>Dataset Selector Wizard</h2>
+  <p>A decision-support simulator: describe your project, receive a ranked platform recommendation justified from the lecture's facts — with the accuracy / resolution / accessibility trade-off visualized.</p>
+  <div class="card">
+    <div class="ctlrow">
+      <label>Project stage <select id="dsStage">
+        <option value="concept">Conceptual design</option>
+        <option value="detail">Detailed engineering</option>
+        <option value="bank">Bankability assessment</option>
+      </select></label>
+      <label>Context <select id="dsCtx">
+        <option value="site">Single site (city/rooftop)</option>
+        <option value="rural">Single site (rural/off-grid)</option>
+        <option value="region">Regional / national planning</option>
+      </select></label>
+      <label>Key need <select id="dsNeed">
+        <option value="tmy">TMY file for simulation (SAM/PVsyst)</option>
+        <option value="sim">PV performance simulation online</option>
+        <option value="gis">GIS layers / maps</option>
+        <option value="series">Long time series (multi-parameter)</option>
+        <option value="invest">Investor-facing yield map (PVOUT)</option>
+      </select></label>
+      <button class="btn gold" id="dsGo">Recommend datasets</button>
+    </div>
+    <div id="dsOut"></div>
+    <h3>⚖ The Trade-off Triangle</h3>
+    <div class="svgwrap"><svg id="dsTri" viewBox="0 0 660 260" role="img" aria-label="Accuracy resolution accessibility trade-off triangle"></svg></div>
+  </div>
+  <div class="card">
+    <h3>📋 Preset Scenarios (with model answers)</h3>
+    <div class="chips" id="dsPresets"></div>
+    <div class="feedback" id="dsPresetOut"></div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM SOLVING ============ -->
+<section id="tab-problems" role="tabpanel" aria-label="Problem Solving">
+  <h2>Problem Solving — Step-by-Step Solver</h2>
+  <p>Original practice problems using <em>only</em> this lecture's concepts, terminology and units. Work each step; use hints freely.</p>
+  <div id="probArea"></div>
+</section>
+
+<!-- ============ CONCEPT TOOLBOX ============ -->
+<section id="tab-toolbox" role="tabpanel" aria-label="Concept Toolbox">
+  <h2>Concept Toolbox</h2>
+  <p>Click any entry for the exact lecture definition (with citation), physical interpretation, units, common mistakes, applications, and relationships.</p>
+  <div class="grid3" id="tbGrid"></div>
+</section>
+
+<!-- ============ USEFUL RESOURCES ============ -->
+<section id="tab-usefulres" role="tabpanel" aria-label="Useful Resources">
+  <h2>Useful Resources — Lecture References</h2>
+  <div id="refCards"></div>
+  <h2>Linked Resources From the Lecture</h2>
+  <div id="linkCards" class="grid2"></div>
+</section>
+
+<!-- ============ REFLECTIONS ============ -->
+<section id="tab-reflections" role="tabpanel" aria-label="Reflections">
+  <h2>Reflections — Thinking Like a Data-Driven Solar Engineer</h2>
+  <p>Attempt each reflection yourself first (write in the box). Then use <em>Show Hint</em>, and only afterwards <em>Reveal Discussion</em>.</p>
+  <div id="reflArea"></div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="tab-summary" role="tabpanel" aria-label="Summary">
+  <h2>Summary — Global Solar Energy Datasets: A Guide for Engineers</h2>
+  <div class="quote">Accurate solar resource assessment is the foundational step for the design, financial modeling, and performance prediction of photovoltaic systems, critical to avoid engineering failures.</div>
+  <p>The lecture's closing infographic in interactive form. Click a pillar card to expand it.</p>
+  <div class="grid2" id="sumPillars"></div>
+  <div class="card">
+    <h3>🕸 Knowledge Graph — Concept Relationships</h3>
+    <p class="note">Hover/tap a node to highlight its relationships.</p>
+    <div class="svgwrap"><svg id="sumMap" viewBox="0 0 680 360" role="img" aria-label="Knowledge graph of dataset concepts"></svg></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>⭐ Key Takeaways</h3>
+      <ul class="checklist">
+        <li>Accurate solar resource assessment is the foundation of PV system design; dataset choice directly affects feasibility, financing and performance.</li>
+        <li>GHI = DNI cos θ + DHI — the three quantities every dataset serves.</li>
+        <li>Datasets climb an accuracy hierarchy: satellite-based → model-assimilated → bankable/commercial-grade.</li>
+        <li>Six freely accessible portals cover the whole workflow: POWER, Global Solar Atlas, IRENA Global Atlas, NSRDB Viewer, PVGIS, RE Data Explorer.</li>
+        <li>TMY files condense multiyear records into one median year — the standard simulation input, never a worst-case design basis (NREL, nd).</li>
+        <li>During Dhaka's monsoon, 60–70% of total irradiance arrives as diffuse radiation, limiting tracker effectiveness and tilt-optimization gains.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔗 Most Important Relationships</h3>
+      <div class="eq">GHI = DNI cos θ + DHI</div>
+      <div class="eq">Dataset class ↔ project stage<br><span style="font-size:.85rem">satellite ↔ conceptual · model-assimilated ↔ detailed · bankable ↔ investment</span></div>
+      <div class="eq">Diffuse fraction ↑ ⇒ tracker effectiveness ↓</div>
+      <h3>🛠 Engineering Applications</h3>
+      <ul class="checklist">
+        <li>Preliminary feasibility &amp; yield: POWER (~50 km, MERRA-2).</li>
+        <li>Site selection, investment planning, policy: Global Solar Atlas (~1 km, PVOUT kWh/kWp).</li>
+        <li>Detailed simulation inputs: NSRDB TMY (.csv/.epw) for SAM, PVsyst, RETScreen.</li>
+        <li>Rapid sizing, loss modeling, off-grid analysis: PVGIS.</li>
+        <li>Zones, land suitability, supply curves: RE Data Explorer; strategic maps: IRENA.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>✅ Engineering Checklist — can you…?</h3>
+    <ul class="checklist" id="sumChecklist"></ul>
+    <p class="note">Tick items honestly — they feed the Dashboard's completion tracking.</p>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="tab-quiz" role="tabpanel" aria-label="Quiz">
+  <h2>Quiz — 20 Randomized Questions</h2>
+  <p class="note">Multiple choice, true/false, fill-in-the-blank, numerical, matching, and diagram interpretation. Shuffled on every restart. Instant feedback with worked solutions.</p>
+  <div class="qprog"><span id="quizProg"></span></div>
+  <div class="ctlrow">
+    <span class="note" id="quizCount"></span>
+    <span class="note" id="quizScoreLive" style="margin-left:auto"></span>
+  </div>
+  <div id="quizArea"></div>
+  <div id="quizResult"></div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section id="tab-dashboard" role="tabpanel" aria-label="Student Dashboard">
+  <h2>Student Dashboard</h2>
+  <div class="dash-grid" id="dashTiles"></div>
+  <div class="grid2">
+    <div class="card"><h3>📉 Weak Areas</h3><div id="dashWeak"><p class="note">Complete the Pre-Assessment and Quiz to populate this panel.</p></div></div>
+    <div class="card"><h3>📚 Suggested Revision Topics</h3><div id="dashSuggest"><p class="note">Suggestions appear here based on your results.</p></div></div>
+  </div>
+  <div class="card"><h3>🧭 Progress Tracker</h3><div id="dashTrack"></div></div>
+</section>
+
+</main>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="mbox">
+    <button class="mclose" aria-label="Close dialog" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer>
+  <div>ME4011 Renewable Energy — Interactive companion to <span class="goldline">"Solar Energy - Part 6 — Selected Useful Resources for Solar Datasets"</span> by Professor Dr. Mazharul Islam, Department of Mechanical and Production Engineering, Ahsanullah University of Science and Technology (AUST), Dhaka, Bangladesh</div>
+  <div>Lecture slides licensed under the Creative Commons Attribution (CC-BY) 4.0 International License</div>
+  <div style="margin-top:.5rem;font-size:.75rem;color:#8fa0c4">Title-page map of the lecture: obtained from the Global Solar Atlas 2.0, a free, web-based application is developed and operated by the company Solargis s.r.o. on behalf of the World Bank Group, utilizing Solargis data, with funding provided by the Energy Sector Management Assistance Program (ESMAP). For additional information: <a href="http://globalsolaratlas.info" style="color:#9ec3ff">globalsolaratlas.info</a> — Distributed under the Creative Commons Attribution (CC BY) license.</div>
+</footer>
+
+<script>
+'use strict';
+/* ============================================================
+   CORE FRAMEWORK — ME4011 companion series engine (Part 6)
+   ============================================================ */
+const $  = (s,c)=> (c||document).querySelector(s);
+const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+const SVGNS='http://www.w3.org/2000/svg';
+function el(tag,attrs,text){ const e=document.createElementNS(SVGNS,tag); for(const k in (attrs||{})) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; return e; }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function fmt(v,d){ return Number(v).toFixed(d==null?0:d); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const D2R=Math.PI/180, cosd=a=>Math.cos(a*D2R);
+
+const state = (function(){
+  const KEY='me4011_part6ds_state';
+  let mem={};
+  try{ mem=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ mem={}; }
+  const defaults={ visited:{}, mastered:{}, paDone:false, paTags:{}, quizBest:null, quizLast:null, weakTags:{}, checklist:{}, hc:false, reflections:{}, bs:{}, ho:{} };
+  const st=Object.assign({},defaults,mem);
+  st.save=function(){ try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){} };
+  return st;
+})();
+
+const TAB_ORDER=['outcomes','preassess','review','brainstorm','intro','resources','tmy','handson','selector','problems','toolbox','usefulres','reflections','summary','quiz','dashboard'];
+const TAB_NAMES={outcomes:'Learning Outcomes',preassess:'Pre-Assessment',review:'Review',brainstorm:'Brain Storming',intro:'Introduction',resources:'Selected Resources',tmy:'TMY',handson:'Hands-On',selector:'Dataset Selector',problems:'Problem Solving',toolbox:'Concept Toolbox',usefulres:'Useful Resources',reflections:'Reflections',summary:'Summary',quiz:'Quiz',dashboard:'Dashboard'};
+function showTab(id){
+  $$('#tabbar [role=tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===id ? 'true':'false'));
+  $$('section[role=tabpanel]').forEach(s=>s.classList.toggle('active', s.id==='tab-'+id));
+  state.visited[id]=true; state.save(); updateProgress();
+  if(id==='dashboard') renderDashboard();
+  const btn=$('#tabbar [data-tab="'+id+'"]'); if(btn) btn.scrollIntoView({block:'nearest',inline:'nearest'});
+  window.scrollTo({top:0});
+}
+$('#tabbar').addEventListener('click',e=>{ const b=e.target.closest('[role=tab]'); if(b) showTab(b.dataset.tab); });
+$('#tabbar').addEventListener('keydown',e=>{
+  const tabs=$$('#tabbar [role=tab]'); const i=tabs.indexOf(document.activeElement);
+  if(i<0) return;
+  if(e.key==='ArrowRight'){ e.preventDefault(); const n=tabs[(i+1)%tabs.length]; n.focus(); showTab(n.dataset.tab); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); const n=tabs[(i-1+tabs.length)%tabs.length]; n.focus(); showTab(n.dataset.tab); }
+});
+document.addEventListener('click',e=>{ const g=e.target.closest('[data-goto]'); if(g) showTab(g.dataset.goto); });
+function updateProgress(){
+  const visited=TAB_ORDER.filter(t=>state.visited[t]).length;
+  const mastered=Object.values(state.mastered).filter(Boolean).length;
+  const pct=Math.round( (visited/TAB_ORDER.length)*70 + (mastered/3)*20 + (state.quizBest!=null?10:0) );
+  $('#progPct').textContent=pct+'%';
+  $('#progBar').style.width=pct+'%';
+  $$('#tabbar [role=tab]').forEach(b=>{
+    const t=b.dataset.tab;
+    if(state.visited[t] && !b.querySelector('.tick')){ const s=document.createElement('span'); s.className='tick'; s.textContent=' ✓'; b.appendChild(s); }
+  });
+}
+const hcBtn=$('#hcBtn');
+function applyHC(){ document.body.classList.toggle('hc',!!state.hc); hcBtn.setAttribute('aria-pressed',state.hc?'true':'false'); }
+hcBtn.addEventListener('click',()=>{ state.hc=!state.hc; state.save(); applyHC(); });
+applyHC();
+document.addEventListener('click',e=>{ const b=e.target.closest('.panel>button'); if(b) b.parentElement.classList.toggle('open'); });
+document.addEventListener('click',e=>{
+  const h=e.target.closest('.xcard>.xhead');
+  if(h && !e.target.closest('input,button,a')){ const c=h.parentElement; c.classList.toggle('open'); h.setAttribute('aria-expanded',c.classList.contains('open')?'true':'false'); }
+});
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('xhead')){ e.preventDefault(); e.target.click(); }
+});
+function openModal(html){ $('#modalContent').innerHTML=html; $('#modal').classList.add('open'); $('#modal .mclose').focus(); }
+function closeModal(){ $('#modal').classList.remove('open'); }
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* Dhaka monthly data used across modules (generated, consistent with lecture ranges) */
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DHAKA_GHI=[4.3,5.0,5.6,5.7,5.2,4.1,3.9,4.1,4.0,4.5,4.4,4.1];                 // kWh/m²/day
+const DHAKA_DF =[0.34,0.38,0.42,0.46,0.50,0.63,0.68,0.66,0.61,0.48,0.40,0.35];      // DHI/GHI per lecture ranges
+
+/* ============================================================
+   1. LEARNING OUTCOMES
+   ============================================================ */
+const LO=[
+ { text:'Distinguish between different types of solar datasets (satellite-based, model-assimilated, and bankable-grade) and their appropriate engineering applications.',
+   rel:'Dataset class determines what an engineering result is worth: a yield estimate is only as trustworthy as the tier of data beneath it.',
+   why:'Mixing tiers — quoting a satellite estimate in a bankability report, or buying commercial data for a homework-level screening — wastes money or credibility.',
+   apps:'Feasibility triage, uncertainty budgeting (P50/P90), procurement of resource studies, lender negotiations.',
+   real:'Bangladeshi utility tenders explicitly require "bankable" resource data — bidders who arrive with only coarse satellite estimates are marked down on financing risk.',
+   future:'Feeds directly into yield-uncertainty and financial-modeling topics later in ME4011.'},
+ { text:'Select appropriate solar and meteorological datasets for feasibility studies, system sizing, and performance analysis of PV systems in Bangladesh and South Asia.',
+   rel:'Every PV design task begins by choosing its data source; the six portals of this lecture cover the entire project lifecycle for the region.',
+   why:'The right portal per stage (POWER → Atlas → NSRDB/PVGIS) minimizes both effort and uncertainty; the wrong one produces oversized systems, financial losses, or performance shortfall.',
+   apps:'Rooftop and utility-scale feasibility, battery sizing from low-irradiance periods, national siting studies.',
+   real:'A Dhaka rooftop feasibility this week would legitimately touch three portals in one afternoon — exactly the workflow this lecture drills.',
+   future:'Prepares you for the capstone design project’s resource-assessment chapter.'},
+ { text:'Apply selected solar datasets using online tools to extract and interpret site-specific solar resource information for practical engineering analysis.',
+   rel:'Portals are instruments too — extracting a monthly irradiation table or a TMY file is a hands-on engineering skill, not an IT chore.',
+   why:'Interpreting what you downloaded (units, diffuse fraction, typical-vs-extreme) separates analysis from copy-paste; the AUST-campus PVGIS exercise is the template.',
+   apps:'PVGIS monthly irradiation extraction, NSRDB TMY downloads for SAM/PVsyst, POWER parameter queries.',
+   real:'The lecture’s own Hands-On pulls the solar resource for the AUST campus (23.7637 N, 90.4069 E) from PVGIS — repeatable by every student tonight.',
+   future:'Directly reused in system simulation lectures and lab assignments.'}
+];
+(function renderLO(){
+  const wrap=$('#loCards');
+  LO.forEach((o,i)=>{
+    const d=document.createElement('div'); d.className='xcard'; d.innerHTML=
+      '<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+(i+1)+'</div>'+
+      '<div><div class="xtitle">'+o.text+'</div><div class="note">Click to reveal engineering relevance, applications and examples</div></div><div class="chev">▸</div></div>'+
+      '<div class="xbody"><dl class="kv">'+
+      '<dt>Engineering relevance</dt><dd>'+o.rel+'</dd>'+
+      '<dt>Why it matters</dt><dd>'+o.why+'</dd>'+
+      '<dt>Renewable energy applications</dt><dd>'+o.apps+'</dd>'+
+      '<dt>Real-world example</dt><dd>'+o.real+'</dd>'+
+      '<dt>Related future topics</dt><dd>'+o.future+'</dd></dl>'+
+      '<label class="mastery"><input type="checkbox" data-lo="'+i+'" '+(state.mastered['lo'+i]?'checked':'')+'> Mark this outcome as mastered</label></div>';
+    wrap.appendChild(d);
+  });
+  wrap.addEventListener('change',e=>{
+    if(e.target.dataset.lo!=null){ state.mastered['lo'+e.target.dataset.lo]=e.target.checked; state.save(); updateProgress(); }
+  });
+})();
+
+/* ============================================================
+   2. PRE-ASSESSMENT
+   ============================================================ */
+const PA_ITEMS=[
+ {type:'mc',tag:'comp',q:'From Parts 3–5: GHI relates to DNI and DHI as…',
+  opts:['GHI = DNI + DHI','GHI = DNI cos θ + DHI','GHI = DNI − DHI','GHI = DHI / DNI'],ans:1,
+  fb:'GHI = DNI cos θ + DHI — equation (1) of today’s Introduction.'},
+ {type:'tf',tag:'comp',q:'True or False: W/m² is an instantaneous rate, while kWh/m²/day is a daily-integrated energy.',ans:true,
+  fb:'True — hourly TMY records carry W/m²; monthly portal tables carry kWh/m²/day.'},
+ {type:'mc',tag:'tmy',q:'From Part 3: a Typical Meteorological Year (TMY) is…',
+  opts:['The sunniest year on record','One year of hourly data representing typical conditions from a multiyear period','A forecast of next year’s weather','The average of two random years'],ans:1,
+  fb:'A typical (median) year — today you dissect the file itself.'},
+ {type:'tf',tag:'tmy',q:'True or False: TMY data should be used to design a structure against the worst cyclone on record.',ans:false,
+  fb:'False — TMYs represent typical, not extreme, conditions. The limitation returns verbatim today.'},
+ {type:'match',tag:'portals',q:'Match each portal (met in Parts 3–5) to its one-liner:',
+  pairs:[['POWER','NASA’s global long-term dataset on a 0.5° grid'],['PVGIS','EU tool focused on PV performance simulation'],['Global Solar Atlas','World Bank / Solargis bankable-grade maps'],['NSRDB','NREL’s National Solar Radiation Database']],
+  fb:'Four of today’s six platforms — the lecture adds IRENA’s Global Atlas and RE Data Explorer.'},
+ {type:'rank',tag:'classes',q:'Rank the three dataset classes from HIGHEST to LOWEST uncertainty for an investment decision:',
+  items:['Satellite-based','Model-assimilated','Bankable / commercial-grade'],correct:[0,1,2],
+  fb:'Satellite-based carries the most uncertainty, model-assimilated improves continuity, bankable-grade has the lowest uncertainty margins — today’s accuracy hierarchy.'},
+ {type:'predict',tag:'prediction',q:'Predict before you learn: during Dhaka’s monsoon (Jun–Sep), roughly what fraction of global irradiance arrives as DIFFUSE light?',
+  opts:['≈ 10–20%','≈ 30–40%','≈ 60–70%','≈ 90–95%'],best:2,
+  fb:'≈ 0.60–0.70 — the lecture’s Hands-On quantifies exactly this. Hold your prediction!'},
+ {type:'predict',tag:'prediction',q:'Predict before you learn: which single input file does PV simulation software (SAM, PVsyst) most commonly consume?',
+  opts:['A photo of the site','A TMY weather file','A PDF datasheet','A GIS shapefile'],best:1,
+  fb:'A TMY file — and today you learn its formats (TMY1/2/3, SAM CSV) and how to download one from the NSRDB Viewer.'},
+ {type:'mc',tag:'monsoon',q:'Under monsoon cloud, which component is "strongly reduced by clouds, dust, and haze"?',
+  opts:['DHI','DNI','GHI only','None of them'],ans:1,
+  fb:'DNI — the direct beam. Diffuse (DHI) becomes dominant during cloudy and monsoon conditions.'},
+ {type:'tf',tag:'intuition',q:'True or False: One single year of measured data is a solid basis for a 25-year solar investment.',ans:false,
+  fb:'False — solar radiation varies year to year; long-term datasets reduce uncertainty in energy yield estimation. That is why today’s portals serve decades.'}
+];
+const PA_TAGNAMES={comp:'GHI/DNI/DHI & units',tmy:'TMY basics',portals:'Portal familiarity',classes:'Dataset classes',monsoon:'Monsoon behaviour',prediction:'Predictions (no right/wrong)',intuition:'Data intuition'};
+const paResult={}; let paAnswered=0;
+function paRender(){
+  const area=$('#paArea'); area.innerHTML='';
+  PA_ITEMS.forEach((it,idx)=>{
+    const c=document.createElement('div'); c.className='card'; c.id='pa'+idx;
+    let inner='<p><strong>Q'+(idx+1)+' <span class="tag">'+PA_TAGNAMES[it.tag]+'</span></strong><br>'+it.q+'</p>';
+    if(it.type==='mc'||it.type==='predict'){
+      inner+=it.opts.map((o,i)=>'<button class="opt" data-pa="'+idx+'" data-i="'+i+'">'+o+'</button>').join('');
+    }else if(it.type==='tf'){
+      inner+='<button class="opt" data-pa="'+idx+'" data-i="true">True</button><button class="opt" data-pa="'+idx+'" data-i="false">False</button>';
+    }else if(it.type==='match'){
+      const rights=shuffle(it.pairs.map(p=>p[1]));
+      inner+=it.pairs.map((p,i)=>'<div class="matchrow"><strong style="min-width:140px">'+p[0]+'</strong><select data-pm="'+i+'"><option value="">— choose —</option>'+rights.map(r=>'<option>'+r+'</option>').join('')+'</select></div>').join('');
+      inner+='<div class="ctlrow"><button class="btn small gold" data-pamatch="'+idx+'">Check matches</button></div>';
+    }else if(it.type==='rank'){
+      inner+=['1 (highest uncertainty)','2','3 (lowest uncertainty)'].map((lbl,i)=>'<div class="matchrow"><strong style="min-width:170px">'+lbl+'</strong><select data-pr="'+i+'"><option value="">— choose —</option>'+it.items.map(x=>'<option>'+x+'</option>').join('')+'</select></div>').join('');
+      inner+='<div class="ctlrow"><button class="btn small gold" data-parank="'+idx+'">Check ranking</button></div>';
+    }
+    inner+='<div class="feedback" id="paFb'+idx+'"></div>';
+    c.innerHTML=inner; area.appendChild(c);
+  });
+  area.addEventListener('click',e=>{
+    const mbtn=e.target.closest('[data-pamatch]');
+    if(mbtn){
+      const idx=+mbtn.dataset.pamatch, it=PA_ITEMS[idx];
+      if(paResult['q'+idx]!=null) return;
+      const card=$('#pa'+idx);
+      const sels=$$('select[data-pm]',card);
+      if(sels.some(s2=>!s2.value)){ alert('Choose an option for every row'); return; }
+      const oks=sels.filter((s2,i)=>s2.value===it.pairs[i][1]).length;
+      sels.forEach(s2=>s2.disabled=true); mbtn.disabled=true;
+      paResult['q'+idx]={tag:it.tag,ok:oks===it.pairs.length};
+      const fb=$('#paFb'+idx);
+      fb.className='feedback show '+(oks===it.pairs.length?'good':'info');
+      fb.innerHTML=(oks===it.pairs.length?'✅ All matched! ':'💪 You matched '+oks+'/'+it.pairs.length+'. ')+it.fb;
+      paTick(); return;
+    }
+    const rbtn=e.target.closest('[data-parank]');
+    if(rbtn){
+      const idx=+rbtn.dataset.parank, it=PA_ITEMS[idx];
+      if(paResult['q'+idx]!=null) return;
+      const card=$('#pa'+idx);
+      const sels=$$('select[data-pr]',card);
+      if(sels.some(s2=>!s2.value)){ alert('Choose an option for every row'); return; }
+      const vals=sels.map(s2=>s2.value);
+      if(new Set(vals).size<3){ alert('Each class can appear only once'); return; }
+      const ok=vals.every((v,i)=>v===it.items[it.correct[i]]);
+      sels.forEach(s2=>s2.disabled=true); rbtn.disabled=true;
+      paResult['q'+idx]={tag:it.tag,ok};
+      const fb=$('#paFb'+idx);
+      fb.className='feedback show '+(ok?'good':'info');
+      fb.innerHTML=(ok?'✅ Correct order! ':'💪 Not quite the lecture’s order. ')+it.fb;
+      paTick(); return;
+    }
+    const b=e.target.closest('.opt'); if(!b) return;
+    const idx=+b.dataset.pa, it=PA_ITEMS[idx];
+    if(paResult['q'+idx]!=null) return;
+    let good;
+    if(it.type==='predict'){ good=null; paResult['q'+idx]={tag:it.tag,ok:true,predict:true}; }
+    else if(it.type==='tf'){ good=(b.dataset.i==='true')===it.ans; paResult['q'+idx]={tag:it.tag,ok:good}; }
+    else { good=+b.dataset.i===it.ans; paResult['q'+idx]={tag:it.tag,ok:good}; }
+    $$('.opt[data-pa="'+idx+'"]').forEach(o=>{
+      o.disabled=true;
+      const isBest= it.type==='tf' ? (o.dataset.i===String(it.ans)) : (+o.dataset.i===(it.type==='predict'?it.best:it.ans));
+      if(isBest) o.classList.add('correct');
+    });
+    if(good===false) b.classList.add('wrong');
+    const fb=$('#paFb'+idx);
+    fb.className='feedback show '+(it.type==='predict'?'info':(good?'good':'bad'));
+    fb.innerHTML=(it.type==='predict'?'🔮 Prediction logged! ':(good?'✅ Nice — you remembered this! ':'💪 Good try — now you know what to brush up. '))+it.fb;
+    paTick();
+  });
+}
+function paTick(){ paAnswered=Object.keys(paResult).length; if(paAnswered===PA_ITEMS.length) paProfile(); }
+function paProfile(){
+  const tags={};
+  Object.values(paResult).forEach(r=>{ if(r.predict) return; tags[r.tag]=tags[r.tag]||{ok:0,n:0}; tags[r.tag].n++; if(r.ok) tags[r.tag].ok++; });
+  state.paDone=true; state.paTags=tags; state.save();
+  const strong=[],weak=[];
+  for(const t in tags){ (tags[t].ok===tags[t].n?strong:weak).push(t); }
+  const SUGGEST={comp:'Revisit <strong>R1 GHI, DNI, DHI</strong> in the Review tab.',tmy:'Revisit <strong>R3 TMY</strong> in the Review tab before the TMY section.',portals:'The platform passports in Selected Resources will fix this fast.',classes:'Re-read <strong>Types of Solar Datasets</strong> in the Introduction.',monsoon:'Revisit <strong>R4 Tilt &amp; Monsoon</strong>; the Hands-On chart makes it visual.',intuition:'The Introduction’s "Why Solar Datasets Matter?" answers exactly this.'};
+  let html='<div class="card" style="border-left:5px solid var(--gold)"><h3>🧭 Your Prior-Knowledge Profile</h3>';
+  html+='<p><strong>Strengths:</strong> '+(strong.length?strong.map(t=>PA_TAGNAMES[t]).join(' · '):'Keep practising — everything is learnable!')+'</p>';
+  html+='<p><strong>Gaps to close:</strong> '+(weak.length? weak.map(t=>PA_TAGNAMES[t]).join(' · ') : 'None — excellent preparation!')+'</p>';
+  if(weak.length) html+='<ul>'+weak.map(t=>'<li>'+(SUGGEST[t]||'')+'</li>').join('')+'</ul>';
+  html+='<p class="feedback info show">Remember: this diagnostic does <strong>not</strong> count toward any grade — it exists purely to aim your revision.</p>';
+  html+='<div class="quote">🌉 <strong>Bridge to today’s lecture:</strong> Parts 3–5 taught you WHAT solar irradiance is, HOW it is measured, and HOW it transposes to tilted planes. Today answers the practical question every project starts with: <em>WHERE do the engineering-grade datasets live, WHICH one fits which project stage, and HOW do you extract site-specific data for Bangladesh?</em></div>';
+  html+='<button class="btn gold" data-goto="brainstorm">Start the lecture: Brain Storming →</button></div>';
+  $('#paProfile').innerHTML=html;
+  $('#paProfile').scrollIntoView({behavior:'smooth'});
+}
+paRender();
+
+/* ============================================================
+   3. REVIEW
+   ============================================================ */
+const RQ={
+ comp:[{q:'DNI = 500 W/m², θ = 60°, DHI = 200 W/m². GHI = ?',opts:['700 W/m²','450 W/m²','350 W/m²','250 W/m²'],ans:1,fb:'GHI = 500×0.5 + 200 = 450 W/m².'}],
+ units:[{q:'The Global Solar Atlas parameter PVOUT is expressed in:',opts:['W/m²','kWh/m²/day','kWh/kWp','lux'],ans:2,fb:'kWh/kWp — specific yield per installed kilowatt-peak.'}],
+ tmy:[{q:'A TMY file contains how much data?',opts:['One month, minute data','One year of hourly data','Ten years of daily data','A single annual average'],ans:1,fb:'"one year of hourly data that best represents median weather conditions" (NREL, nd).'}],
+ monsoon:[{q:'A monthly diffuse fraction of 0.65 in Dhaka most likely belongs to:',opts:['January','April','July','November'],ans:2,fb:'Jun–Sep monsoon: diffuse fraction ≈ 0.60–0.70 — July fits.'}]
+};
+$$('.rq').forEach(div=>{
+  const set=RQ[div.dataset.rq]||[];
+  set.forEach(item=>{
+    const w=document.createElement('div');
+    w.innerHTML='<p style="margin-top:.8rem"><strong>Quick recall:</strong> '+item.q+'</p>'+
+      item.opts.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('')+'<div class="feedback"></div>';
+    w.addEventListener('click',e=>{
+      const b=e.target.closest('.opt'); if(!b||b.disabled) return;
+      const good=+b.dataset.i===item.ans;
+      $$('.opt',w).forEach(o=>{o.disabled=true; if(+o.dataset.i===item.ans)o.classList.add('correct');});
+      if(!good)b.classList.add('wrong');
+      const fb=$('.feedback',w); fb.className='feedback show '+(good?'good':'bad'); fb.textContent=(good?'✅ ':'✏ ')+item.fb;
+    });
+    div.appendChild(w);
+  });
+});
+const FC=[
+ ['GHI = DNI cos θ + DHI','Equation (1): global on the horizontal = projected beam + diffuse. The three columns every dataset serves.'],
+ ['Satellite-based datasets','Large spatial coverage; useful for preliminary assessments. Bottom of the accuracy hierarchy.'],
+ ['Model-assimilated datasets','Satellite data + atmospheric models; improved temporal continuity (e.g., POWER’s MERRA-2 reanalysis).'],
+ ['Bankable / commercial-grade','Used for investment-grade studies; lower uncertainty margins (e.g., Global Solar Atlas data by Solargis).'],
+ ['POWER (NASA)','Long-term global datasets, ≈0.5° (~50 km); GHI/DNI/DHI + wind + weather; limitation: too coarse for micro-siting.'],
+ ['NSRDB (NREL)','PSM v3; 30–60 min resolution; generates TMY files (.csv, .epw) for SAM, PVsyst, RETScreen; registration required for full series.'],
+ ['PVGIS (JRC, EU)','PV performance simulation focus: horizon shading from DEM, loss modeling, off-grid sizing.'],
+ ['TMY','"One year of hourly data that best represents median weather conditions over a multiyear period" (NREL, nd); simulation input, never worst-case design.']
+];
+let fcI=0;
+function fcShow(){ $('#fcFront').textContent=FC[fcI][0]; $('#fcBack').textContent=FC[fcI][1]; $('#fcCount').textContent=(fcI+1)+' / '+FC.length; $('#fcard').classList.remove('flipped'); }
+$('#fcard').addEventListener('click',()=>$('#fcard').classList.toggle('flipped'));
+$('#fcard').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#fcard').classList.toggle('flipped');} });
+$('#fcPrev').addEventListener('click',()=>{fcI=(fcI-1+FC.length)%FC.length;fcShow();});
+$('#fcNext').addEventListener('click',()=>{fcI=(fcI+1)%FC.length;fcShow();});
+fcShow();
+function drawMap(svg,nodes,edges){
+  edges.forEach(e2=>{
+    const a=nodes[e2[0]],b=nodes[e2[1]];
+    svg.appendChild(el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#b9c3d8','stroke-width':2,'data-e':e2[0]+'|'+e2[1]}));
+    if(e2[2]) svg.appendChild(el('text',{x:(a.x+b.x)/2,y:(a.y+b.y)/2-5,'text-anchor':'middle','font-size':9.5,fill:'#5b6579'},e2[2]));
+  });
+  for(const id in nodes){
+    const n=nodes[id];
+    const g=el('g',{cursor:'pointer',tabindex:0});
+    g.appendChild(el('ellipse',{cx:n.x,cy:n.y,rx:n.rx||58,ry:20,fill:n.c||'#14213d'}));
+    g.appendChild(el('text',{x:n.x,y:n.y+4,'text-anchor':'middle','font-size':10.5,fill:'#fff','font-weight':'bold'},n.t));
+    function hl(on){
+      $$('line',svg).forEach(l=>{
+        const parts=(l.getAttribute('data-e')||'').split('|');
+        l.setAttribute('stroke', on&&(parts[0]===id||parts[1]===id) ? '#fca311':'#b9c3d8');
+        l.setAttribute('stroke-width', on&&(parts[0]===id||parts[1]===id) ? 3.5:2);
+      });
+    }
+    g.addEventListener('mouseenter',()=>hl(true)); g.addEventListener('mouseleave',()=>hl(false));
+    g.addEventListener('focus',()=>hl(true)); g.addEventListener('blur',()=>hl(false));
+    svg.appendChild(g);
+  }
+}
+drawMap($('#rvMap'),
+ { comp:{x:100,y:55,t:'GHI · DNI · DHI',rx:76,c:'#3a86ff'},
+   un:{x:100,y:145,t:'W/m² · kWh/m²/d · kWh/kWp',rx:104,c:'#3a86ff'},
+   tmy:{x:100,y:235,t:'TMY (Part 3)',rx:62,c:'#3a86ff'},
+   mon:{x:320,y:235,t:'Monsoon diffuse',rx:74,c:'#3a86ff'},
+   ds:{x:320,y:110,t:'SOLAR DATASETS (today)',rx:104,c:'#14213d'},
+   port:{x:545,y:60,t:'6 portals',rx:52,c:'#fca311'},
+   cls:{x:545,y:135,t:'3 dataset classes',rx:76,c:'#fca311'},
+   file:{x:545,y:210,t:'TMY file anatomy',rx:78,c:'#fca311'},
+   ho:{x:545,y:280,t:'Hands-On: AUST via PVGIS',rx:100,c:'#1e8e3e'} },
+ [['comp','ds','the columns'],['un','ds','the units'],['tmy','ds','the file'],['mon','ds','the climate'],
+  ['ds','port',''],['ds','cls',''],['ds','file',''],['ds','ho',''],['tmy','file','deep dive'],['mon','ho','quantified']]);
+/* ============================================================
+   4. BRAIN STORMING
+   ============================================================ */
+(function(){
+  const svg=$('#bsSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:680,height:340,fill:'#0b1226',rx:12}));
+  // sources row
+  const sat=el('g'); sat.appendChild(el('rect',{x:-18,y:-9,width:36,height:18,rx:4,fill:'#c9cfd8'}));
+  sat.appendChild(el('rect',{x:-50,y:-5,width:26,height:10,fill:'#3a86ff'})); sat.appendChild(el('rect',{x:24,y:-5,width:26,height:10,fill:'#3a86ff'}));
+  svg.appendChild(sat);
+  let st=0;(function anim(){ st+=0.0025; if(st>1)st=0; sat.setAttribute('transform','translate('+fmt(90+180*Math.sin(st*6.28),1)+' 46)'); requestAnimationFrame(anim); })();
+  svg.appendChild(el('text',{x:140,y:20,'text-anchor':'middle','font-size':10.5,fill:'#c8d2ea'},'satellites image the sky'));
+  svg.appendChild(el('rect',{x:300,y:30,width:96,height:34,rx:8,fill:'#1d2f57',stroke:'#3a86ff'}));
+  svg.appendChild(el('text',{x:348,y:51,'text-anchor':'middle','font-size':10.5,fill:'#9ec3ff'},'atmospheric models'));
+  svg.appendChild(el('rect',{x:470,y:30,width:120,height:34,rx:8,fill:'#1d2f57',stroke:'#1e8e3e'}));
+  svg.appendChild(el('text',{x:530,y:51,'text-anchor':'middle','font-size':10.5,fill:'#8fe0ac'},'ground stations (truth)'));
+  // funnel
+  const l1=el('line',{x1:140,y1:70,x2:330,y2:150,stroke:'#fca311','stroke-width':3,'stroke-dasharray':'8 7'});
+  const l2=el('line',{x1:348,y1:66,x2:340,y2:150,stroke:'#fca311','stroke-width':3,'stroke-dasharray':'8 7'});
+  const l3=el('line',{x1:530,y1:66,x2:352,y2:150,stroke:'#fca311','stroke-width':3,'stroke-dasharray':'8 7'});
+  [l1,l2,l3].forEach(l=>{ l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:30,to:0,dur:'1.3s',repeatCount:'indefinite'})); svg.appendChild(l); });
+  svg.appendChild(el('rect',{x:250,y:150,width:190,height:40,rx:10,fill:'#fca311'}));
+  svg.appendChild(el('text',{x:345,y:175,'text-anchor':'middle','font-size':12,fill:'#14213d','font-weight':'bold'},'solar datasets'));
+  // portals row
+  const PORTS=['POWER','Global Solar Atlas','IRENA Atlas','NSRDB','PVGIS','RE Explorer'];
+  PORTS.forEach((p,i)=>{
+    const x=60+i*112;
+    const l=el('line',{x1:345,y1:192,x2:x,y2:252,stroke:'#3a86ff','stroke-width':2,'stroke-dasharray':'6 6'});
+    l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:24,to:0,dur:(1.1+i*0.12)+'s',repeatCount:'indefinite'}));
+    svg.appendChild(l);
+    svg.appendChild(el('rect',{x:x-50,y:252,width:100,height:32,rx:8,fill:'#14213d',stroke:'#3a86ff'}));
+    svg.appendChild(el('text',{x:x,y:272,'text-anchor':'middle','font-size':9.5,fill:'#fff','font-weight':'bold'},p));
+  });
+  svg.appendChild(el('text',{x:340,y:322,'text-anchor':'middle','font-size':11,fill:'#c8d2ea'},'…six free portals serve the result to your browser — each is a lecture section today'));
+})();
+const BS_PROMPTS=[
+ {q:'You have one week and zero budget to estimate the solar yield of a proposed 50 MW plant in Rajshahi — what data would you look for, and where?',
+  reveal:'Strong answers mention: long-term monthly GHI/DNI (POWER serves 40+ years free), a high-resolution yield map for the site (Global Solar Atlas: PVOUT in kWh/kWp at ~1 km), and an hourly weather file to run a first simulation (TMY from NSRDB or PVGIS). The rest of this lecture is precisely this shopping list, portal by portal.'},
+ {q:'An investor asks: "How confident are you in that yield number?" — what makes a dataset trustworthy enough for a bank?',
+  reveal:'Key ideas: long record length (year-to-year variability averaged out), validation against ground measurements, quantified uncertainty margins, and traceable methodology. That is exactly the ladder the Introduction formalizes: satellite-based → model-assimilated → bankable/commercial-grade, with "lower uncertainty margins" the defining property of the top rung.'},
+ {q:'Why might two reputable portals give two different GHI values for the same rooftop — and is that a scandal?',
+  reveal:'Not a scandal — different satellites, different models, different periods and different cell sizes (POWER’s ~50 km vs the Atlas’s ~1 km) legitimately disagree by a few percent. Engineering response: understand each dataset’s method and resolution, compare over the same period, and validate locally when money is at stake. "Engineers must understand strengths, limitations, appropriate use cases."'}
+];
+(function(){
+  const wrap=$('#bsPrompts');
+  BS_PROMPTS.forEach((p,i)=>{
+    const d=document.createElement('div'); d.className='xcard open';
+    d.innerHTML='<div class="xbody" style="display:block;padding-top:1rem"><p><strong>💭 '+p.q+'</strong></p>'+
+      '<textarea placeholder="Brainstorm here — there are no wrong ideas...">'+(state.bs[i]||'')+'</textarea>'+
+      '<div class="ctlrow"><button class="btn small gold bsRev">Reveal engineering connections</button></div>'+
+      '<div class="feedback info bsBox">'+p.reveal+'</div></div>';
+    $('.bsRev',d).addEventListener('click',()=>$('.bsBox',d).classList.add('show'));
+    $('textarea',d).addEventListener('input',e=>{ state.bs[i]=e.target.value; state.save(); });
+    wrap.appendChild(d);
+  });
+})();
+
+/* ============================================================
+   5. INTRODUCTION interactives
+   ============================================================ */
+(function(){
+  const svg=$('#ghSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:640,height:130,fill:'#fbfcff',rx:10,stroke:'#e3e6ee'}));
+  const segB=el('rect',{y:40,height:36,fill:'#fca311'}), segD=el('rect',{y:40,height:36,fill:'#3a86ff'});
+  svg.appendChild(segB); svg.appendChild(segD);
+  const lB=el('text',{y:32,'font-size':11,'text-anchor':'middle',fill:'#8a5a00','font-weight':'bold'},''),
+        lD=el('text',{y:32,'font-size':11,'text-anchor':'middle',fill:'#174ea6','font-weight':'bold'},''),
+        lT=el('text',{y:104,'font-size':13,'text-anchor':'middle',fill:'#14213d','font-weight':'bold'},'');
+  [lB,lD,lT].forEach(t=>svg.appendChild(t));
+  function upd(){
+    const dni=+$('#ghDNI').value, th=+$('#ghTheta').value, dhi=+$('#ghDHI').value;
+    const beamH=dni*cosd(th), ghi=beamH+dhi;
+    $('#ghDNIv').textContent=dni; $('#ghCos').textContent=fmt(cosd(th),2);
+    $('#ghDHIv').textContent=dhi; $('#ghGHI').textContent=Math.round(ghi);
+    $('#ghFrac').textContent= ghi>0? fmt(dhi/ghi,2):'—';
+    const sc=540/Math.max(600,ghi); let x0=50;
+    segB.setAttribute('x',x0); segB.setAttribute('width',Math.max(1,beamH*sc));
+    lB.setAttribute('x',x0+beamH*sc/2); lB.textContent='DNI cos θ = '+Math.round(beamH);
+    x0+=beamH*sc;
+    segD.setAttribute('x',x0); segD.setAttribute('width',Math.max(1,dhi*sc));
+    lD.setAttribute('x',x0+dhi*sc/2); lD.textContent='DHI = '+dhi;
+    lT.setAttribute('x',320); lT.textContent='GHI = '+Math.round(ghi)+' W/m²   (equation 1)';
+  }
+  ['ghDNI','ghTheta','ghDHI'].forEach(id=>$('#'+id).addEventListener('input',upd)); upd();
+})();
+/* cost of bad data */
+const BD=[
+ ['Use one sunny month of data for the whole year','📉 Performance shortfall: the monsoon months deliver far less — the plant misses its guaranteed yield and penalties apply. Solar radiation varies with season; engineering decisions require reliable historical data.'],
+ ['Use a ~50 km cell for a shaded urban rooftop','🏙 Micro-siting failure: the cell average ignores the buildings next door — exactly the lecture’s POWER limitation ("coarse spatial resolution limits its use for micro-siting, urban shading, and complex terrain analysis"). Yield overestimated, system oversized.'],
+ ['Skip data and size by rule of thumb','💸 Financial losses: the bank prices the uncertainty into the loan or declines. Dataset choice directly affects feasibility studies and financial modeling.'],
+ ['Use a strategic resource map for detailed yield','🗺 Wrong tool: resource maps (IRENA) are "best used for strategic planning, not detailed PV yield prediction." The detailed design inherits map-level uncertainty.']
+];
+(function(){
+  const chips=$('#bdChips');
+  BD.forEach(([t,out],i)=>{
+    const b=document.createElement('button'); b.className='toggle-chip'; b.textContent=t;
+    b.addEventListener('click',()=>{
+      $$('.toggle-chip',chips).forEach(x=>x.classList.remove('on','gold')); b.classList.add('on','gold');
+      const o=$('#bdOut'); o.className='feedback bad show'; o.innerHTML=out;
+    });
+    chips.appendChild(b);
+  });
+})();
+/* tier visual */
+(function(){
+  const svg=$('#tierSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:660,height:240,fill:'#fbfcff',rx:12,stroke:'#e3e6ee'}));
+  const TIERS=[['Satellite-Based',200,'#3a86ff','large coverage · preliminary assessments'],
+               ['Model-Assimilated',120,'#e8a10c','satellite + atmospheric models · temporal continuity'],
+               ['Bankable / Commercial-Grade',56,'#1e8e3e','investment-grade · lower uncertainty margins']];
+  TIERS.forEach(([t,unc,c,sub],i)=>{
+    const y=40+i*62;
+    svg.appendChild(el('rect',{x:40,y:y,width:250,height:40,rx:9,fill:c}));
+    svg.appendChild(el('text',{x:165,y:y+19,'text-anchor':'middle','font-size':11.5,fill:'#fff','font-weight':'bold'},t));
+    svg.appendChild(el('text',{x:165,y:y+33,'text-anchor':'middle','font-size':8.5,fill:'#eef2f7'},sub));
+    svg.appendChild(el('rect',{x:330-0,y:y+12,width:unc+80,height:16,rx:8,fill:c,opacity:.25}));
+    svg.appendChild(el('rect',{x:330+(unc+80)/2-unc/2,y:y+12,width:unc,height:16,rx:8,fill:c}));
+    svg.appendChild(el('text',{x:330+unc+90,y:y+25,'font-size':10,fill:'#5b6579'},'uncertainty'));
+    if(i<2) svg.appendChild(el('path',{d:'M 165 '+(y+42)+' L 165 '+(y+58)+' M 158 '+(y+52)+' L 165 '+(y+60)+' L 172 '+(y+52),fill:'none',stroke:'#5b6579','stroke-width':2}));
+  });
+  svg.appendChild(el('text',{x:330,y:24,'font-size':11.5,fill:'#1b2436','font-weight':'bold','text-anchor':'middle'},'Accuracy hierarchy: uncertainty narrows as you climb'));
+})();
+
+/* ============================================================
+   6. SELECTED RESOURCES — platform passports + game
+   ============================================================ */
+const PLATFORMS=[
+ {id:'power',icon:'🛰',name:'POWER, NASA',
+  url:'https://power.larc.nasa.gov/data-access-viewer/',
+  what:'"Prediction Of Worldwide Energy Resources — a NASA initiative providing long-term global meteorological and solar datasets."',
+  facts:[['Data Source','Satellite observations + MERRA-2 reanalysis'],['Primary Use','Renewable energy and climate-aware design'],['Spatial Resolution','≈ 0.5° × 0.5° (about 50 km × 50 km)']],
+  more:[['Key Parameters','Solar: GHI, DNI, DHI · Wind speed (10 m, 50 m) · Temperature, humidity, pressure'],['Engineering Applications','Preliminary feasibility analysis · Energy yield estimation · Battery sizing using low-irradiance periods']],
+  warn:'Engineering Limitation: "Coarse spatial resolution limits its use for micro-siting, urban shading, and complex terrain analysis."',
+  cls:'Model-assimilated', stage:'Conceptual design'},
+ {id:'gsa',icon:'🌍',name:'Global Solar Atlas',
+  url:'https://globalsolaratlas.info/download/bangladesh',
+  what:'Developed by World Bank Group (ESMAP) and Solargis · Bankable-grade solar resource data · High spatial resolution (≈ 1 km).',
+  facts:[['Bangladesh-Specific Data','globalsolaratlas.info/download/bangladesh'],['Why Use It?','"Well-suited for site selection, policy analysis, and investment planning."']],
+  more:[['Highlights','PVOUT: Specific yield (kWh/kWp) · Terrain-aware irradiance estimation · Widely used by utilities and investors']],
+  warn:'Serves maps and long-term averages rather than hourly time series.',
+  cls:'Bankable-grade', stage:'Site selection & investment planning'},
+ {id:'irena',icon:'🗺',name:'Global Atlas for Renewable Energy (IRENA)',
+  url:'https://globalatlas.irena.org/workspace',
+  what:'Developed by the International Renewable Energy Agency (IRENA) · Web-based global GIS platform · Covers solar, wind, hydro, bioenergy, geothermal, and marine.',
+  facts:[['Key Capabilities','Multi-layer GIS visualization · Renewable resource comparison · Infrastructure and land-use overlays'],['Applications','National energy planning · Policy and SDG analysis · Pre-feasibility site screening']],
+  more:[],
+  warn:'Engineering Note: "Resource maps are best used for strategic planning, not detailed PV yield prediction."',
+  cls:'Strategic GIS platform', stage:'National planning & screening'},
+ {id:'nsrdb',icon:'📡',name:'NSRDB Viewer (NREL)',
+  url:'https://maps.nrel.gov/nsrdb-viewer/',
+  what:'National Solar Radiation Database (NSRDB) · Maintained by NREL, USA · Based on Physical Solar Model (PSM v3).',
+  facts:[['Advanced Capabilities','1. High temporal resolution (30–60 min) · 2. TMY file generation (.csv, .epw) · 3. Compatible with SAM, PVsyst, RETScreen · 4. Includes spectral irradiance data']],
+  more:[],
+  warn:'Note: "User registration is required to download full time-series datasets."',
+  cls:'Physical model database', stage:'Detailed engineering (simulation inputs)'},
+ {id:'pvgis',icon:'⚡',name:'PVGIS',
+  url:'https://re.jrc.ec.europa.eu/pvg_tools/en/',
+  what:'"Photovoltaic Geographical Information System — focused on PV performance simulation rather than raw data alone." Developed by JRC, European Commission · Global coverage including South Asia.',
+  facts:[['Unique Features','Horizon shading from DEM data · Built-in system loss modeling · Off-grid PV and battery sizing tools']],
+  more:[],
+  warn:'Simulation-focused: pair it with raw databases when you need the underlying series.',
+  cls:'PV simulation tool', stage:'System sizing & performance analysis'},
+ {id:'rede',icon:'📊',name:'RE Data Explorer',
+  url:'https://www.re-explorer.org',
+  what:'GIS-based decision-support platform · Integrates energy and non-energy datasets · Suitable for national and regional planning. Bangladesh Platform: www.re-explorer.org',
+  facts:[['Planning Functions','Identify high-potential zones · Land suitability filtering · Grid proximity analysis'],['Outputs','GIS shapefiles · Supply curves (cost vs capacity)']],
+  more:[],
+  warn:'A planning tool — not a source of site-level time series.',
+  cls:'Decision-support platform', stage:'Regional / national planning'}
+];
+(function(){
+  const wrap=$('#platCards');
+  PLATFORMS.forEach((p,i)=>{
+    const d=document.createElement('div'); d.className='xcard';
+    let body='<div class="quote" style="font-size:.98rem">'+p.what+'</div><dl class="kv">';
+    p.facts.concat(p.more).forEach(([k,v])=>{ body+='<dt>'+k+'</dt><dd>'+v+'</dd>'; });
+    body+='<dt>Data class / best stage</dt><dd><span class="tag">'+p.cls+'</span> <span class="tag" style="background:#e6f4ea;color:#0d652d">'+p.stage+'</span></dd></dl>';
+    body+='<div class="feedback bad show" style="display:block">⚠ '+p.warn+'</div>';
+    body+='<p><a href="'+p.url+'">'+p.url.replace(/^https?:\/\//,'')+'</a></p>';
+    d.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+p.icon+'</div><div><div class="xtitle">'+p.name+'</div><div class="note">Click to open the platform passport</div></div><div class="chev">▸</div></div>'+
+      '<div class="xbody">'+body+'</div>';
+    wrap.appendChild(d);
+  });
+})();
+/* which-platform game */
+const WP_ROUNDS=[
+ {q:'Download an hourly TMY file (.csv/.epw) to feed SAM or PVsyst.',a:'NSRDB Viewer (NREL)',why:'NSRDB generates TMY files compatible with SAM, PVsyst, RETScreen.'},
+ {q:'Show investors a bankable ~1 km PVOUT (kWh/kWp) map of a candidate site.',a:'Global Solar Atlas',why:'Bankable-grade, high-resolution, PVOUT specific yield — built for investment planning.'},
+ {q:'Pull 40 years of monthly GHI + wind + temperature for a first spreadsheet.',a:'POWER, NASA',why:'Long-term global datasets (satellite + MERRA-2) with solar, wind and weather parameters.'},
+ {q:'Size an off-grid PV + battery system with horizon shading included.',a:'PVGIS',why:'PV performance simulation with DEM horizon shading, loss modeling and off-grid sizing tools.'},
+ {q:'Compare solar vs wind vs hydro potential nationally with land-use overlays.',a:'Global Atlas for Renewable Energy (IRENA)',why:'Multi-resource GIS platform for national planning — strategic, not detailed yield.'},
+ {q:'Rank high-potential zones and export shapefiles + supply curves for a regional plan.',a:'RE Data Explorer',why:'Zones, land suitability, grid proximity; outputs GIS shapefiles and supply curves.'}
+];
+const WP_OPTS=PLATFORMS.map(p=>p.name);
+(function(){
+  const wrap=$('#wpGame'); let round=0,score=0;
+  function render(){
+    if(round>=WP_ROUNDS.length){
+      wrap.innerHTML='<div class="feedback good show">🏁 Complete — '+score+'/'+WP_ROUNDS.length+'. Six portals, six jobs: the mapping is the exam.</div><button class="btn small ghostb" id="wpAgain">↻ Play again</button>';
+      $('#wpAgain').addEventListener('click',()=>{round=0;score=0;render();});
+      return;
+    }
+    const r=WP_ROUNDS[round];
+    wrap.innerHTML='<p><strong>Task:</strong> '+r.q+'</p>'+
+      shuffle(WP_OPTS).map(o=>'<button class="opt">'+o+'</button>').join('')+'<div class="feedback"></div>';
+    $$('.opt',wrap).forEach(b=>b.addEventListener('click',()=>{
+      const good=b.textContent===r.a;
+      if(good)score++;
+      $$('.opt',wrap).forEach(o=>{o.disabled=true; if(o.textContent===r.a)o.classList.add('correct');});
+      if(!good)b.classList.add('wrong');
+      const fb=$('.feedback',wrap); fb.className='feedback show '+(good?'good':'bad');
+      fb.innerHTML=(good?'✅ ':'❌ ')+r.why+' <button class="btn small gold" id="wpNext" style="margin-left:.6rem">Next →</button>';
+      $('#wpNext').addEventListener('click',()=>{round++;render();});
+    }));
+  }
+  render();
+})();
+
+/* ============================================================
+   7. TMY — assembly animation, toggle, file inspector, routes
+   ============================================================ */
+(function(){
+  const svg=$('#tmyAsmSvg'); const years=8, cols=12;
+  const cw=42,ch=20,x0=60,y0=40;
+  svg.appendChild(el('text',{x:340,y:20,'text-anchor':'middle','font-size':11.5,fill:'#5b6579'},'rows = historical years · columns = months · gold = the median month chosen for the TMY'));
+  const cells=[];
+  for(let m=0;m<cols;m++){
+    svg.appendChild(el('text',{x:x0+m*cw+cw/2,y:y0-6,'text-anchor':'middle','font-size':9,fill:'#5b6579'},MONTHS[m]));
+    for(let y=0;y<years;y++){
+      const r=el('rect',{x:x0+m*cw+2,y:y0+y*ch+2,width:cw-4,height:ch-4,rx:3,fill:'#dfe5f0'});
+      svg.appendChild(r); cells.push({m,y,r});
+    }
+  }
+  const target=el('g'); svg.appendChild(target);
+  svg.appendChild(el('text',{x:30,y:y0+years*ch+38,'font-size':10.5,fill:'#1b2436','font-weight':'bold'},'TMY →'));
+  const slots=[];
+  for(let m=0;m<cols;m++){
+    const s=el('rect',{x:x0+m*cw+2,y:y0+years*ch+24,width:cw-4,height:ch-2,rx:3,fill:'#f0f3fa',stroke:'#b9c3d8'});
+    target.appendChild(s); slots.push(s);
+  }
+  const chosen=MONTHS.map((_,m)=> (m*3+2)%years );
+  let running=false;
+  function reset(){ cells.forEach(c=>c.r.setAttribute('fill','#dfe5f0')); slots.forEach(s=>{s.setAttribute('fill','#f0f3fa');}); running=false; }
+  $('#tmyAsm').addEventListener('click',()=>{
+    if(running) return; running=true;
+    let m=0;
+    (function step(){
+      if(m>=cols){ running=false; return; }
+      cells.filter(c=>c.m===m).forEach(c=>c.r.setAttribute('fill', c.y===chosen[m] ? '#fca311':'#c9d2e4'));
+      slots[m].setAttribute('fill','#fca311');
+      m++; setTimeout(step,240);
+    })();
+  });
+  $('#tmyAsmR').addEventListener('click',reset);
+})();
+$('#teTyp').addEventListener('click',e=>{ e.target.classList.add('on','gold'); $('#teExt').classList.remove('on','gold');
+  const o=$('#teOut'); o.className='feedback good show'; o.innerHTML='✅ <strong>TMY is the right tool</strong> — "intended to be used in computer simulations of solar energy conversion systems and building systems" (NREL, nd): one fast year-run approximates the long-term average yield.'; });
+$('#teExt').addEventListener('click',e=>{ e.target.classList.add('on','gold'); $('#teTyp').classList.remove('on','gold');
+  const o=$('#teOut'); o.className='feedback bad show'; o.innerHTML='⛔ <strong>Wrong tool</strong> — "Because TMYs represent typical rather than extreme conditions, they are not suited for designing systems to meet the worst-case conditions occurring at a location" (NREL, nd). Use extreme-value / building-code data instead.'; });
+(function(){ $('#teOut').className='feedback info show'; $('#teOut').textContent='Pick a question above to see whether a TMY is the right tool for it.'; })();
+/* TMY file inspector */
+const TMY_H1=[['Source','The dataset/provider that produced this file'],['Location ID','Numeric identifier of the grid location'],['City','Place name (may be blank for gridded cells)'],['State','Administrative region'],['Country','Country of the location'],['Latitude (in decimal degrees)','Site latitude, decimal degrees'],['Longitude (in decimal degrees)','Site longitude, decimal degrees'],['Time Zone (Greenwich time zone, 0)','Reference time zone of the timestamps'],['Elevation (in meters)','Site elevation above sea level'],['Local Time Zone (hours from Greenwich, west is negative)','Local offset from Greenwich; west is negative']];
+const TMY_H2=[['Year','Record year (of the source month)'],['Month','Record month'],['Day','Record day'],['Hour','Record hour'],['Minute','Record minute'],['Dew Point','Dew point temperature'],['Diffuse Horizontal Irradiance (DHI) in W/m²','Sky-scattered irradiance on the horizontal'],['Direct Normal Irradiance (DNI) in W/m²','Beam irradiance normal to the sun'],['Global Horizontal Irradiance (GHI) in W/m²','Total horizontal irradiance = DNI·cosθ + DHI'],['Temperature','Ambient air temperature'],['Pressure','Atmospheric pressure'],['Wind Direction','Direction the wind comes from'],['Wind Speed','Wind speed'],['Surface Albedo','Ground reflectivity ρ']];
+const TMY_V1=['NSRDB','1276532','Dhaka','Dhaka','Bangladesh','23.76','90.41','0','8','+6'];
+const TMY_ROWS=[
+ ['2014','4','15','10','30','24.1','208','612','701','31.2','1006','140','2.8','0.20'],
+ ['2014','4','15','11','30','24.4','225','655','782','32.0','1005','150','3.1','0.20'],
+ ['2011','7','15','11','30','26.0','345','118','448','30.5','1002','160','3.4','0.19']
+];
+(function(){
+  function line(elId,vals,defs,cls){
+    const div=$('#'+elId);
+    div.innerHTML=vals.map((v,i)=>'<span data-def="'+cls+'|'+i+'">'+v+'</span>').join(' , ');
+  }
+  line('tmyL1',TMY_V1,TMY_H1,'h1');
+  $('#tmyL2').innerHTML=TMY_H2.map((h,i)=>'<span data-def="h2|'+i+'">'+(i+1)+':'+h[0].split(' (')[0]+'</span>').join(' , ');
+  $('#tmyRows').innerHTML=TMY_ROWS.map(r=>r.map((v,i)=>'<span data-def="h2|'+i+'">'+v+'</span>').join(' , ')).join('<br>');
+  document.addEventListener('click',e=>{
+    const s=e.target.closest('.tmyline span'); if(!s) return;
+    $$('.tmyline span').forEach(x=>x.classList.remove('sel'));
+    s.classList.add('sel');
+    const [cls,i]=s.dataset.def.split('|');
+    const def=(cls==='h1'?TMY_H1:TMY_H2)[+i];
+    const out=$('#tmyFieldOut'); out.className='feedback info show';
+    out.innerHTML='<strong>'+(cls==='h1'?'Header line 1, element '+(+i+1):'Line-2 field '+(+i+1))+': '+def[0]+'</strong> — '+def[1]+' (element list per NREL, nd). Value clicked: <code>'+s.textContent+'</code>';
+  });
+})();
+/* access routes diagram */
+(function(){
+  const svg=$('#tmyGetSvg');
+  svg.appendChild(el('rect',{x:0,y:0,width:660,height:220,fill:'#fbfcff',rx:12,stroke:'#e3e6ee'}));
+  svg.appendChild(el('rect',{x:40,y:80,width:170,height:56,rx:10,fill:'#14213d'}));
+  svg.appendChild(el('text',{x:125,y:105,'text-anchor':'middle','font-size':12,fill:'#fca311','font-weight':'bold'},'NSRDB Viewer'));
+  svg.appendChild(el('text',{x:125,y:122,'text-anchor':'middle','font-size':9.5,fill:'#c8d2ea'},'maps.nrel.gov/nsrdb-viewer'));
+  const R=[['1 · direct download','point, click, save — the classroom route',48],['2 · using an API','scripted queries for many sites/years',110],['3 · using Globus','bulk transfer of massive archives (globus.org)',172]];
+  R.forEach(([t,sub,y])=>{
+    const l=el('line',{x1:212,y1:108,x2:300,y2:y,stroke:'#fca311','stroke-width':3,'stroke-dasharray':'7 6'});
+    l.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:26,to:0,dur:'1.2s',repeatCount:'indefinite'}));
+    svg.appendChild(l);
+    svg.appendChild(el('rect',{x:300,y:y-22,width:320,height:44,rx:9,fill:'#f0f3fa',stroke:'#3a86ff'}));
+    svg.appendChild(el('text',{x:312,y:y-3,'font-size':11.5,fill:'#174ea6','font-weight':'bold'},t));
+    svg.appendChild(el('text',{x:312,y:y+13,'font-size':9.5,fill:'#5b6579'},sub));
+  });
+})();
+/* ============================================================
+   8. HANDS-ON — PVGIS mock, diffuse chart, tracker picker
+   ============================================================ */
+function tiltGain(m,beta){ const dec=23.45*Math.sin((360*(284+(m*30+15))/365)*D2R); const th=Math.abs(23.76-dec-beta); const thz=Math.abs(23.76-dec); return clamp(cosd(th)/Math.max(0.3,cosd(thz))*0.92+0.08,0.85,1.25); }
+$('#hoGo').addEventListener('click',()=>{
+  const lat=+$('#hoLat').value, lon=+$('#hoLon').value, ang=+$('#hoAng').value;
+  const near=Math.abs(lat-23.7637)<0.5 && Math.abs(lon-90.4069)<0.5;
+  const vals=DHAKA_GHI.map((v,i)=> v*30.4*tiltGain(i,ang)); // monthly kWh/m²
+  let bars='';
+  const maxv=Math.max(...vals);
+  vals.forEach((v,i)=>{
+    const h=Math.round(v/maxv*140);
+    bars+='<rect x="'+(50+i*48)+'" y="'+(180-h)+'" width="34" height="'+h+'" rx="4" fill="#fca311"><title>'+MONTHS[i]+': '+fmt(v,1)+' kWh/m²</title></rect>'+
+      '<text x="'+(67+i*48)+'" y="196" text-anchor="middle" font-size="9" fill="#5b6579">'+MONTHS[i]+'</text>'+
+      '<text x="'+(67+i*48)+'" y="'+(174-h)+'" text-anchor="middle" font-size="8.5" fill="#8a5a00">'+Math.round(v)+'</text>';
+  });
+  $('#hoOut').innerHTML='<div class="feedback good show">✅ Mock PVGIS query for ('+fmt(lat,4)+', '+fmt(lon,4)+')'+(near?' — the AUST campus':'')+', angle '+ang+'°.</div>'+
+   '<p><strong>MONTHLY DATA ==&gt; "Global irradiation at angle: '+ang+'°"</strong> (kWh/m², illustrative generated teaching data)</p>'+
+   '<div style="overflow-x:auto"><table><thead><tr>'+MONTHS.map(m=>'<th>'+m+'</th>').join('')+'<th>Year</th></tr></thead><tbody><tr>'+
+   vals.map(v=>'<td>'+fmt(v,1)+'</td>').join('')+'<td><strong>'+fmt(vals.reduce((a,b)=>a+b,0),0)+'</strong></td></tr></tbody></table></div>'+
+   '<div class="svgwrap"><svg viewBox="0 0 660 205" role="img" aria-label="Monthly irradiation bar chart">'+bars+'</svg></div>'+
+   '<p class="feedback info show">Note the monsoon trough (Jun–Sep) despite long days — cloud beats geometry. Real PVGIS returns live JRC data in this very layout.</p>';
+});
+/* diffuse fraction chart */
+(function(){
+  const svg=$('#dfSvg'); const W=680,H=340,L=56,R=16,T0=24,B=64;
+  const x=i=> L+i*(W-L-R)/12+8, bw=(W-L-R)/12-16;
+  const y=v=> H-B-v*(H-T0-B);
+  let overlay=false;
+  function seas(i){ return i<2?'Jan–Feb: Clearer skies': i<5?'Mar–May: Pre-monsoon transition': i<9?'Jun–Sep: Monsoon period':'Oct–Nov / Dec: Retreating monsoon & winter'; }
+  function draw(){
+    svg.innerHTML='';
+    svg.appendChild(el('rect',{x:L,y:T0,width:W-L-R,height:H-T0-B,fill:'#fbfcff',stroke:'#e3e6ee'}));
+    [0.2,0.4,0.6,0.8].forEach(v=>{ svg.appendChild(el('line',{x1:L,y1:y(v),x2:W-R,y2:y(v),stroke:'#eef1f7'})); svg.appendChild(el('text',{x:L-6,y:y(v)+4,'text-anchor':'end','font-size':10,fill:'#5b6579'},v)); });
+    // monsoon band
+    svg.appendChild(el('rect',{x:x(5)-8,y:T0,width:(x(9)-8)-(x(5)-8),height:H-T0-B,fill:'#3a86ff',opacity:.07}));
+    svg.appendChild(el('text',{x:(x(5)+x(9))/2-8,y:T0+14,'text-anchor':'middle','font-size':9.5,fill:'#174ea6'},'monsoon (Jun–Sep): 0.60–0.70'));
+    DHAKA_DF.forEach((v,i)=>{
+      const col= i>=5&&i<=8 ? '#3a86ff' : i>=2&&i<=4 ? '#e8a10c' : '#1e8e3e';
+      const r=el('rect',{x:x(i),y:y(v),width:bw,height:H-B-y(v),rx:4,fill:col,cursor:'pointer'});
+      const t=el('title'); t.textContent=MONTHS[i]+': DHI/GHI ≈ '+fmt(v,2)+' — '+seas(i); r.appendChild(t);
+      svg.appendChild(r);
+      svg.appendChild(el('text',{x:x(i)+bw/2,y:H-B+14,'text-anchor':'middle','font-size':9.5,fill:'#5b6579'},MONTHS[i]));
+      svg.appendChild(el('text',{x:x(i)+bw/2,y:y(v)-4,'text-anchor':'middle','font-size':8.5,fill:'#1b2436'},fmt(v,2)));
+      if(overlay){
+        const gain=clamp((1-v)*40,3,30);
+        svg.appendChild(el('circle',{cx:x(i)+bw/2,cy:y(v)-22,r:3+gain/4,fill:'#c5221f',opacity:.75}));
+      }
+    });
+    svg.appendChild(el('text',{x:(L+W-R)/2,y:H-B+34,'text-anchor':'middle','font-size':11,fill:'#5b6579'},'Diffuse fraction (DHI/GHI) for Dhaka based on typical monsoon climate behavior — recreated for teaching'));
+    if(overlay) svg.appendChild(el('text',{x:(L+W-R)/2,y:H-B+52,'text-anchor':'middle','font-size':10.5,fill:'#a50e0e'},'red dots ∝ indicative tracking gain — it shrinks exactly when the diffuse fraction peaks'));
+  }
+  $('#dfTrack').addEventListener('click',e=>{ overlay=!overlay; e.target.classList.toggle('on',overlay); draw(); });
+  draw();
+})();
+/* tracker worth-it */
+(function(){
+  const sel=$('#twMonth');
+  MONTHS.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m; if(i===6)o.selected=true; sel.appendChild(o); });
+  function upd(){
+    const i=+sel.value, df=DHAKA_DF[i];
+    const gain=Math.round(clamp((1-df)*40,3,30));
+    $('#twDf').textContent=fmt(df,2);
+    $('#twGain').textContent='≈ +'+gain+'%';
+    const o=$('#twOut');
+    if(df>=0.6){ o.className='feedback bad show'; o.innerHTML='<strong>'+MONTHS[i]+' (monsoon):</strong> with DHI/GHI ≈ '+fmt(df,2)+', most light arrives from the whole sky dome — there is little beam to follow. Tracking gain collapses to a few percent, echoing the lecture: high diffuse radiation "significantly reduces the effectiveness of solar tracking systems and limits performance gains from tilt optimization."'; }
+    else if(df>=0.45){ o.className='feedback info show'; o.innerHTML='<strong>'+MONTHS[i]+' (transition):</strong> mixed sky — tracking earns a modest premium, but the business case must survive the coming monsoon months.'; }
+    else { o.className='feedback good show'; o.innerHTML='<strong>'+MONTHS[i]+' (clearer skies):</strong> beam-rich conditions — tracking and tilt optimization pay their full geometric dividend this month.'; }
+  }
+  sel.addEventListener('change',upd); upd();
+})();
+(function(){
+  const items=['Open PVGIS (re.jrc.ec.europa.eu/pvg_tools/en/)','Enter the AUST coordinates: 23.7637, 90.4069','Choose MONTHLY IRRADIATION DATA','Select the angle (try 24° ≈ latitude) → read "Global irradiation at angle:"','Export/copy the monthly table and compute DHI/GHI where available','Compare your table with this app’s mock and note differences'];
+  const ul=$('#hoCheck');
+  items.forEach((c,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML='<label style="display:flex;gap:.5rem;align-items:flex-start"><input type="checkbox" data-ho="'+i+'" '+(state.ho[i]?'checked':'')+' style="margin-top:.2rem;accent-color:var(--ok)"> <span>'+c+'</span></label>';
+    ul.appendChild(li);
+  });
+  ul.addEventListener('change',e=>{ if(e.target.dataset.ho!=null){ state.ho[e.target.dataset.ho]=e.target.checked; state.save(); } });
+})();
+
+/* ============================================================
+   DATASET SELECTOR WIZARD
+   ============================================================ */
+const DS_SCORES={ // platform scores per (stage, ctx, need)
+ power:{stage:{concept:3,detail:1,bank:0},ctx:{site:2,rural:2,region:2},need:{tmy:1,sim:0,gis:0,series:3,invest:0}},
+ gsa:{stage:{concept:2,detail:1,bank:3},ctx:{site:3,rural:2,region:2},need:{tmy:0,sim:0,gis:2,series:0,invest:3}},
+ irena:{stage:{concept:2,detail:0,bank:0},ctx:{site:0,rural:1,region:3},need:{tmy:0,sim:0,gis:3,series:0,invest:1}},
+ nsrdb:{stage:{concept:1,detail:3,bank:2},ctx:{site:3,rural:2,region:1},need:{tmy:3,sim:1,gis:0,series:2,invest:0}},
+ pvgis:{stage:{concept:2,detail:3,bank:1},ctx:{site:3,rural:3,region:0},need:{tmy:2,sim:3,gis:0,series:1,invest:0}},
+ rede:{stage:{concept:2,detail:0,bank:0},ctx:{site:0,rural:1,region:3},need:{tmy:0,sim:0,gis:3,series:0,invest:1}}};
+const DS_WHY={
+ power:'long-term global datasets (satellite + MERRA-2), ~50 km — ideal for preliminary feasibility and multi-parameter series; too coarse for micro-siting.',
+ gsa:'bankable-grade ~1 km data with PVOUT (kWh/kWp) — the site-selection and investor-facing choice.',
+ irena:'multi-resource GIS workspace — strategic national planning, not detailed yield.',
+ nsrdb:'PSM v3 database, 30–60 min resolution, TMY files (.csv/.epw) for SAM/PVsyst/RETScreen (registration required).',
+ pvgis:'PV performance simulation with horizon shading, loss modeling, off-grid sizing — global coverage including South Asia.',
+ rede:'decision-support GIS: zones, land suitability, grid proximity; shapefiles and supply curves.'};
+function dsRecommend(){
+  const st2=$('#dsStage').value, cx=$('#dsCtx').value, nd=$('#dsNeed').value;
+  const scored=PLATFORMS.map(p=>{
+    const s=DS_SCORES[p.id];
+    return {p,score:s.stage[st2]+s.ctx[cx]+s.need[nd]};
+  }).sort((a,b)=>b.score-a.score);
+  const top=scored.slice(0,3);
+  $('#dsOut').innerHTML='<div class="feedback good show">🏆 Recommended stack (best first):</div>'+
+    top.map((s,i)=>'<div class="card" style="border-left:5px solid '+(i===0?'var(--gold)':'var(--line)')+'"><strong>'+(i+1)+'. '+s.p.icon+' '+s.p.name+'</strong> <span class="tag">'+s.p.cls+'</span><p class="note">'+DS_WHY[s.p.id]+'</p></div>').join('')+
+    '<p class="feedback info show">Remember the lecture’s frame: selection depends on the project stage, and every choice trades accuracy vs. resolution vs. accessibility and cost.</p>';
+  dsTriangle(st2);
+}
+$('#dsGo').addEventListener('click',dsRecommend);
+function dsTriangle(stage){
+  const svg=$('#dsTri'); svg.innerHTML='';
+  svg.appendChild(el('rect',{x:0,y:0,width:660,height:260,fill:'#fbfcff',rx:12,stroke:'#e3e6ee'}));
+  const A=[330,30],B=[80,225],C=[580,225];
+  svg.appendChild(el('path',{d:'M '+A+' L '+B+' L '+C+' Z',fill:'#f0f3fa',stroke:'#3a86ff','stroke-width':2}));
+  svg.appendChild(el('text',{x:330,y:22,'text-anchor':'middle','font-size':11.5,fill:'#174ea6','font-weight':'bold'},'Accuracy'));
+  svg.appendChild(el('text',{x:66,y:245,'text-anchor':'middle','font-size':11.5,fill:'#174ea6','font-weight':'bold'},'Resolution'));
+  svg.appendChild(el('text',{x:594,y:245,'text-anchor':'middle','font-size':11.5,fill:'#174ea6','font-weight':'bold'},'Accessibility & cost'));
+  const pos={concept:[440,190],detail:[255,160],bank:[330,80]};
+  const lbl={concept:'Conceptual design: accessibility first',detail:'Detailed engineering: resolution matters',bank:'Bankability: accuracy above all'};
+  const [px,py]=pos[stage]||pos.concept;
+  svg.appendChild(el('circle',{cx:px,cy:py,r:10,fill:'#fca311',stroke:'#14213d','stroke-width':2}));
+  svg.appendChild(el('text',{x:px,y:py-16,'text-anchor':'middle','font-size':10.5,fill:'#8a5a00','font-weight':'bold'},lbl[stage]||''));
+}
+dsTriangle('concept');
+const DS_PRESETS=[
+ ['AUST rooftop study','Stage: detailed engineering · single city site · need: PV simulation ⇒ PVGIS first (loss modeling, in-plane), NSRDB TMY for a SAM/PVsyst cross-check, POWER for the climate context.'],
+ ['50 MW Rajshahi bankability','Stage: bankability ⇒ Global Solar Atlas (bankable-grade, PVOUT) headlines the deck; NSRDB/PVGIS TMY drive P50 simulations; a ground campaign ultimately anchors the financing.'],
+ ['National siting policy','Regional planning ⇒ RE Data Explorer (zones, land suitability, supply curves) + IRENA Global Atlas (multi-resource comparison); Global Solar Atlas maps for the solar layer.'],
+ ['Off-grid telecom site','Rural single site, sizing with batteries ⇒ PVGIS off-grid tool headlines; POWER’s low-irradiance periods inform battery autonomy; monsoon diffuse fractions temper tracker ideas.']
+];
+(function(){
+  const chips=$('#dsPresets');
+  DS_PRESETS.forEach(([t,ans])=>{
+    const b=document.createElement('button'); b.className='toggle-chip'; b.textContent=t;
+    b.addEventListener('click',()=>{
+      $$('.toggle-chip',chips).forEach(x=>x.classList.remove('on','gold')); b.classList.add('on','gold');
+      const o=$('#dsPresetOut'); o.className='feedback info show'; o.innerHTML='<strong>Model answer — '+t+':</strong> '+ans;
+    });
+    chips.appendChild(b);
+  });
+})();
+
+/* ============================================================
+   PROBLEM SOLVING
+   ============================================================ */
+const PROBLEMS=[
+ {title:'Problem 1 — Equation (1) forward',diff:'★☆☆ Basic',
+  intro:'At a given moment: DNI = 600 W/m², solar zenith angle θ = 30° (cos 30° ≈ 0.866), DHI = 180 W/m².',
+  steps:[
+   {q:'Step 1: Which lecture equation gives GHI?',type:'mc',opts:['GHI = DNI + DHI','GHI = DNI cos θ + DHI','GHI = DHI − DNI','GHI = DNI × DHI'],ans:1,
+    hint:'Equation (1) of the Introduction.',fb:'GHI = DNI cos θ + DHI.'},
+   {q:'Step 2: Compute GHI (W/m²).',type:'num',ans:700,tol:5,hint:'600 × 0.866 + 180.',fb:'GHI = 519.6 + 180 ≈ 700 W/m².'}],
+  interp:'Engineering interpretation: this is the consistency check hidden inside every dataset — the three columns of a TMY record must close through equation (1).'},
+ {title:'Problem 2 — Equation (1) rearranged',diff:'★★☆ Intermediate',
+  intro:'A dataset row reports GHI = 520 W/m² and DNI = 400 W/m² at θ = 60° (cos 60° = 0.5), but the DHI cell is corrupted.',
+  steps:[
+   {q:'Step 1: Rearrange equation (1) for DHI.',type:'mc',opts:['DHI = GHI + DNI cos θ','DHI = GHI − DNI cos θ','DHI = GHI × cos θ','DHI = DNI − GHI'],ans:1,
+    hint:'Move the beam term across.',fb:'DHI = GHI − DNI cos θ.'},
+   {q:'Step 2: Compute the missing DHI (W/m²).',type:'num',ans:320,tol:3,hint:'520 − 400×0.5.',fb:'DHI = 520 − 200 = 320 W/m².'},
+   {q:'Step 3: Compute the diffuse fraction DHI/GHI.',type:'num',ans:0.62,tol:0.02,hint:'320/520.',fb:'≈ 0.62 — monsoon-like conditions by the lecture’s Dhaka ranges.'}],
+  interp:'Engineering interpretation: real dataset QC works exactly like this — closure gaps flag corrupted cells, and the recovered diffuse fraction immediately classifies the sky.'},
+ {title:'Problem 3 — Classify the season from the diffuse fraction',diff:'★★☆ Intermediate',
+  intro:'A Dhaka monthly table shows GHI = 4.0 kWh/m²/day of which DHI = 2.6 kWh/m²/day.',
+  steps:[
+   {q:'Step 1: Compute the diffuse fraction DHI/GHI.',type:'num',ans:0.65,tol:0.02,hint:'2.6/4.0.',fb:'0.65.'},
+   {q:'Step 2: Using the lecture’s Dhaka ranges, which season is this?',type:'mc',opts:['Jan–Feb (clearer skies, 0.30–0.40)','Mar–May (pre-monsoon, 0.40–0.50)','Jun–Sep (monsoon, 0.60–0.70)','Impossible to say'],ans:2,
+    hint:'0.65 falls in which quoted band?',fb:'Monsoon period — persistent cloud cover, diffuse fraction ≈ 0.60–0.70.'},
+   {q:'Step 3: What does the lecture conclude for tracking systems in such months?',type:'mc',opts:['Tracking gains are maximized','High diffuse radiation significantly reduces the effectiveness of solar tracking systems','Trackers only work at night','Diffuse light cannot be used at all'],ans:1,
+    hint:'The Engineering Implication of the Hands-On.',fb:'Exactly — and it also "limits performance gains from tilt optimization."'}],
+  interp:'Engineering interpretation: one division (DHI/GHI) converts a data table into a technology decision — the essence of dataset-driven engineering.'},
+ {title:'Problem 4 — Parse a gridded TMY record',diff:'★★☆ Intermediate',
+  intro:'A line-2 record of a gridded TMY reads: 2014, 4, 15, 10, 30, 24.1, 208, 612, 701, 31.2, 1006, 140, 2.8, 0.20 — fields in the lecture’s exact order.',
+  steps:[
+   {q:'Step 1: Which position holds Direct Normal Irradiance (DNI)?',type:'num',ans:8,tol:0,hint:'The lecture’s 14-element list: time fields first, then Dew Point, DHI, DNI, GHI…',fb:'Position 8 — after Year, Month, Day, Hour, Minute, Dew Point, DHI.'},
+   {q:'Step 2: Read off DNI (W/m²).',type:'num',ans:612,tol:0,hint:'Count to the 8th value.',fb:'DNI = 612 W/m².'},
+   {q:'Step 3: Verify closure: with DHI = 208 and GHI = 701, what is cos θ implied by equation (1)?',type:'num',ans:0.81,tol:0.02,hint:'cos θ = (GHI − DHI)/DNI.',fb:'(701−208)/612 ≈ 0.81 — a plausible mid-morning value; the record is internally consistent.'}],
+  interp:'Engineering interpretation: field-order literacy is a real skill — feed a TMY into software with one column misread and every simulated kWh is wrong.'},
+ {title:'Problem 5 — PVOUT to plant energy',diff:'★★★ Design',
+  intro:'The Global Solar Atlas reports PVOUT = 4.3 kWh/kWp per day for a candidate site. A developer plans a 50 MWp plant.',
+  steps:[
+   {q:'Step 1: What does PVOUT measure?',type:'mc',opts:['Irradiance in W/m²','Specific yield — energy per installed kilowatt-peak (kWh/kWp)','Panel temperature','Land area required'],ans:1,
+    hint:'The Global Solar Atlas passport.',fb:'Specific yield (kWh/kWp) — it already folds typical system behaviour into the number.'},
+   {q:'Step 2: Estimate the plant’s average daily energy (MWh/day).',type:'num',ans:215,tol:3,hint:'4.3 kWh/kWp × 50,000 kWp ÷ 1,000.',fb:'4.3 × 50,000 = 215,000 kWh = 215 MWh/day.'},
+   {q:'Step 3: Estimate annual energy (GWh/year).',type:'num',ans:78.5,tol:1.5,hint:'× 365, ÷ 1,000.',fb:'215 × 365 ≈ 78,475 MWh ≈ 78.5 GWh/year.'}],
+  interp:'Engineering interpretation: PVOUT lets one map pixel become a first revenue estimate — which is precisely why the Atlas is "widely used by utilities and investors." A bankable study would then tighten this with TMY-driven simulation.'},
+ {title:'Problem 6 — Choose the dataset stack',diff:'★★★ Design',
+  intro:'Task: a lender requires an investment-grade solar study for a 30 MW site near Khulna, including hourly simulation in PVsyst.',
+  steps:[
+   {q:'Step 1: Which data class does "investment-grade" demand?',type:'mc',opts:['Satellite-based','Model-assimilated','Bankable / commercial-grade','Any free map'],ans:2,
+    hint:'The Types of Solar Datasets slide.',fb:'Bankable/commercial-grade — "used for investment-grade studies, lower uncertainty margins."'},
+   {q:'Step 2: Which lecture platform serves bankable-grade solar data at ~1 km?',type:'mc',opts:['POWER','Global Solar Atlas','IRENA Global Atlas','RE Data Explorer'],ans:1,
+    hint:'World Bank + Solargis.',fb:'The Global Solar Atlas.'},
+   {q:'Step 3: PVsyst needs an hourly weather file. Which platform generates TMY files it can read?',type:'mc',opts:['IRENA Global Atlas','RE Data Explorer','NSRDB Viewer (NREL)','None of them'],ans:2,
+    hint:'.csv/.epw, "compatible with SAM, PVsyst, RETScreen".',fb:'NSRDB Viewer — TMY generation, registration required for full series.'}],
+  interp:'Engineering interpretation: real studies stack platforms — Atlas for the bankable resource layer, NSRDB TMY for the hourly engine, POWER for long-term context. Choosing the stack IS the resource assessment.'}
+];
+(function(){
+  const area=$('#probArea');
+  PROBLEMS.forEach((p,pi)=>{
+    const c=document.createElement('div'); c.className='xcard';
+    let body='<p>'+p.intro+'</p>';
+    p.steps.forEach((s,si)=>{
+      body+='<div class="pstep" data-p="'+pi+'" data-s="'+si+'" style="'+(si>0?'display:none':'')+'">';
+      body+='<p style="margin-top:.8rem"><strong>'+s.q+'</strong></p>';
+      if(s.type==='mc') body+=s.opts.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('');
+      else body+='<div class="ctlrow"><input type="number" step="any" style="width:150px" aria-label="numeric answer"><button class="btn small gold pchk">Check</button></div>';
+      body+='<div class="ctlrow"><button class="btn small ghostb phint">💡 Hint</button></div><div class="feedback phfb"></div><div class="feedback pfb"></div></div>';
+    });
+    body+='<div class="feedback info pinterp" style="display:none"></div>';
+    c.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">'+(pi+1)+'</div><div><div class="xtitle">'+p.title+'</div><div class="note">'+p.diff+'</div></div><div class="chev">▸</div></div><div class="xbody">'+body+'</div>';
+    area.appendChild(c);
+  });
+  area.addEventListener('click',e=>{
+    const step=e.target.closest('.pstep'); if(!step) return;
+    const p=PROBLEMS[+step.dataset.p], s=p.steps[+step.dataset.s];
+    if(e.target.classList.contains('phint')){
+      const hf=$('.phfb',step); hf.className='feedback info phfb show'; hf.textContent='💡 '+s.hint; return;
+    }
+    let good=null;
+    if(e.target.classList.contains('opt')&&!e.target.disabled&&s.type==='mc'){
+      good=+e.target.dataset.i===s.ans;
+      if(good){ $$('.opt',step).forEach(o=>{o.disabled=true; if(+o.dataset.i===s.ans)o.classList.add('correct');}); }
+      else { e.target.classList.add('wrong'); e.target.disabled=true; }
+    }
+    if(e.target.classList.contains('pchk')&&s.type==='num'){
+      const v=parseFloat($('input',step).value);
+      if(isNaN(v)){ const f=$('.pfb',step); f.className='feedback bad pfb show'; f.textContent='Enter a number first.'; return; }
+      good=Math.abs(v-s.ans)<=s.tol;
+    }
+    if(good==null) return;
+    const f=$('.pfb',step);
+    if(good){
+      f.className='feedback good pfb show'; f.innerHTML='✅ '+s.fb;
+      const nxt=$('.pstep[data-p="'+step.dataset.p+'"][data-s="'+(+step.dataset.s+1)+'"]',area);
+      if(nxt) nxt.style.display='';
+      else { const it=$('.pinterp',step.closest('.xbody')); it.style.display='block'; it.classList.add('show'); it.innerHTML='🏁 <strong>Final answer reached.</strong> '+p.interp; }
+    }else{
+      f.className='feedback bad pfb show'; f.textContent='Not quite — try again or use the hint.';
+      state.weakTags.problems=true; state.save();
+    }
+  });
+})();
+
+/* ============================================================
+   CONCEPT TOOLBOX
+   ============================================================ */
+const TOOLBOX=[
+ {t:'GHI · DNI · DHI',icon:'☀',
+  def:'GHI: total solar radiation received on a horizontal surface, comprising direct and diffuse components — GHI = DNI cos θ + DHI (1). DNI: received directly from the sun, on a surface normal to the sun’s rays; strongly reduced by clouds, dust, and haze. DHI: scattered by the atmosphere, from all directions; dominant during cloudy and monsoon conditions.',
+  phys:'The three faces of the same sunlight: total, beam, and sky-glow.',units:'W/m² (hourly records) or kWh/m²/day (monthly tables).',
+  mist:'Forgetting the cos θ projection when relating DNI to GHI.',apps:'The core columns of every dataset in this lecture.',rel:'Measured in Part 4; transposed in Part 5; downloaded today.'},
+ {t:'Satellite-Based Datasets',icon:'🛰',
+  def:'Large spatial coverage; useful for preliminary assessments.',
+  phys:'Radiances imaged from orbit, inverted to surface irradiance.',units:'Same irradiance units, higher uncertainty.',
+  mist:'Using them alone for investment decisions.',apps:'First-pass screening anywhere on Earth.',rel:'Bottom rung of the accuracy hierarchy.'},
+ {t:'Model-Assimilated Datasets',icon:'🌀',
+  def:'Combine satellite data with atmospheric models; improved temporal continuity.',
+  phys:'Physics models stitch observations into gap-free series (e.g., MERRA-2 behind POWER).',units:'—',
+  mist:'Assuming assimilation equals site accuracy — cells stay coarse.',apps:'Long, continuous series for feasibility and battery-autonomy analysis.',rel:'Middle rung; POWER is the lecture’s example.'},
+ {t:'Bankable / Commercial-Grade Datasets',icon:'🏦',
+  def:'Used for investment-grade studies; lower uncertainty margins.',
+  phys:'Validated, high-resolution products lenders accept.',units:'—',
+  mist:'Equating "commercial" with "paid" — the Global Solar Atlas serves bankable-grade data free.',apps:'Financing, tenders, guarantees.',rel:'Top rung; Global Solar Atlas is the lecture’s example.'},
+ {t:'POWER, NASA',icon:'📡',
+  def:'"Prediction Of Worldwide Energy Resources — a NASA initiative providing long-term global meteorological and solar datasets." Satellite + MERRA-2; ≈0.5°×0.5° (~50 km); GHI/DNI/DHI, wind, temperature, humidity, pressure. Limitation: "coarse spatial resolution limits its use for micro-siting, urban shading, and complex terrain analysis."',
+  phys:'A reanalysis archive with a solar face.',units:'kWh/m²/day (daily/monthly), W/m² (hourly).',
+  mist:'Micro-siting with ~50 km cells.',apps:'Preliminary feasibility, yield estimation, battery sizing from low-irradiance periods.',rel:'The prospecting workhorse of the six.'},
+ {t:'Global Solar Atlas',icon:'🌍',
+  def:'Developed by World Bank Group (ESMAP) and Solargis; bankable-grade solar resource data; high spatial resolution (≈1 km); PVOUT specific yield (kWh/kWp); terrain-aware; "well-suited for site selection, policy analysis, and investment planning"; Bangladesh page: globalsolaratlas.info/download/bangladesh.',
+  phys:'Commercial-quality maps, free by World Bank mandate.',units:'kWh/m², kWh/kWp (PVOUT).',
+  mist:'Expecting hourly time series — it serves maps and long-term averages.',apps:'Site selection, investor decks, policy.',rel:'The bankable rung embodied.'},
+ {t:'Global Atlas for Renewable Energy (IRENA)',icon:'🗺',
+  def:'IRENA’s web-based global GIS platform covering solar, wind, hydro, bioenergy, geothermal, and marine; multi-layer visualization, resource comparison, infrastructure/land-use overlays. Engineering Note: "Resource maps are best used for strategic planning, not detailed PV yield prediction."',
+  phys:'A planner’s light table for whole nations.',units:'Map layers.',
+  mist:'Detailed yield prediction from strategic maps.',apps:'National energy planning, policy/SDG analysis, pre-feasibility screening.',rel:'Complements RE Data Explorer for planning work.'},
+ {t:'NSRDB Viewer (NREL)',icon:'📊',
+  def:'National Solar Radiation Database, maintained by NREL, based on the Physical Solar Model (PSM v3); 30–60 min resolution; TMY generation (.csv, .epw); compatible with SAM, PVsyst, RETScreen; includes spectral irradiance data; registration required for full time series.',
+  phys:'The TMY factory of this lecture.',units:'W/m² at 30–60 min.',
+  mist:'Forgetting registration; confusing NSRDB (database) with the Viewer (front-end).',apps:'Simulation-grade inputs for detailed engineering.',rel:'Feeds Problem-Solving’s TMY parsing and Part 3’s TMY concept.'},
+ {t:'PVGIS',icon:'⚡',
+  def:'"Photovoltaic Geographical Information System — focused on PV performance simulation rather than raw data alone." JRC, European Commission; global coverage including South Asia; horizon shading from DEM data, built-in system loss modeling, off-grid PV and battery sizing tools.',
+  phys:'A simulator wearing a database.',units:'kWh/m² (irradiation), kWh (yield).',
+  mist:'Treating it as only a data portal — its value is the modeling.',apps:'Rapid sizing, off-grid analysis, the AUST Hands-On.',rel:'Executes Part 5’s transposition internally ("Global irradiation at angle:").'},
+ {t:'RE Data Explorer',icon:'🧭',
+  def:'GIS-based decision-support platform integrating energy and non-energy datasets; suitable for national and regional planning; identifies high-potential zones, land suitability filtering, grid proximity analysis; outputs GIS shapefiles and supply curves (cost vs capacity). Bangladesh platform: re-explorer.org.',
+  phys:'Where resource maps meet land, grid and economics.',units:'Shapefiles; supply curves.',
+  mist:'Expecting site time series from a planning tool.',apps:'Zoning studies, techno-economic planning.',rel:'Planning twin of IRENA’s Atlas.'},
+ {t:'TMY (Typical Meteorological Year)',icon:'📅',
+  def:'"TMYs contain one year of hourly data that best represents median weather conditions over a multiyear period" (NREL, nd). 12 median months chosen from a multiyear set; intended for computer simulations of solar energy conversion and building systems; "not suited for designing systems to meet the worst-case conditions". Formats: TMY1, TMY2, TMY3, SAM CSV.',
+  phys:'Decades of weather compressed to 8,760 statistically faithful rows.',units:'Hourly W/m² + meteorology.',
+  mist:'Worst-case design from a typical year; misreading field order across formats.',apps:'SAM/PVsyst/RETScreen simulations.',rel:'Downloaded via NSRDB (direct, API, Globus); anatomized in the TMY tab.'},
+ {t:'Diffuse Fraction (DHI/GHI)',icon:'🌫',
+  def:'From the Hands-On: Dhaka’s diffuse fraction varies seasonally — Jan–Feb ≈0.30–0.40; Mar–May ≈0.40–0.50; Jun–Sep (monsoon) ≈0.60–0.70; Oct–Nov recovery. Key Insight: in monsoon-dominated climates a large fraction of GHI is diffuse, reducing DNI’s contribution.',
+  phys:'One ratio that encodes the sky’s character.',units:'Dimensionless, 0–1.',
+  mist:'Confusing the fraction with DHI itself; annual-averaging away the monsoon.',apps:'Tracker/tilt decisions — high fractions "significantly reduce the effectiveness of solar tracking systems".',rel:'Bridges today’s data to Part 5’s tilt design and Part 3’s diffuse physics.'}
+];
+(function(){
+  const grid=$('#tbGrid');
+  TOOLBOX.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='card'; b.style.cursor='pointer'; b.style.textAlign='center'; b.style.border='2px solid var(--line)';
+    b.innerHTML='<div style="font-size:1.9rem">'+k.icon+'</div><strong>'+k.t+'</strong><div class="note">Click for full entry</div>';
+    b.addEventListener('click',()=>openModal(
+      '<h3 id="modalTitle" style="margin-top:0">'+k.icon+' '+k.t+'</h3><dl class="kv">'+
+      '<dt>Exact lecture definition</dt><dd class="quote" style="margin:.3rem 0">'+k.def+'</dd>'+
+      '<dt>Physical interpretation</dt><dd>'+k.phys+'</dd>'+
+      '<dt>Units</dt><dd>'+k.units+'</dd>'+
+      '<dt>Common mistakes</dt><dd>'+k.mist+'</dd>'+
+      '<dt>Engineering applications</dt><dd>'+k.apps+'</dd>'+
+      '<dt>Relationship with other concepts</dt><dd>'+k.rel+'</dd></dl>'));
+    grid.appendChild(b);
+  });
+})();
+
+/* ============================================================
+   USEFUL RESOURCES
+   ============================================================ */
+(function(){
+  const wrap=$('#refCards');
+  const d=document.createElement('div'); d.className='xcard';
+  d.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum">📘</div><div><div class="xtitle">NREL (n.d.). Typical Meteorological Year (TMY).</div><div class="note">https://nsrdb.nrel.gov/about/tmy</div></div><div class="chev">▸</div></div>'+
+   '<div class="xbody"><dl class="kv"><dt>Short description</dt><dd>NREL’s official TMY page — source of every TMY quotation in this lecture: the definition, calculation method (12 median months), uses, limitation, and the format/header element lists.</dd>'+
+   '<dt>Learning objectives</dt><dd>Master what a TMY is, how it is built, what it is for, and what its records contain.</dd>'+
+   '<dt>Recommended usage</dt><dd>Read alongside the TMY tab; then download a real file from the NSRDB Viewer and identify each header element yourself.</dd>'+
+   '<dt>Difficulty level</dt><dd>★☆☆ Introductory documentation</dd>'+
+   '<dt>Engineering relevance</dt><dd>The reference behind the weather file inside every SAM/PVsyst simulation you will ever run.</dd></dl>'+
+   '<a href="https://nsrdb.nrel.gov/about/tmy">nsrdb.nrel.gov/about/tmy</a></div>';
+  wrap.appendChild(d);
+  const LINKS=[
+   ['🛰 Portal','POWER, NASA — Data Access Viewer','https://power.larc.nasa.gov/data-access-viewer/'],
+   ['🌍 Portal','Global Solar Atlas — Bangladesh downloads','https://globalsolaratlas.info/download/bangladesh'],
+   ['🗺 Portal','Global Atlas for Renewable Energy (IRENA) — Workspace','https://globalatlas.irena.org/workspace'],
+   ['📊 Portal','NSRDB Viewer, NREL (USA)','https://maps.nrel.gov/nsrdb-viewer/'],
+   ['⚡ Portal','PVGIS, EU — online tools','https://re.jrc.ec.europa.eu/pvg_tools/en/'],
+   ['🧭 Portal','RE Data Explorer, NREL (USA)','https://www.re-explorer.org'],
+   ['🔗 Tool','Globus — bulk data transfer (NSRDB route 3)','https://www.globus.org'],
+   ['🖼 Attribution','Global Solar Atlas 2.0 info (title-page map source; Solargis / World Bank / ESMAP, CC BY)','http://globalsolaratlas.info']
+  ];
+  const lc=$('#linkCards');
+  LINKS.forEach(([kind,t,u])=>{
+    const d2=document.createElement('div'); d2.className='card';
+    d2.innerHTML='<h3 style="margin-top:0">'+kind+'</h3><p><strong>'+t+'</strong></p><a href="'+u+'">'+u.replace(/^https?:\/\//,'')+'</a>';
+    lc.appendChild(d2);
+  });
+})();
+
+/* ============================================================
+   REFLECTIONS
+   ============================================================ */
+const REFLECTIONS=[
+ {q:'"Free" and "bankable" seem to pull in opposite directions. What actually closes the gap between a free dataset and a number a lender will finance?',
+  hint:'Think about what a bank fears (uncertainty) and what reduces it: record length, validation, resolution, methodology transparency — and who performed them.',
+  disc:'A lender does not buy data; it buys bounded uncertainty. Free datasets close the gap when someone credible has done the uncertainty work: the Global Solar Atlas is free to you precisely because the World Bank paid Solargis to produce validated, high-resolution (~1 km), bankable-grade layers. Where that work has not been done (a coarse satellite estimate, an unvalidated model), the gap is closed the expensive way — commercial studies or on-site measurement campaigns whose whole purpose is to shrink the error bars that determine P90 yield and debt size. The engineering lesson: read a dataset’s pedigree (source, validation, resolution, record length) the way you would read a material certificate — the price tag is the least informative attribute.',
+  ins:'Bankability is a property of quantified uncertainty, not of price.',
+  take:'Free ≠ crude and paid ≠ necessary; validation and resolution decide.',
+  prac:'In reports, state each dataset’s class, resolution and validation status next to every number derived from it.',
+  app:'Bangladeshi utility tenders accept Global Solar Atlas figures for prequalification but require site campaigns before financial close.',
+  des:'Plan the data budget like any other engineering budget: free tiers for screening, spending reserved for shrinking the uncertainties that dominate the financial model.',
+  exam:'Contrast the three dataset classes and explain "lower uncertainty margins" as the defining bankable property.'},
+ {q:'POWER, the Global Solar Atlas and NSRDB can disagree by several percent on the same site’s GHI. How should an engineer respond — and what should they never do?',
+  hint:'Different satellites, models, periods, cell sizes (~50 km vs ~1 km). Is averaging the answers meaningful? Is picking the highest?',
+  disc:'Disagreement is information, not malfunction: each product answers a slightly different question (which years? which sky model? averaged over what area?). The professional response is diagnostic — align the comparison periods, note the resolutions, check each product’s validation in the region, and treat the spread itself as a first estimate of resource uncertainty to carry into the yield model. What one must never do: cherry-pick the highest value because it flatters the business case, or average numbers whose definitions differ (a ~50 km cell mean and a ~1 km terrain-aware pixel are not the same quantity). When the spread materially moves the financial result, that is the signal to climb the hierarchy — commission bankable data or measure on site. "Engineers must understand strengths, limitations, appropriate use cases" is precisely this discipline.',
+  ins:'Inter-dataset spread is a free, honest first uncertainty estimate.',
+  take:'Investigate disagreement; never harvest it.',
+  prac:'Tabulate all sources with period, resolution and value; carry the spread into P50/P90, and justify the dataset finally adopted.',
+  app:'Resource consultants routinely publish such comparison tables in Bangladeshi feasibility studies.',
+  des:'Write dataset choice and its justification into the design basis document — auditors will ask.',
+  exam:'Name two legitimate reasons portals disagree (period, resolution/method) and the correct engineering response.'},
+ {q:'The TMY’s median-month construction makes it exactly right for one job and exactly wrong for another. Explain both sides.',
+  hint:'What does a yield simulation want to know? What does a structural engineer want to know? Can one dataset serve masters who ask opposite questions?',
+  disc:'Right: energy economics lives on expectations — a year assembled from median months reproduces the long-term statistical diet of a PV plant, so "computer simulations of solar energy conversion systems and building systems" get, in one fast 8,760-hour run, an answer close to the multi-decade average (NREL, nd). Wrong: safety lives on tails, and the TMY’s construction systematically deletes them — the record cyclone, the once-a-decade hailstorm and the extreme heat week were, by definition, not median months. "Because TMYs represent typical rather than extreme conditions, they are not suited for designing systems to meet the worst-case conditions occurring at a location." The deep lesson generalizes: every dataset encodes the question it was built to answer; using it for the opposite question is not conservative or liberal — it is meaningless.',
+  ins:'Datasets encode questions; match the dataset’s question to yours.',
+  take:'TMY = expectation machine; building codes and extreme-value data = survival machine.',
+  prac:'Pair every TMY-based yield study with a separate extreme-loads section citing code-level wind/temperature data.',
+  app:'Post-storm failure reviews repeatedly trace to loads taken from typical rather than extreme datasets.',
+  des:'Two chapters, two datasets, always: energy (TMY) and survival (extremes).',
+  exam:'Quote both NREL sentences — the intended use and the limitation — verbatim.'},
+ {q:'Dhaka’s monsoon pushes the diffuse fraction to 0.60–0.70. Work out what this does to the economics of trackers and aggressive tilt optimization in Bangladesh.',
+  hint:'What does a tracker physically chase? What is left to chase when two-thirds of the light comes from the whole sky dome? And what fraction of annual revenue do Jun–Sep months carry?',
+  disc:'A tracker monetizes geometry: it earns its cost by keeping the panel normal to the BEAM. When the monsoon converts 60–70% of GHI into directionless diffuse light, the beam it chases is largely gone — "high diffuse radiation during monsoon months significantly reduces the effectiveness of solar tracking systems and limits performance gains from tilt optimization." The economics compound the physics: trackers add capital cost, moving parts and maintenance in exactly the humid, stormy season when their yield premium collapses, and the clearer months (Nov–Feb) alone must justify the investment. The same logic softens tilt obsession: with diffuse dominant, the sky-view factor (Part 5) matters as much as beam geometry, flattening the optimum and shrinking the penalty of "wrong" tilts. Hence the regional design signature: fixed-tilt arrays near latitude tilt dominate Bangladesh, while single-axis trackers rule desert markets — one diffuse-fraction chart explains an industry’s geography.',
+  ins:'Technology economics follow the beam/diffuse split, not the GHI total.',
+  take:'High diffuse fraction ⇒ geometry-based upgrades (trackers, fine tilt tuning) lose their payback.',
+  prac:'Before pricing trackers anywhere, chart the monthly diffuse fraction from the datasets of this lecture — it is a one-hour analysis that can save a bad procurement.',
+  app:'Utility-scale PV in Bangladesh is overwhelmingly fixed-tilt; tracker-heavy designs cluster in beam-rich climates.',
+  des:'For monsoon Asia: spend the tracker budget on more fixed modules — capacity beats chasing.',
+  exam:'Reproduce the Key Insight and Engineering Implication, then justify fixed-tilt for Bangladesh in two sentences.'}
+];
+(function(){
+  const area=$('#reflArea');
+  REFLECTIONS.forEach((r,i)=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML='<h3 style="margin-top:0">💭 Reflection '+(i+1)+'</h3><p><strong>'+r.q+'</strong></p>'+
+     '<label class="note" for="rtx'+i+'">Your reflection (kept on this device):</label>'+
+     '<textarea id="rtx'+i+'" placeholder="Write your engineering reasoning here before revealing the discussion...">'+(state.reflections[i]||'')+'</textarea>'+
+     '<div class="ctlrow"><button class="btn ghostb rhint">💡 Show Hint</button><button class="btn gold rdisc">📖 Reveal Discussion</button></div>'+
+     '<div class="feedback info rhintbox">'+r.hint+'</div>'+
+     '<div class="rdiscbox" style="display:none"><div class="quote">'+r.disc+'</div><dl class="kv">'+
+     '<dt>⚙ Engineering Insight</dt><dd>'+r.ins+'</dd><dt>🧠 Conceptual Takeaway</dt><dd>'+r.take+'</dd>'+
+     '<dt>🔧 Practical Engineering Interpretation</dt><dd>'+r.prac+'</dd><dt>🌍 Real-world Renewable Energy Application</dt><dd>'+r.app+'</dd>'+
+     '<dt>📐 Design Implication</dt><dd>'+r.des+'</dd><dt>🎯 Examination Tip</dt><dd>'+r.exam+'</dd></dl></div>';
+    $('.rhint',c).addEventListener('click',()=>$('.rhintbox',c).classList.toggle('show'));
+    $('.rdisc',c).addEventListener('click',()=>{ $('.rdiscbox',c).style.display='block'; });
+    $('textarea',c).addEventListener('input',e=>{ state.reflections[i]=e.target.value; state.save(); });
+    area.appendChild(c);
+  });
+})();
+
+/* ============================================================
+   SUMMARY — pillars, knowledge graph, checklist
+   ============================================================ */
+const PILLARS=[
+ {n:'1',t:'Fundamental Concepts in Solar Resource Assessment',c:'#fca311',items:[
+   'Core Components of Solar Irradiance: GHI on the horizontal (direct + diffuse together), DNI on a surface normal to the sun, DHI scattered from all directions — GHI = DNI cos θ + DHI.',
+   'Classification of Solar Datasets — an increasing-accuracy hierarchy: satellite-based → model-assimilated → bankable-grade (for investment analyses, lower uncertainty margins).',
+   'Climatic Impact on Solar Radiation: during Dhaka’s monsoon, 60–70% of total irradiance arrives as diffuse radiation — reducing DNI’s contribution and impacting tracking technology choices.']},
+ {n:'2',t:'Major Freely Accessible Solar Data Platforms',c:'#3a86ff',items:[
+   'POWER (NASA): long-term global meteorological data (~50 km resolution) — preliminary feasibility analysis and initial energy yield estimation.',
+   'Global Solar Atlas (World Bank): bankable-grade, high-resolution (~1 km) solar resource data — site selection, investment planning, and policy analysis.',
+   'NSRDB Viewer (NREL): high temporal resolution data (30–60 min) with TMY files — detailed PV system simulation in software like PVsyst or SAM.',
+   'PVGIS (EU Commission): integrated PV performance simulation with system loss modeling — rapid system sizing, performance forecasting, and off-grid analysis.']}
+];
+(function(){
+  const wrap=$('#sumPillars');
+  PILLARS.forEach(p=>{
+    const d=document.createElement('div'); d.className='xcard'; d.style.borderTop='5px solid '+p.c;
+    d.innerHTML='<div class="xhead" tabindex="0" role="button" aria-expanded="false"><div class="xnum" style="background:'+p.c+';color:#fff">'+p.n+'</div><div><div class="xtitle">'+p.t+'</div><div class="note">Pillar '+p.n+' of "Global Solar Energy Datasets: A Guide for Engineers"</div></div><div class="chev">▸</div></div>'+
+      '<div class="xbody"><ul class="checklist">'+p.items.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>';
+    wrap.appendChild(d);
+  });
+})();
+drawMap($('#sumMap'),
+ { eq:{x:100,y:55,t:'GHI = DNI cosθ + DHI',rx:96,c:'#8a5a00'},
+   cls:{x:100,y:145,t:'3 dataset classes',rx:78,c:'#8a5a00'},
+   mon:{x:100,y:235,t:'Monsoon: 60–70% diffuse',rx:98,c:'#8a5a00'},
+   hub:{x:330,y:110,t:'SOLAR DATASETS',rx:82,c:'#14213d'},
+   pw:{x:545,y:40,t:'POWER ~50 km',rx:70,c:'#3a86ff'},
+   gs:{x:545,y:105,t:'Global Solar Atlas ~1 km',rx:96,c:'#3a86ff'},
+   ns:{x:545,y:170,t:'NSRDB 30–60 min + TMY',rx:96,c:'#3a86ff'},
+   pv:{x:545,y:235,t:'PVGIS simulation',rx:76,c:'#3a86ff'},
+   pl:{x:545,y:300,t:'IRENA · RE Explorer (planning)',rx:108,c:'#1e8e3e'},
+   tmy:{x:330,y:250,t:'TMY: median year for simulation',rx:112,c:'#7b2cbf'},
+   ho:{x:330,y:320,t:'Hands-On: AUST via PVGIS',rx:100,c:'#1e8e3e'} },
+ [['eq','hub','the columns'],['cls','hub','the hierarchy'],['mon','hub','the climate'],
+  ['hub','pw',''],['hub','gs',''],['hub','ns',''],['hub','pv',''],['hub','pl',''],
+  ['ns','tmy','generates'],['tmy','pv','feeds sims'],['pv','ho',''],['mon','ho','quantified']]);
+const CHECK=[
+ 'define GHI, DNI and DHI and write equation (1): GHI = DNI cos θ + DHI?',
+ 'name the three dataset classes and pair each with its project stage?',
+ 'state the three consequences of poor data selection and the accuracy/resolution/accessibility trade-off?',
+ 'recite the six portals with provider and one killer fact each (incl. their URLs’ hosts)?',
+ 'quote POWER’s resolution (~0.5°/50 km) and its micro-siting limitation?',
+ 'explain PVOUT (kWh/kWp) and why the Global Solar Atlas is called bankable-grade?',
+ 'state the IRENA engineering note (strategic planning, not detailed yield)?',
+ 'list NSRDB’s four advanced capabilities and its registration note?',
+ 'define a TMY (NREL quote), its four formats, and its use-vs-limitation pair?',
+ 'name the 10 + 14 gridded TMY header elements (or locate any field by position)?',
+ 'describe the three NSRDB access routes (direct download, API, Globus)?',
+ 'reproduce Dhaka’s seasonal diffuse fractions and the tracking implication?'];
+(function(){
+  const ul=$('#sumChecklist');
+  CHECK.forEach((c,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML='<label style="display:flex;gap:.5rem;align-items:flex-start"><input type="checkbox" data-chk="'+i+'" '+(state.checklist[i]?'checked':'')+' style="margin-top:.2rem;accent-color:var(--ok)"> <span>…'+c+'</span></label>';
+    ul.appendChild(li);
+  });
+  ul.addEventListener('change',e=>{ if(e.target.dataset.chk!=null){ state.checklist[e.target.dataset.chk]=e.target.checked; state.save(); } });
+})();
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const QPOOL=[
+ {t:'mc',tag:'comp',q:'GHI comprises:',o:['Only direct radiation','Only diffuse radiation','Both direct and diffuse components','Only reflected radiation'],a:2,s:'GHI = total on the horizontal, direct + diffuse: GHI = DNI cos θ + DHI.'},
+ {t:'num',tag:'comp',q:'DNI = 800 W/m², θ = 45° (cos = 0.707), DHI = 150 W/m². Compute GHI (W/m²).',a:716,tol:6,s:'800×0.707 + 150 ≈ 716 W/m².'},
+ {t:'tf',tag:'comp',q:'DNI is strongly reduced by clouds, dust, and haze.',a:true,s:'Verbatim from the Introduction — which is why diffuse dominates monsoon skies.'},
+ {t:'fib',tag:'comp',q:'DHI reaches the surface from ________ directions.',a:['all'],s:'"Reaches the surface from all directions."'},
+ {t:'mc',tag:'classes',q:'Which dataset class is used for investment-grade studies with lower uncertainty margins?',o:['Satellite-based','Model-assimilated','Bankable / commercial-grade','None'],a:2,s:'The top of the accuracy hierarchy.'},
+ {t:'mc',tag:'classes',q:'Model-assimilated datasets combine satellite data with:',o:['ground rumors','atmospheric models','stock prices','panel datasheets'],a:1,s:'"Combine satellite data with atmospheric models; improved temporal continuity."'},
+ {t:'mc',tag:'classes',q:'Poor data selection can lead to all EXCEPT:',o:['Oversized systems','Financial losses','Performance shortfall','Improved accuracy'],a:3,s:'The lecture’s three consequences are the first three.'},
+ {t:'mc',tag:'power',q:'POWER stands for:',o:['Photovoltaic Output World Energy Register','Prediction Of Worldwide Energy Resources','Planetary Observation of Wind & Energy Radiation','Power Output Weather Engine'],a:1,s:'A NASA initiative providing long-term global meteorological and solar datasets.'},
+ {t:'mc',tag:'power',q:'POWER’s data source is:',o:['Ground stations only','Satellite observations + MERRA-2 reanalysis','Crowdsourced apps','Aircraft surveys'],a:1,s:'Satellite + MERRA-2 — a model-assimilated product.'},
+ {t:'num',tag:'power',q:'POWER’s spatial resolution is about how many km per cell side?',a:50,tol:5,s:'≈0.5° × 0.5° — about 50 km × 50 km.'},
+ {t:'mc',tag:'power',q:'POWER’s stated engineering limitation concerns:',o:['No solar parameters','Coarse spatial resolution (micro-siting, urban shading, complex terrain)','Paid access only','Data ends in 1990'],a:1,s:'"Coarse spatial resolution limits its use for micro-siting, urban shading, and complex terrain analysis."'},
+ {t:'mc',tag:'gsa',q:'The Global Solar Atlas is developed by:',o:['NASA and ESA','World Bank Group (ESMAP) and Solargis','IRENA and WMO','JRC and NREL'],a:1,s:'Bankable-grade data at ≈1 km resolution.'},
+ {t:'mc',tag:'gsa',q:'PVOUT in the Global Solar Atlas measures:',o:['Panel temperature','Specific yield (kWh/kWp)','Wind speed','Cloud cover'],a:1,s:'Specific yield — energy per installed kWp.'},
+ {t:'tf',tag:'gsa',q:'The Global Solar Atlas offers a Bangladesh-specific download page.',a:true,s:'globalsolaratlas.info/download/bangladesh.'},
+ {t:'mc',tag:'irena',q:'Per the lecture, IRENA’s Global Atlas resource maps are best used for:',o:['Detailed PV yield prediction','Strategic planning','Structural design','Inverter sizing'],a:1,s:'"Best used for strategic planning, not detailed PV yield prediction."'},
+ {t:'mc',tag:'irena',q:'IRENA’s Global Atlas covers:',o:['Solar only','Solar and wind only','Solar, wind, hydro, bioenergy, geothermal, and marine','Fossil fuels'],a:2,s:'A multi-resource global GIS platform.'},
+ {t:'mc',tag:'nsrdb',q:'The NSRDB is based on:',o:['Physical Solar Model (PSM v3)','MERRA-2','random forests','TMY1'],a:0,s:'Maintained by NREL, based on PSM v3.'},
+ {t:'mc',tag:'nsrdb',q:'Which is NOT an NSRDB advanced capability from the lecture?',o:['30–60 min temporal resolution','TMY file generation (.csv, .epw)','Compatibility with SAM, PVsyst, RETScreen','Live webcam feeds of solar farms'],a:3,s:'The fourth real capability is spectral irradiance data.'},
+ {t:'tf',tag:'nsrdb',q:'User registration is required to download full NSRDB time-series datasets.',a:true,s:'The lecture’s note, verbatim.'},
+ {t:'mc',tag:'pvgis',q:'PVGIS is focused on:',o:['raw data alone','PV performance simulation rather than raw data alone','hardware sales','weather forecasting'],a:1,s:'Developed by JRC, European Commission; global coverage including South Asia.'},
+ {t:'match',tag:'pvgis',q:'Match each PVGIS unique feature to its purpose:',pairs:[['Horizon shading from DEM data','Accounts for hills/buildings blocking the sun'],['Built-in system loss modeling','Converts irradiation to realistic yield'],['Off-grid PV and battery sizing tools','Designs standalone systems']],s:'The three unique features from the lecture.'},
+ {t:'mc',tag:'rede',q:'RE Data Explorer outputs include:',o:['GIS shapefiles and supply curves (cost vs capacity)','TMY files','Spectral irradiance','Panel warranties'],a:0,s:'A GIS decision-support platform for national/regional planning.'},
+ {t:'fib',tag:'tmy',q:'"TMYs contain one year of hourly data that best represents ________ weather conditions over a multiyear period" (NREL, nd).',a:['median'],s:'Median — the statistical heart of the TMY method.'},
+ {t:'mc',tag:'tmy',q:'To calculate a TMY, how many months are chosen from the multiyear dataset?',o:['1','6','12','120'],a:2,s:'"12 months are chosen from that time frame that best represent the median conditions."'},
+ {t:'tf',tag:'tmy',q:'TMYs are suited for designing systems to meet worst-case conditions.',a:false,s:'"...not suited for designing systems to meet the worst-case conditions occurring at a location" (NREL, nd).'},
+ {t:'mc',tag:'tmy',q:'Which is NOT a TMY data format from the lecture?',o:['TMY1','TMY2','TMY3','TMY-X'],a:3,s:'The four formats: TMY1, TMY2, TMY3, SAM CSV.'},
+ {t:'mc',tag:'tmy',q:'In the gridded TMY line-2 element list, which irradiance comes immediately after Dew Point?',o:['GHI','DNI','DHI','Albedo'],a:2,s:'Order: ...Minute, Dew Point, DHI, DNI, GHI... (alphabetical irradiances).'},
+ {t:'mc',tag:'tmy',q:'The three ways to get TMY datasets from the NSRDB Viewer are:',o:['Email, fax, post','Direct download, using an API, using Globus','FTP only','Purchase only'],a:1,s:'Direct download, API, Globus (globus.org).'},
+ {t:'num',tag:'monsoon',q:'Dhaka, monsoon month: GHI = 4.1 and DHI = 2.7 kWh/m²/day. Diffuse fraction ≈ ? (two decimals)',a:0.66,tol:0.02,s:'2.7/4.1 ≈ 0.66 — inside the lecture’s 0.60–0.70 monsoon band.'},
+ {t:'mc',tag:'monsoon',q:'The lecture’s Engineering Implication: high monsoon diffuse radiation…',o:['boosts tracker gains','significantly reduces the effectiveness of solar tracking systems and limits tilt-optimization gains','stops PV generation entirely','only affects wind turbines'],a:1,s:'Verbatim from the Hands-On section.'},
+ {t:'diag',tag:'classes',q:'In the pyramid diagram, tier X sits at the bottom (widest uncertainty bar), tier Z at the top (narrowest). Which assignment matches the lecture?',o:['X=bankable, Z=satellite','X=satellite-based, Z=bankable/commercial-grade','X=model-assimilated, Z=satellite','All tiers are identical'],a:1,s:'Uncertainty narrows climbing satellite → model-assimilated → bankable.',diag:true}
+];
+const QTAG_NAMES={comp:'GHI/DNI/DHI',classes:'Dataset classes & consequences',power:'POWER (NASA)',gsa:'Global Solar Atlas',irena:'IRENA Global Atlas',nsrdb:'NSRDB (NREL)',pvgis:'PVGIS',rede:'RE Data Explorer',tmy:'TMY',monsoon:'Monsoon diffuse fraction'};
+let quiz={qs:[],i:0,score:0,done:false};
+function quizStart(){
+  quiz={qs:shuffle(QPOOL).slice(0,20),i:0,score:0,done:false,tagWrong:{}};
+  $('#quizResult').innerHTML='';
+  quizRender();
+}
+function quizDiagram(){
+  return '<div class="svgwrap"><svg viewBox="0 0 420 190" role="img" aria-label="Dataset class pyramid with uncertainty bars">'+
+   '<rect x="60" y="130" width="300" height="40" rx="8" fill="#3a86ff"/><text x="210" y="155" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">X</text>'+
+   '<rect x="110" y="80" width="200" height="40" rx="8" fill="#e8a10c"/><text x="210" y="105" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Y</text>'+
+   '<rect x="160" y="30" width="100" height="40" rx="8" fill="#1e8e3e"/><text x="210" y="55" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Z</text>'+
+   '<text x="210" y="185" text-anchor="middle" font-size="10" fill="#5b6579">bar width ∝ uncertainty</text></svg></div>';
+}
+function quizRender(){
+  const area=$('#quizArea');
+  if(quiz.i>=quiz.qs.length){ quizFinish(); return; }
+  const q=quiz.qs[quiz.i];
+  $('#quizProg').style.width=(quiz.i/quiz.qs.length*100)+'%';
+  $('#quizCount').textContent='Question '+(quiz.i+1)+' of '+quiz.qs.length+' · '+QTAG_NAMES[q.tag];
+  $('#quizScoreLive').textContent='Score: '+quiz.score+'/'+quiz.i;
+  let html='<div class="card"><p><strong>'+q.q+'</strong></p>';
+  if(q.diag) html+=quizDiagram();
+  if(q.t==='mc'||q.t==='diag'){
+    const idx=shuffle(q.o.map((_,i)=>i));
+    html+=idx.map(i=>'<button class="opt" data-i="'+i+'">'+q.o[i]+'</button>').join('');
+  }else if(q.t==='tf'){
+    html+='<button class="opt" data-i="true">True</button><button class="opt" data-i="false">False</button>';
+  }else if(q.t==='num'){
+    html+='<div class="ctlrow"><input type="number" step="any" id="qnum" style="width:160px" aria-label="numeric answer"><button class="btn gold" id="qchk">Check</button></div>';
+  }else if(q.t==='fib'){
+    html+='<div class="ctlrow"><input type="text" id="qfib" style="width:240px" aria-label="fill in the blank"><button class="btn gold" id="qchk">Check</button></div>';
+  }else if(q.t==='match'){
+    const rights=shuffle(q.pairs.map(p=>p[1]));
+    html+=q.pairs.map((p,i)=>'<div class="matchrow"><strong style="min-width:220px">'+p[0]+'</strong><select data-m="'+i+'"><option value="">— choose —</option>'+rights.map(r=>'<option>'+r+'</option>').join('')+'</select></div>').join('');
+    html+='<div class="ctlrow"><button class="btn gold" id="qchk">Check matches</button></div>';
+  }
+  html+='<div class="feedback" id="qfb"></div><div class="ctlrow"><button class="btn" id="qnext" style="display:none">Next question →</button></div></div>';
+  area.innerHTML=html;
+  function grade(ok){
+    if(ok) quiz.score++;
+    else { quiz.tagWrong[q.tag]=(quiz.tagWrong[q.tag]||0)+1; }
+    const fb=$('#qfb'); fb.className='feedback show '+(ok?'good':'bad');
+    fb.innerHTML=(ok?'✅ Correct! ':'❌ Not quite. ')+'<strong>Worked solution:</strong> '+q.s;
+    $('#qnext').style.display='';
+    $('#quizScoreLive').textContent='Score: '+quiz.score+'/'+(quiz.i+1);
+  }
+  area.onclick=e=>{
+    if(e.target.id==='qnext'){ quiz.i++; quizRender(); return; }
+    if(e.target.classList.contains('opt')&&!e.target.disabled&&(q.t==='mc'||q.t==='diag'||q.t==='tf')){
+      let ok;
+      if(q.t==='tf') ok=(e.target.dataset.i==='true')===q.a;
+      else ok=+e.target.dataset.i===q.a;
+      $$('.opt',area).forEach(o=>{o.disabled=true;
+        const best= q.t==='tf'? o.dataset.i===String(q.a) : +o.dataset.i===q.a;
+        if(best)o.classList.add('correct');});
+      if(!ok)e.target.classList.add('wrong');
+      grade(ok);
+    }
+    if(e.target.id==='qchk'){
+      if(q.t==='num'){ const v=parseFloat($('#qnum').value); if(isNaN(v)){alert('Enter a number');return;} $('#qnum').disabled=true; e.target.disabled=true; grade(Math.abs(v-q.a)<=q.tol); }
+      if(q.t==='fib'){ const v=($('#qfib').value||'').trim().toLowerCase().replace(/[.\s²]/g,''); $('#qfib').disabled=true; e.target.disabled=true; grade(q.a.some(a=>v===a.replace(/[\s-]/g,'').toLowerCase()||v===a.toLowerCase())); }
+      if(q.t==='match'){
+        const sels=$$('select[data-m]',area);
+        if(sels.some(s2=>!s2.value)){alert('Choose an option for every row');return;}
+        const ok=sels.every((s2,i)=>s2.value===q.pairs[i][1]);
+        sels.forEach(s2=>s2.disabled=true); e.target.disabled=true; grade(ok);
+      }
+    }
+  };
+}
+function quizFinish(){
+  quiz.done=true;
+  $('#quizProg').style.width='100%';
+  const pct=Math.round(quiz.score/quiz.qs.length*100);
+  const grade= pct>=90?'A+':pct>=80?'A':pct>=70?'B':pct>=60?'C':pct>=50?'D':'F';
+  state.quizLast=pct; state.quizBest=Math.max(state.quizBest||0,pct);
+  state.weakTags=quiz.tagWrong; state.save(); updateProgress();
+  const weak=Object.keys(quiz.tagWrong).sort((a,b)=>quiz.tagWrong[b]-quiz.tagWrong[a]);
+  $('#quizArea').innerHTML='';
+  $('#quizCount').textContent='Quiz complete';
+  $('#quizResult').innerHTML='<div class="card" style="text-align:center">'+
+   '<h3>Quiz Result</h3><div class="result-badge">'+grade+'</div>'+
+   '<p style="font-size:1.2rem"><strong>'+quiz.score+' / '+quiz.qs.length+'</strong> correct — <strong>'+pct+'%</strong></p>'+
+   (weak.length?'<p><strong>Focus areas:</strong> '+weak.map(t=>QTAG_NAMES[t]).join(' · ')+'</p>':'<p>Flawless across all concept areas — outstanding! 🌟</p>')+
+   '<div class="ctlrow" style="justify-content:center"><button class="btn gold" onclick="quizStart()">↻ Restart quiz (new random set)</button>'+
+   '<button class="btn ghostb" data-goto="dashboard">View Dashboard</button></div></div>';
+}
+quizStart();
+
+/* ============================================================
+   STUDENT DASHBOARD
+   ============================================================ */
+function gaugeSVG(pct,color){
+  const r=48,c=2*Math.PI*r;
+  return '<svg class="gauge" viewBox="0 0 120 120" role="img" aria-label="'+pct+' percent"><circle cx="60" cy="60" r="'+r+'" fill="none" stroke="#e3e6ee" stroke-width="12"/>'+
+   '<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+fmt(c*pct/100,1)+' '+fmt(c,1)+'" transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1s"/>'+
+   '<text x="60" y="68" text-anchor="middle" font-size="24" font-weight="bold" fill="'+color+'">'+pct+'%</text></svg>';
+}
+function renderDashboard(){
+  const visited=TAB_ORDER.filter(t=>state.visited[t]).length;
+  const completion=Math.round(visited/TAB_ORDER.length*100);
+  const mastered=['lo0','lo1','lo2'].filter(k=>state.mastered[k]).length;
+  const checks=CHECK.filter((_,i)=>state.checklist[i]).length;
+  $('#dashTiles').innerHTML=
+   '<div class="dash-tile"><h3>Completion</h3>'+gaugeSVG(completion,'#3a86ff')+'<div class="note">'+visited+' of '+TAB_ORDER.length+' modules visited</div></div>'+
+   '<div class="dash-tile"><h3>Quiz Score</h3>'+(state.quizBest!=null?gaugeSVG(state.quizBest,'#1e8e3e')+'<div class="note">best '+state.quizBest+'% · last '+state.quizLast+'%</div>':'<div class="big">—</div><div class="note">take the Quiz to record a score</div>')+'</div>'+
+   '<div class="dash-tile"><h3>Outcomes Mastered</h3><div class="big">'+mastered+' / 3</div><div class="note">mark them in Learning Outcomes</div></div>'+
+   '<div class="dash-tile"><h3>Checklist</h3><div class="big">'+checks+' / '+CHECK.length+'</div><div class="note">Summary tab engineering checklist</div></div>';
+  const weak=[];
+  if(state.paDone) for(const t in state.paTags){ const x=state.paTags[t]; if(x.ok<x.n) weak.push('Pre-assessment: '+PA_TAGNAMES[t]+' ('+x.ok+'/'+x.n+')'); }
+  for(const t in (state.weakTags||{})){ if(t!=='problems'&&QTAG_NAMES[t]) weak.push('Quiz: '+QTAG_NAMES[t]+' ('+state.weakTags[t]+' missed)'); }
+  if(state.weakTags&&state.weakTags.problems) weak.push('Problem Solving: at least one step needed retries');
+  $('#dashWeak').innerHTML= weak.length? '<ul>'+weak.map(w=>'<li>'+w+'</li>').join('')+'</ul>' : '<p class="note">'+(state.paDone||state.quizBest!=null?'No weak areas detected — excellent!':'Complete the Pre-Assessment and Quiz to populate this panel.')+'</p>';
+  const SUG={comp:['Introduction — Equation (1) explorer','intro'],classes:['Introduction — dataset tiers + bad-data scenarios','intro'],power:['Selected Resources — POWER passport','resources'],gsa:['Selected Resources — Global Solar Atlas passport','resources'],irena:['Selected Resources — IRENA passport','resources'],nsrdb:['Selected Resources — NSRDB passport + TMY tab','resources'],pvgis:['Selected Resources — PVGIS passport + Hands-On','handson'],rede:['Selected Resources — RE Data Explorer passport','resources'],tmy:['TMY tab — file inspector and assembly animation','tmy'],monsoon:['Hands-On — diffuse fraction chart','handson']};
+  const sugs=[];
+  for(const t in (state.weakTags||{})) if(SUG[t]) sugs.push(SUG[t]);
+  if(state.paDone) for(const t in state.paTags){ const x=state.paTags[t];
+    if(x.ok<x.n){ if(t==='comp')sugs.push(['Review R1 — GHI/DNI/DHI closure','review']); if(t==='tmy')sugs.push(['Review R3 — TMY basics','review']); if(t==='portals')sugs.push(['Selected Resources — platform passports','resources']); if(t==='classes')sugs.push(['Introduction — Types of Solar Datasets','intro']); if(t==='monsoon')sugs.push(['Review R4 + Hands-On chart','handson']); if(t==='intuition')sugs.push(['Introduction — Why Solar Datasets Matter?','intro']); }
+  }
+  const seen={}; const uniq=sugs.filter(s=>{ if(seen[s[0]])return false; seen[s[0]]=1; return true; });
+  $('#dashSuggest').innerHTML= uniq.length? '<ul>'+uniq.map(s=>'<li><a href="#" data-goto="'+s[1]+'">'+s[0]+'</a></li>').join('')+'</ul>' : '<p class="note">Suggestions appear here based on your Pre-Assessment and Quiz results.</p>';
+  $('#dashTrack').innerHTML=TAB_ORDER.map(t=>'<span class="toggle-chip '+(state.visited[t]?'on':'')+'" style="margin:.15rem;cursor:pointer" data-goto="'+t+'">'+(state.visited[t]?'✓ ':'')+TAB_NAMES[t]+'</span>').join(' ');
+}
+/* ---------- init ---------- */
+state.visited.outcomes=true; state.save(); updateProgress();
+/* end of ME4011 Part 6 (Solar Datasets) companion script */
+
+</script>
+</body>
+</html>
